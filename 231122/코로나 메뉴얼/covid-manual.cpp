@@ -9,19 +9,14 @@ int main() {
 
     int aCnt = 0;
     if(disA == 'Y' && tempA >= 37){
-        if(disB == 'Y' && tempB >= 37)
-            cout << "E";
-        else if(disC == 'Y' && tempC >= 37)
+        if(disB == 'Y' && tempB >= 37 || disC == 'Y' && tempC >= 37) 
             cout << "E";
         else
             cout << "N";
     }
     
-    else if(disB == 'Y' && tempB >= 37){
-        if(disC == 'Y' && tempC >= 37)
-            cout << "E";
-        else
-            cout << "N";
+    else if(disB == 'Y' && tempB >= 37 || disC == 'Y' && tempC >= 37){
+        cout << "E";
     }
 
     else
