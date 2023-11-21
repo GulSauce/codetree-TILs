@@ -7,7 +7,7 @@ int main() {
     if(c == 'S')
         cout << "Superior";
     else if(c == 'A')
-        cout << "Exellent";
+        cout << "Excellent";
     else if(c == 'B')
         cout << "Good";
     else if(c == 'C')
