@@ -4,11 +4,9 @@ using namespace std;
 
 int main() {
     int mid, fin; cin >> mid >> fin;
-    if(mid < 90)
-        cout << 0;
-    else if(95 <= fin)
+    if(mid >= 90 && fin >= 95)
         cout << 100000;
-    else if(90 <= fin)
+    else if(mid >= 90 && fin >= 90)
         cout << 50000;
     else
         cout << 0;
