@@ -11,6 +11,6 @@ int main() {
     char p2S; 
     cin >> p2A >> p2S;
 
-    cout << ((19 <= p1A || 19 <= p2A) && (p1S == 'M' || p2S == 'M'));
+    cout << (19 <= p1A && p1S == 'M' ||  19 <= p2A && p2S == 'M');
     return 0;
 }
