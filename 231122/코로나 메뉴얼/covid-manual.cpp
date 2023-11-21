@@ -17,11 +17,14 @@ int main() {
             cout << "N";
     }
     
-    if(disB == 'Y' && tempB >= 37){
+    else if(disB == 'Y' && tempB >= 37){
         if(disC == 'Y' && tempC >= 37)
             cout << "E";
         else
             cout << "N";
     }
+
+    else
+        cout << "N";
     return 0;
 }
