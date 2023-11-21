@@ -6,13 +6,9 @@ int main() {
     int aMath, aEng; cin >> aMath >> aEng;
     int bMath, bEng; cin >> bMath >> bEng;
 
-    if(aMath < bMath)
-        cout << 'B';
-    else if(bMath < aMath)
-        cout << 'A';
-    else if(aEng < bEng)
-        cout << 'B';
+    if(bMath < aMath || aMath == bMath && bEng < aEng)
+        cout << "A";
     else
-        cout << 'A';
+        cout << "B";
     return 0;
 }
