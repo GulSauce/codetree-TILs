@@ -4,13 +4,13 @@ using namespace std;
 
 int main() {
     int m; cin >> m;
-    if(3 <= m && m <= 5)
-        cout << "Spring";
-    else if(6 <= m && m <= 8)
-        cout << "Summer";
-    else if(9 <= m && m <= 11)
-        cout << "Fall";
-    else
+    if(m >= 12 || m <= 2)
         cout << "Winter";
+    else if(m <= 5)
+        cout << "Spring";
+    else if(m <= 8)
+        cout << "Summer";
+    else 
+        cout << "Fall";
     return 0;
 }
