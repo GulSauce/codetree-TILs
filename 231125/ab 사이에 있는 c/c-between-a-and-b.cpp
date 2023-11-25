@@ -4,12 +4,12 @@ using namespace std;
 
 int main() {
     int a, b, c; cin >> a >> b >> c;
-    bool flag = false;
+    bool satisfied = false;
     for(int i = a; i <= b; i++){
         if(i % c == 0)
-            flag = true;
+            satisfied = true;
     }
-    if(flag)
+    if(satisfied)
         cout << "YES";
     else
         cout << "NO";
