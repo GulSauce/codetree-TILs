@@ -11,6 +11,7 @@ int main() {
             continue;
         if(i % 7 < 4)
             continue;
+        cout << i << ' ';
     }
     return 0;
 }
