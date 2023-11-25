@@ -7,7 +7,7 @@ int main() {
     for(int i =1 ; i<= a; i++){
         if(i % 2 == 0 && i % 4 != 0)
             continue;
-        if(i % 8 == 1)
+        if(i % 8 == 0)
             continue;
         if(i % 7 < 4)
             continue;
