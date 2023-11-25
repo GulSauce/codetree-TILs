@@ -6,7 +6,7 @@ int main() {
     int n; cin >> n;
     bool satisfied = false;
     for(int i = 2; i < n; i++){
-        if(i % 2 == 0)
+        if(n % i == 0)
             satisfied = true;
     }
     if(satisfied)
