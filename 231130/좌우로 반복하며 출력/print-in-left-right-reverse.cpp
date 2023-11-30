@@ -10,7 +10,7 @@ int main() {
                 cout << j;
         }
         else{
-            for(int j = 4; 1 <= j; j--)
+            for(int j = n; 1 <= j; j--)
                 cout << j;
         }
         cout << '\n';
