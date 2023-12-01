@@ -7,8 +7,8 @@ int main() {
     for(int y =1; y <= n; y++){
         for(int x =1; x <= n; x++){
             cout << y << " * " << x << " = " << y*x;
-            if(x < n-1)
-                cout << ", "
+            if(x < n)
+                cout << ", ";
             else
                 cout << '\n';
         }
