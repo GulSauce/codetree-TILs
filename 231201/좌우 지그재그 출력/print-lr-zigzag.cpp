@@ -9,7 +9,8 @@ int main() {
             if(i % 2 == 0)
                 cout << n * i + j + 1;
             else
-                cout << n * (i + 1) - j - 1;  
+                cout << n * (i + 1) - j;
+            cout << ' ';
         }
         cout << '\n';
     }
