@@ -4,7 +4,8 @@ using namespace std;
 
 int main() {
     int num[10];
-    int end = 9;
+    int end = 10;
+
     for(int i = 0; i < 10; i++){
         cin >> num[i];
         if(num[i] == 0){
