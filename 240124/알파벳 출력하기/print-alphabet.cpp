@@ -4,10 +4,13 @@ using namespace std;
 
 int main() {
     int n; cin >> n;
-    char start = 'A';
+    char curAlphabet = 'A';
     for(int y = 0; y < n; y++){
         for(int x = 0; x <= y; x++){
-            cout << start++;
+            cout << curAlphabet++;
+            if(curAlphabet == 'Z'+1){
+                curAlphabet = 'A';
+            }
         }
         cout << '\n';
     }
