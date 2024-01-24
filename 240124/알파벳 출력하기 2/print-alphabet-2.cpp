@@ -12,6 +12,9 @@ int main() {
                 continue;
             }
             cout << curAlphabet++ << ' ';
+            if(curAlphabet == 'Z' + 1){
+                curAlphabet = 'A';
+            }
         }
         cout << '\n';
     }
