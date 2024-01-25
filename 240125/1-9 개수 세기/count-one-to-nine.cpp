@@ -10,8 +10,8 @@ int main() {
         numberCount[num]++;
     }
 
-    for(int i = 1; i <= 9; i++)[
+    for(int i = 1; i <= 9; i++){
         cout << numberCount[i] << '\n';
-    ]
+    }
     return 0;
 }
