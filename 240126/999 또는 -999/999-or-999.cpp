@@ -15,10 +15,10 @@ int main() {
         }
 
         if(num < minVal){
-            num = minVal;
+            minVal = num;
         }
         if(maxVal < num){
-            num = maxVal;
+            maxVal = num;
         }
     }
 
