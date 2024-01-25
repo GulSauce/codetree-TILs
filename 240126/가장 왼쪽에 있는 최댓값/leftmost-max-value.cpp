@@ -18,19 +18,20 @@ int main() {
         
         nums[i] = num;
     }
-
+    cout << index << ' ';
     while(index != 1){
-        cout << index << ' ';
         int curMaxVal = 0;
+        int nextIndex = 0;
         for(int i = 1; i < index; i++){
-            if(nums[i] < curMaxVal){
+            if(nums[i] <= curMaxVal){
                 continue;
             }
 
             curMaxVal = nums[i];
-            index = i;
+            nextIndex = i;
         }
+        index = nextIndex;
+        cout << index << ' ';
     }
-    cout << index;
     return 0;
 }
