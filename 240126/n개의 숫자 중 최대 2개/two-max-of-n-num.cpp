@@ -17,7 +17,7 @@ int main() {
     secondMax = num[0];
 
     for(int i = 1; i < N; i++){
-        if(firstMax < num[i]){
+        if(firstMax <= num[i]){
             secondMax = firstMax;
             firstMax = num[i];
         }
