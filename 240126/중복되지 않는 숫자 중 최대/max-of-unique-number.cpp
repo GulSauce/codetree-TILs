@@ -17,7 +17,7 @@ int main() {
             continue;
         }
 
-        if(maxVal < nums[i]){
+        if(maxVal < i){
             maxVal = i;
         }
     }
