@@ -11,11 +11,12 @@ int main() {
             break;
         }
         if(num % 2 == 0){
-            cin >> num / 2;
+            cout << num / 2;
         }
         if(num % 2 == 1){
-            cin >> num + 3;
+            cout << num + 3;
         }
+        cout << ' ';
     }
 
     return 0;
