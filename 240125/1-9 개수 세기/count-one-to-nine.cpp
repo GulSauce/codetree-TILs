@@ -3,7 +3,7 @@
 using namespace std;
 
 int main() {
-    int numberCount[10];
+    int numberCount[10] = {};
     int n; cin >> n;
     while(n--){
         int num; cin >> num;
