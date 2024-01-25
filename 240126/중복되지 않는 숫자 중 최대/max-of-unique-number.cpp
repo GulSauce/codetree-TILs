@@ -11,7 +11,7 @@ int main() {
         nums[num]++;
     }
 
-    int maxVal = 0;
+    int maxVal = -1;
     for(int i = 1; i <= 1000; i++){
         if(0 == nums[i] || 2 <= nums[i]){
             continue;
