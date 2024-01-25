@@ -13,10 +13,16 @@ int main() {
         cin >> num[i];
     }
 
-    firstMax = num[0];
-    secondMax = num[0];
-
-    for(int i = 1; i < N; i++){
+    if(num[0] < num[1]){
+        firstMax = num[1];
+        secondMax = num[0];
+    }
+    else{
+        firstMax = num[0];
+        secondMax = num[1];
+    }
+   
+    for(int i = 2; i < N; i++){
         if(firstMax <= num[i]){
             secondMax = firstMax;
             firstMax = num[i];
