@@ -13,11 +13,9 @@ int main() {
 
     int minDiff = INT_MAX;
     for(int i = 0; i <= n-2; i++){
-        for(int j = i+1; j <= n-1; j++){
-            int curDiff = abs(nums[i] - nums[j]);
-            if(curDiff < minDiff){
-                minDiff = curDiff;
-            }
+        int curDiff = abs(nums[i] - nums[i+1]);
+        if(curDiff < minDiff){
+            minDiff = curDiff;
         }
     }
     cout << minDiff;
