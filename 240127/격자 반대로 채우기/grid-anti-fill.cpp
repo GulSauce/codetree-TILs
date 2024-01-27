@@ -8,7 +8,7 @@ int main() {
     int increaseVal = 1;
 
     int n; cin >> n;
-    bool upCase = n % 2;
+    int upCase = (n-1) % 2;
     for(int x = n-1; x >= 0; x--){
         if(x % 2 != upCase){
             for(int y = 0; y <= n-1; y++){
