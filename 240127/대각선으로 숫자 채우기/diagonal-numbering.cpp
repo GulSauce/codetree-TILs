@@ -8,7 +8,7 @@ int main() {
     int increaseVal = 1;
     for(int x = 0; x <= m-1; x++){
         for(int i = 0; i <= n-1; i++){
-            if(x - i == -1){
+            if(x - i == -1 || n == i){
                 break;
             }
             num[i][x-i] = increaseVal++;
@@ -17,10 +17,10 @@ int main() {
 
     for(int y = 1; y <= n-1; y++){
         for(int i = 0; i <= n-1; i++){
-            if(m - 1 - i == -1){
+            if(m - 1 - i == -1 || n == y+i){
                 break;
             }
-            num[y+i][m-i-1] = increaseVal++;
+            num[y+i][m-1-i] = increaseVal++;
         }
     }
 
