@@ -8,14 +8,15 @@ int main() {
     int increaseVal = 1;
 
     int n; cin >> n;
+    bool upCase = n % 2;
     for(int x = n-1; x >= 0; x--){
-        if(x % 2 == 0){
+        if(x % 2 != upCase){
             for(int y = 0; y <= n-1; y++){
                 matrix[y][x] = increaseVal++;
             }
         }
 
-        if(x % 2 == 1){
+        if(x % 2 == upCase){
             for(int y = n-1; y >= 0; y--){
                 matrix[y][x] = increaseVal++;
             }
