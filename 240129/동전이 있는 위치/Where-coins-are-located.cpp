@@ -4,7 +4,7 @@ using namespace std;
 
 int main() {
     int n,  m; cin >> n >> m;
-    int coins[10][10];
+    int coins[10][10] = {};
     while(m--){
         int r, c; cin >> r >> c;
         coins[r][c] = 1;
