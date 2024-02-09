@@ -10,7 +10,7 @@ int main() {
     }
     
     for(int i = 0; i <= 9; i++){
-        cout << str[i];
+        cout << str[i] << '\n';
     }
     return 0;
 }
