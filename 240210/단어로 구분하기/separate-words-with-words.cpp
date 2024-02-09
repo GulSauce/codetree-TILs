@@ -9,5 +9,8 @@ int main() {
         cin >> str[i];
     }
     
+    for(int i = 0; i <= 9; i++){
+        cout << str[i];
+    }
     return 0;
 }
