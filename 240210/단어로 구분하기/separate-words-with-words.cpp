@@ -4,15 +4,10 @@
 using namespace std;
 
 int main() {
-    string str;
-    getline(cin, str);
-    for(char ch : str){
-        if(ch == ' '){
-            cout << '\n';
-        }
-        else{
-            cout << ch;
-        }
+    string str[10];
+    for(int i = 0; i <= 9; i++){
+        cin >> str[i];
     }
+    
     return 0;
 }
