@@ -12,10 +12,10 @@ int main() {
     }
 
     for(int i = 0; cocatedStr[i] != '\0'; i++){
-        if(i % 5 == 0 && i != 0){
+        cout << cocatedStr[i];
+        if((i+1) % 5 == 0){
             cout << '\n';
         }
-        cout << cocatedStr[i];
     }
     return 0;
 }
