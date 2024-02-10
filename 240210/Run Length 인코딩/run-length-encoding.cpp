@@ -15,7 +15,7 @@ int main() {
             cnt++;
         }
         RLE += str[i];
-        RLE += cnt + '0';
+        RLE += to_string(cnt);
         i = j;
     }
 
