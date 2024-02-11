@@ -18,7 +18,7 @@ int main() {
         }
     }
 
-    for(int i = 0; i < lastIdx; i++){
+    for(int i = 0; i <= lastIdx; i++){
         if(str.substr(i, 2) == target2){
             target2Cnt++;
         }
