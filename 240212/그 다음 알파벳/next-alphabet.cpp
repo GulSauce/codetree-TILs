@@ -8,7 +8,7 @@ int main() {
 
     int alphabetValue = (int)alphabet;
     char nextAlphbet = (char)(++alphabetValue);
-    if(nextAlphbet == 'z' + 1){
+    if(nextAlphbet == (int)'z' + 1){
         nextAlphbet = 'a';
     }
     cout << nextAlphbet;
