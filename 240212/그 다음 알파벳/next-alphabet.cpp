@@ -6,7 +6,8 @@ int main() {
     char alphabet; 
     cin >> alphabet;
 
-    char nextAlphbet = (char)((int)++alphabet);
+    int alphabetValue = (int)alphabet;
+    char nextAlphbet = (char)(++alphabetValue);
     if(nextAlphbet == 'z' + 1){
         nextAlphbet = 'a';
     }
