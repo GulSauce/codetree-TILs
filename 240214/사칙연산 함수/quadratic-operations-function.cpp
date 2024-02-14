@@ -25,20 +25,29 @@ int main() {
     cin >> a >> o >> c;
 
     int result = 0;
+    bool wrongFlag = false;
     if(o == '+'){
         result = add(a, c);
     }
 
-    if(o == '-'){
+    else if(o == '-'){
         result = substract(a, c);
     }
-    if(o == '/'){
+    else if(o == '/'){
         result = divide(a, c);
     }
-    if(o == '*'){
+    else if(o == '*'){
         result = multiply(a, c);
     }
-
-    cout << a << ' ' << o << ' ' << c << " = " << result;
+    else{
+        wrongFlag = true;
+    }
+    
+    if(wrongFlag){
+        cout << "False";
+    }
+    else{
+        cout << a << ' ' << o << ' ' << c << " = " << result;
+    }
     return 0;
 }
