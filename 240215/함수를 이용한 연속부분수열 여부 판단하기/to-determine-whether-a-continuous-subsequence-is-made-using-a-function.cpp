@@ -5,7 +5,7 @@ using namespace std;
 int n1, n2;
 int A[100], B[100]; 
 
-bool checkIsPartialPermutaion(){
+bool checkIsSubSequence(){
     bool matched = false;
     for(int i = 0; i <= n1-n2; i++){
         bool curMatched = true;
@@ -33,7 +33,7 @@ int main() {
         cin >> B[i];
     }
 
-    bool matched = checkIsPartialPermutaion();
+    bool matched = checkIsSubSequence();
     if(matched){
         cout << "Yes";
     }
