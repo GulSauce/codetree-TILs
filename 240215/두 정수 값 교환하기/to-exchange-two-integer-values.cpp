@@ -11,7 +11,7 @@ void swap(int* n, int* m){
 int main() {
     int n, m;
     cin >> n >> m;
-    swap(n, m);
+    swap(&n, &m);
     cout << n << ' ' << m;
     return 0;
 }
