@@ -27,7 +27,7 @@ bool checkIsDayExist(int M, int D){
     else if(M == 2){
         flag = checkIsDayInRange(D, 1, 28);
     }
-    else{
+    else if(M <= 12){
         flag = checkIsDayInRange(D, 1, 31);
     }
     return flag;
