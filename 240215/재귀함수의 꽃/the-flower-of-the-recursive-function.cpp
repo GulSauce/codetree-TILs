@@ -11,9 +11,7 @@ void printFlower(int number){
 
     cout << number << ' ';
 
-    int nxtNubmer = number-1;
-
-    printFlower(nxtNubmer);
+    printFlower(number-1);
 
     cout << number << ' ';
 }
