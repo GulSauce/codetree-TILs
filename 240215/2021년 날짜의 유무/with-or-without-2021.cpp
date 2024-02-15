@@ -19,18 +19,16 @@ bool checkIsDayInRange(int day, int s, int e){
 }
 
 bool checkIsDayExist(int M, int D){
-    bool flag = false;
-
     if(chekcIsDay30(M)){
-        flag = checkIsDayInRange(D, 1, 30);
+        return checkIsDayInRange(D, 1, 30);
     }
     else if(M == 2){
-        flag = checkIsDayInRange(D, 1, 28);
+        return checkIsDayInRange(D, 1, 28);
     }
     else if(M <= 12){
-        flag = checkIsDayInRange(D, 1, 31);
+        return checkIsDayInRange(D, 1, 31);
     }
-    return flag;
+    return false;
 }
 
 int main() {
