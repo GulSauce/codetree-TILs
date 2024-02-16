@@ -12,7 +12,7 @@ int getMaxValue(int curIndex) {
     
     int curMaxValue = getMaxValue(curIndex + 1); 
 
-    if(getMaxValue(curIndex + 1) <= number[curIndex]){
+    if(curMaxValue <= number[curIndex]){
         curMaxValue = number[curIndex];
     }
 
@@ -21,6 +21,7 @@ int getMaxValue(int curIndex) {
 
 int main() {
     cin >> n;
+
     for(int i = 0; i <= n-1; i++){
         cin >> number[i];
     }
