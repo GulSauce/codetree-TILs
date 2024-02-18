@@ -7,14 +7,16 @@ class UserInfo{
         string id;
         int level;
     
-    UserInfo(string id, int level){
+    UserInfo(string id = "", int level = 0){
         this->id = id;
         this->level = level;
     }
 };
 
 int main() {
-    UserInfo firstUserInfo = UserInfo("codetree", 10);  
+    UserInfo firstUserInfo = UserInfo(); 
+    firstUserInfo.id = "codetree";
+    firstUserInfo.level = 10;
     
     string id;
     int level;
