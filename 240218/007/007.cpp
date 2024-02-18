@@ -4,6 +4,19 @@
 
 using namespace std;
 
+class MissionInfo {
+    public:
+        string secretCode;
+        char meetingPoint;
+        int time;
+    
+        MissionInfo(string secretCode, char meetingPoint, int time){
+            this->secretCode = secretCode;
+            this->meetingPoint = meetingPoint;
+            this->time = time;
+        }
+};
+
 int main() {
     string secretCode;
     char meetingPoint;
@@ -11,12 +24,10 @@ int main() {
 
     cin >> secretCode >> meetingPoint >> time;
 
-    tuple<string, char, int> missionInfo = make_tuple(secretCode, meetingPoint, time);
+    MissionInfo missionInfo = MissionInfo(secretCode, meetingPoint, time);
 
-    tie(secretCode, meetingPoint, time) =  missionInfo;
-
-    cout << "secret code : " << secretCode << '\n';
-    cout << "meeting point : " << meetingPoint << '\n';
-    cout << "time : " << time;
+    cout << "secret code : " << missionInfo.secretCode << '\n';
+    cout << "meeting point : " << missionInfo.meetingPoint << '\n';
+    cout << "time : " << missionInfo.time;
     return 0;
 }
