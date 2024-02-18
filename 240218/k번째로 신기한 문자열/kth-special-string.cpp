@@ -4,12 +4,27 @@
 
 using namespace std;
 
+bool checkIsStartWithT(string& T, string& target){
+    int tLength = T.length();
+    bool isStartWith = true;
+
+    if(target.length() < tLength){
+        isStartWith= false;
+    }
+
+    for(int i = 0; i <= tLength - 1; i++){
+        if(target[i] != T[i]){
+            isStartWith = false;
+        }
+    }
+
+    return isStartWith;
+}
+
 int main() {
     int n, k;
     string T;
     cin >> n >> k >> T;
-
-    int tLength = T.length();
 
     string matchedStrings[100];
     int curMatchedStringIndex = 0;
@@ -17,19 +32,9 @@ int main() {
         string str;
         cin >> str;
 
-        bool matched = true;
+        bool isStartWith = checkIsStartWithT(T, str);
 
-        if(str.length() < tLength){
-            matched = false;
-        }
-
-        for(int i = 0; i <= tLength - 1; i++){
-            if(str[i] != T[i]){
-                matched = false;
-            }
-        }
-
-        if(matched){
+        if(isStartWith){
             matchedStrings[curMatchedStringIndex++] = str;
         }
     }
