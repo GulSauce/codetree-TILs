@@ -2,27 +2,29 @@
 
 using namespace std;
 
+class UserInfo{
+    public:
+        string id;
+        int level;
+    
+    UserInfo(string id, int level){
+        this->id = id;
+        this->level = level;
+    }
+};
+
 int main() {
-    pair<string, int> userInfo[2];
-    userInfo[0] = {"codetree", 10};
+    UserInfo firstUserInfo = UserInfo("codetree", 10);  
+    
+    string id;
+    int level;
 
-    string userId; 
-    int userLevel;
-    cin >> userId >> userLevel;
+    cin >> id >> level;
 
-    userInfo[1] = {userId, userLevel};
+    UserInfo secondUserInfo = UserInfo(id, level);
 
-    string id[2];
-    int level[2];
-
-    for(int i = 0; i <= 1; i++){
-        id[i] = userInfo[i].first;
-        level[i] = userInfo[i].second;  
-    }
-
-    for(int i = 0; i <= 1; i++){
-        cout << "user " << id[i] << ' ' << "lv " << level[i] << '\n'; 
-    }
+    cout << "user " << firstUserInfo.id << ' ' << "lv " << firstUserInfo.level << '\n'; 
+    cout << "user " << secondUserInfo.id << ' ' << "lv " << secondUserInfo.level << '\n'; 
     
     return 0;
 }
