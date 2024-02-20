@@ -21,8 +21,7 @@ int main() {
         int x, y;
         cin >> x >> y;
 
-        distInfo[i].first = i+1;
-        distInfo[i].second = abs(x)+abs(y);
+        distInfo[i] = make_pair(i+1, abs(x)+abs(y));
     }
 
     sort(distInfo, distInfo + N, cmp);
