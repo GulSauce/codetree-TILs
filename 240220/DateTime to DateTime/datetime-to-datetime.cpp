@@ -5,8 +5,13 @@ using namespace std;
 int a, b, c;
 
 bool checkIsBefore(){
-    if(a == 11 && b <= 11 && c <= 10){
-        return true;
+    if(a == 11){
+        if(b <= 10){
+            return true;
+        }
+        if(b == 11 && c <= 10){
+            return true;
+        }
     }
     return false;
 }
@@ -15,6 +20,7 @@ int main() {
     cin >> a >> b >> c;
 
     bool isBefore = checkIsBefore();
+
     if(isBefore){
         cout << -1;
         return 0;
@@ -24,7 +30,7 @@ int main() {
     int hDiff = b - 11;
     int mDiff = c - 11;
 
-    int result = dDiff*24*60 + hDiff*60 + mDiff;
+    int result = dDiff * 24 * 60 + hDiff * 60 + mDiff;
 
     cout << result;
     return 0;
