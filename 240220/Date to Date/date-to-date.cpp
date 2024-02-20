@@ -7,7 +7,7 @@ int daySumOfMonths[13] = {0};
 
 void calcDaySumofMonths(){
     for(int i = 2; i <= 12; i++){
-        daySumOfMonths[i] = daySumOfMonths[i-1] + daysOfMonths[i];
+        daySumOfMonths[i] = daySumOfMonths[i-1] + daysOfMonths[i-1];
     }
 }
 
@@ -18,9 +18,10 @@ int main() {
     calcDaySumofMonths();
 
     int mDiff = daySumOfMonths[m2]-daySumOfMonths[m1];
-    int dDiff = d2 - d1;
-    
+    int dDiff = d2-d1;
+
     int result = mDiff + dDiff;
-    cout << result;
+    cout << result + 1;
+
     return 0;
 }
