@@ -1,22 +1,9 @@
 #include <iostream>
-#include <string>
-#include <map>
 
 using namespace std;
 
 int daysOfMonth[13] = {0, 31 , 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 int daySumOfMonth[13] = {0};
-map<string, int> dayStringIndexDict;
-
-void addDayStringToDictionary(){
-    dayStringIndexDict["Mon"] = 0;
-    dayStringIndexDict["Tue"] = 1;
-    dayStringIndexDict["Wed"] = 2;
-    dayStringIndexDict["Thu"] = 3;
-    dayStringIndexDict["Fri"] = 4;
-    dayStringIndexDict["Sat"] = 5;
-    dayStringIndexDict["Sun"] = 6;
-}
 
 void calcDaySumOfMonth(){
     for(int i = 2; i <= 12; i++){
@@ -24,10 +11,22 @@ void calcDaySumOfMonth(){
     }
 }
 
-int getDayDiffByString(string& dayString){
-    int monIndex = dayStringIndexDict["Mon"];
-    int dayStringIndex = dayStringIndexDict[dayString];
-    return dayStringIndex - monIndex;
+int getDayStringIndex(string& dayString){
+    if(dayString == "Mon"){
+        return 0;
+    }if(dayString == "Tue"){
+        return 1;
+    }if(dayString == "Wed"){
+        return 2;
+    }if(dayString == "Thu"){
+        return 3;
+    }if(dayString == "Fri"){
+        return 4;
+    }if(dayString == "Sat"){
+        return 5;
+    }if(dayString == "Sun"){
+        return 6;
+    }
 }
 
 int main() {
@@ -37,23 +36,23 @@ int main() {
 
     string dayString;
     cin >> dayString;
-
-    addDayStringToDictionary();
-    int dayDiffByString = getDayDiffByString(dayString);
     
     calcDaySumOfMonth();
     int d1Day = daySumOfMonth[m1] + d1;
     int d2Day = daySumOfMonth[m2] + d2;
 
-    int dayDiff = d2Day - d1Day - dayDiffByString;
+    int dayDiff = d2Day - d1Day;
+    int dayStringindex = getDayStringIndex(dayString);
 
-    int result = 0;
-
-    if(0 <= dayDiff){
-        result = dayDiff / 7 + 1;
+    int ans = 0;
+    for(int i = 0; i <= dayDiff; i++){
+        int curDayIndex = i % 7;
+        if(curDayIndex == dayStringindex){
+            ans++;
+        }
     }
 
-    cout << result;
+    cout << ans;
 
     return 0;
 }
