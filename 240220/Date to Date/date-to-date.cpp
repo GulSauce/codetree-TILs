@@ -17,11 +17,12 @@ int main() {
 
     calcDaySumofMonths();
 
-    int mDiff = daySumOfMonths[m2]-daySumOfMonths[m1];
-    int dDiff = d2-d1;
+    int m2Days = daySumOfMonths[m2]+ d2;
+    int m1Days = daySumOfMonths[m1]+ d1;
 
-    int result = mDiff + dDiff;
-    cout << result + 1;
+    int result = m2Days - m1Days + 1;
+
+    cout << result;
 
     return 0;
 }
