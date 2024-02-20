@@ -16,7 +16,6 @@ void addDayStringToDictionary(){
     dayStringIndexDict["Fri"] = 4;
     dayStringIndexDict["Sat"] = 5;
     dayStringIndexDict["Sun"] = 6;
-
 }
 
 void calcDaySumOfMonth(){
@@ -31,7 +30,6 @@ int getDayDiffByString(string& dayString){
     return dayStringIndex - monIndex;
 }
 
-
 int main() {
     int m1, m2;
     int d1, d2;
@@ -40,6 +38,7 @@ int main() {
     string dayString;
     cin >> dayString;
 
+    addDayStringToDictionary();
     int dayDiffByString = getDayDiffByString(dayString);
     
     calcDaySumOfMonth();
@@ -49,6 +48,7 @@ int main() {
     int dayDiff = d2Day - d1Day - dayDiffByString;
 
     int result = 0;
+
     if(0 <= dayDiff){
         result = dayDiff / 7 + 1;
     }
