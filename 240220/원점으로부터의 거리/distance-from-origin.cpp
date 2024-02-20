@@ -3,47 +3,32 @@
 
 using namespace std;
 
-class CoordinateInfo{
-    public:
-        int index;
-        int x;
-        int y;
 
-        CoordinateInfo(int index, int x, int y){
-            this->index = index;
-            this->x = x;
-            this->y = y;
-        }
-
-        CoordinateInfo(){}
-};
-
-bool cmp(const CoordinateInfo& a, const CoordinateInfo& b){
-    int aDist = abs(a.x) + abs(a.y);
-    int bDist = abs(b.x) + abs(b.y);
-    
-    if(aDist == bDist){
-        return a.index < b.index;
+bool cmp(const pair<int, int>& a, const pair<int, int>& b){
+    if(a.second == b.second){
+        return a.first < b.first;
     }
-    return aDist < bDist;
+    return a.second < b.second;
 }
 
 int main() {
     int N;
     cin >> N;
 
-    CoordinateInfo coordinateInfo[1000];
+    pair<int, int> distInfo[1000];
 
     for(int i = 0; i <= N-1; i++){
         int x, y;
         cin >> x >> y;
-        coordinateInfo[i] = CoordinateInfo(i+1, x, y);
+
+        distInfo[i].first = i+1;
+        distInfo[i].second = abs(x)+abs(y);
     }
 
-    sort(coordinateInfo, coordinateInfo+N, cmp);
+    sort(distInfo, distInfo + N, cmp);
 
     for(int i = 0; i <= N-1; i++){
-        cout << coordinateInfo[i].index << '\n';
+        cout << distInfo[i].first << '\n';
     }
     return 0;
 }
