@@ -24,12 +24,12 @@ int main() {
 
     int dayDiff = m2Days-m1Days;
 
-    if(dayDiff <= 0){
-        dayDiff += 7;
-    }
-
     dayDiff %= 7;
 
+    if(dayDiff <= -1){
+        dayDiff = 7 + dayDiff;
+    }
+    
     cout << dayToString[dayDiff];
     return 0;
 }
