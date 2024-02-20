@@ -5,7 +5,7 @@ using namespace std;
 int a, b, c;
 
 bool checkIsBefore(){
-    if(b <= 11 && c <= 10){
+    if(a == 11 && b <= 11 && c <= 10){
         return true;
     }
     return false;
