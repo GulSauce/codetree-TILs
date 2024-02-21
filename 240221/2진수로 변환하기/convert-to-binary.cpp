@@ -6,7 +6,12 @@ int main() {
     int n; 
     cin >> n;
 
-    int decimalToBinary[100] = {};
+    if(n == 0){
+        cout << 0;
+        return 0;
+    }
+
+    int decimalToBinary[100];
     int digitCnt = 0;
     while(n){
         decimalToBinary[digitCnt++] = n % 2;
