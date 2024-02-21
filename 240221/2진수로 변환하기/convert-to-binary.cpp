@@ -6,7 +6,7 @@ int main() {
     int n; 
     cin >> n;
 
-    int decimalToBinary[100];
+    int decimalToBinary[100] = {};
     int digitCnt = 0;
     while(n){
         decimalToBinary[digitCnt++] = n % 2;
