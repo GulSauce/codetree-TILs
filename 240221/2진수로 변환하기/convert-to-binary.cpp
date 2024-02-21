@@ -6,14 +6,14 @@ int main() {
     int n; 
     cin >> n;
 
-    if(n == 0){
-        cout << 0;
-        return 0;
-    }
-
     int decimalToBinary[100];
     int digitCnt = 0;
-    while(n){
+
+    while(true){
+        if(n <= 1){
+            decimalToBinary[digitCnt++] = n;
+            break;
+        }
         decimalToBinary[digitCnt++] = n % 2;
         n /= 2;
     }
