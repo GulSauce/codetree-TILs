@@ -18,15 +18,15 @@ int calcDecimalValue(int numberValue, int expValue){
 }
 
 int getSomeBaseToDecimalValue(int base, string& value){
-    int digitLength = value.length() - 1;
+    int curDigit = value.length() - 1;
 
     int decimalValue = 0;
-    for(int i = digitLength; i >= 0; i--){
+    for(int i = 0; value[i] != '\0'; i++){
         if(value[i] == '0'){
             continue;
         }
-        int charValueToNumberValue = value[digitLength - i] - '0';
-        decimalValue += charValueToNumberValue * calcDecimalValue(base, i);
+        int charValueToNumberValue = value[i] - '0';
+        decimalValue += charValueToNumberValue * calcDecimalValue(base, curDigit--);
     }
 
     return decimalValue;
