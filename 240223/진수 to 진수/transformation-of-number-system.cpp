@@ -25,7 +25,7 @@ int getSomeBaseToDecimalValue(int base, string& value){
         if(value[i] == '0'){
             continue;
         }
-        int charValueToNumberValue = value[i] - '0';
+        int charValueToNumberValue = value[digitLength - i] - '0';
         decimalValue += charValueToNumberValue * calcDecimalValue(base, i);
     }
 
@@ -51,7 +51,7 @@ int main() {
         someBaseToDecimalValue /= b;
     }
 
-    for(int i = digitCnt; 0 <= i; i--){
+    for(int i = digitCnt; i >= 0; i--){
         cout << digitArray[i];
     }
 
