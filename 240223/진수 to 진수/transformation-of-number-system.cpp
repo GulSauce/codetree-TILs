@@ -40,7 +40,6 @@ int main() {
 
     int someBaseToDecimalValue = getSomeBaseToDecimalValue(a, n);
 
-    cout << someBaseToDecimalValue << '\n';
     int digitArray[1000];
     int digitCnt = 0;
 
