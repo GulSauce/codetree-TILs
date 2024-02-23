@@ -23,6 +23,7 @@ int getSomeBaseToDecimalValue(int base, string& value){
     int decimalValue = 0;
     for(int i = 0; value[i] != '\0'; i++){
         if(value[i] == '0'){
+            curDigit--
             continue;
         }
         int charValueToNumberValue = value[i] - '0';
@@ -39,6 +40,7 @@ int main() {
 
     int someBaseToDecimalValue = getSomeBaseToDecimalValue(a, n);
 
+    cout << someBaseToDecimalValue << '\n';
     int digitArray[1000];
     int digitCnt = 0;
 
