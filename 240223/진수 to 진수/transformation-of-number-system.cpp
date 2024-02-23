@@ -23,7 +23,7 @@ int getSomeBaseToDecimalValue(int base, string& value){
     int decimalValue = 0;
     for(int i = 0; value[i] != '\0'; i++){
         if(value[i] == '0'){
-            curDigit--
+            curDigit--;
             continue;
         }
         int charValueToNumberValue = value[i] - '0';
