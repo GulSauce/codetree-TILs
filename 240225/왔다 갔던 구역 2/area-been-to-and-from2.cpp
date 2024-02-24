@@ -5,17 +5,17 @@ using namespace std;
 int board[2001];
 
 void moveLeft(int& currentPosition, int count){
+    currentPosition -= count;
     while(count--){
         board[currentPosition++]++;
     }
-    currentPosition--;
 }
 
 void moveRight(int& currentPosition, int count){
-    while(count--){
-        board[currentPosition++]++;
+    currentPosition -= count;
+    for(int i = 0; i <= count-1; i++){
+        board[currentPosition+i]++;
     }
-    currentPosition--;
 }
 
 
@@ -28,7 +28,6 @@ int main() {
         char direction;
         cin >> x >> direction;
         if(direction == 'L'){
-            currentPosition -= x;
             moveLeft(currentPosition, x);
         }
         if(direction == 'R'){
@@ -37,6 +36,7 @@ int main() {
     }
 
     int area = 0;
+
     for(int i = 0; i <= 2000; i++){
         if(2 <= board[i]){
             area++;
