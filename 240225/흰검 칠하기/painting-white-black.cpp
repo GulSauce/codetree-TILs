@@ -6,11 +6,12 @@ pair<int, int> boardColorCount[200000];
 char boardColor[200000];
 
 void moveLeft(int& curPos, int moveCount){
-    curPos -= moveCount;
-    for(int i = 0; i <= moveCount-1; i++){
-        boardColor[curPos+i] = 'W';
-        boardColorCount[curPos+i].first++;
+    while(moveCount--){
+        boardColor[curPos] = 'W';
+        boardColorCount[curPos].first++;
+        curPos--;
     }
+    curPos++;
 }
 
 void moveRight(int& curPos, int moveCount){
@@ -19,6 +20,7 @@ void moveRight(int& curPos, int moveCount){
         boardColorCount[curPos].second++;
         curPos++;
     }
+    curPos--;
 }
 
 int main() {
@@ -38,6 +40,7 @@ int main() {
     }
 
     int w = 0, b = 0, g = 0;
+
     for(int i = 0; i <= 199999; i++){
         if(2 <= boardColorCount[i].first && 2 <= boardColorCount[i].second){
             g++;
