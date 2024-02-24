@@ -21,6 +21,7 @@ int findLeftMostY(){
             }
         }
     }
+    return -1;
 }
 
 int findLeftMostX(){
@@ -31,6 +32,7 @@ int findLeftMostX(){
             }
         }
     }
+    return -1;
 };
 
 int findRightMostY(){
@@ -41,6 +43,7 @@ int findRightMostY(){
             }
         }
     }
+    return -1;
 }
 
 int findRightMostX(){
@@ -51,6 +54,7 @@ int findRightMostX(){
             }
         }
     }
+    return -1;
 }
 
 void fetchFirstSquare(int x1, int y1, int x2, int y2){
@@ -85,6 +89,12 @@ int main() {
     int leftmostX = findLeftMostX();
     int rightmostY = findRightMostY();
     int rightmostX = findRightMostX();
+
+    if(leftmostY == -1 || leftmostX == -1 ||
+    rightmostY == -1 || rightmostX == -1){
+        cout << 0;
+        return 0;
+    }
 
     int width = rightmostX - leftmostX + 1;
     int heigth = leftmostY - rightmostY + 1;
