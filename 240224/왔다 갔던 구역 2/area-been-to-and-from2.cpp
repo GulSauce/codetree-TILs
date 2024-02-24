@@ -5,14 +5,12 @@ using namespace std;
 int board[2001];
 
 void moveLeft(int& currentPosition, int count){
-    count--;
     while(count--){
         board[--currentPosition]++;
     }
 }
 
 void moveRight(int& currentPosition, int count){
-    count--;
     while(count--){
         board[++currentPosition]++;
     }
@@ -43,6 +41,6 @@ int main() {
         }
     }
 
-    cout << area;
+    cout << area-1;
     return 0;
 }
