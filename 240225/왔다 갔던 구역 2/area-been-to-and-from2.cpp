@@ -6,15 +6,14 @@ int board[2001];
 
 void moveLeft(int& currentPosition, int count){
     currentPosition -= count;
-    while(count--){
-        board[currentPosition++]++;
+     for(int i = 0; i <= count-1; i++){
+        board[currentPosition+i]++;
     }
 }
 
 void moveRight(int& currentPosition, int count){
-    currentPosition -= count;
-    for(int i = 0; i <= count-1; i++){
-        board[currentPosition+i]++;
+    while(count--){
+        board[currentPosition++]++;
     }
 }
 
