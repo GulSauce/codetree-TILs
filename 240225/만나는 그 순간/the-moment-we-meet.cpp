@@ -1,6 +1,5 @@
 #include <iostream>
 #include <cstring>
-#include <climits>
 
 using namespace std;
 
@@ -30,15 +29,6 @@ void moveRight(char who, int& currentTime, int& position, int time){
     }
     while(time--){
         positionAtSecond[++currentTime] = ++position;
-    }
-}
-
-void init(){
-    for(int i = 0; i <= 1000*1000; i++){
-        aPositionAtSecond[i] = INT_MIN;
-    }
-    for(int i = 0; i <= 1000*1000; i++){
-        bPositionAtSecond[i] = INT_MIN;
     }
 }
 
@@ -78,9 +68,6 @@ int main() {
     }
 
     for(int i = 1; i <= 1000*1000; i++){
-        if(aPositionAtSecond[i] == INT_MIN || bPositionAtSecond[i] == INT_MIN){
-            continue;
-        }
         if(aPositionAtSecond[i] == bPositionAtSecond[i]){
             cout << i;
             return 0;
