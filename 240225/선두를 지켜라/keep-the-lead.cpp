@@ -42,19 +42,6 @@ int calcChangeCount(int totalTime){
                 cnt++;
             }
         }
-        if(whoIsFirst == '\0'){
-            if(aLegnthAtHour[t] < bLegnthAtHour[t]){
-                whoIsFirst = 'b';
-                cnt++;
-            }
-            if(bLegnthAtHour[t] < aLegnthAtHour[t]){
-                whoIsFirst = 'a';
-                cnt++;
-            }
-        }
-        if(bLegnthAtHour[t] == aLegnthAtHour[t]){
-            whoIsFirst = '\0';
-        }
     }
     return cnt;
 }
