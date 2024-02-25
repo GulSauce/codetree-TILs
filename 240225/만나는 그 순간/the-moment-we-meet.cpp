@@ -35,8 +35,6 @@ void moveRight(char who, int& currentTime, int& position, int time){
 int main() {
     int N, M;
     cin >> N >> M;
-
-    init();
     
     int currentTime = 0;
     int aPosition = 0;
@@ -67,7 +65,7 @@ int main() {
         }
     }
 
-    for(int i = 1; i <= 1000*1000; i++){
+    for(int i = 1; i <= currentTime; i++){
         if(aPositionAtSecond[i] == bPositionAtSecond[i]){
             cout << i;
             return 0;
