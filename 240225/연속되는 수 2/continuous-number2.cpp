@@ -13,15 +13,14 @@ int main() {
     int cnt = 0;
     int maxCnt = 0;
     for(int i = 0; i <= N-1; i++){
-        if(i == 0 || numbers[i-1] == numbers[i]){
+        if(1 <= i && numbers[i-1] == numbers[i]){
             cnt++;
-            continue;
+        }else{
+            cnt = 1;
         }
         maxCnt = max(maxCnt , cnt);
-        cnt = 1;
     }
-    
-    maxCnt = max(maxCnt , cnt);
+
     cout << maxCnt;
     return 0;
 }
