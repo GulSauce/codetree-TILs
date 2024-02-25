@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstring>
+#include <climits>
 
 using namespace std;
 
@@ -32,12 +33,20 @@ void moveRight(char who, int& currentTime, int& position, int time){
     }
 }
 
+void init(){
+    for(int i = 0; i <= 1000*1000; i++){
+        aPositionAtSecond[i] = INT_MIN;
+    }
+    for(int i = 0; i <= 1000*1000; i++){
+        bPositionAtSecond[i] = INT_MIN;
+    }
+}
+
 int main() {
     int N, M;
     cin >> N >> M;
 
-    memset(aPositionAtSecond, -1, sizeof aPositionAtSecond);
-    memset(bPositionAtSecond, -1, sizeof bPositionAtSecond);
+    init();
     
     int currentTime = 0;
     int aPosition = 0;
@@ -54,8 +63,8 @@ int main() {
         }
     }
 
-    int bPosition = 0;
     currentTime= 0;
+    int bPosition = 0;
     while(M--){
         char d;
         int t;
@@ -69,7 +78,7 @@ int main() {
     }
 
     for(int i = 1; i <= 1000*1000; i++){
-        if(aPositionAtSecond[i] == -1 || bPositionAtSecond[i] == -1){
+        if(aPositionAtSecond[i] == INT_MIN || bPositionAtSecond[i] == INT_MIN){
             continue;
         }
         if(aPositionAtSecond[i] == bPositionAtSecond[i]){
