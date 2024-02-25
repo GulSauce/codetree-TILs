@@ -2,8 +2,8 @@
 
 using namespace std;
 
-int aLegnthAtHour[100001];
-int bLegnthAtHour[100001];
+int aLegnthAtHour[1000*1000+1];
+int bLegnthAtHour[1000*1000+1];
 
 void runA(int& currentAPostion, int& currentATime, int v, int t){
     while(t--){
