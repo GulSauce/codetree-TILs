@@ -32,14 +32,15 @@ int main() {
     }
 
     while(t--){
-        if(checkIsInBorder(c, r)){
-            currentDirectionIndex = 3 - currentDirectionIndex;
-            t++;
-        }
         c += dx[currentDirectionIndex];
         r += dy[currentDirectionIndex];
+        if(checkIsInBorder(c, r)){
+            currentDirectionIndex = 3 - currentDirectionIndex;
+            c += dx[currentDirectionIndex];
+            r += dy[currentDirectionIndex];
+        }
     }
-    
+
     cout << r << ' ' << c;
     return 0;
 }
