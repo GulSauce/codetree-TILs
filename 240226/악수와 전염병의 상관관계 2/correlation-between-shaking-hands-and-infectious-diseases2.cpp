@@ -29,8 +29,8 @@ int main() {
     cin >> N >> K >> P >> T;
 
     isInfected[P] = true;
-    ShakeHandInfo shakeHandInfo[250];
 
+    ShakeHandInfo shakeHandInfo[250];
     for(int i = 0; i <= T-1; i++){
         int t, x, y;
         cin >> t >> x >>  y;
@@ -42,19 +42,19 @@ int main() {
     for(int i = 0; i <= T-1; i++){
         int dev1 = shakeHandInfo[i].dev1;
         int dev2 = shakeHandInfo[i].dev2;
+
         if(isInfected[dev1]){
-            if(K <= shakeHandCount[dev1]){
-                continue;                
+            if(shakeHandCount[dev1] < K){
+                shakeHandCount[dev1]++;
+                isInfected[dev2] = true;           
             }
-            shakeHandCount[dev1]++;
-            isInfected[dev2] = true;
         }
+
         if(isInfected[dev2]){
-            if(K <= shakeHandCount[dev2]){
-                continue;                
+            if(shakeHandCount[dev2] < K){
+                shakeHandCount[dev2]++;
+                isInfected[dev1] = true;          
             }
-            shakeHandCount[dev2]++;
-            isInfected[dev1] = true;
         }
     }
 
