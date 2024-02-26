@@ -9,6 +9,8 @@ int main() {
     int N;
     cin >> N;
 
+    bool isMeet = false;
+
     int currentX = 0;
     int currentY = 0;
 
@@ -31,22 +33,22 @@ int main() {
         if(direction == 'S'){
             directionIndex = 1;
         }
-        bool canEscape = false;
+
         while(moveLength--){
             time++;
             currentX += dx[directionIndex];
             currentY += dy[directionIndex];
             if(currentX == 0 && currentY == 0){
-                canEscape = true;
+                isMeet = true;
                 break;
             }
         }
-        if(canEscape){
+        if(isMeet){
             break;
         }
     }
 
-    if(time == 0){
+    if(isMeet == false){
         cout <<  -1;
         return 0;
     }
