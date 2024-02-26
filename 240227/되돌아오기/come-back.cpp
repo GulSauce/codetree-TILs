@@ -15,7 +15,7 @@ int main() {
     int currentY = 0;
 
     int directionIndex = -1;
-    int time = 0;
+    int elapsedTime = 0;
 
     while(N--){
         char direction;
@@ -35,7 +35,7 @@ int main() {
         }
 
         while(moveLength--){
-            time++;
+            elapsedTime++;
             currentX += dx[directionIndex];
             currentY += dy[directionIndex];
             if(currentX == 0 && currentY == 0){
@@ -53,6 +53,6 @@ int main() {
         return 0;
     }
 
-    cout << time;
+    cout << elapsedTime;
     return 0;
 }
