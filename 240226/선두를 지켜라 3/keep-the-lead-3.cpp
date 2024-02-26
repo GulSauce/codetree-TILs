@@ -2,7 +2,6 @@
 
 using namespace std;
 
-pair<char, char> hallOfFame[1000001];
 int aPosition[1000001];
 int bPosition[1000001];
 
@@ -13,15 +12,26 @@ void calcPosition(int* position, int& currentTime, int v, int t){
     }
 }
 
-void calcHallOfFame(int totalTime){
+int calcHallOfFame(int totalTime){
+    int beforeLeader = 0;
+    int ans = 0;
     for(int t = 1; t <= totalTime; t++){
-        if(bPosition[t] <= aPosition[t]){
-            hallOfFame[t].first = 'a';
+        int leader = 0;
+        if(bPosition[t] < aPosition[t]){
+            leader = 1;
         }
-        if(aPosition[t] <= bPosition[t]){
-            hallOfFame[t].second = 'b';
+        if(aPosition[t] < bPosition[t]){
+            leader = 2;
         }
+        if(bPosition[t] == aPosition[t]){
+            leader = 3;
+        }
+        if(beforeLeader != leader){
+            ans++;
+        }
+        beforeLeader = leader;
     }
+    return ans;
 }
 
 int main() {
@@ -43,15 +53,9 @@ int main() {
     }
 
     int totalTime = max(currentAtime, currentBtime);
-    calcHallOfFame(totalTime);
-
-    int ans = 0;
-    for(int i = 1; i <= totalTime; i++){
-        if(hallOfFame[i] != hallOfFame[i-1]){
-            ans++;
-        }
-    }
-
+    
+    int ans = calcHallOfFame(totalTime);
     cout << ans;
+    
     return 0;
 }
