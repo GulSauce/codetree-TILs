@@ -2,9 +2,9 @@
 
 using namespace std;
 
-pair<char, char> hallOfFame[1001];
-int aPosition[1001];
-int bPosition[1001];
+pair<char, char> hallOfFame[1000001];
+int aPosition[1000001];
+int bPosition[1000001];
 
 void calcPosition(int* position, int& currentTime, int v, int t){
     while(t--){
