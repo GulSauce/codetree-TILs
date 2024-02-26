@@ -2,7 +2,7 @@
 
 using namespace std;
 
-bool isComfortable[100];
+bool isComfortable[10000];
 bool board[101][101];
 
 int N, M;
