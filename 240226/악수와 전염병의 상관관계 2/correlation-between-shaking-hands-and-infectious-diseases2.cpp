@@ -43,18 +43,25 @@ int main() {
         int dev1 = shakeHandInfo[i].dev1;
         int dev2 = shakeHandInfo[i].dev2;
 
-        if(isInfected[dev1]){
+        if(isInfected[dev1] && !isInfected[dev2]){
             if(shakeHandCount[dev1] < K){
                 shakeHandCount[dev1]++;
                 isInfected[dev2] = true;           
             }
+            continue;
         }
 
-        if(isInfected[dev2]){
+        if(isInfected[dev2] && !isInfected[dev1]){
             if(shakeHandCount[dev2] < K){
                 shakeHandCount[dev2]++;
                 isInfected[dev1] = true;          
             }
+            continue;
+        }
+
+        if(isInfected[dev2] && isInfected[dev1]){
+            shakeHandCount[dev1]++;
+            shakeHandCount[dev2]++;
         }
     }
 
