@@ -14,7 +14,7 @@ int main() {
     int curY = 0;
     for(char command : commands){
         if(command == 'L'){
-            curDirection = (curDirection - 1 + 4) % 4;
+            curDirection = (curDirection - 1) % 4 + 4;
         }
         if(command == 'R'){
              curDirection = (curDirection  + 1) % 4;
