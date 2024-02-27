@@ -20,16 +20,21 @@ void drawValues(){
     int currentX = 0;
     int currentY = 0;
     
-    for(int i = 1; i <= lastValue; i++){
-        board[currentY][currentX] = i;
-        
-        int testCurrentX =  currentX + dx[direcitionIndex];
-        int testCurrentY = currentY + dy[direcitionIndex];
-        if(!isInRange(testCurrentX, testCurrentY) || board[testCurrentY][testCurrentX]){
-            direcitionIndex = (direcitionIndex - 1 + 4) % 4;
+    board[currentY][currentX] = 1;
+    for(int i = 2; i <= lastValue; i++){
+
+        while(true){
+            int testCurrentX =  currentX + dx[direcitionIndex];
+            int testCurrentY = currentY + dy[direcitionIndex];
+            if(!isInRange(testCurrentX, testCurrentY) || board[testCurrentY][testCurrentX]){
+                direcitionIndex = (direcitionIndex - 1 + 4) % 4;
+                continue;
+            }
+            break;
         }
         currentX += dx[direcitionIndex];
         currentY += dy[direcitionIndex];
+        board[currentY][currentX] = i;
     }
 
 }
