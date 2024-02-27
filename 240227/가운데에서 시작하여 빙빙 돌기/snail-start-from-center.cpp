@@ -16,24 +16,29 @@ bool isInRange(int x, int y){
 int main() {
     cin >> n;
 
-    int currentX = n-1;
-    int currentY = n-1;
-    int value = n*n;
+    int currentX = n / 2;
+    int currentY = n / 2;
+    int value = 1;
+    int lastValue = n*n;
 
     board[currentY][currentX] = value;
 
-    int directionIndex = 2;
+    int currentMoveCount = 0;
+    int moveLength = 1;
+    int directionIndex = 0;
 
-    for(--value; 1 <= value; value--){
+    for(value = 2; value <= lastValue; value++){
         while(true){
             int testX = currentX + dx[directionIndex];
             int testY = currentY + dy[directionIndex];
-            if(!isInRange(testX, testY) || board[testY][testX]){
-                directionIndex = (directionIndex + 1) % 4;
+            if(!isInRange(testX, testY) && currentMoveCount == moveLength){
+                directionIndex = (directionIndex - 1 + 4) % 4;
                 continue;
             }
+            currentMoveCount = 0;
             break;
         }
+        currentMoveCount++;
         currentX += dx[directionIndex];
         currentY += dy[directionIndex];
         board[currentY][currentX] = value;
