@@ -19,25 +19,32 @@ void drawAlphabet(){
     char value = 'A';
 
     int x = 0;
-    int y = 0;    
-    while(loopCount--){
-        board[y][x] = value;
+    int y = 0;
+    board[y][x] = value;
 
-        int testX = x + dx[directionIndex];
-        int testY = y + dy[directionIndex];
+    for(int i = 0; i <= loopCount - 2; i++){
+        while(true){
+            int testX = x + dx[directionIndex];
+            int testY = y + dy[directionIndex];
 
-        if(!isInRange(testX, testY) || board[testY][testX]){
-            directionIndex = (directionIndex + 1) % 4;
+            if(!isInRange(testX, testY) || board[testY][testX]){
+                directionIndex = (directionIndex + 1) % 4;
+                continue;
+            }
+            break;
+        }
+
+        if(value == 'Z'){
+            value = 'A';
+        }
+        else{
+            value++;
         }
 
         x += dx[directionIndex];
         y += dy[directionIndex];
 
-        if(value == 'Z'){
-            value = 'A';
-        }else{
-            value++;
-        }
+        board[y][x] = value;
     }
 }
 
