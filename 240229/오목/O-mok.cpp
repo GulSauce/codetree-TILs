@@ -29,8 +29,8 @@ int main() {
                 int currentY = y;
                 int matchCount = 1;
                 while(true){
-                    int testX = x + dx[direction];
-                    int testY = y + dy[direction];
+                    int testX = currentX + dx[direction];
+                    int testY = currentY + dy[direction];
                     if(!isInRange(testX, testY) 
                     || board[testY][testX] != startColor){
                         break;
