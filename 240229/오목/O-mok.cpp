@@ -39,9 +39,6 @@ int main() {
                     currentY += dy[direction];
 
                     matchCount++;
-                    if(matchCount == 5){
-                        break;
-                    }
                 }
                 if(matchCount == 5){
                     cout << startColor << '\n';
