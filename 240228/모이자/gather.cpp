@@ -1,3 +1,4 @@
+#include <climits>
 #include <iostream>
 #include <algorithm>
 
@@ -13,13 +14,15 @@ int main() {
         cin >> houses[i];
     }
 
-    int lengthSum = 0;
+    int lengthSum = INT_MAX;
     for(int target = 0; target <= n-1; target++){
         int currentLengthSum = 0;
         for(int otherHouse = 0; otherHouse <= n-1; otherHouse++){
+            cout << abs(houses[target] - houses[otherHouse]); << '\n';
             currentLengthSum += abs(houses[target] - houses[otherHouse]);
         }
-        lengthSum = max(lengthSum, currentLengthSum);
+        cout << '\n';
+        lengthSum = min(lengthSum, currentLengthSum);
     }
 
     cout << lengthSum;
