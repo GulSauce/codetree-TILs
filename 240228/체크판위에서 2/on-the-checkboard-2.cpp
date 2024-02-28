@@ -24,7 +24,7 @@ int main() {
 
     int ans = 0;
     for(int t1 = 1; t1 <= R-2; t1++){
-        for(int t1Index = 0; t1Index <= C-2; t1Index++){
+        for(int t1Index = 1; t1Index <= C-2; t1Index++){
             for(int t2 = t1+1; t2 <= R-2; t2++){
                 for(int t2Index = t1Index+1; t2Index <= C-2; t2Index++){
                     if(board[t1][t1Index] != startChar &&
