@@ -4,44 +4,11 @@ using namespace std;
 
 int board[20][20];
 
-bool checkColumn(int x, int y){
-    int target = board[y][x];
-    for(int i = 0; i <= 4; i++){
-        if(board[y][x+i] != target){
-            return false;
-        }
-    }
-    return true;
-}
+int dx[8] = {1, 1, 0, -1, -1, -1, 0, 1};
+int dy[8] = {0, 1, 1, -1, 0, -1, 1,  -1};
 
-bool checkRow(int x, int y){
-    int target = board[y][x];
-    for(int i = 0; i <= 4; i++){
-        if(board[y+i][x] != target){
-            return false;
-        }
-    }
-    return true;
-}
-
-bool checkUpperDiagonal(int x, int y){
-    int target = board[y][x];
-    for(int i = 0; i <= 4; i++){
-        if(board[y-i][x+i] != target){
-            return false;
-        }
-    }
-    return true;
-}
-
-bool checkDownerDiagonal(int x, int y){
-    int target = board[y][x];
-    for(int i = 0; i <= 4; i++){
-        if(board[y+i][x+i] != target){
-            return false;
-        }
-    }
-    return true;
+bool isInRange(int x, int y){
+    return 1 <= x && x <= 19 && 1 <= y && y <= 19;
 }
 
 int main() {
@@ -53,28 +20,35 @@ int main() {
     
     for(int y = 1; y <= 19; y++){
         for(int x = 1; x <= 19; x++){
-            if(board[y][x] == 0){
+            int startColor = board[y][x];
+            if(startColor == 0){
                 continue;
             }
-            if(x <= 15 && checkColumn(x, y)){
-                cout << board[y][x] << '\n';
-                cout << y << ' ' << x + 2;
-                return 0;
-            }
-            if(y <= 15 && checkRow(x, y)){
-                cout << board[y][x] << '\n';
-                cout << y + 2 << ' ' << x;
-                return 0;
-            }
-            if(x <= 15 && 5 <= y && checkUpperDiagonal(x, y)){
-                cout << board[y][x] << '\n';
-                cout << y - 2 << ' ' << x + 2;
-                return 0;
-            }
-            if(x <= 15 && y <= 15 && checkDownerDiagonal(x, y)){
-                cout << board[y][x] << '\n';
-                cout << y + 2 << ' ' << x + 2;
-                return 0;
+            for(int direction = 0; direction <= 7; direction++){
+                int currentX = x;
+                int currentY = y;
+                int matchCount = 1;
+                while(true){
+                    int testX = x + dx[direction];
+                    int testY = y + dy[direction];
+                    if(!isInRange(testX, testY) 
+                    || board[testY][testX] != startColor){
+                        break;
+                    }
+                    currentX += dx[direction]; 
+                    currentY += dy[direction];
+
+                    matchCount++;
+                    if(matchCount == 5){
+                        break;
+                    }
+                }
+                if(matchCount == 5){
+                    cout << startColor << '\n';
+                    cout << y + 2*dy[direction]
+                    << ' ' <<  x + 2*dx[direction];
+                    return 0;
+                }
             }
         }
     }
