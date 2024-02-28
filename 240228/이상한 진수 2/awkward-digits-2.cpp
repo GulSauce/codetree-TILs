@@ -34,25 +34,25 @@ int main() {
     cin >> binaryNumbers;
 
     bool isSearched = false;
+    int result = 0;
     for(int i = 0; binaryNumbers[i] != '\0'; i++){
+        int currentValue = 0;
         if(binaryNumbers[i] == '0'){
             binaryNumbers[i] = '1';
-            isSearched= true;
-            break;
+        }
+        else if(binaryNumbers[i] == '1'){
+            binaryNumbers[i] = '0';
+        }
+        currentValue = binaryToDecimal(binaryNumbers);
+        result = max(result, currentValue);
+        if(binaryNumbers[i] == '0'){
+            binaryNumbers[i] = '1';
+        }
+        else if(binaryNumbers[i] == '1'){
+            binaryNumbers[i] = '0';
         }
     }
-
-    if(isSearched == false){
-        int lastIndex = binaryNumbers.length() - 1;
-        for(int i = lastIndex; 0 <= i; i--){
-            if(binaryNumbers[i] == '1'){
-                binaryNumbers[i] = '0';
-                break;
-            }
-        }
-    }
-
-    int result = binaryToDecimal(binaryNumbers);
+    
     cout << result;
     return 0;
 }
