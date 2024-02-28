@@ -24,7 +24,17 @@ bool checkRow(int x, int y){
     return true;
 }
 
-bool checkDiagonal(int x, int y){
+bool checkUpperDiagonal(int x, int y){
+    int target = board[y][x];
+    for(int i = 0; i <= 4; i++){
+        if(board[y-i][x+i] != target){
+            return false;
+        }
+    }
+    return true;
+}
+
+bool checkDownerDiagonal(int x, int y){
     int target = board[y][x];
     for(int i = 0; i <= 4; i++){
         if(board[y+i][x+i] != target){
@@ -33,8 +43,6 @@ bool checkDiagonal(int x, int y){
     }
     return true;
 }
-
-
 
 int main() {
     for(int y = 1; y <= 19; y++){
@@ -58,7 +66,12 @@ int main() {
                 cout << y + 2 << ' ' << x;
                 return 0;
             }
-            if(x <= 15 && y <= 15 && checkDiagonal(x, y)){
+            if(x <= 15 && 5 <= y && checkUpperDiagonal(x, y)){
+                cout << board[y][x] << '\n';
+                cout << y - 2 << ' ' << x + 2;
+                return 0;
+            }
+            if(x <= 15 && y <= 15 && checkDownerDiagonal(x, y)){
                 cout << board[y][x] << '\n';
                 cout << y + 2 << ' ' << x + 2;
                 return 0;
