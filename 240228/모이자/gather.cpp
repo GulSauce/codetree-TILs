@@ -4,24 +4,22 @@
 
 using namespace std;
 
-int houses[100];
+int houses[101];
 
 int main() {
     int n;
     cin >> n;
 
-    for(int i = 0; i <= n-1; i++){
+    for(int i = 1; i <= n; i++){
         cin >> houses[i];
     }
 
     int lengthSum = INT_MAX;
-    for(int target = 0; target <= n-1; target++){
+    for(int currentX = 1; currentX <= n; currentX++){
         int currentLengthSum = 0;
-        for(int otherHouse = 0; otherHouse <= n-1; otherHouse++){
-            cout << abs(houses[target] - houses[otherHouse]); << '\n';
-            currentLengthSum += abs(houses[target] - houses[otherHouse]);
+        for(int otherX = 1; otherX <= n; otherX++){
+            currentLengthSum += houses[otherX]*abs(currentX - otherX);
         }
-        cout << '\n';
         lengthSum = min(lengthSum, currentLengthSum);
     }
 
