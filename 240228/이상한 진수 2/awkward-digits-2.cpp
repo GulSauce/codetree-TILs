@@ -37,20 +37,12 @@ int main() {
     int result = 0;
     for(int i = 0; binaryNumbers[i] != '\0'; i++){
         int currentValue = 0;
-        if(binaryNumbers[i] == '0'){
-            binaryNumbers[i] = '1';
-        }
-        else if(binaryNumbers[i] == '1'){
-            binaryNumbers[i] = '0';
-        }
+        binaryNumbers[i] = '0' + '1' - binaryNumbers[i];
+
         currentValue = binaryToDecimal(binaryNumbers);
         result = max(result, currentValue);
-        if(binaryNumbers[i] == '0'){
-            binaryNumbers[i] = '1';
-        }
-        else if(binaryNumbers[i] == '1'){
-            binaryNumbers[i] = '0';
-        }
+        
+        binaryNumbers[i] = '0' + '1' - binaryNumbers[i];
     }
     
     cout << result;
