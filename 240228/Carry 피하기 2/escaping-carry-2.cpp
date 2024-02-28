@@ -5,7 +5,7 @@ using namespace std;
 int numbers[20];
 
 bool isMatchedCondition(int n1, int n2, int n3){
-    while(n1 && n2 && n3){
+    while(n1 || n2 || n3){
         if(10 <= n1 % 10 + n2 % 10 + n3 % 10){
             return false;
         }
