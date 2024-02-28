@@ -24,7 +24,7 @@ int main() {
         cin >> numbers[i];
     }
 
-    int result = 0;
+    int result = -1;
     for(int i = 0; i <= n-1; i++){
         for(int j = i+1; j <= n-1; j++){
             for(int k = j+1; k <= n-1; k++){
