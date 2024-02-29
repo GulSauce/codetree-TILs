@@ -5,19 +5,16 @@
 using namespace std;
 
 int N, S;
+int sum;
+
 int numbers[101];
 
 int getCurrentSum(int first, int second){
-    int sum = 0;
+    int dupSum = sum;
+    dupSum -= numbers[first];
+    dupSum -= numbers[second];
 
-    for(int i = 0; i <= N-1; i++){
-        sum += numbers[i];
-    }
-
-    sum -= numbers[first];
-    sum -= numbers[second];
-
-    return sum;
+    return dupSum;
 }
 
 int main() {
@@ -25,6 +22,7 @@ int main() {
 
     for(int i = 0; i <= N-1; i++){
         cin >> numbers[i];
+        sum += numbers[i];
     }
 
     int minDiff = INT_MAX;
