@@ -15,7 +15,7 @@ int main() {
     int maxSum = 0;
     for(int i = 0; i <= n-k; i++){
         int currentSum = 0;
-        for(int j = i; j <= i+2; j++){
+        for(int j = i; j <= i+k-1; j++){
             currentSum += numbers[j];
         }
         maxSum = max(maxSum, currentSum);
