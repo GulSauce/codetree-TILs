@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 
@@ -7,26 +8,16 @@ int B[100];
 
 int N, M;
 
-bool checkIsAllMatched(int start, int end){
-    bool matchedIndex[100] = {};
-
-    for(int aIndex = start; aIndex <= end; aIndex++){
-        for(int bIndex = 0; bIndex <= M-1; bIndex++){
-            bool isMatched = false;
-
-            if(A[aIndex] == B[bIndex] && matchedIndex[bIndex] == false){
-                matchedIndex[bIndex] = true;
-                isMatched = true;
-            }
-
-            if(isMatched){
-                break;
-            }
-        }
+bool checkIsAllMatched(int start){
+    int copiedA[100];
+    for(int i = 0; i <= M-1; i++){
+        copiedA[i] = A[i+start];
     }
 
-    for(int bIndex = 0; bIndex <= M-1; bIndex++){
-        if(matchedIndex[bIndex] == false){
+    sort(copiedA, copiedA+M);
+
+    for(int i = 0; i <= M-1; i++){
+        if(copiedA[i] != B[i]){
             return false;
         }
     }
@@ -45,9 +36,11 @@ int main() {
         cin >> B[i];
     }
 
+    sort(B, B + M);
+
     int ans = 0;
     for(int i = 0; i <= N-M; i++){
-        bool isAllMatched = checkIsAllMatched(i, i+M-1);
+        bool isAllMatched = checkIsAllMatched(i);
         if(isAllMatched){
             ans++;
         }
