@@ -20,15 +20,16 @@ int main() {
     bool isCouponUsed = false;
 
     for(int i = 0; i <= N-1; i++){
-        currentPriceSum += wantedPrice[i];
-        if(B + 1 <= currentPriceSum){
+        int testCurrentPriceSum = currentPriceSum + wantedPrice[i];
+        if(B + 1 <= testCurrentPriceSum){
             if(isCouponUsed){
                 break;
             }
             isCouponUsed = true;
-            currentPriceSum -= wantedPrice[i] / 2;
+            testCurrentPriceSum -= wantedPrice[i] / 2;
         }
-        if(currentPriceSum <= B){
+        if(testCurrentPriceSum <= B){
+            currentPriceSum = testCurrentPriceSum;
             studentCount++;
         }
     }
