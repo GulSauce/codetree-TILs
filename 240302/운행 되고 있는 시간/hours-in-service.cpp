@@ -24,20 +24,18 @@ int getCurrentContinueWorkingTime(int fireIndex){
         workingTime[i]--;
     }
 
-    int maxContinueWorkingTime = 0;
-    int continueWokringTime = 0;
+    int continueWorkingTime = 0;
     for(int i = 1; i <= 1000; i++){
-        if(workingTime[i] == 1){
-            continueWokringTime++;
+        if(1 <= workingTime[i]){
+            continueWorkingTime++;
         }
-        maxContinueWorkingTime = max(maxContinueWorkingTime, continueWokringTime);
     }
 
     for(int i = start; i <= end-1; i++){
         workingTime[i]++;
     }
 
-    return maxContinueWorkingTime;
+    return continueWorkingTime;
 }
 
 int main() {
@@ -54,10 +52,9 @@ int main() {
     }
 
     int maxContinueWorkingTime = 0;
-
     for(int fireIndex = 0; fireIndex <= N-1; fireIndex++){
         int currentContinueWorkingTime = getCurrentContinueWorkingTime(fireIndex);
-        maxContinueWorkingTime = max(currentContinueWorkingTime ,maxContinueWorkingTime);
+        maxContinueWorkingTime = max(maxContinueWorkingTime, currentContinueWorkingTime);
     }
     
     cout << maxContinueWorkingTime;
