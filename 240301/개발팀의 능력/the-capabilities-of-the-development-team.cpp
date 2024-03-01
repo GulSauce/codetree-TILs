@@ -38,6 +38,12 @@ int main() {
             }
         }
     }
-    cout << minDiff;
+    
+    if(minDiff == INT_MAX){
+        cout << -1;
+    }
+    else{
+        cout << minDiff;
+    }
     return 0;
 }
