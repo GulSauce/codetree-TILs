@@ -44,27 +44,26 @@ int main() {
 
     int area = INT_MAX;
 
-    int minX = 0;
-    int maxX = 0;
-    int minY = 0;
-    int maxY = 0;
+
     for(int pointToRemoveIndex = 0; pointToRemoveIndex <= N-1; pointToRemoveIndex++){
-        minX = pointsByX[0].x;
+        int minX = pointsByX[0].x;
         if(pointsByX[0].index == pointToRemoveIndex){
             minX = pointsByX[1].x;
         }
-        maxX = pointsByX[N-1].x;
+        int maxX = pointsByX[N-1].x;
         if(pointsByX[N-1].index == pointToRemoveIndex){
             maxX = pointsByX[N-2].x;
         }
-        minY = pointsByX[0].y;
+
+        int minY = pointsByY[0].y;
         if(pointsByY[0].index == pointToRemoveIndex){
-            minX = pointsByX[1].y;
+            minX = pointsByY[1].y;
         }
-        maxY = pointsByY[N-1].y;
+        int maxY = pointsByY[N-1].y;
         if(pointsByY[N-1].index == pointToRemoveIndex){
             maxY = pointsByY[N-2].y;
         }
+
         int currentArea = (maxX-minX)*(maxY-minY);
         area = min(area, currentArea);
     }
