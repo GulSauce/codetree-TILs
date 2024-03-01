@@ -23,8 +23,8 @@ int getCurrentBall(int currentNumber, int presentNumber){
     || currentNumber % 10 == presentNumber / 100){
         ball++;
     }
-    if(currentNumber % 100 / 10 == presentNumber % 10 
-    || currentNumber % 100 == presentNumber / 100){
+    if(currentNumber / 10 % 10 == presentNumber % 10 
+    || currentNumber / 10 % 10 == presentNumber / 100){
         ball++;
     }
     if(currentNumber / 100 == presentNumber % 10 
@@ -44,9 +44,11 @@ void checkProbability(int presentNumber, int strike, int ball){
                 int currentNumber = i*100 + j*10 + k;
                 if(strike != getCurrentStrike(currentNumber, presentNumber)){
                     isOut[currentNumber] = true;
+                    continue;
                 }
                 if(ball != getCurrentBall(currentNumber, presentNumber)){
                     isOut[currentNumber] = true;
+                    continue;
                 }
             }
         }
@@ -71,6 +73,7 @@ int main() {
                     continue;
                 }
                 int currentNumber = i*100 + j*10 + k;
+
                 if(isOut[currentNumber] == false){
                     ans++;
                 }
