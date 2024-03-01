@@ -57,7 +57,7 @@ int main() {
 
         int minY = pointsByY[0].y;
         if(pointsByY[0].index == pointToRemoveIndex){
-            minX = pointsByY[1].y;
+            minY = pointsByY[1].y;
         }
         int maxY = pointsByY[N-1].y;
         if(pointsByY[N-1].index == pointToRemoveIndex){
