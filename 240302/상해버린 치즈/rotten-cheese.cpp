@@ -9,15 +9,17 @@ class EatingCheeseInfo{
         int eatingWhen[50];
 
         EatingCheeseInfo(int cheeseIndex, int eatingWhen){
-            this->cheeseIndex[this->cheeseCount++] = cheeseIndex;
-            this->eatingWhen[this->cheeseCount++] = eatingWhen;
+            this->cheeseIndex[this->cheeseCount] = cheeseIndex;
+            this->eatingWhen[this->cheeseCount] = eatingWhen;
+            this->cheeseCount++;
         }
 
         EatingCheeseInfo(){}
 
         void addCheeseInfo(int cheeseIndex, int eatingWhen){
-            this->cheeseIndex[this->cheeseCount++] = cheeseIndex;
-            this->eatingWhen[this->cheeseCount++] = eatingWhen;
+            this->cheeseIndex[this->cheeseCount] = cheeseIndex;
+            this->eatingWhen[this->cheeseCount] = eatingWhen;
+            this->cheeseCount++;
         }
 };
 
@@ -28,6 +30,7 @@ bool isDiseaseCheese[51];
 bool isExist[51];
 
 bool checkIsDiseaseCheese(int cheeseIndex){
+    bool isCurrentCheeseEaten = false;
     for(int i = 1; i <= N; i++){
         if(getDiseaseWhen[i] == 0){
             continue;
@@ -36,17 +39,23 @@ bool checkIsDiseaseCheese(int cheeseIndex){
         int cheeseCount = eatingCheeseInfo[i].cheeseCount;
 
         for(int j = 0; j <= cheeseCount-1; j++){
-            cout << eatingCheeseInfo[i].eatingWhen[j] << ' ' << eatingCheeseInfo[i].cheeseIndex[j] << '\n';
-            if(getDiseaseWhen[i] <= eatingCheeseInfo[i].eatingWhen[j]
+            if(eatingCheeseInfo[i].cheeseIndex[j] == cheeseIndex){
+                isCurrentCheeseEaten = true;
+            }
+            if(getDiseaseWhen[i] <= eatingCheeseInfo[i].cheeseIndex[j]
             && eatingCheeseInfo[i].cheeseIndex[j] == cheeseIndex){
                 return false;
             }
         }
     }
-    
-    return true;
-}
 
+    if(isCurrentCheeseEaten){
+        return true;
+    }
+
+    return false;
+}
+    
 int getCurrentDiseaseCount(int cheeseIndex){
     int diseaseCount = 0;
     for(int i = 1; i <= N; i++){
@@ -76,20 +85,13 @@ int main() {
 
     while(S--){
         int p, t;
+        cin >> p >> t;
         getDiseaseWhen[p] = t;
     }
 
-    for(int i = 1; i <= 50; i++){
-        isDiseaseCheese[i] = true;
-    }
-
-    for(int cheeseIndex = 1; cheeseIndex <= M; cheeseIndex++){
-        if(isDiseaseCheese[cheeseIndex] == false){
-            continue;
-        }
-
-        if(checkIsDiseaseCheese(cheeseIndex) == false){
-            isDiseaseCheese[cheeseIndex] = false;
+    for(int cheeseIndex = 1; cheeseIndex <= M; cheeseIndex++){        
+        if(checkIsDiseaseCheese(cheeseIndex) == true){
+            isDiseaseCheese[cheeseIndex] = true;
         }
     }
 
