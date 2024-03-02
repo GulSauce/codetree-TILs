@@ -2,7 +2,7 @@
 
 using namespace std;
 
-int bombNumber[100];
+int bombNumber[101];
 
 int main() {
     int N, K;
