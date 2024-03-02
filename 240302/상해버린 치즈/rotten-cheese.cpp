@@ -40,11 +40,7 @@ bool checkIsEatenByPatient(int cheeseIndex){
             continue;
         }
 
-        bool isCheeseEaten = false;
-        if(eatingCheeseInfo[i].isEatingCheese[cheeseIndex]){
-            isCheeseEaten = true;
-        }
-        if(isCheeseEaten == false){
+        if(eatingCheeseInfo[i].isEatingCheese[cheeseIndex] == 0){
             return false;
         }
     }
