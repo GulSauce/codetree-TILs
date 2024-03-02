@@ -52,21 +52,27 @@ bool checkIsEatenByPatient(int cheeseIndex){
     return true;
 }
 
-bool checkIsDiseaseCheese(int cheeseIndex){
-    bool isEatenByPatient = checkIsEatenByPatient(cheeseIndex);
-    
-    if(isEatenByPatient == false){
-        return false;
-    }
-
+bool checkIsFasterThenGetDisease(int cheeseIndex){
     for(int i = 1; i <= N; i++){
         if(getDiseaseWhen[i] == 0){
             continue;
         }
 
         if(getDiseaseWhen[i] <= eatingCheeseInfo[i].eatingWhen[cheeseIndex]){
-            return false;
+            return true;
         }
+    }
+
+    return false;
+}
+
+bool checkIsDiseaseCheese(int cheeseIndex){
+    if(checkIsEatenByPatient(cheeseIndex) == false){
+        return false;
+    }
+
+    if(checkIsFasterThenGetDisease(cheeseIndex)){
+        return false;
     }
 
     return true;
@@ -103,7 +109,7 @@ int main() {
     }
 
     for(int cheeseIndex = 1; cheeseIndex <= M; cheeseIndex++){        
-        if(checkIsDiseaseCheese(cheeseIndex) == true){
+        if(checkIsDiseaseCheese(cheeseIndex)){
             isDiseaseCheese[cheeseIndex] = true;
         }
     }
