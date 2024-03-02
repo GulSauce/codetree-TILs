@@ -8,7 +8,7 @@ int main() {
     int N, K;
     cin >> N >> K;
 
-    for(int i = 0; i <= N; i++){
+    for(int i = 0; i <= N-1; i++){
         cin >> bombNumber[i];
     }
 
