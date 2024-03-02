@@ -57,6 +57,7 @@ bool checkIsDiseaseCheese(int cheeseIndex){
     if(isEatenByPatient == false){
         return false;
     }
+
     for(int i = 1; i <= N; i++){
         if(getDiseaseWhen[i] == 0){
             continue;
@@ -65,7 +66,7 @@ bool checkIsDiseaseCheese(int cheeseIndex){
         int cheeseCount = eatingCheeseInfo[i].cheeseCount;
 
         for(int j = 0; j <= cheeseCount-1; j++){
-            if(getDiseaseWhen[i] <= eatingCheeseInfo[i].cheeseIndex[j]
+            if(getDiseaseWhen[i] <= eatingCheeseInfo[i].eatingWhen[j]
             && eatingCheeseInfo[i].cheeseIndex[j] == cheeseIndex){
                 return false;
             }
