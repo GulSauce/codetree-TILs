@@ -4,28 +4,25 @@ using namespace std;
 
 class EatingCheeseInfo{
     public:
-        int cheeseCount = 0;
-        int cheeseIndex[50];
+        bool isEatingCheese[51] = {};
         int eatingWhen[51] = {};
 
         EatingCheeseInfo(int cheeseIndex, int eatingWhen){
-            this->cheeseIndex[this->cheeseCount++] = cheeseIndex;
+            this->isEatingCheese[cheeseIndex] = true;
             this->eatingWhen[cheeseIndex] = eatingWhen;
-            this->cheeseCount++;
         }
 
         EatingCheeseInfo(){}
 
         void upsertCheeseInfo(int cheeseIndex, int eatingWhen){
-            if(1 <= this->eatingWhen[cheeseIndex]){
+            if(this->isEatingCheese[cheeseIndex]){
                 int oldEatingWhen = this->eatingWhen[cheeseIndex];
                 this->eatingWhen[cheeseIndex] = min(oldEatingWhen, eatingWhen);
                 return;
             }
 
+            this->isEatingCheese[cheeseIndex] = true;
             this->eatingWhen[cheeseIndex] = eatingWhen;
-            this->cheeseIndex[this->cheeseCount] = cheeseIndex; 
-            this->cheeseCount++;
         }
 };
 
@@ -44,11 +41,8 @@ bool checkIsEatenByPatient(int cheeseIndex){
         }
 
         bool isCheeseEaten = false;
-        int cheeseCount = eatingCheeseInfo[i].cheeseCount;
-        for(int j = 0; j <= cheeseCount-1; j++){
-            if(eatingCheeseInfo[i].cheeseIndex[j] == cheeseIndex){
-                isCheeseEaten = true;
-            }
+        if(eatingCheeseInfo[i].isEatingCheese[cheeseIndex]){
+            isCheeseEaten = true;
         }
         if(isCheeseEaten == false){
             return false;
@@ -60,6 +54,7 @@ bool checkIsEatenByPatient(int cheeseIndex){
 
 bool checkIsDiseaseCheese(int cheeseIndex){
     bool isEatenByPatient = checkIsEatenByPatient(cheeseIndex);
+    
     if(isEatenByPatient == false){
         return false;
     }
@@ -69,13 +64,8 @@ bool checkIsDiseaseCheese(int cheeseIndex){
             continue;
         }
 
-        int cheeseCount = eatingCheeseInfo[i].cheeseCount;
-
-        for(int j = 0; j <= cheeseCount-1; j++){
-            if(getDiseaseWhen[i] <= eatingCheeseInfo[i].eatingWhen[j]
-            && eatingCheeseInfo[i].cheeseIndex[j] == cheeseIndex){
-                return false;
-            }
+        if(getDiseaseWhen[i] <= eatingCheeseInfo[i].eatingWhen[cheeseIndex]){
+            return false;
         }
     }
 
@@ -85,11 +75,8 @@ bool checkIsDiseaseCheese(int cheeseIndex){
 int getCurrentDiseaseCount(int cheeseIndex){
     int diseaseCount = 0;
     for(int i = 1; i <= N; i++){
-        int cheeseCount = eatingCheeseInfo[i].cheeseCount;
-            for(int j = 0; j <= cheeseCount-1; j++){
-            if(eatingCheeseInfo[i].cheeseIndex[j] == cheeseIndex){
-                diseaseCount++;
-            }
+        if(eatingCheeseInfo[i].isEatingCheese[cheeseIndex]){
+            diseaseCount++;
         }
     }
     return diseaseCount;
