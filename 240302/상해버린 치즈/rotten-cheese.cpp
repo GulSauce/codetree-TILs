@@ -6,19 +6,25 @@ class EatingCheeseInfo{
     public:
         int cheeseCount = 0;
         int cheeseIndex[50];
-        int eatingWhen[50];
+        int eatingWhen[51] = {};
 
         EatingCheeseInfo(int cheeseIndex, int eatingWhen){
-            this->cheeseIndex[this->cheeseCount] = cheeseIndex;
-            this->eatingWhen[this->cheeseCount] = eatingWhen;
+            this->cheeseIndex[this->cheeseCount++] = cheeseIndex;
+            this->eatingWhen[cheeseIndex] = eatingWhen;
             this->cheeseCount++;
         }
 
         EatingCheeseInfo(){}
 
-        void addCheeseInfo(int cheeseIndex, int eatingWhen){
-            this->cheeseIndex[this->cheeseCount] = cheeseIndex;
-            this->eatingWhen[this->cheeseCount] = eatingWhen;
+        void upsertCheeseInfo(int cheeseIndex, int eatingWhen){
+            if(1 <= this->eatingWhen[cheeseIndex]){
+                int oldEatingWhen = this->eatingWhen[cheeseIndex];
+                this->eatingWhen[cheeseIndex] = min(oldEatingWhen, eatingWhen);
+                return;
+            }
+
+            this->eatingWhen[cheeseIndex] = eatingWhen;
+            this->cheeseIndex[this->cheeseCount] = cheeseIndex; 
             this->cheeseCount++;
         }
 };
@@ -98,7 +104,7 @@ int main() {
         if(isExist[p] == false){
             eatingCheeseInfo[p] = EatingCheeseInfo(m, t);
         }else{
-            eatingCheeseInfo[p].addCheeseInfo(m, t);
+            eatingCheeseInfo[p].upsertCheeseInfo(m, t);
         }
         isExist[p] = true;
     }
@@ -116,7 +122,6 @@ int main() {
     }
 
     int diseaseCount = 0;
-
     for(int cheeseIndex = 1; cheeseIndex <= M; cheeseIndex++){
         if(isDiseaseCheese[cheeseIndex] == false){
             continue;
