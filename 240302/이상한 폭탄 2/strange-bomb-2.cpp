@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstring>
 
 using namespace std;
 
@@ -11,6 +12,8 @@ int main() {
     for(int i = 0; i <= N-1; i++){
         cin >> bombNumber[i];
     }
+
+    memset(bombNumber, -1, sizeof bombNumber);
 
     int maxBombNumber = -1;
 
