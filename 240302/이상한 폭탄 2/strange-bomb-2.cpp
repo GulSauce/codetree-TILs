@@ -12,7 +12,7 @@ int main() {
         cin >> bombNumber[i];
     }
 
-    int maxBombNumber = 0;
+    int maxBombNumber = -1;
 
     for(int i = 0; i <= N-K-1; i++){
         for(int j = i+1; j <= i+K; j++){
