@@ -17,10 +17,15 @@ int calcDiffSum(int doubleIndex, int removeIndex){
     }
 
     if(removeIndex == 0){
-        diffSum -= abs(numbers[1]-numbers[removeIndex]);
+        diffSum -= abs(numbers[removeIndex+1]-numbers[removeIndex]);
     }
-    if(removeIndex == n-1){
-        diffSum -= abs(numbers[n-1]-numbers[n-2]);
+    else if(removeIndex == n-1){
+        diffSum -= abs(numbers[removeIndex]-numbers[removeIndex-1]);
+    }
+    else{
+        diffSum -= abs(numbers[removeIndex+1]-numbers[removeIndex]);
+        diffSum -= abs(numbers[removeIndex]-numbers[removeIndex-1]);
+        diffSum += abs(numbers[removeIndex+1]-numbers[removeIndex-1]);
     }
 
     numbers[doubleIndex] /= 2;
