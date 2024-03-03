@@ -4,49 +4,75 @@ using namespace std;
 
 int N;
 
-bool board[11][11];
+class Point{
+    public:
+        int x;
+        int y;
+
+        Point(int x, int y){
+            this->x = x;
+            this->y = y;
+        }
+
+        Point(){}
+};
+
+Point points[20];
                 
 bool checkIsThrowAll(int i, int j, int k){
-    if(i == 0 && j == 1 && k == 2){
-        cout << "HELLO\n";
-    }
-    int count = 0;
-    for(int p = 0; p <= 10; p++){
-        if(board[p][i] || board[p][j] || board[p][k]){
-            count++;
+    bool isSucces = true;
+    for(int p = 0; p <= N-1; p++){
+        int currentX = points[p].x;
+        int currentY = points[p].y;
+
+        if(currentX != i && currentX != j && currentX != k){
+            isSucces = false;
+            break;
         }
     }
-    if(count == N){
+    if(isSucces){
         return true;
     }
 
-    count = 0;
-    for(int p = 0; p <= 10; p++){
-        if(board[p][i] || board[p][j] || board[k][p]){
-            count++;
+    isSucces = true;
+    for(int p = 0; p <= N-1; p++){
+        int currentX = points[p].x;
+        int currentY = points[p].y;
+
+        if(currentX != i && currentX != j && currentY != k){
+            isSucces = false;
+            break;
         }
     }
-    if(count == N){
-        return true;
-    }
-    
-    count = 0;
-    for(int p = 0; p <= 10; p++){
-        if(board[p][i] || board[j][p] || board[k][p]){
-            count++;
-        }
-    }
-    if(count == N){
+    if(isSucces){
         return true;
     }
 
-    count = 0;
-    for(int p = 0; p <= 10; p++){
-        if(board[i][p] || board[j][p] || board[k][p]){
-            count++;
+    isSucces = true;
+    for(int p = 0; p <= N-1; p++){
+        int currentX = points[p].x;
+        int currentY = points[p].y;
+
+        if(currentX != i && currentY != j && currentY != k){
+            isSucces = false;
+            break;
         }
     }
-    if(count == N){
+    if(isSucces){
+        return true;
+    }
+
+    isSucces = true;
+    for(int p = 0; p <= N-1; p++){
+        int currentX = points[p].x;
+        int currentY = points[p].y;
+
+        if(currentY != i && currentY != j && currentY != k){
+            isSucces = false;
+            break;
+        }
+    }
+    if(isSucces){
         return true;
     }
 
@@ -59,7 +85,7 @@ int main() {
     for(int i = 0; i <= N-1; i++) {
         int x, y;
         cin >> x >> y;
-        board[y][x] = true;
+        points[i] = Point(x, y);
     }
     
     for(int i = 0; i <= 10; i++){
