@@ -6,19 +6,20 @@ int N;
 
 bool board[11][11];
                 
-bool calcCanThrowAllCount(int i, int j, int k){
-    int count = 0 ;
+bool checkIsThrowAll(int i, int j, int k){
+    int count = 0;
     for(int p = 0; p <= 10; p++){
         if(board[p][i] || board[p][j] || board[p][k]){
             count++;
         }
+    }
+    if(count == N){
+        return true;
+    }
+
+    count = 0;
+    for(int p = 0; p <= 10; p++){
         if(board[p][i] || board[p][j] || board[k][p]){
-            count++;
-        }
-        if(board[p][i] || board[j][p] || board[k][p]){
-            count++;
-        }
-        if(board[i][p] || board[j][p] || board[k][p]){
             count++;
         }
     }
@@ -26,6 +27,26 @@ bool calcCanThrowAllCount(int i, int j, int k){
         return true;
     }
     
+    count = 0;
+    for(int p = 0; p <= 10; p++){
+        if(board[p][i] || board[j][p] || board[k][p]){
+            count++;
+        }
+    }
+    if(count == N){
+        return true;
+    }
+
+    count = 0;
+    for(int p = 0; p <= 10; p++){
+        if(board[i][p] || board[j][p] || board[k][p]){
+            count++;
+        }
+    }
+     if(count == N){
+        return true;
+    }
+
     return false;
 }
 
@@ -37,13 +58,11 @@ int main() {
         cin >> x >> y;
         board[y][x] = true;
     }
-
-    int ans = 0;
     
     for(int i = 0; i <= 10; i++){
         for(int j = 0; j <= 10; j++){
             for(int k = 0; k <= 10; k++){
-                if(calcCanThrowAllCount(i, j, k)){
+                if(checkIsThrowAll(i, j, k)){
                     cout << 1;
                     return 0;
                 }
