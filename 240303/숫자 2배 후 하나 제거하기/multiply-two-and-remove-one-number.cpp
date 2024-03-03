@@ -8,27 +8,23 @@ int n;
 int numbers[100];
 
 int calcDiffSum(int doubleIndex, int removeIndex){
+    int savedValue = numbers[removeIndex];
     numbers[doubleIndex] *= 2;
+    
+    if(removeIndex == 0){
+        numbers[removeIndex] = numbers[removeIndex+1];
+    }
+    else{
+        numbers[removeIndex] = numbers[removeIndex-1];
+    }
 
     int diffSum = 0;
-    
     for(int i = 1; i <= n-1; i++){
         diffSum += abs(numbers[i] - numbers[i-1]);
     }
 
-    if(removeIndex == 0){
-        diffSum -= abs(numbers[removeIndex+1]-numbers[removeIndex]);
-    }
-    else if(removeIndex == n-1){
-        diffSum -= abs(numbers[removeIndex]-numbers[removeIndex-1]);
-    }
-    else{
-        diffSum -= abs(numbers[removeIndex+1]-numbers[removeIndex]);
-        diffSum -= abs(numbers[removeIndex]-numbers[removeIndex-1]);
-        diffSum += abs(numbers[removeIndex+1]-numbers[removeIndex-1]);
-    }
-
     numbers[doubleIndex] /= 2;
+    numbers[removeIndex] = savedValue;
 
     return diffSum;
 }
