@@ -7,6 +7,9 @@ int N;
 bool board[11][11];
                 
 bool checkIsThrowAll(int i, int j, int k){
+    if(i == 0 && j == 1 && k == 2){
+        cout << "HELLO\n";
+    }
     int count = 0;
     for(int p = 0; p <= 10; p++){
         if(board[p][i] || board[p][j] || board[p][k]){
