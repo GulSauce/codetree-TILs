@@ -1,5 +1,4 @@
 #include <iostream>
-#include <climits>
 
 using namespace std;
 
@@ -24,11 +23,11 @@ int main() {
         cin >> numbers[i];
     }   
     
-    int minSum = INT_MAX;
+    int maxSum = 0;
     for(int startIndex = 1; startIndex <= n; startIndex++){
         int currentSum = caclSum(startIndex);
-        minSum = min(minSum, currentSum);
+        maxSum = max(maxSum, currentSum);
     }
-    cout << minSum;
+    cout << maxSum;
     return 0;
 }
