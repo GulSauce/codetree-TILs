@@ -10,12 +10,12 @@ bool checkIsDuplicated(int length){
     for(int i = 0; i <= N-length; i++){
         int sameCount = 0;
         string subStr = str.substr(0, length);
-        for(int j = length; j <= N-length; j++){
+        for(int j = 0; j <= N-length; j++){
             if(subStr == str.substr(j, length)){
                 sameCount++;
             }
         }
-        if(1 <= sameCount){
+        if(2 <= sameCount){
             return true;
         }
     }
