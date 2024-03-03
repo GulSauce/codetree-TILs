@@ -5,11 +5,10 @@ using namespace std;
 int N;
 string str;
 
-
 bool checkIsDuplicated(int length){
     for(int i = 0; i <= N-length; i++){
         int sameCount = 0;
-        string subStr = str.substr(0, length);
+        string subStr = str.substr(i, length);
         for(int j = 0; j <= N-length; j++){
             if(subStr == str.substr(j, length)){
                 sameCount++;
