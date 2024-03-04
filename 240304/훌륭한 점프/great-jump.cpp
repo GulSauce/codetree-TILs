@@ -17,10 +17,6 @@ bool checkCanGo(int maxNumber){
         nextIndex[cnt++] = i; 
     }
     
-    if(cnt == 0){
-        return false;
-    }
-
     for(int i = 1; i <= cnt-1; i++){
         int dist = nextIndex[i] - nextIndex[i-1];
         if(k + 1 <= dist){
@@ -37,7 +33,7 @@ int main() {
         cin >> nubmers[i];
     }
     
-    for(int maxNumber = nubmers[1]; maxNumber <= 100; maxNumber++){
+    for(int maxNumber = max(nubmers[1], nubmers[n]); maxNumber <= 100; maxNumber++){
         if(checkCanGo(maxNumber) == false){
             continue;
         }
