@@ -5,13 +5,17 @@ using namespace std;
 int N;
 int numbers[999];
 
+bool isInRange(int number){
+    return 0 <= number && number <= N;
+}
+
 bool checkIsValid(int startNumber){
     bool isUsed[1001] = {};
     int currentNumber = startNumber;
     isUsed[currentNumber] = true;
     for(int i = 0; i <= N-2; i++){
         int testNumber = numbers[i] - currentNumber;
-        if(testNumber <= 0 || isUsed[testNumber]){
+        if(isInRange(testNumber) == false ||isUsed[testNumber]){
             return false;
         }
         currentNumber = testNumber;
