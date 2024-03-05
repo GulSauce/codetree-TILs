@@ -6,13 +6,8 @@ using namespace std;
 string libarySeat;
 
 int calcMinDistAfterSeat(int first, int second){
-    if(libarySeat[first] == '1' || libarySeat[second] == '1'){
-        return false;
-    }
-
     libarySeat[first] = '1';
     libarySeat[second] = '1';
-
 
     int cnt = 0;
     int seatPosition[100];
@@ -43,6 +38,9 @@ int main() {
     int maxMinDist = 0;
     for(int first = 0; first <= N-1; first++){
         for(int second = first+1; second <= N-1; second++){
+            if(libarySeat[first] == '1' || libarySeat[second] == '1'){
+                continue;
+            }
             maxMinDist = max(maxMinDist, calcMinDistAfterSeat(first, second));
         }
     }
