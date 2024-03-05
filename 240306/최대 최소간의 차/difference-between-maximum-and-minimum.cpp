@@ -16,21 +16,22 @@ int main() {
 
     sort(numbers, numbers+n);
 
-    int maxNumber = numbers[n-1];
-    
     int minCost = INT_MAX;
-    for(int currentMinNumber = numbers[0]; currentMinNumber <= maxNumber; currentMinNumber++){
-        for(int currentMaxNumber = currentMinNumber; currentMaxNumber <= maxNumber; currentMaxNumber++){
-            if(k + 1 <= currentMaxNumber - currentMinNumber){
+
+    for(int i = 0; i <= n-1; i++){
+        for(int j = i + 1; j <= n-1; j++){
+            int minNumber = numbers[i];
+            int maxNumber = numbers[j];
+            if(k + 1 <= maxNumber - minNumber){
                 continue;
             }
             int cost = 0;
             for(int i = 0; i <= n-1; i++){
-                if(numbers[i] + 1 <= currentMinNumber){
-                    cost += currentMinNumber - numbers[i];
+                if(numbers[i] + 1 <= minNumber){
+                    cost += minNumber - numbers[i];
                 }
-                if(currentMaxNumber + 1 <= numbers[i]){
-                    cost += numbers[i] - currentMaxNumber;
+                if(maxNumber + 1 <= numbers[i]){
+                    cost += numbers[i] - maxNumber;
                 }
             }
             minCost = min(minCost, cost);
