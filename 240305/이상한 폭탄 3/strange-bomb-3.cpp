@@ -22,6 +22,10 @@ int calcBoomCount(int number){
             bombCount++;
         }
     }
+    if(1 <= bombCount){
+        return bombCount+1;
+    }
+    
     return bombCount;
 }
 
@@ -35,7 +39,7 @@ int main() {
 
     sort(bombNumber, bombNumber + N);
 
-    int ansbombNumber = -1;
+    int ansbombNumber = 0;
     int maxBoomCount = 1;
     for(int i = 0; i <= N-1; i++){
         int currentBombCount = calcBoomCount(bombNumber[i]);
