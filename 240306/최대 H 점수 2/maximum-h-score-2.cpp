@@ -7,7 +7,7 @@ int N, L;
 int numbers[100];
 
 bool checkIsValid(int maxScore){
-    for(int i = N-1; i >= N-L; i--){
+    for(int i = N-maxScore; i <= min(N-maxScore+L-1, N-1); i++){
         numbers[i]++; 
     }
 
@@ -17,13 +17,14 @@ bool checkIsValid(int maxScore){
         isValid = false;
     }
 
-    for(int i = N-1; i >= N-L; i--){
+    for(int i = N-maxScore; i <= min(N-maxScore+L-1, N-1); i++){
         numbers[i]--; 
     }
 
     if(isValid){
         return true;
     }
+    
     return false;
 }
 
@@ -34,6 +35,7 @@ int main() {
     }
 
     sort(numbers, numbers + N);
+    
     for(int maxScore = N; maxScore >= 1; maxScore--){
         if(checkIsValid(maxScore)){
             cout << maxScore;
