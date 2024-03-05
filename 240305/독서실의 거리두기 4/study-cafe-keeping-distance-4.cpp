@@ -17,7 +17,9 @@ int calcMinDistAfterSeat(int first, int second){
     int cnt = 0;
     int seatPosition[100];
     for(int i = 0; libarySeat[i] != '\0'; i++){
-        seatPosition[cnt++] = i;
+        if(libarySeat[i] == '1'){
+            seatPosition[cnt++] = i;
+        }
     }
 
     int minDist = INT_MAX;
