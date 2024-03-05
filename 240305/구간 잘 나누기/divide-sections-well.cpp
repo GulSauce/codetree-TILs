@@ -11,7 +11,10 @@ bool checkIsValid(int maxSum){
     int currentSum = 0;
     for(int i = 0; i <= n-1; i++){
         int testSum = currentSum + numbers[i];
-        if(maxSum+1 <= testSum){
+        if(maxSum + 1 <= numbers[i]){
+            return false;
+        }
+        if(maxSum + 1 <= testSum){
             partitionCount++;
             currentSum = numbers[i];
             continue;
