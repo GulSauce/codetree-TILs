@@ -17,7 +17,7 @@ bool checkIsValid(int maxScore){
         isValid = false;
     }
 
-    for(int i = N; i >= N-L; i--){
+    for(int i = N-1; i >= N-L; i--){
         numbers[i]--; 
     }
 
