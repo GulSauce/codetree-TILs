@@ -1,77 +1,25 @@
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 
 int numbers[15];
 
-bool checkIsExist(bool* isUsed, int target){
-    for(int i = 0; i <= 14; i++){
-        if(isUsed[i]){
-            continue;
-        }
-        if(target == numbers[i]){
-            isUsed[i] = true;
-            return true;
-        }
-    }
-
-    return false;
-}
-
 bool checkIsValid(int A, int B, int C, int D){
-    bool isUsed[15] = {};
- 
-    if(checkIsExist(isUsed, A) == false){
-        return false;
-    }
-    if(checkIsExist(isUsed, B) == false){
-        return false;
-    }
+    int currentArray[15] = {
+        A, B, C, D, 
+        A + B, B + C, C + D, D + A, A + C, B + D, 
+        A + B + C, A + B + D, A + C + D, B + C + D, 
+        A + B + C + D
+    };
 
-    if(checkIsExist(isUsed, C) == false){
-        return false;
-    }
+    sort(currentArray, currentArray + 15);
 
-    if(checkIsExist(isUsed, D) == false){
-        return false;
+    for(int i = 0; i <= 14; i++){
+        if(numbers[i] != currentArray[i]){
+            return false;
+        }
     }
-    
-    if(checkIsExist(isUsed, A + B) == false){
-        return false;
-    }
-
-    if(checkIsExist(isUsed, B + C) == false){
-        return false;
-    }
-
-    if(checkIsExist(isUsed, C + D) == false){
-        return false;
-    }
-
-    if(checkIsExist(isUsed, D + A) == false){
-        return false;
-    }
-
-    if(checkIsExist(isUsed, A + B + C) == false){
-        return false;
-    }
-
-    if(checkIsExist(isUsed, A + B + D) == false){
-        return false;
-    }
-    
-    if(checkIsExist(isUsed, A + C + D) == false){
-        return false;
-    }
-
-    if(checkIsExist(isUsed, B + C + D) == false){
-        return false;
-    }
-
-    if(checkIsExist(isUsed, A + B + C + D) == false){
-        return false;
-    }
-
     return true;
 }
 
@@ -79,6 +27,8 @@ int main() {
     for(int i = 0; i <= 14; i++){
         cin >> numbers[i];
     }
+    sort(numbers, numbers + 15);
+
 
     for(int A = 1; A <= 40; A++){
         for(int B = 1; B <= 40; B++){
