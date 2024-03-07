@@ -38,8 +38,14 @@ int main() {
 
     for(int nonUse = 0; nonUse <= n-1; nonUse++){
         for(int i = 0; i <= n-1; i++){
+            if(nonUse == i){
+                continue;
+            }
             bool isAllIntersect = true;
             for(int j = i + 1; j <= n-1; j++){
+                if(nonUse == j){
+                    continue;
+                }
                 if(checkIsNointersect(i, j)){
                     isAllIntersect = false;
                     break;
@@ -51,6 +57,7 @@ int main() {
             }
         }
     }
+
     cout << "No";
     return 0;
 }
