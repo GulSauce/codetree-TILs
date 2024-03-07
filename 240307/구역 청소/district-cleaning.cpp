@@ -12,6 +12,10 @@ int main() {
     int left = min(a, c);
     int right = max(b, d);
 
-    cout << right - left;
+    int emptyArea = 0;
+    if(b + 1 <= c){
+        emptyArea = c - b;
+    }
+    cout << right - left - emptyArea;
     return 0;
 }
