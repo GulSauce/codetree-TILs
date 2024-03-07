@@ -16,8 +16,8 @@ int main() {
     if(b + 1 <= c){
         emptyArea = c - b;
     }
-    if(c + 1 <= b){
-        emptyArea = c - b;
+    if(c + 1 <= a){
+        emptyArea = b - c;
     }
     cout << right - left - emptyArea;
     return 0;
