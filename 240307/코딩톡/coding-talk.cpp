@@ -35,6 +35,11 @@ int main() {
         whoRead[alphabetIndex] = true;
     }
 
+    if(messageInfoArray[p].nonReadCount == 0){
+        cout << ' ';
+        return 0;
+    }
+
     for(int i = 0; i <= n-1; i++){
         if(whoRead[i]){
             continue;
