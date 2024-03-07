@@ -37,13 +37,13 @@ int main() {
     }
 
     for(int nonUse = 0; nonUse <= n-1; nonUse++){
+        bool isAllIntersect = true;
         for(int i = 0; i <= n-1; i++){
-            if(nonUse == i){
+            if(i == nonUse){
                 continue;
             }
-            bool isAllIntersect = true;
             for(int j = i + 1; j <= n-1; j++){
-                if(nonUse == j){
+                if(j == nonUse){
                     continue;
                 }
                 if(checkIsNointersect(i, j)){
@@ -51,10 +51,10 @@ int main() {
                     break;
                 }
             }
-            if(isAllIntersect){
-                cout << "Yes";
-                return 0;
-            }
+        }
+        if(isAllIntersect){
+            cout << "Yes";
+            return 0;
         }
     }
 
