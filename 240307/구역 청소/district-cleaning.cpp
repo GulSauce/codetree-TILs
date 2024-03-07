@@ -9,17 +9,13 @@ int main() {
     int c, d;
     cin >> c >> d;
 
-    int left = min(a, c);
-    int right = max(b, d);
-
-    int emptyArea = 0;
-    if(b + 1 <= c){
-        emptyArea = c - b;
+    if(b + 1 <= c
+    || d + 1 <= a){
+        cout << (d- c) + (b - a);
     }
-    if(d + 1 <= a){
-        emptyArea = a - d;
+    else{
+        cout << max(b, d) - min(a, c);
     }
     
-    cout << right - left - emptyArea;
     return 0;
 }
