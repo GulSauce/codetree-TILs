@@ -10,19 +10,30 @@ int main() {
         cout << X;
         return 0;
     }
+    
+    int firstT = 1;
+    int firstArea = 1;
 
     for(int t = 2; t <= X; t += 2){
-        int area = 1*t + t*t/4 + 1;
+        int area = t + t*t/4 + firstArea;
         if(area == X){
-            cout << t + 1;
+            cout << t + firstT;
+            break;
+        }
+
+        int maxV = t/2 + 1;
+
+        if(area + 1 <= X
+        && X <= area + maxV){
+            cout << t + firstT + 1;
             break;
         }
 
         int nextT = t+2;
-        int nextArea = nextT + nextT*nextT/4 + 1;
+        int nextArea = nextT + nextT*nextT/4 + firstArea;
         
         if(X + 1 <= nextArea){
-            cout << nexT + 1;
+            cout << t + firstT + 2;
             break;
         }
     }
