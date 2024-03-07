@@ -11,24 +11,18 @@ int main() {
         return 0;
     }
 
-    X--;
-
-    for(int t = 1; t <= X; t++){
-        if(t % 2 == 1){
-            continue;
-        }
-
-        int area = 1*t + t*t/4;
+    for(int t = 2; t <= X; t += 2){
+        int area = 1*t + t*t/4 + 1;
         if(area == X){
             cout << t + 1;
             break;
         }
 
-        int tPlus2 = t+2;
-        int testArea = tPlus2 + tPlus2*tPlus2/4;
+        int nextT = t+2;
+        int nextArea = nextT + nextT*nextT/4 + 1;
         
-        if(X + 1 <= testArea){
-            cout << t + 1 + 1;
+        if(X + 1 <= nextArea){
+            cout << nexT + 1;
             break;
         }
     }
