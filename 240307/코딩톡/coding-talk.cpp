@@ -30,14 +30,22 @@ int main() {
         messageInfoArray[i] = MessageInfo(c, u);
     }
 
-    for(int i = p; i <= m; i++){
-        int alphabetIndex =  messageInfoArray[i].who - 'A';
-        whoRead[alphabetIndex] = true;
-    }
-
     if(messageInfoArray[p].nonReadCount == 0){
         cout << ' ';
         return 0;
+    }
+
+    int startIndex = 0;
+    for(int i = 1; i <= p; i++){
+        if(messageInfoArray[i].nonReadCount == messageInfoArray[p].nonReadCount){
+            startIndex = i;
+            break;
+        }
+    }
+
+    for(int i = startIndex; i <= m; i++){
+        int alphabetIndex =  messageInfoArray[i].who - 'A';
+        whoRead[alphabetIndex] = true;
     }
 
     for(int i = 0; i <= n-1; i++){
