@@ -12,6 +12,10 @@ int main() {
     sort(pos, pos+3);
 
     int contCount = 0;
+
+    if(pos[0] + 2 == pos[2]){
+        contCount++;
+    }
     if(pos[0] + 1 == pos[1]){
         contCount++;
     }
@@ -19,7 +23,7 @@ int main() {
         contCount++;
     }
 
-    if(contCount == 2){
+    if(contCount == 3){
         cout << 0;
     }
     else if(contCount == 1){
