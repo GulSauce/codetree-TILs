@@ -8,12 +8,11 @@ pair<int, int> matchHistory[100];
 int getWinCount(int i, int j, int k){
     // 가위바위보 숫자 1, 2, 3은 각각 i, j, k에 대응함 
     // index = 0 가위 index = 1 바위 index = 2 보
-
     int winCount = 0;
 
-    for(int i = 0; i <= N-1; i++){
-        int first = matchHistory[i].first;
-        int second = matchHistory[i].second;
+    for(int matchIndex = 0; matchIndex <= N-1; matchIndex++){
+        int first = matchHistory[matchIndex].first;
+        int second = matchHistory[matchIndex].second;
 
         if(first == 1){
             if(second == 2){
@@ -27,6 +26,7 @@ int getWinCount(int i, int j, int k){
                 }
             }
         }
+
         if(first == 2){
             if(second == 1){
                 if((j - 1 + 3) % 3 == i){
@@ -39,6 +39,7 @@ int getWinCount(int i, int j, int k){
                 }
             }
         }
+
         if(first == 3){
             if(second == 1){
                 if((k - 1 + 3) % 3 == i){
