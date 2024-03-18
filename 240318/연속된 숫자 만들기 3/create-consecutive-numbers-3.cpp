@@ -14,22 +14,13 @@ int main() {
 
     sort(pos, pos+3);
 
-    int minDist = INT_MAX;
+    int maxDist = 0;
 
     for(int i = 1; i <= 2; i++){
         int currentDist = pos[i]-pos[i-1];
-        if(currentDist == 1){
-            continue;
-        }
-
-        minDist = min(minDist, currentDist);
-    }
-
-    if(minDist == INT_MAX){
-        cout << 0;
-        return 0;
+        maxDist = max(maxDist, currentDist);
     }
     
-    cout << minDist-1;
+    cout << maxDist-1;
     return 0;
 }
