@@ -9,7 +9,7 @@ string str;
 int calcSitHere(){
     int sitHere = -1;
 
-    int maxDist = 1;
+    int maxDist = 0;
     for(int i = 0; str[i] != '\0';){
         if(str[i] == '0'){
             i++;
