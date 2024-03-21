@@ -8,7 +8,7 @@ string librarySeatInfo;
 
 int calcWhereSit(){
     int sitHere = 0;
-    int maxDist = 0;
+    int maxDistAfterSit = 0;
     for(int i = 0; librarySeatInfo[i] != '\0';){
         if(librarySeatInfo[i] == '0'){
             i++;
@@ -23,8 +23,9 @@ int calcWhereSit(){
         if(librarySeatInfo[i+dist] == '\0'){
             break;
         }
-        if(maxDist + 1 <= dist){
-            maxDist = dist;
+        int currentDistAfterSit = dist/2;
+        if(maxDistAfterSit + 1 <= currentDistAfterSit){
+            maxDistAfterSit = currentDistAfterSit;
             sitHere = (i + i + dist)/2;
         }
         i += dist;
@@ -36,9 +37,9 @@ int calcWhereSit(){
             dist++;
         }
         if(librarySeatInfo[dist] != '\0'){
-             if(maxDist + 1 <= dist){
-                maxDist = dist;
-                sitHere = dist/2;
+             if(maxDistAfterSit + 1 <= dist){
+                maxDistAfterSit = dist;
+                sitHere = 0;
             }
         }
     }
@@ -49,9 +50,9 @@ int calcWhereSit(){
             dist++;
         }
         if(0 <= N-1-dist){
-            if(maxDist + 1 <= dist){
-                maxDist = dist;
-                sitHere = (N-1 + N-1-dist)/2;
+            if(maxDistAfterSit + 1 <= dist){
+                maxDistAfterSit = dist;
+                sitHere = N-1;
             }
         }
     }
@@ -67,7 +68,6 @@ int main() {
     int sitHere = calcWhereSit();
 
     librarySeatInfo[sitHere] = '1';
-
     int minDist = INT_MAX;
     for(int i = 0; librarySeatInfo[i] != '\0';){
         if(librarySeatInfo[i] == '0'){
