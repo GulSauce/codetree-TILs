@@ -3,39 +3,92 @@
 
 using namespace std;
 
-int main() {
-    int N;
-    cin >> N;
+int N;
+string str;
 
-    string str;
-    cin >> str;
-    
-    int cnt = 0;
-    int personPosition[1000] = {};
+int calcSitHere(){
+    int sitHere = -1;
 
-    for(int i = 0; str[i] != '\0'; i++){
-        if(str[i] == '1'){
-            personPosition[cnt++] = i;
+    int maxDist = 1;
+    for(int i = 0; str[i] != '\0';){
+        if(str[i] == '0'){
+            continue;
+        }
+        int left = i;
+        i++;
+        while(str[i] == '0' && str[i] != '\0'){
+            i++;
+        }
+        if(str[i] == '\0'){
+            break;
+        }
+        int right = i;
+
+        int currentDist = right-left;
+        if(maxDist + 1 <= currentDist){
+            maxDist = currentDist / 2;
+            sitHere = (right + left) / 2;
         }
     }
 
-    int maxDist = 0;
-    int minDist = INT_MAX;
-    for(int i = 1; i <= cnt - 1; i++){
-        int currentDist = personPosition[i] - personPosition[i-1];
-        maxDist = max(currentDist, maxDist);
-        minDist = min(currentDist, minDist);
-    }
-
-    int result = maxDist/2;
     if(str[0] == '0'){
-        result = max(result, personPosition[0] - 0);
+        int right = 0;
+        while(str[right] == '0' && str[right] != '\0'){
+            right++;
+        }
+        if(str[right] != '\0'){
+            int currentDist = right;
+            if(maxDist + 1 <= currentDist){
+                maxDist = currentDist;
+                sitHere = 0;
+            }
+        }
     }
-    if(str[N-1] == '0'){
-        result = max(result, N-1 - personPosition[cnt-1]);
-    }
-    result = min(minDist, result);
 
-    cout << result;
+    if(str[N-1] == '0'){
+        int left = N-1;
+        while(0 <= left && str[left] == '0'){
+            left--;
+        }
+        if(left != -1){
+            int currentDist = N-1 - left;
+            if(maxDist + 1 <= currentDist){
+                maxDist = currentDist;
+                sitHere = N-1;
+            }
+        }
+    }
+    
+    return sitHere;
+}
+
+int main() {
+    cin >> N;
+    cin >> str;
+    
+    int sitHere = calcSitHere();
+
+    str[sitHere] = '1';
+
+    int minMaxDist = INT_MAX;
+    for(int i = 0; str[i] != '\0';){
+        if(str[i] == '0'){
+            continue;
+        }
+        int left = i;
+        i++;
+        while(str[i] == '0' && str[i] != '\0'){
+            i++;
+        }
+        if(str[i] == '\0'){
+            break;
+        }
+        int right = i;
+
+        int currentDist = (right - left);
+        minMaxDist = min(minMaxDist, currentDist);
+    }
+
+    cout << minMaxDist;
     return 0;
 }
