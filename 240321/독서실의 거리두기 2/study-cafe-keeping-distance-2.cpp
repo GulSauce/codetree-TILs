@@ -74,7 +74,7 @@ int main() {
     int minMaxDist = INT_MAX;
     for(int i = 0; str[i] != '\0';){
         if(str[i] == '0'){
-            i++
+            i++;
             continue;
         }
         int left = i;
