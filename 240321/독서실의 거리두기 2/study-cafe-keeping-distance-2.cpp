@@ -10,7 +10,7 @@ int main() {
     cin >> str;
     
     int cnt = 0;
-    int personPosition[1000];
+    int personPosition[1000] = {};
 
     for(int i = 0; str[i] != '\0'; i++){
         if(str[i] == '1'){
@@ -24,12 +24,11 @@ int main() {
     }
 
     int result = maxDist/2;
-
-    if(personPosition[0] != 0){
+    if(str[0] == '0'){
         result = max(result, personPosition[0] - 0);
     }
-    if(personPosition[cnt-1] != str.length()-1){
-        result = max(result, (int)str.length()-1 - personPosition[cnt-1]);
+    if(str[N-1] == '0'){
+        result = max(result, N-1 - personPosition[cnt-1]);
     }
 
     cout << result;
