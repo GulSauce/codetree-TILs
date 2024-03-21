@@ -12,6 +12,7 @@ int calcSitHere(){
     int maxDist = 1;
     for(int i = 0; str[i] != '\0';){
         if(str[i] == '0'){
+            i++
             continue;
         }
         int left = i;
@@ -73,6 +74,7 @@ int main() {
     int minMaxDist = INT_MAX;
     for(int i = 0; str[i] != '\0';){
         if(str[i] == '0'){
+            i++
             continue;
         }
         int left = i;
