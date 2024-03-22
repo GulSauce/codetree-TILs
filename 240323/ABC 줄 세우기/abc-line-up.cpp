@@ -25,27 +25,16 @@ int main() {
         isGoodPosition[i] = false;
     }
 
-    int result = 0;
-
-    int needComplexSwapCount = 0;
-
+    int needSwapCount = 0;
     for(int i = 0; i <= n-1; i++){
         if(isGoodPosition[i]){
             continue;
         }
 
-        int currentAlphabetToInt = alphabetSeq[i] - 'A';
-        if(alphabetSeq[currentAlphabetToInt] == i + 'A'){
-            isGoodPosition[i] = true;
-            isGoodPosition[currentAlphabetToInt] = true;
-            result++;
-            continue;
-        }
-        needComplexSwapCount++;
+        needSwapCount++;
     }
 
-    result += needComplexSwapCount - 1;
-
+    int result = needSwapCount - 1;
     cout << result;
     return 0;
 }
