@@ -39,6 +39,7 @@ int main() {
             isGoodPosition[i] = true;
             isGoodPosition[currentAlphabetToInt] = true;
             result++;
+            continue;
         }
         needTriSwapCount++;
     }
