@@ -1,51 +1,40 @@
+#include <algorithm>
 #include <iostream>
 #include <cstring>
 
 using namespace std;
 
+// 인덱스에 어떤 알파벳이 있는가
 char alphabetSeq[26];
-
-bool isGoodPosition[26];
+// 알파벳은 어떤 인덱스에 있는가
+int alphabetPosArr[26];
 
 int main() {
     int n;
     cin >> n;
 
-    memset(isGoodPosition, true, sizeof isGoodPosition);
-
     for(int i = 0; i <= n-1; i++){
-        cin >> alphabetSeq[i];
-    }
-
-    for(int i = 0; i <= n-1; i++){
-        if(alphabetSeq[i] == i+'A'){
-            continue;
-        }
-
-        isGoodPosition[i] = false;
+        char alphabet;
+        cin >> alphabet;
+        alphabetSeq[i] = alphabet;
+        alphabetPosArr[alphabet-'A'] = i;
     }
 
     int result = 0;
-
-    int needComplexSwapCount = 0;
-
     for(int i = 0; i <= n-1; i++){
-        if(isGoodPosition[i]){
-            continue;
+        char curAlphabet = i + 'A';
+        if(alphabetSeq[i] == curAlphabet){
+           continue; 
         }
 
-        int currentAlphabetToInt = alphabetSeq[i] - 'A';
-        if(alphabetSeq[currentAlphabetToInt] == i + 'A'){
-            isGoodPosition[i] = true;
-            isGoodPosition[currentAlphabetToInt] = true;
+        int curAlphaPos = alphabetPosArr[i];
+        while(i + 1 <= curAlphaPos){
+            char beforeAlphabet = alphabetSeq[curAlphaPos-1];
+            swap(alphabetPosArr[beforeAlphabet], alphabetPosArr[curAlphabet]);
+            swap(alphabetSeq[curAlphaPos-1], alphabetSeq[curAlphaPos]);
+            curAlphaPos--;
             result++;
-            continue;
         }
-        needComplexSwapCount++;
-    }
-
-    if(1 <= needComplexSwapCount){
-        result += needComplexSwapCount - 1;
     }
     cout << result;
     return 0;
