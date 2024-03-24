@@ -73,9 +73,9 @@ int main() {
             cPoint += s;
         }
 
-        // int preStatus = calcStatus(preAPoint, preBPoint, preCPoint);
+        int preStatus = calcStatus(preAPoint, preBPoint, preCPoint);
         // cout << preAPoint << ' ' << preBPoint << ' ' << preCPoint << ' ' << preStatus << '\n';
-        // int status = calcStatus(aPoint, bPoint, cPoint);
+        int status = calcStatus(aPoint, bPoint, cPoint);
         // cout << aPoint << ' ' << bPoint << ' ' << cPoint << ' ' << status << '\n';
         // cout << "================\n";
         if(preStatus != status){
