@@ -5,17 +5,27 @@ using namespace std;
 
 int calcStatus(int aPoint, int bPoint, int cPoint){
     int highestPoint = max({aPoint, bPoint, cPoint});
-    int bit = 0;
-    if(aPoint == highestPoint){
-        bit = bit | 1 << 2;
+    if(highestPoint == aPoint){
+        if(highestPoint == bPoint){
+            if(highestPoint == cPoint){
+                return 0;
+            }
+            return 1;
+        }
+        if(highestPoint == cPoint){
+            return 2;
+        }
+        return 3;
     }
-    if(bPoint == highestPoint){
-        bit = bit | 1 << 1;
+    if(highestPoint == bPoint){
+        if(highestPoint == cPoint){
+            return 4;
+        }
+        return 5;
     }
-    if(cPoint == highestPoint){
-        bit = bit | 1 << 0;
+    if(highestPoint == cPoint){
+        return 6;
     }
-    return bit;
 }
 
 int main() {
