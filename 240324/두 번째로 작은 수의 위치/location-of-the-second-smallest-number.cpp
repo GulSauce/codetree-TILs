@@ -14,7 +14,7 @@ int main() {
         sortedNumbers[i] = numbers[i];
     }
 
-    sort(sortedNumbers + 1, sortedNumbers+n);
+    sort(sortedNumbers + 1, sortedNumbers + n + 1);
 
     int firstNumber = sortedNumbers[1];
     int secondNumber = -1;
