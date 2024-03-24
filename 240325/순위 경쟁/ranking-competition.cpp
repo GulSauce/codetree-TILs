@@ -3,31 +3,46 @@
 using namespace std;
 
 int calcStatus(int aPoint, int bPoint, int cPoint){
-    if(bPoint + 1 <= aPoint){
-        if(cPoint +1 <= aPoint){
+    if(aPoint + 1 <= bPoint){
+        if(bPoint + 1 <= cPoint){
             return 0;
         }
-        if(cPoint == aPoint){
+        if(bPoint == cPoint){
             return 1;
         }
-        if(aPoint + 1 <= cPoint){
+    }
+    if(aPoint + 1 <= cPoint){
+        if(cPoint + 1 <= aPoint){
             return 2;
         }
     }
-    if(cPoint + 1 <= aPoint){
-        if(bPoint == aPoint){
+    if(bPoint + 1 <= aPoint){
+        if(aPoint + 1 <= cPoint){
+            return 3;
+        }
+        if(aPoint == cPoint){
             return 4;
         }
-        if(aPoint + 1 <= bPoint){
+    }
+    if(bPoint + 1 <= cPoint){
+        if(cPoint + 1 <= aPoint){
             return 5;
         }
     }
-    if(aPoint + 1 <= bPoint){
-        if(bPoint == cPoint){
+    if(cPoint + 1 <= aPoint){
+         if(aPoint + 1 <= bPoint){
             return 6;
         }
+        if(aPoint == bPoint){
+            return 7;
+        }
     }
-    return 7;
+    if(cPoint + 1 <= bPoint){
+         if(bPoint + 1 <= aPoint){
+            return 8;
+        }
+    }
+    return 9;
 }
 
 int main() {
@@ -45,8 +60,9 @@ int main() {
         cin >> c >> s;
 
         int preAPoint = aPoint;
-        int preCPoint = bPoint;
-        int preBPoint = cPoint;
+        int preBPoint = bPoint;
+        int preCPoint = cPoint;
+
         if(c == 'A'){
             aPoint += s;
         }
@@ -57,8 +73,11 @@ int main() {
             cPoint += s;
         }
 
-        int preStatus = calcStatus(preAPoint, preBPoint, preCPoint);
-        int status = calcStatus(aPoint, bPoint, cPoint);
+        // int preStatus = calcStatus(preAPoint, preBPoint, preCPoint);
+        // cout << preAPoint << ' ' << preBPoint << ' ' << preCPoint << ' ' << preStatus << '\n';
+        // int status = calcStatus(aPoint, bPoint, cPoint);
+        // cout << aPoint << ' ' << bPoint << ' ' << cPoint << ' ' << status << '\n';
+        // cout << "================\n";
         if(preStatus != status){
             changeCount++;
         }
