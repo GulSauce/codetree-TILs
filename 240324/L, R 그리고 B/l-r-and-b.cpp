@@ -30,7 +30,7 @@ int main() {
     if(lPosition.first == bPosition.first){
         int result = abs(lPosition.second-bPosition.second)-1;
         if(rPosition.first == lPosition.first){
-            result += 3;
+            result += 2;
         }
         cout << result;
         return 0;
@@ -39,7 +39,7 @@ int main() {
     if(lPosition.second == bPosition.second){
         int result = abs(lPosition.first-bPosition.first)-1;
         if(rPosition.second == lPosition.second){
-            result += 3;
+            result += 2;
         }
         cout << result;
         return 0;
