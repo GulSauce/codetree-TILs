@@ -22,17 +22,15 @@ int main() {
 
     int result = 0;
     for(int i = 0; i <= n-1; i++){
-        
-        int curAlphabetInt = i;
-
-        if(indexToAlphabet[i] == curAlphabetInt + 'A'){
+        if(indexToAlphabet[i] == i + 'A'){
            continue; 
         }
 
-        int curAlphabetIndex = alphabetToIndex[curAlphabetInt];
+        int curAlphabet = indexToAlphabet[i]; 
+        int curAlphabetIndex = alphabetToIndex[i];
         while(i + 1 <= curAlphabetIndex){
-            int beforeAlphabetInt = indexToAlphabet[curAlphabetIndex-1] - 'A';
-            swap(alphabetToIndex[beforeAlphabetInt], alphabetToIndex[curAlphabetInt]);
+            char beforeAlphabet = indexToAlphabet[curAlphabetIndex-1];
+            swap(alphabetToIndex[beforeAlphabet-'A'], alphabetToIndex[curAlphabet-'A']);
             swap(indexToAlphabet[curAlphabetIndex-1], indexToAlphabet[curAlphabetIndex]);
             curAlphabetIndex--;
             result++;
