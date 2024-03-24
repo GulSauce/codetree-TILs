@@ -1,66 +1,30 @@
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 
 int calcStatus(int aPoint, int bPoint, int cPoint){
-    if(aPoint + 1 <= bPoint){
-        if(bPoint + 1 <= cPoint){
-            return 0;
-        }
-        if(bPoint == cPoint){
+    int highestPoint = max({aPoint, bPoint, cPoint});
+    if(highestPoint == aPoint){
+        if(highestPoint == bPoint){
+            if(highestPoint == cPoint){
+                return 0;
+            }
             return 1;
         }
-    }
-    if(aPoint + 1 <= cPoint){
-        if(cPoint + 1 <= aPoint){
+        if(highestPoint == cPoint){
             return 2;
         }
     }
-    if(bPoint + 1 <= aPoint){
-        if(aPoint + 1 <= cPoint){
+    if(highestPoint == bPoint){
+        if(highestPoint == cPoint){
             return 3;
         }
-        if(aPoint == cPoint){
-            return 4;
-        }
+        return 4;
     }
-    if(bPoint + 1 <= cPoint){
-        if(cPoint + 1 <= aPoint){
-            return 5;
-        }
+    if(highestPoint == cPoint){
+        return 5;
     }
-    if(cPoint + 1 <= aPoint){
-         if(aPoint + 1 <= bPoint){
-            return 6;
-        }
-        if(aPoint == bPoint){
-            return 7;
-        }
-    }
-    if(cPoint + 1 <= bPoint){
-         if(bPoint + 1 <= aPoint){
-            return 8;
-        }
-    }
-    if(aPoint == bPoint){
-        if(bPoint + 1 <= cPoint){
-            return 9;
-        }
-        if(bPoint == cPoint){
-            return 10;
-        }
-    }
-    if(aPoint == cPoint){
-        if(cPoint + 1 <= bPoint){
-            return 11;
-        }
-    }
-    if(bPoint == cPoint){
-        if(cPoint + 1 <= aPoint){
-            return 12;
-        }
-    }
-    return 13;
 }
 
 int main() {
@@ -92,10 +56,7 @@ int main() {
         }
 
         int preStatus = calcStatus(preAPoint, preBPoint, preCPoint);
-        // cout << preAPoint << ' ' << preBPoint << ' ' << preCPoint << ' ' << preStatus << '\n';
         int status = calcStatus(aPoint, bPoint, cPoint);
-        // cout << aPoint << ' ' << bPoint << ' ' << cPoint << ' ' << status << '\n';
-        // cout << "================\n";
         if(preStatus != status){
             changeCount++;
         }
