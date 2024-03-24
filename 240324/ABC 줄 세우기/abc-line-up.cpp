@@ -25,8 +25,8 @@ int main() {
         if(indexToAlphabet[i] == i + 'A'){
            continue; 
         }
-
-        int curAlphabet = indexToAlphabet[i]; 
+        
+        char curAlphabet = i + 'A';
         int curAlphabetIndex = alphabetToIndex[i];
         while(i + 1 <= curAlphabetIndex){
             char beforeAlphabet = indexToAlphabet[curAlphabetIndex-1];
