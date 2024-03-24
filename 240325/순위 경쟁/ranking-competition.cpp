@@ -42,7 +42,25 @@ int calcStatus(int aPoint, int bPoint, int cPoint){
             return 8;
         }
     }
-    return 9;
+    if(aPoint == bPoint){
+        if(bPoint + 1 <= cPoint){
+            return 9;
+        }
+        if(bPoint == cPoint){
+            return 10;
+        }
+    }
+    if(aPoint == cPoint){
+        if(cPoint + 1 <= bPoint){
+            return 11;
+        }
+    }
+    if(bPoint == cPoint){
+        if(cPoint + 1 <= aPoint){
+            return 12;
+        }
+    }
+    return 13;
 }
 
 int main() {
