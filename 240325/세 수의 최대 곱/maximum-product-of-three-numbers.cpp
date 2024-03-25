@@ -21,6 +21,7 @@ int main() {
     maxNumber = max(maxNumber, numbers[n-1] * numbers[n-2] * numbers[n-3]);
     maxNumber = max(maxNumber, numbers[n-1] * numbers[n-2] * numbers[0]);
     maxNumber = max(maxNumber, numbers[n-1] * numbers[0] * numbers[1]);
+    maxNumber = max(maxNumber, numbers[0] * numbers[1] * numbers[2]);
 
     cout << maxNumber;
     return 0;
