@@ -42,11 +42,27 @@ int main() {
         lineInfo[i] = LineInfo(x1, x2);
     }
 
-    int minDist = INT_MAX;
+    int leftMostXIndex = 0;
+    int leftMostX = INT_MAX;
     for(int i = 0; i <= n-1; i++){
-        int dist = calcDist(i);
-        minDist = min(minDist, dist);
+        if(lineInfo[i].x1 + 1 <= leftMostX){
+            leftMostXIndex = i;
+            leftMostX = lineInfo[i].x1;
+        }
     }
+
+    int minDist = calcDist(leftMostXIndex);
+
+    int rightMostXIndex = 0;
+    int rightMostX = 0;
+    for(int i = 0; i <= n-1; i++){
+        if(rightMostX + 1 <= lineInfo[i].x2){
+            rightMostXIndex = i;
+            rightMostX = lineInfo[i].x2;
+        }
+    }
+
+    minDist = min(minDist, calcDist(rightMostXIndex));
 
     cout << minDist;
     return 0;
