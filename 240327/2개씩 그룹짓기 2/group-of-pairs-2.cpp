@@ -4,7 +4,7 @@
 
 using namespace std;
 
-int numbers[100000];
+int numbers[200000];
 
 int main() {
     int n;
