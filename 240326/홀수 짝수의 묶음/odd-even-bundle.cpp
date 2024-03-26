@@ -21,25 +21,32 @@ int main() {
         }
     }
 
-    if(oddCount + 2 <= evenCount){
-        while(oddCount + 2 <= evenCount){
-            evenCount--;
+    int length = 0;
+    while(1 <= evenCount || 1 <= oddCount){
+        if(length % 2 == 0){
+            if(evenCount == 0 && 2 <= oddCount){
+                oddCount -= 2;
+                length++;
+            }
+            else if(evenCount == 0 && 1 == oddCount){
+                oddCount--;
+                length--;
+            }
+            else{
+                evenCount--;
+                length++;
+            }
         }
-        cout << oddCount + evenCount;
-        return 0;
-    }
-
-    if(evenCount + 1 <= oddCount){
-        while(evenCount + 1 <= oddCount){
-            oddCount -= 2;
-            evenCount++;
+        else if(length % 2 == 1){
+            if(oddCount == 0){
+                evenCount--;
+            }
+            else{
+                oddCount--;
+                length++;
+            }
         }
     }
-
-    while(oddCount + 2 <= evenCount){
-        evenCount--;
-    }
-
-    cout << oddCount + evenCount;
+    cout << length;
     return 0;
 }
