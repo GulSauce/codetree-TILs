@@ -37,13 +37,11 @@ int main() {
              if(it == toasts.end()){
                 continue;
             }
-            toasts.erase(it);
-            it++;
+            it = toasts.erase(it);
         }
         if(command == 'P'){
             char toast;
             cin >> toast;
-
             toasts.insert(it, toast);
         }
     }
