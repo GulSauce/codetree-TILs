@@ -38,6 +38,7 @@ int main() {
                 continue;
             }
             toasts.erase(it);
+            it++;
         }
         if(command == 'P'){
             char toast;
