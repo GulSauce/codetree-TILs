@@ -17,11 +17,9 @@ int main() {
 
     for(int curIndex = 0; curIndex <= n-1; curIndex++){
         int minIndex = curIndex;
-        int minValue = INT_MAX;
         for(int searchIndex = curIndex; searchIndex <= n-1; searchIndex++){
-            if(numbers[searchIndex] <= minValue){
+            if(numbers[minIndex] <= minValue){
                 minIndex = searchIndex;
-                minValue = numbers[searchIndex];
             }
         }
 
