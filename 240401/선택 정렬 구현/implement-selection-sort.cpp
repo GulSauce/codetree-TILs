@@ -18,7 +18,7 @@ int main() {
     for(int curIndex = 0; curIndex <= n-1; curIndex++){
         int minIndex = curIndex;
         for(int searchIndex = curIndex; searchIndex <= n-1; searchIndex++){
-            if(numbers[minIndex] <= minValue){
+            if(numbers[searchIndex] <= numbers[minIndex]){
                 minIndex = searchIndex;
             }
         }
