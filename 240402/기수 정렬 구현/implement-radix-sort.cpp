@@ -12,24 +12,26 @@ int main() {
         cin >> number;
     }
 
+    vector<int> storedNumbers = numbers;
+
     int p = 1;
     for(int i = 0; i <= 5; i++){
-        vector<int> sorted_numbers[10];
-        for(int number: numbers){
+        vector<int> sortedNumbers[10];
+        for(int number: storedNumbers){
             int digit = (number / p) % 10;
-            sorted_numbers[digit].push_back(number);
+            sortedNumbers[digit].push_back(number);
         }
         
         int index = 0;
         for(int i = 0; i <= 9; i++){
-            for(int number: sorted_numbers[i]){
-                numbers[index++] = number;
+            for(int number: sortedNumbers[i]){
+                storedNumbers[index++] = number;
             }
         }
         p *= 10;
     }
 
-    for(int nubmer : numbers){
+    for(int nubmer : storedNumbers){
         cout << nubmer << ' ';
     }
     return 0;
