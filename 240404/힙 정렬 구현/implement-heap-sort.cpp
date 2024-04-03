@@ -3,7 +3,6 @@
 
 using namespace std;
 
-int n;
 int numbers[100002];
 
 void heapify(int parentIndex, int arrayLength){
@@ -15,20 +14,21 @@ void heapify(int parentIndex, int arrayLength){
     if(parentIndex * 2 <= arrayLength){
         child1Value = numbers[parentIndex*2];
     }
-    if(parentIndex * 2 + 1<= arrayLength){
+    if(parentIndex * 2 + 1 + 1 <= arrayLength){
         child2Value = numbers[parentIndex*2+1];
     }
 
     if(parentValue + 1 <= child1Value
-    && child2Value + 1<= child1Value){
+    && child2Value + 1 <= child1Value){
         swap(numbers[parentIndex], numbers[parentIndex*2]);
         largestIndex = parentIndex*2;
     }
     if(parentValue + 1 <= child2Value
-    && child1Value + 1<= child2Value){
+    && child1Value + 1 <= child2Value){
         swap(numbers[parentIndex], numbers[parentIndex*2+1]);
         largestIndex = parentIndex*2 + 1;
     }
+
     if(parentIndex == largestIndex){
         return;
     }
@@ -36,6 +36,7 @@ void heapify(int parentIndex, int arrayLength){
 }
 
 int main() {
+    int n;
     cin >> n;
 
     for(int i = 1; i <= n; i++){
