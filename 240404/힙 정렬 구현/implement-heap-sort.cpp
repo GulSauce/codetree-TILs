@@ -14,17 +14,17 @@ void heapify(int parentIndex, int arrayLength){
     if(parentIndex * 2 <= arrayLength){
         child1Value = numbers[parentIndex*2];
     }
-    if(parentIndex * 2 + 1 + 1 <= arrayLength){
+    if(parentIndex * 2 + 1 <= arrayLength){
         child2Value = numbers[parentIndex*2+1];
     }
 
     if(parentValue + 1 <= child1Value
-    && child2Value + 1 <= child1Value){
+    && child2Value <= child1Value){
         swap(numbers[parentIndex], numbers[parentIndex*2]);
         largestIndex = parentIndex*2;
     }
-    if(parentValue + 1 <= child2Value
-    && child1Value + 1 <= child2Value){
+    else if(parentValue + 1 <= child2Value
+    && child1Value <= child2Value){
         swap(numbers[parentIndex], numbers[parentIndex*2+1]);
         largestIndex = parentIndex*2 + 1;
     }
