@@ -23,10 +23,10 @@ public class Main {
             int result = 0;
             for(int y = 0; y < MAX_ARRAY_LENGTH; y++){
                 for(int x = 0; x < MAX_ARRAY_LENGTH; x++){
-                    for(int k = 0; k < 2*MAX_ARRAY_LENGTH; k++){
+                    for(int k = 0; k < MAX_ARRAY_LENGTH; k++){
                         int goldCount = getGoldCount(x, y, k);
                         int kPrice = getKPrice(k);
-                        if(kPrice <= goldCount*GOLD_PRICE){
+                        if(kPrice <= goldCount * GOLD_PRICE){
                             result = Math.max(result, goldCount);
                         }
                     }
@@ -37,20 +37,20 @@ public class Main {
 
         private int getGoldCount(int centerX, int centerY, int moveCount){
             initIsVisited();
-            return moveAndGetGoldCount(centerY, centerX, moveCount);
+            return moveAndGetGoldCount(centerX, centerY, moveCount);
         }
 
-        int moveAndGetGoldCount(int y, int x, int moveCount){
+        int moveAndGetGoldCount(int x, int y, int moveCount){
             if(moveCount == -1 || isOutOfIndex(y) || isOutOfIndex(x) || isVisited[y][x]){
                 return 0;
             }
 
             isVisited[y][x] = true;
             return goldMap[y][x] +
-                    moveAndGetGoldCount(y-1, x, moveCount-1) +
-                    moveAndGetGoldCount(y+1, x, moveCount-1) +
-                    moveAndGetGoldCount(y, x-1, moveCount-1) +
-                    moveAndGetGoldCount(y, x+1, moveCount-1);
+                    moveAndGetGoldCount(x, y-1, moveCount-1) +
+                    moveAndGetGoldCount(x, y+1, moveCount-1) +
+                    moveAndGetGoldCount(x-1, y, moveCount-1) +
+                    moveAndGetGoldCount(x+1 , y, moveCount-1);
         }
 
         private void initIsVisited(){
