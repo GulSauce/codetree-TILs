@@ -3,9 +3,10 @@ import java.util.*;
 public class Main {
     private static class Solver {
         int[][] goldMap;
+        boolean[][] isVisited;
+
         final int GOLD_PRICE;
         final int MAX_ARRAY_LENGTH;
-        boolean[][] isVisited;
 
         public  Solver(
                 int[][] goldMap,
@@ -18,10 +19,11 @@ public class Main {
         }
 
         public  void solve(){
+            initIsVisited();
             int result = 0;
             for(int y = 0; y < MAX_ARRAY_LENGTH; y++){
                 for(int x = 0; x < MAX_ARRAY_LENGTH; x++){
-                    for(int k = 0; k < MAX_ARRAY_LENGTH; k++){
+                    for(int k = 0; k < 2*MAX_ARRAY_LENGTH; k++){
                         int goldCount = getGoldCount(x, y, k);
                         int kPrice = getKPrice(k);
                         if(kPrice <= goldCount*GOLD_PRICE){
@@ -62,7 +64,7 @@ public class Main {
         }
 
         private int getKPrice(int k){
-            return k*k + (k+1)*(k+1);
+            return k * k + (k+1) * (k+1);
         }
     }
 
