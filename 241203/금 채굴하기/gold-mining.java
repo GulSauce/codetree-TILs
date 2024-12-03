@@ -58,7 +58,7 @@ public class Main {
         }
 
         private boolean isOutOfIndex(int i){
-            return i < 0 || MAX_ARRAY_LENGTH < i;
+            return i < 0 || MAX_ARRAY_LENGTH-1 < i;
         }
 
         private int getKPrice(int k){
