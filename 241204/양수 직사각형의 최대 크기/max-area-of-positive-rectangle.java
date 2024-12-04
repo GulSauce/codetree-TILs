@@ -16,7 +16,7 @@ public class Main {
         }
 
         public  void solve(){
-            int result = 0;
+            int result = -1;
             for(int y1 = 0; y1 <= MAX_Y_INDEX; y1++){
                 for(int x1 = 0; x1 <= MAX_X_INDEX; x1++){
                     for(int y2 = y1; y2 <= MAX_Y_INDEX; y2++){
