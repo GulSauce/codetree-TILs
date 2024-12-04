@@ -37,7 +37,7 @@ public class Main {
         private  boolean isNegativeNumberExists(Coordinate leftUpperCoordinate, Coordinate rightLowerCoordinate){
             for(int y = leftUpperCoordinate.y; y <= rightLowerCoordinate.y; y++) {
                 for(int x = leftUpperCoordinate.x; x <= rightLowerCoordinate.x; x++){
-                    if(matrix[y][x] < 0){
+                    if(matrix[y][x] <= 0){
                         return true;
                     }
                 }
