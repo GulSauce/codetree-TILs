@@ -183,7 +183,6 @@ public class Main{
             this.m4 = m4;
         }
 
-
         Deque<Integer> spreadArray;
         int[][] matrix;
 
@@ -191,10 +190,10 @@ public class Main{
             this.matrix = matrix;
             spreadArray = getSpreadArray();
             spreadArray.addFirst(spreadArray.pollLast());
-            applyAtArray(spreadArray);
+            applyAtArray();
         }
 
-        private void applyAtArray(Deque<Integer> spreadArray){
+        private void applyAtArray(){
             int currentR = startCoordinate.r;
             int currentC = startCoordinate.c;
             matrix[currentR][currentC] = spreadArray.pollFirst();
@@ -217,7 +216,7 @@ public class Main{
                 matrix[currentR][currentC] = spreadArray.pollFirst();
             }
 
-            for(int move = 0; move < m4-2; move++){
+            for(int move = 0; move <= m4-2; move++){
                 currentR++;
                 currentC++;
                 matrix[currentR][currentC] = spreadArray.pollFirst();
@@ -249,7 +248,7 @@ public class Main{
                 spreadArray.add(matrix[currentR][currentC]);
             }
 
-            for(int move = 0; move < m4-2; move++){
+            for(int move = 0; move <= m4-2; move++){
                 currentR++;
                 currentC++;
                 spreadArray.add(matrix[currentR][currentC]);
