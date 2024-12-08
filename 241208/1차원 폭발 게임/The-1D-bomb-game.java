@@ -3,6 +3,7 @@ import java.util.*;
 public class Main {
     private static class Solver{
         ArrayList<Integer> numbers;
+        ArrayList<Integer> getNumbersToChange;
         int consecutiveCount;
 
         public Solver(
@@ -14,8 +15,21 @@ public class Main {
         }
 
         public void solve(){
-            removeAboveConsecutiveCount();
+            while(true) {
+                ArrayList<Integer> numberToChange = removeAboveConsecutiveCount();
+                if(isNumbersNotChanged(numberToChange)){
+                    break;
+                }
+                numbers = numberToChange;
+                if(numberToChange.isEmpty()){
+                    break;
+                }
+            }
             printResult();
+        }
+
+        private boolean isNumbersNotChanged(ArrayList<Integer> target){
+            return numbers.size() == target.size();
         }
 
         private void printResult(){
@@ -25,42 +39,34 @@ public class Main {
             }
         }
 
-        private void removeAboveConsecutiveCount() {
-            while (true) {
-                ArrayList<Integer> numbersAfterExplosion = new ArrayList<>();
-                int currentNumber = numbers.get(0);
-                int currentNumberCount = 1;
-                boolean isChanged = false;
-                for (int i = 1; i < numbers.size(); i++) {
-                    if (currentNumber != numbers.get(i)) {
-                         if (consecutiveCount <= currentNumberCount) {
-                            isChanged = true;
-                            currentNumber = numbers.get(i);
-                            currentNumberCount = 1;
-                            continue;
-                        }
-                        for (int j = 0; j < currentNumberCount; j++) {
-                            numbersAfterExplosion.add(currentNumber);
-                            currentNumber = numbers.get(i);
-                            currentNumberCount = 1;
-                        }
+        private ArrayList<Integer> removeAboveConsecutiveCount() {
+            ArrayList<Integer> numbersAfterExplosion = new ArrayList<>();
+            int currentNumber = numbers.get(0);
+            int currentNumberCount = 1;
+            for (int i = 1; i < numbers.size(); i++) {
+                if (currentNumber != numbers.get(i)) {
+                     if (consecutiveCount <= currentNumberCount) {
+                        currentNumber = numbers.get(i);
+                        currentNumberCount = 1;
+                        continue;
                     }
-                    else {
-                        currentNumberCount++;
-                    }
-                }
-
-                if (currentNumberCount < consecutiveCount) {
                     for (int j = 0; j < currentNumberCount; j++) {
                         numbersAfterExplosion.add(currentNumber);
+                        currentNumber = numbers.get(i);
+                        currentNumberCount = 1;
                     }
                 }
-
-                numbers = numbersAfterExplosion;
-                if(!isChanged){
-                    break;
+                else {
+                    currentNumberCount++;
                 }
             }
+
+            if (currentNumberCount < consecutiveCount) {
+                for (int j = 0; j < currentNumberCount; j++) {
+                    numbersAfterExplosion.add(currentNumber);
+                }
+            }
+            return numbersAfterExplosion;
         }
     }
 
