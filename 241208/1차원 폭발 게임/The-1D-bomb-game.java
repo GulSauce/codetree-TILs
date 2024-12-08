@@ -3,7 +3,6 @@ import java.util.*;
 public class Main {
     private static class Solver{
         ArrayList<Integer> numbers;
-        ArrayList<Integer> getNumbersToChange;
         int consecutiveCount;
 
         public Solver(
@@ -21,9 +20,6 @@ public class Main {
                     break;
                 }
                 numbers = numberToChange;
-                if(numberToChange.isEmpty()){
-                    break;
-                }
             }
             printResult();
         }
@@ -41,32 +37,30 @@ public class Main {
 
         private ArrayList<Integer> removeAboveConsecutiveCount() {
             ArrayList<Integer> numbersAfterExplosion = new ArrayList<>();
-            int currentNumber = numbers.get(0);
-            int currentNumberCount = 1;
-            for (int i = 1; i < numbers.size(); i++) {
-                if (currentNumber != numbers.get(i)) {
-                     if (consecutiveCount <= currentNumberCount) {
-                        currentNumber = numbers.get(i);
-                        currentNumberCount = 1;
-                        continue;
-                    }
-                    for (int j = 0; j < currentNumberCount; j++) {
-                        numbersAfterExplosion.add(currentNumber);
-                        currentNumber = numbers.get(i);
-                        currentNumberCount = 1;
-                    }
+
+            int currentIndex = 0;
+            while(currentIndex < numbers.size()) {
+                ArrayList<Integer> consecutiveNumbers = getConsecutiveNumbersStartFromIndex(currentIndex);
+                currentIndex += consecutiveNumbers.size();
+                if (consecutiveCount <= consecutiveNumbers.size()) {
+                    continue;
                 }
-                else {
-                    currentNumberCount++;
-                }
+                numbersAfterExplosion.addAll(consecutiveNumbers);
             }
 
-            if (currentNumberCount < consecutiveCount) {
-                for (int j = 0; j < currentNumberCount; j++) {
-                    numbersAfterExplosion.add(currentNumber);
-                }
-            }
             return numbersAfterExplosion;
+        }
+
+        private ArrayList<Integer> getConsecutiveNumbersStartFromIndex(int index){
+            ArrayList<Integer> result = new ArrayList<>();
+            int currentNumber = numbers.get(index);
+            for(int i = index; i < numbers.size(); i++){
+                if(numbers.get(i) != currentNumber){
+                    break;
+                }
+                result.add(numbers.get(i));
+            }
+            return result;
         }
     }
 
