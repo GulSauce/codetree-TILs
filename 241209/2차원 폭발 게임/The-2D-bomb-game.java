@@ -47,51 +47,36 @@ public class Main {
         private void explode(){
             for(int x = 0; x <= MAX_INDEX; x++){
                 while(true){
-                    ArrayList<Integer> numbersToChange = explodeColumnAt(x);
-                    if(isSame(numbersToChange, x)){
+                    boolean isExplode =  explodeColumnAt(x);
+                    if(!isExplode){
                         break;
                     }
-                    for(int i = 0; i <= MAX_INDEX; i++){
-                        numbers[i][x] = numbersToChange.get(i);
-                    }
                 }
             }
         }
 
-        private boolean isSame(ArrayList<Integer> arrayList, int x){
-            for(int i = 0; i < arrayList.size(); i++){
-                if(arrayList.get(i) != numbers[i][x]){
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        private ArrayList<Integer> explodeColumnAt(int column){
-            ArrayList<Integer> numbersToChange = new ArrayList<>();
-
-            for(int i = 0; i <= MAX_INDEX; i++){
-                numbersToChange.add(0);
-            }
+        private boolean explodeColumnAt(int column){
+            boolean isExplode = false;
 
             int currentIndex = 0;
             while (currentIndex <= MAX_INDEX){
                 Queue<Integer> consecutiveNumbers = getConsecutiveNumberStartFrom(column, currentIndex);
                 int consecutiveCount = consecutiveNumbers.size();
-                if(continueNumberToExplode <= consecutiveNumbers.size()){
-                    for(int i = currentIndex; i < currentIndex + consecutiveCount; i++){
-                        numbersToChange.set(i, 0);
+                if(continueNumberToExplode <= consecutiveCount && consecutiveNumbers.peek() != 0){
+                    isExplode = true;
+                    for (int i = currentIndex; i < currentIndex + consecutiveCount; i++) {
+                        numbers[i][column] = 0;
                     }
                 }
                 else {
                     for (int i = currentIndex; i < currentIndex + consecutiveCount; i++) {
-                        numbersToChange.set(i, consecutiveNumbers.poll());
+                        numbers[i][column] = consecutiveNumbers.poll();
                     }
                 }
                 currentIndex += consecutiveCount;
             }
 
-            return numbersToChange;
+            return isExplode;
         }
 
         private Queue<Integer> getConsecutiveNumberStartFrom(int column, int index){
