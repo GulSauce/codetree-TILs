@@ -88,10 +88,10 @@ public class Main {
 
         private void sumUpSameValue(){
             for(int x = 0; x < MAX_X; x++){
-                for(int y = MAX_Y-1; y >= 1; y--){
-                    if(board2048[y][x] == board2048[y-1][x]){
-                        board2048[y][x] += board2048[y-1][x];
-                        board2048[y-1][x] = 0;
+                for(int y = 0; y < MAX_Y-1; y++){
+                    if(board2048[y][x] == board2048[y+1][x]){
+                        board2048[y][x] += board2048[y+1][x];
+                        board2048[y+1][x] = 0;
                     }
                 }
             }
@@ -100,10 +100,10 @@ public class Main {
 
         private void sumDownSameValue(){
             for(int x = 0; x < MAX_X; x++){
-                for(int y = 0; y < MAX_Y-1; y++){
-                    if(board2048[y][x] == board2048[y+1][x]){
-                        board2048[y][x] += board2048[y+1][x];
-                        board2048[y+1][x] = 0;
+                for(int y = MAX_Y-1; y >= 1; y--){
+                    if(board2048[y][x] == board2048[y-1][x]){
+                        board2048[y][x] += board2048[y-1][x];
+                        board2048[y-1][x] = 0;
                     }
                 }
             }
