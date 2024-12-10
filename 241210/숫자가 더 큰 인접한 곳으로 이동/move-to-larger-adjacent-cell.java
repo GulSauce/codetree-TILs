@@ -8,7 +8,7 @@ public class Main {
         Queue<Integer> result = new LinkedList<>();
 
         int[] dc = {0, 0 ,-1 ,1};
-        int[] dr = {1, -1, 0, 0};
+        int[] dr = {-1, 1, 0, 0};
 
         public  Solver(
                 int[][] numbers,
@@ -47,7 +47,6 @@ public class Main {
 
         private void memoryThisCoordinate(int r, int c){
             result.add(numbers[r][c]);
-
         }
 
         private boolean isOutOfRange(int r, int c){
