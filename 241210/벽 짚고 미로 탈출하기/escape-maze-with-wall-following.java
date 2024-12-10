@@ -93,8 +93,8 @@ public class Main {
         Scanner sc = new Scanner(System.in);
 
         int N = sc.nextInt();
-        int x = sc.nextInt();
         int y = sc.nextInt();
+        int x = sc.nextInt();
 
         String[] maze = new String[N+1];
         for(int r = 1; r <= N; r++){
