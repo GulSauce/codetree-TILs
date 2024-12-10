@@ -28,6 +28,7 @@ public class Main {
                     time = -1;
                     break;
                 }
+                isVisited[currentCoordinate.y][currentCoordinate.x][headPosition] = true;
                 int nextY = currentCoordinate.y + dy[headPosition];
                 int nextX = currentCoordinate.x + dx[headPosition];
                 if (isOutOfRange(nextY, nextX)) {
@@ -64,7 +65,6 @@ public class Main {
 
         private void goFrom(int y, int x){
             currentCoordinate = new Coordinate(currentCoordinate.y + dy[headPosition], currentCoordinate.x + dx[headPosition]);
-            isVisited[y][x][headPosition] = true;
             time++;
         }
 
