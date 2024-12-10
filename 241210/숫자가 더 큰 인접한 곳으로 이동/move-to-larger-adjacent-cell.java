@@ -3,7 +3,7 @@ import java.util.*;
 public class Main {
     private static class Solver{
         int[][] numbers;
-        final int ARRAY_LENGTH;
+        final int MAX_INDEX;
         Coordinate startCoordinate;
         Queue<Integer> result = new LinkedList<>();
 
@@ -16,7 +16,7 @@ public class Main {
         ){
             this.numbers = numbers;
             this.startCoordinate = startCoordinate;
-            this.ARRAY_LENGTH = numbers.length;
+            this.MAX_INDEX = numbers.length-1;
         }
 
         public void solve(){
@@ -29,7 +29,6 @@ public class Main {
                 System.out.printf("%d ", result.poll());
             }
         }
-
 
         private void moveToNearGreaterNumberWithMemory(int currentR, int currentC){
             memoryThisCoordinate(currentR, currentC);
@@ -52,9 +51,8 @@ public class Main {
         }
 
         private boolean isOutOfRange(int r, int c){
-            return !((1 <= r && r <= ARRAY_LENGTH) && (1 <= c  && c <= ARRAY_LENGTH));
+            return !((1 <= r && r <= MAX_INDEX) && (1 <= c  && c <= MAX_INDEX));
         }
-
     }
 
     private static class Coordinate{
