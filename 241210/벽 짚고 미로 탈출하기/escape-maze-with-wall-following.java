@@ -23,12 +23,15 @@ public class Main {
 
         public void solve() {
             initIsVisited();
+            if(isEdgeCase(currentCoordinate.y, currentCoordinate.x)){
+                System.out.println(-1);
+                return;
+            }
             while(true) {
                 if(isCanNotEscape()){
                     time = -1;
                     break;
                 }
-                isVisited[currentCoordinate.y][currentCoordinate.x] = true;
                 int nextY = currentCoordinate.y + dy[headPosition];
                 int nextX = currentCoordinate.x + dx[headPosition];
                 if (isOutOfRange(nextY, nextX)) {
@@ -51,6 +54,16 @@ public class Main {
             System.out.println(time);
         }
 
+        private boolean isEdgeCase(int y, int x){
+            if(y <= 1 || MAX_MAZE_INDEX <= y || x <= 1 || MAX_MAZE_INDEX <= x){
+                return false;
+            }
+            if(maze[y].charAt(x-1) == '#' && maze[y].charAt(x+1) == '#' && maze[y-1].charAt(x) == '#' && maze[y+1].charAt(x) == '#'){
+                return true;
+            }
+            return false;
+        }
+
         private boolean isCanNotEscape(){
             return isVisited[currentCoordinate.y][currentCoordinate.x];
         }
@@ -63,6 +76,7 @@ public class Main {
 
         private void goFrom(int y, int x){
             currentCoordinate = new Coordinate(currentCoordinate.y + dy[headPosition], currentCoordinate.x + dx[headPosition]);
+            isVisited[y][x] = true;
             time++;
         }
 
