@@ -2,20 +2,17 @@ import java.util.*;
 
 public class Main {
     private static class Solver{
-        final int APPLE_INDEX = 100;
-
-        boolean isGameOver = false;
-
         int[][] matrix;
 
+        Snake snake;
         SnakeMoveInfo[] snakeMoveInfos;
 
         int elapsedTime = 0;
-
-        Snake snake;
-
+        final int APPLE_INDEX = 100;
         int[] dy = {-1, 1, 0, 0};
         int[] dx = {0, 0, 1, -1};
+
+        boolean isGameOver = false;
 
         public Solver(
                 int[][] matrix,
@@ -30,7 +27,7 @@ public class Main {
             }
         }
 
-        public  void solve(){
+        public void solve(){
             for(SnakeMoveInfo snakeMoveInfo: snakeMoveInfos){
                 moveSnake(snakeMoveInfo);
                 if(isGameOver){
@@ -51,6 +48,7 @@ public class Main {
                         break;
                     }
                     if(isAppleExistAt(nextCoordinate)){
+                        matrix[nextCoordinate.y][nextCoordinate.x] = 0;
                         snake.growSnakeTo(nextCoordinate);
                     }
                     else{
@@ -72,6 +70,7 @@ public class Main {
                         break;
                     }
                     if(isAppleExistAt(nextCoordinate)){
+                        matrix[nextCoordinate.y][nextCoordinate.x] = 0;
                         snake.growSnakeTo(nextCoordinate);
                     }
                     else{
@@ -93,6 +92,7 @@ public class Main {
                         break;
                     }
                     if(isAppleExistAt(nextCoordinate)){
+                        matrix[nextCoordinate.y][nextCoordinate.x] = 0;
                         snake.growSnakeTo(nextCoordinate);
                     }
                     else{
@@ -114,6 +114,7 @@ public class Main {
                         break;
                     }
                     if(isAppleExistAt(nextCoordinate)){
+                        matrix[nextCoordinate.y][nextCoordinate.x] = 0;
                         snake.growSnakeTo(nextCoordinate);
                     }
                     else{
