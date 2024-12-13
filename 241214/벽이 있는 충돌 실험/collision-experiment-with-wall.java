@@ -17,7 +17,7 @@ public class Main {
         }
 
         public void solve(){
-            for(int i = 0; i < 1000; i++) {
+            for(int i = 0; i < 100; i++) {
                 setBidOnBoard();
                 removeCollideBids();
                 setNextMove();
