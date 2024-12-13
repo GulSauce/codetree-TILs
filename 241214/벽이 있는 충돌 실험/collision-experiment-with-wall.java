@@ -5,8 +5,8 @@ public class Main {
         int[][] board;
         BidMoveInfo[] bidMoveInfos;
 
-        int[] dy = {0, -1, 0, 1};
-        int[] dx = {1, 0, -1, 0};
+        int[] dx = {0, -1, 0, 1};
+        int[] dy = {1, 0, -1, 0};
 
         public Solver(
                 int[][] board,
@@ -50,7 +50,7 @@ public class Main {
         private void removeBidsAt(int y, int x){
             ArrayList<BidMoveInfo> temp = new ArrayList<>();
             for(BidMoveInfo bidMoveInfo: bidMoveInfos){
-                if(bidMoveInfo.y == y && bidMoveInfo.x == x){
+                if(bidMoveInfo.x == y && bidMoveInfo.y == x){
                     continue;
                 }
                 temp.add(bidMoveInfo);
@@ -116,7 +116,7 @@ public class Main {
                 }
             }
             for(BidMoveInfo bidMoveInfo: bidMoveInfos){
-                board[bidMoveInfo.y][bidMoveInfo.x]++;
+                board[bidMoveInfo.x][bidMoveInfo.y]++;
             }
         }
     }
