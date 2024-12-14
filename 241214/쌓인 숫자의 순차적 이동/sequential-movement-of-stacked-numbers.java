@@ -63,6 +63,9 @@ public class Main {
                 if(isOutOfRange(nextCoordinate)){
                     continue;
                 }
+                if(matrix[nextCoordinate.y][nextCoordinate.x].isEmpty()){
+                    continue;
+                }
                 int number = getGreatestNumber(nextCoordinate);
                 if(nearGreatestNumberCoordinate.y == -1 && nearGreatestNumberCoordinate.x == -1){
                     nearGreatestNumberCoordinate = nextCoordinate;
