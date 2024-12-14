@@ -37,16 +37,13 @@ public class Main {
             System.out.println(result);
         }
 
-        private void removeCollideBids(){
-            for(int y = 1; y < board.length; y++){
-                for(int x = 1; x < board.length; x++){
-                    if(2 <= board[y][x]){
-                        removeBidsAt(y, x);
-                    }
+        private void removeCollideBids() {
+            for (BidMoveInfo bidMoveInfo : bidMoveInfos) {
+                if(2 <= board[bidMoveInfo.x][bidMoveInfo.y]){
+                    removeBidsAt(bidMoveInfo.x, bidMoveInfo.y);
                 }
             }
         }
-
         private void removeBidsAt(int y, int x){
             ArrayList<BidMoveInfo> temp = new ArrayList<>();
             for(BidMoveInfo bidMoveInfo: bidMoveInfos){
