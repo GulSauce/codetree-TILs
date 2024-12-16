@@ -17,7 +17,7 @@ public class Main {
 
         public  void solve(){
             int lastCollideTime = -1;
-            for(int t = 1; t < 10000; t++){
+            for(int t = 1; t <= 2500; t++){
                 moveBidHalf();
                 hashByCoordinate();
                 if(isBidCollide()){
