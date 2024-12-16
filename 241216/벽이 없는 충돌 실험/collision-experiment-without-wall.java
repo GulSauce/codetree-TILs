@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Main {
     private static class Solver{
-        BidInfo[] bidInfos;
+        ArrayList<BidInfo> bidInfos;
 
         int[] dy = {0, 1, 0, -1};
         int[] dx = {1, 0, -1, 0};
@@ -10,19 +10,19 @@ public class Main {
         HashMap<String, ArrayList<BidInfo>> bidExistInfo = new HashMap<>();
 
         public  Solver(
-                BidInfo[] bidInfos
+                ArrayList<BidInfo> bidInfos
         ){
             this.bidInfos = bidInfos;
         }
 
         public  void solve(){
             int lastCollideTime = -1;
-            for(int t = 1; t <= 5000; t++){
+            for(int t = 1; t <= 10000; t++){
                 moveBidHalf();
                 hashByCoordinate();
-                if(isBidCollide()){
+                boolean isRemoved = removeCollideBid();
+                if(isRemoved){
                     lastCollideTime = t;
-                    removeCollideBid();
                 }
             }
             System.out.println(lastCollideTime);
@@ -43,7 +43,8 @@ public class Main {
             }
         }
 
-        private void removeCollideBid(){
+        private boolean removeCollideBid(){
+            boolean isRemoved = false;
             ArrayList<BidInfo> savedBids = new ArrayList<>();
             for(ArrayList<BidInfo> bidInfosByKey: bidExistInfo.values()){
                 if(bidInfosByKey.size() == 1){
@@ -53,8 +54,10 @@ public class Main {
                 Collections.sort(bidInfosByKey);
                 BidInfo savedBid = bidInfosByKey.get(0);
                 savedBids.add(savedBid);
+                isRemoved = true;
             }
-            bidInfos = savedBids.toArray(new BidInfo[0]);
+            bidInfos = savedBids;
+            return isRemoved;
         }
 
         private void moveBidHalf(){
@@ -63,15 +66,6 @@ public class Main {
                 bidInfo.x = bidInfo.x + 0.5*dx[directionIndex];
                 bidInfo.y = bidInfo.y + 0.5*dy[directionIndex];
             }
-        }
-
-        private boolean isBidCollide(){
-            for(ArrayList<BidInfo> bidInfosByKey: bidExistInfo.values()){
-                if(2 <= bidInfosByKey.size()){
-                    return true;
-                }
-            }
-            return false;
         }
 
         private int getDirectionIndex(Character direction){
@@ -97,14 +91,14 @@ public class Main {
         int T = sc.nextInt();
         for(int testCase = 0; testCase < T; testCase++){
             int N = sc.nextInt();
-            BidInfo[] bidInfos = new BidInfo[N];
+            ArrayList<BidInfo> bidInfos = new ArrayList<>();
 
             for(int i = 0; i < N; i++){
                 int x = sc.nextInt();
                 int y = sc.nextInt();
                 int w = sc.nextInt();
                 Character d = sc.next().charAt(0);
-                bidInfos[i] = new BidInfo(i, x, y, w, d);
+                bidInfos.add(new BidInfo(i, x, y, w, d));
             }
 
             new Solver(bidInfos).solve();
