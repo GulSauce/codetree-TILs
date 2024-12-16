@@ -18,29 +18,13 @@ public class Main {
         public  void solve(){
             int lastCollideTime = -1;
             for(int t = 1; t <= 10000; t++){
-                moveBidHalf();
-                hashByCoordinate();
+                moveBidHalfWithHashing();
                 boolean isRemoved = removeCollideBid();
                 if(isRemoved){
                     lastCollideTime = t;
                 }
             }
             System.out.println(lastCollideTime);
-        }
-
-        private void hashByCoordinate(){
-            bidExistInfo.clear();
-            for(BidInfo bidInfo: bidInfos){
-                String key = bidInfo.x+","+ bidInfo.y;
-                if(!bidExistInfo.containsKey(key)){
-                    ArrayList<BidInfo> bidInfosByKey = new ArrayList<>();
-                    bidInfosByKey.add(bidInfo);
-                    bidExistInfo.put(key, bidInfosByKey);
-                    continue;
-                }
-                ArrayList<BidInfo> bidInfosByKey = bidExistInfo.get(key);
-                bidInfosByKey.add(bidInfo);
-            }
         }
 
         private boolean removeCollideBid(){
@@ -60,11 +44,21 @@ public class Main {
             return isRemoved;
         }
 
-        private void moveBidHalf(){
+        private void moveBidHalfWithHashing(){
+            bidExistInfo.clear();
             for(BidInfo bidInfo: bidInfos){
                 int directionIndex = getDirectionIndex(bidInfo.direction);
                 bidInfo.x = bidInfo.x + 0.5*dx[directionIndex];
                 bidInfo.y = bidInfo.y + 0.5*dy[directionIndex];
+                String key = bidInfo.x+","+ bidInfo.y;
+                if(!bidExistInfo.containsKey(key)){
+                    ArrayList<BidInfo> bidInfosByKey = new ArrayList<>();
+                    bidInfosByKey.add(bidInfo);
+                    bidExistInfo.put(key, bidInfosByKey);
+                    continue;
+                }
+                ArrayList<BidInfo> bidInfosByKey = bidExistInfo.get(key);
+                bidInfosByKey.add(bidInfo);
             }
         }
 
