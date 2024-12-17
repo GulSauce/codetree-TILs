@@ -84,7 +84,7 @@ public class Main {
             }
             else{
                 largestNumber = existingMarble.number;
-                direction = marble.direction;
+                direction = existingMarble.direction;
             }
             nextMarbles.set(existingMarbleIndex, new Marble(largestNumber, marble.coordinate, direction, weightSum));
         }
