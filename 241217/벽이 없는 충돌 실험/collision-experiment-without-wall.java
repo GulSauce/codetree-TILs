@@ -2,9 +2,8 @@ import java.util.*;
 
 public class Main {
     private static class Solver {
-        private int[] dy = {0, 1, 0, -1}; // R, U, L, D 순서
+        private int[] dy = {0, 1, 0, -1}; // R,U,L,D 순서
         private int[] dx = {1, 0, -1, 0};
-
         private BidInfo[] bids;
         private HashMap<Long, ArrayList<BidInfo>> posMap = new HashMap<>();
 
@@ -13,7 +12,8 @@ public class Main {
         }
 
         public void solve() {
-            // 좌표 확장 (정수 처리)
+            // 좌표 확장: 원래 좌표를 2배로 늘려서 정수 연산
+            // speed: 2초에 1칸 -> 1초에 0.5칸 -> 확장 좌표에서 1초에 1단위 이동
             for (BidInfo b : bids) {
                 b.x *= 2;
                 b.y *= 2;
@@ -21,11 +21,10 @@ public class Main {
 
             int lastCollideTime = -1;
 
-            // 최대 10000초 시뮬레이션 수행
+            // 최대 10000초 시뮬레이션
             for (int t = 1; t <= 10000; t++) {
                 moveBids();
                 mapPositions();
-
                 boolean collided = checkCollision();
                 if (collided) {
                     lastCollideTime = t;
@@ -39,7 +38,7 @@ public class Main {
         private void moveBids() {
             for (BidInfo b : bids) {
                 int dIndex = getDIndex(b.direction);
-                b.x += dx[dIndex];
+                b.x += dx[dIndex]; // 확장좌표에서 1단위 = 원본 0.5칸
                 b.y += dy[dIndex];
             }
         }
@@ -65,7 +64,7 @@ public class Main {
                 if (list.size() == 1) {
                     survivors.addAll(list);
                 } else {
-                    // 충돌한 위치에서 가장 영향력 있는 구슬 찾기
+                    // 충돌한 구슬 중 가장 영향력 큰 구슬 찾기
                     BidInfo maxBid = list.get(0);
                     for (int i = 1; i < list.size(); i++) {
                         BidInfo curr = list.get(i);
@@ -89,7 +88,7 @@ public class Main {
         }
 
         private long toKey(int x, int y) {
-            // 키 생성 시 오프셋을 줘서 음수좌표 처리
+            // 안전한 범위 내에서 오프셋 적용
             return ((long)(x + 3000) << 16) | (y + 3000);
         }
     }
@@ -121,7 +120,6 @@ public class Main {
                 char d = sc.next().charAt(0);
                 bids[i] = new BidInfo(i, x, y, w, d);
             }
-
             new Solver(bids).solve();
         }
     }
