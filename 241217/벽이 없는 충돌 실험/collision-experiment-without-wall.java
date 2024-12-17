@@ -32,7 +32,7 @@ public class Main {
     
     public static ArrayList<Marble> marbles = new ArrayList<>();
     public static ArrayList<Marble> nextMarbles = new ArrayList<>();
-     
+    public static int[][] nextMarbleIndex = new int[COORD_SIZE + 1][COORD_SIZE + 1];
     
     // 해당 구슬이 1초 후에 어디 위치에 있는지를 구해 상태를 반환합니다.
     public static Marble Move(Marble marble) {
