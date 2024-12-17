@@ -4,8 +4,7 @@ public class Main {
     private static class Solver {
         int[][] matrix;
         final int MAX_LENGTH;
-        final int Y_LENGTH = 2;
-        final int X_LENGTH = 2;
+        final int SUB_MATRIX_LENGTH = 2;
 
         public Solver(
                 int[][] matrix
@@ -15,52 +14,67 @@ public class Main {
         }
 
         public void solve(){
-            int result = 0;
-            for(int y = 0; y < MAX_LENGTH; y++){
-                if(isYOutOfMatrix(y)){
-                    continue;
-                }
-                for(int x = 0; x < MAX_LENGTH; x++){
-                    if(isXOutOfMatrix(x)){
-                        continue;
-                    }
-                    int currentCount = getCurrentCount(y, x);
-                    result = Math.max(result, currentCount);
-                }
-            }
+            int result = getResult();
             System.out.print(result);
         }
 
-        private int getCurrentCount(int y, int x){
-            int  currentCount = 0;
-            for(int i = y; i <= y+Y_LENGTH; i++){
-                for(int j = x; j <= x+X_LENGTH; j++) {
+        private int getResult(){
+            int result = 0;
+            for(int y = 0; y < MAX_LENGTH; y++) {
+                if (isOutOfMatrix(y)) {
+                    continue;
+                }
+                for (int x = 0; x < MAX_LENGTH; x++) {
+                    if (isOutOfMatrix(x)) {
+                        continue;
+                    }
+                    int currentCount = getCurrentCount(new Coordinate(y, x));
+                    result = Math.max(result, currentCount);
+                }
+            }
+            return result;
+        }
+
+        private int getCurrentCount(Coordinate coordinate){
+            int currentCount = 0;
+            int y = coordinate.y;
+            int x = coordinate.x;
+            for(int i = y; i <= y+SUB_MATRIX_LENGTH; i++){
+                for(int j = x; j <= x+SUB_MATRIX_LENGTH; j++) {
                     currentCount += matrix[i][j];
                 }
             }
             return currentCount;
         }
 
-        private boolean isYOutOfMatrix(int y){
-            return MAX_LENGTH <= y+Y_LENGTH;
-        }
-
-
-        private boolean isXOutOfMatrix(int x){
-            return MAX_LENGTH <= x+X_LENGTH;
+        private boolean isOutOfMatrix(int index){
+            return MAX_LENGTH <= index + SUB_MATRIX_LENGTH;
         }
     }
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         final int MAX_LENGTH = sc.nextInt();
         int[][] matrix = new int[MAX_LENGTH][MAX_LENGTH];
         for(int y = 0; y < MAX_LENGTH; y++){
             for(int x = 0; x < MAX_LENGTH; x++){
-                int value = sc.nextInt();
-                matrix[y][x] = value;
+                matrix[y][x] = sc.nextInt();
             }
         }
 
         new Solver(matrix).solve();
+    }
+
+    private static class Coordinate{
+        int y;
+        int x;
+
+        public Coordinate(
+                int y,
+                int x
+        ){
+            this.y = y;
+            this.x = x;
+        }
     }
 }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/벽이 있는 충돌 실험" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/숫자가 가장 큰 인접한 곳으로 동시에 이동" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/숫자의 순차적 이동" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/쌓인 숫자의 순차적 이동" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
