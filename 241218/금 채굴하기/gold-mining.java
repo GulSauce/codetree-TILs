@@ -19,19 +19,18 @@ public class Main {
         }
 
         public  void solve(){
-            initIsVisited();
             int result = 0;
             for(int y = 0; y < MAX_GRID_INDEX; y++){
                 for(int x = 0; x < MAX_GRID_INDEX; x++){
-                    result = Math.max(result, getGoldPriceWithIncreasingMoving(x, y));
+                    result = Math.max(result, getGoldPriceWithIncreasingMoveCount(x, y));
                 }
             }
             System.out.print(result);
         }
 
-        private int getGoldPriceWithIncreasingMoving(int centerX, int centerY){
+        private int getGoldPriceWithIncreasingMoveCount(int centerX, int centerY){
             int result = 0;
-            for(int moveCount = 0; moveCount < MAX_GRID_INDEX; moveCount++){
+            for(int moveCount = 0; moveCount <= MAX_GRID_INDEX; moveCount++){
                 int goldCount = getGoldCount(centerX, centerY, moveCount);
                 int movingPrice = getMovingPrice(moveCount);
                 if(movingPrice <= goldCount * UNIT_GOLD_PRICE){
@@ -42,11 +41,6 @@ public class Main {
         }
 
         private int getGoldCount(int centerX, int centerY, int moveCount){
-            initIsVisited();
-            return moveAndGetGoldCount(centerX, centerY, moveCount);
-        }
-
-        private int moveAndGetGoldCount(int centerX, int centerY, int moveCount){
             int goldCount = 0;
             for(int y = centerY-moveCount; y <= centerY+moveCount; y++){
                 for(int x = centerX-moveCount; x <= centerX+moveCount; x++) {
@@ -68,12 +62,6 @@ public class Main {
         private boolean isInMoveCount(Coordinate coordinate, Coordinate centerCoordinate, int dist){
             int menhattanDist = Math.abs(coordinate.x - centerCoordinate.x) + Math.abs(coordinate.y - centerCoordinate.y);
             return menhattanDist <= dist;
-        }
-
-        private void initIsVisited(){
-            for(boolean[] array: isVisited){
-                Arrays.fill(array, false);
-            }
         }
 
         private int getMovingPrice(int k){
