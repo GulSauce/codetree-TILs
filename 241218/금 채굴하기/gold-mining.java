@@ -30,7 +30,7 @@ public class Main {
 
         private int getGoldPriceWithIncreasingMoveCount(int centerX, int centerY){
             int result = 0;
-            for(int moveCount = 0; moveCount <= MAX_GRID_INDEX; moveCount++){
+            for(int moveCount = 0; moveCount <= 2*MAX_GRID_INDEX; moveCount++){
                 int goldCount = getGoldCount(centerX, centerY, moveCount);
                 int movingPrice = getMovingPrice(moveCount);
                 if(movingPrice <= goldCount * UNIT_GOLD_PRICE){
