@@ -2,79 +2,76 @@ import java.util.*;
 
 public class Main {
     private static class Solver {
-        int[][] matrix;
-        final int MAX_LENGTH;
-        final int SUB_MATRIX_LENGTH = 2;
+        int[][] grid;
+        int gridLength;
+        final int NEED_TO_CONTINUE;
 
         public Solver(
-                int[][] matrix
+                int m,
+                int[][] grid
         ){
-            this.matrix = matrix;
-            MAX_LENGTH = matrix.length;
+            this.grid = grid;
+            NEED_TO_CONTINUE = m;
+            gridLength = grid.length;
         }
 
         public void solve(){
-            int result = getResult();
+            int result = 0;
+            for(int y = 0; y < gridLength; y++){
+                int[] currentSequence = grid[y];
+                if(isHappySequence(currentSequence)) {
+                    result++;
+                }
+            }
+
+            for(int x = 0; x < gridLength; x++){
+                int[] currentSequence = getCurrentSequence(x);
+                if(isHappySequence(currentSequence)) {
+                    result++;
+                }
+            }
+
             System.out.print(result);
         }
 
-        private int getResult(){
-            int result = 0;
-            for(int y = 0; y < MAX_LENGTH; y++) {
-                if (isOutOfMatrix(y)) {
+        private boolean isHappySequence(int[] sequence){
+            int prevNumber = sequence[0];
+            int maxContinueCount = 0;
+            int currentContinueCount = 1;
+            for(int number: sequence){
+                if(number == prevNumber){
+                    currentContinueCount++;
+                    maxContinueCount = Math.max(maxContinueCount, currentContinueCount);
                     continue;
                 }
-                for (int x = 0; x < MAX_LENGTH; x++) {
-                    if (isOutOfMatrix(x)) {
-                        continue;
-                    }
-                    int currentCount = getCurrentCount(new Coordinate(y, x));
-                    result = Math.max(result, currentCount);
-                }
+                maxContinueCount = Math.max(maxContinueCount, currentContinueCount);
+                currentContinueCount = 1;
+                prevNumber = number;
             }
-            return result;
+            return NEED_TO_CONTINUE <= maxContinueCount;
         }
 
-        private int getCurrentCount(Coordinate coordinate){
-            int currentCount = 0;
-            int y = coordinate.y;
-            int x = coordinate.x;
-            for(int i = y; i <= y+SUB_MATRIX_LENGTH; i++){
-                for(int j = x; j <= x+SUB_MATRIX_LENGTH; j++) {
-                    currentCount += matrix[i][j];
-                }
+        private int[] getCurrentSequence(int x){
+            int[] sequence = new int[gridLength];
+            for(int y = 0; y < gridLength; y++) {
+                sequence[y] = grid[y][x];
             }
-            return currentCount;
-        }
-
-        private boolean isOutOfMatrix(int index){
-            return MAX_LENGTH <= index + SUB_MATRIX_LENGTH;
+            return sequence;
         }
     }
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        final int MAX_LENGTH = sc.nextInt();
-        int[][] matrix = new int[MAX_LENGTH][MAX_LENGTH];
-        for(int y = 0; y < MAX_LENGTH; y++){
-            for(int x = 0; x < MAX_LENGTH; x++){
-                matrix[y][x] = sc.nextInt();
+        final int n = sc.nextInt();
+        final int m = sc.nextInt();
+        int[][] grid = new int[n][n];
+        for(int y = 0; y < n; y++){
+            for(int x = 0; x < n; x++){
+                int value = sc.nextInt();
+                grid[y][x] = value;
             }
         }
 
-        new Solver(matrix).solve();
-    }
-
-    private static class Coordinate{
-        int y;
-        int x;
-
-        public Coordinate(
-                int y,
-                int x
-        ){
-            this.y = y;
-            this.x = x;
-        }
+        new Solver(m, grid).solve();
     }
 }

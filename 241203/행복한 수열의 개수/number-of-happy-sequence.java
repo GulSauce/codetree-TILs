@@ -2,59 +2,58 @@ import java.util.*;
 
 public class Main {
     private static class Solver {
-        int[][] matrix;
-        final int MAX_LENGTH;
-        final int NEED_TO_CONTINUE;
+        int[][] grid;
+        final int gridLength;
+        final int requiredStreakLength;
 
         public Solver(
                 int m,
-                int[][] matrix
+                int[][] grid
         ){
-            this.matrix = matrix;
-            NEED_TO_CONTINUE = m;
-            MAX_LENGTH = matrix.length;
+            this.grid = grid;
+            requiredStreakLength = m;
+            gridLength = grid.length;
         }
 
         public void solve(){
             int result = 0;
-            for(int y = 0; y < MAX_LENGTH; y++){
-                int[] currentSequence = matrix[y];
-                if(isHappySequence(currentSequence)) {
-                    result++;
-                }
-            }
+            for(int y = 0; y < gridLength; y++)
+                if(isHappySequence(grid[y])) result++;
 
-            for(int x = 0; x < MAX_LENGTH; x++){
-                int[] currentSequence = getCurrentSequence(x);
-                if(isHappySequence(currentSequence)) {
-                    result++;
-                }
-            }
+            for(int x = 0; x < gridLength; x++)
+                if(isHappySequence(getColumnSequence(x))) result++;
 
             System.out.print(result);
         }
 
         private boolean isHappySequence(int[] sequence){
+            // 초기화
             int prevNumber = sequence[0];
-            int maxContinueCount = 0;
-            int currentContinueCount = 0;
-            for(int number: sequence){
-                if(number == prevNumber){
-                    currentContinueCount++;
-                    maxContinueCount = Math.max(maxContinueCount, currentContinueCount);
-                    continue;
+            int maxStreakLength = 1;
+            int currentStreakLength = 1;
+
+            // 처리
+            for(int i = 1; i < sequence.length; i++){
+                int curNumber = sequence[i];
+                if(prevNumber == curNumber){
+                    currentStreakLength++;
+                }else{
+                    maxStreakLength = Math.max(maxStreakLength, currentStreakLength);
+                    currentStreakLength = 1;
                 }
-                maxContinueCount = Math.max(maxContinueCount, currentContinueCount);
-                currentContinueCount = 1;
-                prevNumber = number;
+                prevNumber = curNumber;
             }
-            return NEED_TO_CONTINUE <= maxContinueCount;
+
+            // 종료
+            maxStreakLength = Math.max(maxStreakLength, currentStreakLength);
+
+            return requiredStreakLength <= maxStreakLength;
         }
 
-        private int[] getCurrentSequence(int x){
-            int[] sequence = new int[MAX_LENGTH];
-            for(int y = 0; y < MAX_LENGTH; y++) {
-                sequence[y] = matrix[y][x];
+        private int[] getColumnSequence(int x){
+            int[] sequence = new int[gridLength];
+            for(int y = 0; y < gridLength; y++) {
+                sequence[y] = grid[y][x];
             }
             return sequence;
         }
@@ -64,14 +63,14 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         final int n = sc.nextInt();
         final int m = sc.nextInt();
-        int[][] matrix = new int[n][n];
+        int[][] grid = new int[n][n];
         for(int y = 0; y < n; y++){
             for(int x = 0; x < n; x++){
                 int value = sc.nextInt();
-                matrix[y][x] = value;
+                grid[y][x] = value;
             }
         }
 
-        new Solver(m, matrix).solve();
+        new Solver(m, grid).solve();
     }
 }
