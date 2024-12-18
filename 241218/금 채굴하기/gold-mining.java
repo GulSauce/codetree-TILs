@@ -20,8 +20,8 @@ public class Main {
 
         public  void solve(){
             int result = 0;
-            for(int y = 0; y < MAX_GRID_INDEX; y++){
-                for(int x = 0; x < MAX_GRID_INDEX; x++){
+            for(int y = 0; y <= MAX_GRID_INDEX; y++){
+                for(int x = 0; x <= MAX_GRID_INDEX; x++){
                     result = Math.max(result, getGoldPriceWithIncreasingMoveCount(x, y));
                 }
             }
