@@ -2,134 +2,132 @@ import java.util.*;
 
 public class Main {
     private static class Solver{
-        final int minConsecutiveToExplode;
-        final int totalRotations;
-        final int gridSize;
-        final int[][] grid;
+        int[][] bombGrid;
+        int gridLength;
+        int minConsecutiveToExplode;
+        int totalRotation;
+
+        final int EMPTY_MARK = 0;
 
         public Solver(
-                int[][] grid,
+                int[][] bombGrid,
                 int M,
                 int K
         ){
-            this.grid = grid;
+            this.bombGrid = bombGrid;
+            this.gridLength = bombGrid.length-1;
             this.minConsecutiveToExplode = M;
-            this.totalRotations = K;
-            this.gridSize = grid.length-1;
+            this.totalRotation = K;
         }
 
         public void solve(){
-            for(int round = 0; round <= totalRotations; round++){
-                performExplosions();
-                rotateClockWise90();
+            for(int rotation = 0; rotation <= totalRotation; rotation++){
+                explodeBombPossible();
+                rotateClockwise90();
+                applyGravity();
             }
+
             printResult();
         }
 
-        private void printResult(){
-            int result = 0;
-
-            for(int row = 1; row <= gridSize; row++){
-                for(int col = 1; col <= gridSize; col++){
-                    if(grid[row][col] != 0){
-                        result++;
-                    }
-                }
-            }
-
-            System.out.println(result);
-        }
-
-        private void performExplosions(){
-            boolean exploded;
+        private void explodeBombPossible(){
+            boolean isExplode;
             do{
-                exploded = explodeBombs();
+                isExplode = explodeBomb();
                 applyGravity();
-            } while (exploded);
+            } while (isExplode);
         }
 
-        private boolean explodeBombs(){
-            boolean explodedThisRound = false;
+        private boolean explodeBomb(){
+            boolean isExplode = false;
 
-            for(int col = 1; col <= gridSize; col++){
+            for(int col = 1; col <= gridLength; col++){
                 // 초기
-                int count = 1;
+                if(bombGrid[1][col] == 0){
+                    continue;
+                }
+                int currentConsecutive = 1;
+                int currentNumber = bombGrid[1][col];
 
                 // 처리
-                for(int row = 2; row <= gridSize; row++){
-                    if(grid[row][col] != 0 && grid[row][col] == grid[row-1][col]){
-                        count++;
+                for(int row = 2; row <= gridLength; row++){
+                    if(currentNumber == bombGrid[row][col]){
+                        currentConsecutive++;
                     } else{
-                        if(count >= minConsecutiveToExplode){
-                            markForExplosion(col, row-1, count);
-                            explodedThisRound = true;
+                        if(minConsecutiveToExplode <= currentConsecutive){
+                            isExplode = true;
+                            markToExplode(row-1, col, currentConsecutive);
                         }
-                        count = 1;
+                        currentConsecutive = 1;
+                        currentNumber = bombGrid[row][col];
                     }
                 }
 
                 // 종료
-                if(grid[gridSize][col] != 0 && count >= minConsecutiveToExplode){
-                    markForExplosion(col, gridSize, count);
-                    explodedThisRound= true;
+                int endRow = gridLength;
+                if(minConsecutiveToExplode <= currentConsecutive){
+                    markToExplode(endRow, col, currentConsecutive);
                 }
             }
-
-            return explodedThisRound;
+            return isExplode;
         }
 
-        private void markForExplosion(int col, int endRow, int count){
-            for(int row = endRow; row > endRow - count; row--){
-                grid[row][col] = 0;
+        private void markToExplode(int endRow, int col, int count){
+            for(int row = endRow; row > endRow-count; row--){
+                bombGrid[row][col] = EMPTY_MARK;
             }
         }
 
-        private void rotateClockWise90(){
-            int[][] copiedNumbers = copyGrid();
-            for(int row = 1; row <= gridSize; row++){
-                for(int col = 1; col <= gridSize; col++){
-                    int reversCol = gridSize - col + 1;
-                    grid[row][col] = copiedNumbers[reversCol][row];
-                }
-            }
-            applyGravity();
-        }
-
-        private int[][] copyGrid(){
-            int[][] copiedGrid = new int[gridSize+1][gridSize+1];
-
-            for(int row = 1; row <= gridSize; row++){
-                for(int col = 1; col <= gridSize; col++){
-                    copiedGrid[row][col] = grid[row][col];
-                }
-            }
-            return copiedGrid;
-        }
-
-        private void printMatrix(){
-            for(int row = 1; row <= gridSize; row++){
-                for(int col = 1; col <= gridSize; col++){
-                    System.out.printf("%d ", grid[row][col]);
-                }
-                System.out.println();
-            }
-            System.out.println("============");
-        }
-
-        private void applyGravity() {
-            for(int col = 1; col <= gridSize; col++){
-                int placementRow = gridSize;
-                for(int row = gridSize; row >= 1; row--){
-                    if(grid[row][col] == 0){
+        private void applyGravity(){
+            for(int col = 1; col <= gridLength; col++){
+                int placementRow = gridLength;
+                for(int row = gridLength; row >= 1; row--){
+                    if(bombGrid[row][col] == EMPTY_MARK){
                         continue;
                     }
-                    grid[placementRow][col] = grid[row][col];
-                    if(placementRow != row){
-                        grid[row][col] = 0;
+                    if(placementRow == row){
+                        placementRow--;
+                        continue;
                     }
+                    bombGrid[placementRow][col] = bombGrid[row][col];
+                    bombGrid[row][col] = 0;
                     placementRow--;
                 }
             }
+        }
+
+        private void rotateClockwise90(){
+            int[][] copiedGrid = copyGrid();
+            for(int row = 1; row <= gridLength; row++){
+                for(int col = 1; col <= gridLength; col++){
+                    int lastRow = gridLength;
+                    bombGrid[row][col] = copiedGrid[lastRow-col+1][row];
+                }
+            }
+        }
+
+        private void printResult(){
+            int bombCount = 0;
+
+            for(int row = 1; row <= gridLength; row++){
+                for(int col = 1; col <= gridLength; col++){
+                    if(bombGrid[row][col] != EMPTY_MARK){
+                        bombCount++;
+                    }
+                }
+            }
+
+            System.out.println(bombCount);
+        }
+
+        private int[][] copyGrid(){
+            int[][] copiedGrid = new int[gridLength+1][gridLength+1];
+            for(int row = 1; row <= gridLength; row++){
+                for(int col = 1; col <= gridLength; col++){
+                    copiedGrid[row][col] = bombGrid[row][col];
+                }
+            }
+            return copiedGrid;
         }
     }
 
@@ -140,13 +138,13 @@ public class Main {
         int M = sc.nextInt();
         int K = sc.nextInt();
 
-        int[][] numbers = new int[N+1][N+1];
+        int[][] bombGrid = new int[N+1][N+1];
         for(int row = 1; row <= N; row++){
-            for(int col = 1; col <= N; col++) {
-                numbers[row][col] = sc.nextInt();
+            for(int col = 1; col <= N; col++){
+                bombGrid[row][col] = sc.nextInt();
             }
         }
 
-        new Solver(numbers, M, K).solve();
+        new Solver(bombGrid, M, K).solve();
     }
 }
