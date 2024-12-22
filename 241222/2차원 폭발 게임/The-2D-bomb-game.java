@@ -56,12 +56,12 @@ public class Main {
                 int count = 1;
 
                 // 처리
-                for(int row = 1; row <= gridSize-1; row++){
-                    if(grid[row][col] != 0 && grid[row][col] == grid[row+1][col]){
+                for(int row = 2; row <= gridSize; row++){
+                    if(grid[row][col] != 0 && grid[row][col] == grid[row-1][col]){
                         count++;
                     } else{
                         if(count >= minConsecutiveToExplode){
-                            markForExplosion(col, row, count);
+                            markForExplosion(col, row-1, count);
                             explodedThisRound = true;
                         }
                         count = 1;
