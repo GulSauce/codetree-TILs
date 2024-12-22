@@ -15,11 +15,11 @@ public class Main {
             this.grid = grid;
             this.minConsecutiveToExplode = M;
             this.totalRotations = K;
-            this.gridSize = grid.length;
+            this.gridSize = grid.length-1;
         }
 
         public void solve(){
-            for(int i = 0; i <= totalRotations; i++){
+            for(int round = 0; round <= totalRotations; round++){
                 performExplosions();
                 rotateClockWise90();
             }
@@ -29,8 +29,8 @@ public class Main {
         private void printResult(){
             int result = 0;
 
-            for(int row = 0; row < gridSize; row++){
-                for(int col = 0; col < gridSize; col++){
+            for(int row = 1; row <= gridSize; row++){
+                for(int col = 1; col <= gridSize; col++){
                     if(grid[row][col] != 0){
                         result++;
                     }
@@ -51,13 +51,13 @@ public class Main {
         private boolean explodeBombs(){
             boolean explodedThisRound = false;
 
-            for(int col = 0; col < gridSize; col++){
+            for(int col = 1; col <= gridSize; col++){
                 // 초기
                 int count = 1;
 
                 // 처리
-                for(int row = 1; row < gridSize; row++){
-                    if(grid[row][col] != 0 && grid[row][col] == grid[row-1][col]){
+                for(int row = 1; row <= gridSize-1; row++){
+                    if(grid[row][col] != 0 && grid[row][col] == grid[row+1][col]){
                         count++;
                     } else{
                         if(count >= minConsecutiveToExplode){
@@ -70,7 +70,7 @@ public class Main {
 
                 // 종료
                 if(count >= minConsecutiveToExplode){
-                    markForExplosion(col, gridSize-1, count);
+                    markForExplosion(col, gridSize, count);
                     explodedThisRound= true;
                 }
             }
@@ -86,29 +86,40 @@ public class Main {
 
         private void rotateClockWise90(){
             int[][] copiedNumbers = copyGrid();
-            for(int row = 0; row < gridSize; row++){
-                for(int col = 0; col < gridSize; col++){
-                    grid[row][col] = copiedNumbers[gridSize - 1 - col][row];
+            for(int row = 1; row <= gridSize; row++){
+                for(int col = 1; col <= gridSize; col++){
+                    int reversCol = gridSize - col + 1;
+                    grid[row][col] = copiedNumbers[reversCol][row];
                 }
             }
             applyGravity();
         }
 
         private int[][] copyGrid(){
-            int[][] copiedGrid = new int[gridSize][gridSize];
+            int[][] copiedGrid = new int[gridSize+1][gridSize+1];
 
-            for(int row = 0; row < gridSize; row++){
-                for(int col = 0; col < gridSize; col++){
+            for(int row = 1; row <= gridSize; row++){
+                for(int col = 1; col <= gridSize; col++){
                     copiedGrid[row][col] = grid[row][col];
                 }
             }
             return copiedGrid;
         }
 
+        private void printMatrix(){
+            for(int row = 1; row <= gridSize; row++){
+                for(int col = 1; col <= gridSize; col++){
+                    System.out.printf("%d ", grid[row][col]);
+                }
+                System.out.println();
+            }
+            System.out.println("============");
+        }
+
         private void applyGravity() {
-            for(int col = 0; col < gridSize; col++){
-                int placementRow = gridSize - 1;
-                for(int row = gridSize-1; row >= 0; row--){
+            for(int col = 1; col <= gridSize; col++){
+                int placementRow = gridSize;
+                for(int row = gridSize; row >= 1; row--){
                     if(grid[row][col] == 0){
                         continue;
                     }
@@ -129,10 +140,10 @@ public class Main {
         int M = sc.nextInt();
         int K = sc.nextInt();
 
-        int[][] numbers = new int[N][N];
-        for(int y = 0; y < N; y++){
-            for(int x = 0; x < N; x++) {
-                numbers[y][x] = sc.nextInt();
+        int[][] numbers = new int[N+1][N+1];
+        for(int row = 1; row <= N; row++){
+            for(int col = 1; col <= N; col++) {
+                numbers[row][col] = sc.nextInt();
             }
         }
 
