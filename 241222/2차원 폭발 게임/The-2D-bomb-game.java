@@ -26,7 +26,6 @@ public class Main {
                 rotateClockwise90();
                 applyGravity();
             }
-
             printResult();
         }
 
@@ -43,14 +42,24 @@ public class Main {
 
             for(int col = 1; col <= gridLength; col++){
                 // 초기
-                if(bombGrid[1][col] == 0){
+                int currentConsecutive = -1;
+                int currentNumber = -1;
+                int startRow = -1;
+                for(int row = 1; row <= gridLength; row++){
+                    if(bombGrid[row][col] == 0){
+                        continue;
+                    }
+                    currentConsecutive = 1;
+                    currentNumber = bombGrid[row][col];
+                    startRow = row;
+                    break;
+                }
+                if(startRow == -1){
                     continue;
                 }
-                int currentConsecutive = 1;
-                int currentNumber = bombGrid[1][col];
 
                 // 처리
-                for(int row = 2; row <= gridLength; row++){
+                for(int row = startRow+1; row <= gridLength; row++){
                     if(currentNumber == bombGrid[row][col]){
                         currentConsecutive++;
                     } else{
@@ -128,6 +137,15 @@ public class Main {
                 }
             }
             return copiedGrid;
+        }
+
+        private void printMatrix(){
+            for(int row = 1; row <= gridLength; row++){
+                for(int col = 1; col <= gridLength; col++){
+                    System.out.printf("%d ", bombGrid[row][col]);
+                }
+                System.out.println();
+            }
         }
     }
 
