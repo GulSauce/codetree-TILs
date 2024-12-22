@@ -69,7 +69,7 @@ public class Main {
                 }
 
                 // 종료
-                if(count >= minConsecutiveToExplode){
+                if(grid[gridSize][col] != 0 && count >= minConsecutiveToExplode){
                     markForExplosion(col, gridSize, count);
                     explodedThisRound= true;
                 }
