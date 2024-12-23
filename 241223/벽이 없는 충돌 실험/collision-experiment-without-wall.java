@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Main {
     private static class Solver{
-        final int TOTAL_TIME = 2000;
+        final int TOTAL_TIME = 4000;
 
         int[] deltaX = {1, 0, -1, 0};
         int[] deltaY = {0, 1, 0, -1};
