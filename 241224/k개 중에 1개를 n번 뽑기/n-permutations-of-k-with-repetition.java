@@ -33,7 +33,8 @@ public class Main {
 
         private void printCombination(){
             for(int number: combinations){
-                System.out.printf("%d ", number);
+                System.out.print(number);
+                System.out.print(" ");
             }
             System.out.println();
         }
