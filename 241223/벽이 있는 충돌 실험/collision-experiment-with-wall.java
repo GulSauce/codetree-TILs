@@ -2,45 +2,40 @@ import java.util.*;
 
 public class Main {
     private static class Solver{
-        int[][] board;
+        int gridSize;
         BidMoveInfo[] bidMoveInfos;
+        int[][] grid;
+        final int TOTAL_TIME = 100;
+        Map<String, Integer> directionIndexMap = new HashMap<>();
+        Map<String, String> reverseDirectionMap = new HashMap<>();
 
-        int[] dx = {0, -1, 0, 1};
-        int[] dy = {1, 0, -1, 0};
+        int[] deltaRow = {0, -1, 0, 1};
+        int[] deltaCol = {1, 0, -1, 0};
 
         public Solver(
-                int[][] board,
+                int N,
                 BidMoveInfo[] bidMoveInfos
         ){
-            this.board = board;
+            this.gridSize = N;
             this.bidMoveInfos = bidMoveInfos;
+            this.grid = new int[N+1][N+1];
         }
 
         public void solve(){
-            for(int i = 0; i < 100; i++) {
-                setBidOnBoard();
+            initDirectionIndexMap();
+            initReverseDirectionMap();
+            for(int time = 0; time <= TOTAL_TIME; time++){
+                moveBids();
+                setBidsAtGrid();
                 removeCollideBids();
-                setNextMove();
             }
-            printResult();
+            System.out.println(bidMoveInfos.length);
         }
 
-        private void printResult(){
-            int result = 0;
-            for(int y = 1; y < board.length; y++){
-                for(int x = 1; x < board.length; x++){
-                    if(board[y][x] == 1){
-                        result++;
-                    }
-                }
-            }
-            System.out.println(result);
-        }
-
-        private void removeCollideBids() {
+        private void removeCollideBids(){
             ArrayList<BidMoveInfo> surviveBids = new ArrayList<>();
-            for (BidMoveInfo bidMoveInfo : bidMoveInfos) {
-                if(2 <= board[bidMoveInfo.x][bidMoveInfo.y]){
+            for(BidMoveInfo bidMoveInfo: bidMoveInfos){
+                if(2 <= grid[bidMoveInfo.row][bidMoveInfo.col]){
                     continue;
                 }
                 surviveBids.add(bidMoveInfo);
@@ -48,110 +43,75 @@ public class Main {
             bidMoveInfos = surviveBids.toArray(new BidMoveInfo[0]);
         }
 
-        private void setNextMove(){
-            for(int i = 0; i < bidMoveInfos.length; i++){
-                BidMoveInfo bidMoveInfo = bidMoveInfos[i];
-                int directionIndex = getDirectionIndex(bidMoveInfo.d);
-                int nextY = bidMoveInfo.y + dy[directionIndex];
-                int nextX = bidMoveInfo.x + dx[directionIndex];
-                if(isOutOfRange(nextY, nextX)){
-                    Character reverseDirection = getReverseDirection(bidMoveInfo.d);
-                    bidMoveInfos[i] = new BidMoveInfo(bidMoveInfo.x, bidMoveInfo.y, reverseDirection);
+        private void moveBids(){
+            for(BidMoveInfo bidMoveInfo: bidMoveInfos){
+                int directionIndex = directionIndexMap.get(bidMoveInfo.direction);
+                int nextRow = bidMoveInfo.row + deltaRow[directionIndex];
+                int nextCol = bidMoveInfo.col + deltaRow[directionIndex];
+                if(isOutOfGrid(nextRow, nextCol)){
+                    bidMoveInfo.direction = reverseDirectionMap.get(bidMoveInfo.direction);
                     continue;
                 }
-                bidMoveInfos[i] = new BidMoveInfo(nextX, nextY, bidMoveInfo.d);
+                bidMoveInfo.row = nextRow;
+                bidMoveInfo.col = nextCol;
             }
         }
 
-        private boolean isOutOfRange(int y, int x){
-            return y <= 0 || board.length <= y || x <= 0 || board.length <= x;
+        private boolean isOutOfGrid(int row, int col){
+            return row < 1 || gridSize < row || col < 1 || gridSize < col;
         }
 
-        private Character getReverseDirection(Character d){
-            if(d.equals('R')){
-                return 'L';
-            }
-            if(d.equals('U')){
-                return 'D';
-            }
-            if(d.equals('L')){
-                return 'R';
-            }
-            if(d.equals('D')){
-                return 'U';
-            }
-            return '?';
-        }
-
-        private int getDirectionIndex(Character d){
-            if(d.equals('R')){
-                return 0;
-            }
-            if(d.equals('U')){
-                return 1;
-            }
-            if(d.equals('L')){
-                return 2;
-            }
-            if(d.equals('D')){
-                return 3;
-            }
-            return -1;
-        }
-
-        private void setBidOnBoard(){
-            for(int y = 1; y < board.length; y++){
-                for(int x = 1; x < board.length; x++){
-                    board[y][x] = 0;
-                }
+        private void setBidsAtGrid(){
+            for(int[] array: grid){
+                Arrays.fill(array, 0);
             }
             for(BidMoveInfo bidMoveInfo: bidMoveInfos){
-                board[bidMoveInfo.x][bidMoveInfo.y]++;
+                grid[bidMoveInfo.row][bidMoveInfo.col]++;
             }
+        }
+
+        private void initReverseDirectionMap(){
+            reverseDirectionMap.put("R", "L");
+            reverseDirectionMap.put("U", "D");
+            reverseDirectionMap.put("L", "R");
+            reverseDirectionMap.put("D", "U");
+        }
+
+        private void initDirectionIndexMap(){
+            directionIndexMap.put("R", 0);
+            directionIndexMap.put("U", 1);
+            directionIndexMap.put("L", 2);
+            directionIndexMap.put("D", 3);
         }
     }
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-
         int T = sc.nextInt();
-        for(int i = 0; i < T; i++){
+        for(int testCase = 0; testCase < T; testCase++){
             int N = sc.nextInt();
-            int[][] board = new int[N+1][N+1];
-            for(int y = 1; y <= N; y++){
-                for(int x = 1; x <= N; x++){
-                    board[y][x] = 0;
-                }
-            }
-
             int M = sc.nextInt();
-
             BidMoveInfo[] bidMoveInfos = new BidMoveInfo[M];
-
-            for(int j = 0; j < M; j++) {
-                int x = sc.nextInt();
-                int y = sc.nextInt();
-                Character d = sc.next().charAt(0);
-                bidMoveInfos[j] = new BidMoveInfo(x, y, d);
+            for(int i = 0; i < M; i++){
+                bidMoveInfos[i] = new BidMoveInfo(sc.nextInt(), sc.nextInt(), sc.next());
             }
-
-            new Solver(board, bidMoveInfos).solve();
+            new Solver(N, bidMoveInfos).solve();
         }
     }
 
     private static class BidMoveInfo{
-        int x;
-        int y;
-        Character d;
+        int row;
+        int col;
+        String direction;
 
         public BidMoveInfo(
                 int x,
                 int y,
-                Character d
+                String d
         ){
-            this.x = x;
-            this.y = y;
-            this.d = d;
+            this.row = x;
+            this.col = y;
+            this.direction= d;
         }
     }
 }
