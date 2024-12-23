@@ -50,43 +50,27 @@ public class Main {
             for(int moveCount = 0; moveCount < totalMove; moveCount++){
                 elapsedTime++;
                 Coordinate nextHead = new Coordinate(head.x+deltaX[directionIndex], head.y+deltaY[directionIndex]);
+
+                if(applePositions.contains(nextHead)){
+                    applePositions.remove(nextHead);
+                }
+                else{
+                    Coordinate tail = snakeParts.pollLast();
+                    snakePositions.remove(tail);
+                }
                 if(isCollideSnake(nextHead)){
                     return true;
                 }
 
                 snakeParts.addFirst(nextHead);
                 snakePositions.add(nextHead);
-                head = nextHead;
-                if(isOutOfGrid(head)){
+                if(isOutOfGrid(nextHead)){
                     return true;
                 }
 
-                if(applePositions.contains(head)){
-                    applePositions.remove(head);
-                    continue;
-                }
-
-                Coordinate tail = snakeParts.peekLast();
-                snakePositions.remove(tail);
-                snakeParts.pollLast();
+                head = nextHead;
             }
             return false;
-        }
-
-        private void printApplePositions(){
-            System.out.println("APPLE========");
-            for(Coordinate coordinate: applePositions){
-                System.out.printf("%d %d\n", coordinate.x, coordinate.y);
-            }
-            System.out.println("========");
-        }
-
-        private void printSnakePositions(){
-            System.out.println("SNAKE========");
-            for(Coordinate coordinate: snakePositions){
-                System.out.printf("%d %d\n", coordinate.x, coordinate.y);
-            }
-            System.out.println("========");
         }
 
         private boolean isOutOfGrid(Coordinate coordinate){
