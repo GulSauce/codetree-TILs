@@ -50,7 +50,7 @@ public class Main {
                     continue;
                 }
 
-                if(targetNumberCount != targetNumber){
+                if(targetNumberCount < targetNumber){
                     return false;
                 }
                 targetNumber = currentNumber;
@@ -61,12 +61,6 @@ public class Main {
             }
 
             return true;
-        }
-
-        private void printNumbers(){
-            for(int number: numbers){
-                System.out.print(number);
-            }
         }
     }
 
