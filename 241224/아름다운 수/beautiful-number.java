@@ -20,10 +20,8 @@ public class Main {
         }
 
         private void countBeautifulNumber(int repeatCount){
-            if(digit <= repeatCount){
-                printNumbers();
+            if(digit < repeatCount){
                 if(isBeautifulNumber()){
-                    System.out.println("beautiful");
                     result++;
                 }
                 return;
@@ -51,7 +49,8 @@ public class Main {
                     targetNumberCount++;
                     continue;
                 }
-                if(targetNumberCount != currentNumber){
+
+                if(targetNumberCount != targetNumber){
                     return false;
                 }
                 targetNumber = currentNumber;
