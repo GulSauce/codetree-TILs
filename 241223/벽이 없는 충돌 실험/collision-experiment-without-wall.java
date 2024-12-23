@@ -1,131 +1,137 @@
+import java.awt.image.TileObserver;
 import java.util.*;
 
 public class Main {
     private static class Solver{
-        ArrayList<BidInfo> bidInfos;
+        final int TOTAL_TIME = 1000;
 
-        int[] dy = {0, 1, 0, -1};
-        int[] dx = {1, 0, -1, 0};
+        int[] deltaX = {1, 0, -1, 0};
+        int[] deltaY = {0, 1, 0, -1};
 
-        HashMap<String, ArrayList<BidInfo>> bidExistInfo = new HashMap<>();
+        int[][] surviveBidIndex = new int[6001][6001];
 
-        public  Solver(
-                ArrayList<BidInfo> bidInfos
+        List<BidInfo> bidInfos;
+
+        Map<String, Integer> directionIndexMap = new HashMap<>();
+
+        public Solver(
+                List<BidInfo> bidInfos
         ){
             this.bidInfos = bidInfos;
         }
 
-        public  void solve(){
-            int lastCollideTime = -1;
-            for(int t = 1; t <= 10000; t++){
-                moveBidHalfWithHashing();
-                boolean isRemoved = removeCollideBid();
-                if(isRemoved){
-                    lastCollideTime = t;
+        public void solve(){
+            initSurviveBidIndex();
+            initDirectionIndexMap();
+            int elapsedTime = -1;
+            for(int time = 1; time <= TOTAL_TIME; time++) {
+                moveBids();
+                boolean isCollide = removeCollideBidsRemainOne();
+                if(isCollide){
+                    elapsedTime = time;
                 }
             }
-            System.out.println(lastCollideTime);
+            System.out.println(elapsedTime);
         }
 
-        private boolean removeCollideBid(){
-            boolean isRemoved = false;
-            ArrayList<BidInfo> savedBids = new ArrayList<>();
-            for(ArrayList<BidInfo> bidInfosByKey: bidExistInfo.values()){
-                if(bidInfosByKey.size() == 1){
-                    savedBids.addAll(bidInfosByKey);
-                    continue;
-                }
-                Collections.sort(bidInfosByKey);
-                BidInfo savedBid = bidInfosByKey.get(0);
-                savedBids.add(savedBid);
-                isRemoved = true;
+        private void initSurviveBidIndex(){
+            for(int[] array: surviveBidIndex){
+                Arrays.fill(array, -1);
             }
-            bidInfos = savedBids;
-            return isRemoved;
         }
 
-        private void moveBidHalfWithHashing(){
-            bidExistInfo.clear();
+        private void printBidInfos(){
+            System.out.println("===============");
             for(BidInfo bidInfo: bidInfos){
-                int directionIndex = getDirectionIndex(bidInfo.direction);
-                bidInfo.x = bidInfo.x + 0.5*dx[directionIndex];
-                bidInfo.y = bidInfo.y + 0.5*dy[directionIndex];
-                String key = bidInfo.x+","+ bidInfo.y;
-                if(!bidExistInfo.containsKey(key)){
-                    ArrayList<BidInfo> bidInfosByKey = new ArrayList<>();
-                    bidInfosByKey.add(bidInfo);
-                    bidExistInfo.put(key, bidInfosByKey);
-                    continue;
-                }
-                ArrayList<BidInfo> bidInfosByKey = bidExistInfo.get(key);
-                bidInfosByKey.add(bidInfo);
+                System.out.printf("%d %d\n", bidInfo.x, bidInfo.y);
+            }
+            System.out.println("===============");
+        }
+
+        private void moveBids(){
+            for(BidInfo bidInfo: bidInfos){
+                int directionIndex = directionIndexMap.get(bidInfo.direction);
+                bidInfo.x = bidInfo.x + deltaX[directionIndex];
+                bidInfo.y = bidInfo.y + deltaY[directionIndex];
             }
         }
 
-        private int getDirectionIndex(Character direction){
-            if(direction.equals('R')){
-                return 0;
+        private boolean removeCollideBidsRemainOne(){
+            boolean isCollide = false;
+            List<BidInfo> surviveBids = new ArrayList<>();
+            for (BidInfo curBid : bidInfos) {
+                if (surviveBidIndex[curBid.y][curBid.x] == -1) {
+                    surviveBids.add(curBid);
+                    surviveBidIndex[curBid.y][curBid.x] = surviveBids.size() - 1;
+                    continue;
+                }
+                isCollide = true;
+                int existBidIndex = surviveBidIndex[curBid.y][curBid.x];
+                BidInfo existBid = surviveBids.get(existBidIndex);
+                if (isExistBidRemain(curBid, existBid)) {
+                    continue;
+                }
+                surviveBids.set(existBidIndex, curBid);
             }
-            if(direction.equals('U')){
-                return 1;
+            for (BidInfo curBid : bidInfos) {
+               surviveBidIndex[curBid.y][curBid.x] = -1;
             }
-            if(direction.equals('L')){
-                return 2;
+            this.bidInfos = surviveBids;
+            return isCollide;
+        }
+
+        private boolean isExistBidRemain(BidInfo curBid, BidInfo existBid){
+            if(curBid.weight > existBid.weight){
+                return false;
             }
-            if(direction.equals('D')){
-                return 3;
+            if(curBid.weight == existBid.weight){
+                if(curBid.number > existBid.number){
+                    return false;
+                }
             }
-            return -1;
+            return true;
+        }
+
+        private void initDirectionIndexMap(){
+            directionIndexMap.put("R", 0);
+            directionIndexMap.put("U", 1);
+            directionIndexMap.put("L", 2);
+            directionIndexMap.put("D", 3);
         }
     }
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-
         int T = sc.nextInt();
         for(int testCase = 0; testCase < T; testCase++){
             int N = sc.nextInt();
-            ArrayList<BidInfo> bidInfos = new ArrayList<>();
-
-            for(int i = 0; i < N; i++){
-                int x = sc.nextInt();
-                int y = sc.nextInt();
-                int w = sc.nextInt();
-                Character d = sc.next().charAt(0);
-                bidInfos.add(new BidInfo(i, x, y, w, d));
+            List<BidInfo> bidInfos = new ArrayList<>();
+            for(int number = 1; number <= N; number++){
+                bidInfos.add(new BidInfo(number, sc.nextInt(), sc.nextInt(), sc.nextInt(), sc.next()));
             }
-
             new Solver(bidInfos).solve();
         }
     }
 
-    private static class BidInfo implements Comparable<BidInfo>{
+    private static class BidInfo{
         int number;
-        double x;
-        double y;
+        int x;
+        int y;
         int weight;
-        Character direction;
+        String direction;
 
         public BidInfo(
                 int number,
                 int x,
                 int y,
                 int w,
-                Character d
+                String d
         ){
             this.number = number;
-            this.x = x;
-            this.y = y;
+            this.x = 2*x + 3000;
+            this.y = 2*y + 3000;
             this.weight = w;
             this.direction = d;
-        }
-
-        @Override
-        public int compareTo(BidInfo bidInfo){
-            if(this.weight == bidInfo.weight){
-                return bidInfo.number - this.number;
-            }
-            return bidInfo.weight - this.weight;
         }
     }
 }
