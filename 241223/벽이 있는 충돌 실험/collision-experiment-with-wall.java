@@ -5,7 +5,7 @@ public class Main {
         int gridSize;
         BidMoveInfo[] bidMoveInfos;
         int[][] grid;
-        final int TOTAL_TIME = 100;
+        final int TOTAL_TIME = 1000;
         Map<String, Integer> directionIndexMap = new HashMap<>();
         Map<String, String> reverseDirectionMap = new HashMap<>();
 
