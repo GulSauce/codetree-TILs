@@ -13,13 +13,8 @@ public class Main {
 
         Map<String, Integer> directionIndexMap = new HashMap<>();
 
-        public Solver(
-                List<BidInfo> bidInfos
-        ){
-            this.bidInfos = bidInfos;
-        }
-
-        public void solve(){
+        public void solve( List<BidInfo> bidInfos){
+            this.bidInfos =bidInfos;
             initSurviveBidIndex();
             initDirectionIndexMap();
             int elapsedTime = -1;
@@ -37,14 +32,6 @@ public class Main {
             for(int[] array: surviveBidIndex){
                 Arrays.fill(array, -1);
             }
-        }
-
-        private void printBidInfos(){
-            System.out.println("===============");
-            for(BidInfo bidInfo: bidInfos){
-                System.out.printf("%d %d\n", bidInfo.x, bidInfo.y);
-            }
-            System.out.println("===============");
         }
 
         private void moveBids(){
@@ -112,13 +99,14 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int T = sc.nextInt();
+        Solver solver = new Solver();
         for(int testCase = 0; testCase < T; testCase++){
             int N = sc.nextInt();
             List<BidInfo> bidInfos = new ArrayList<>();
             for(int number = 1; number <= N; number++){
                 bidInfos.add(new BidInfo(number, sc.nextInt(), sc.nextInt(), sc.nextInt(), sc.next()));
             }
-            new Solver(bidInfos).solve();
+            solver.solve(bidInfos);
         }
     }
 
