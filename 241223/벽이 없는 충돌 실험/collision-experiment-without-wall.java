@@ -1,14 +1,13 @@
-import java.awt.image.TileObserver;
 import java.util.*;
 
 public class Main {
     private static class Solver{
-        final int TOTAL_TIME = 1000;
+        final int TOTAL_TIME = 2000;
 
         int[] deltaX = {1, 0, -1, 0};
         int[] deltaY = {0, 1, 0, -1};
 
-        int[][] surviveBidIndex = new int[6001][6001];
+        int[][] surviveBidIndex = new int[4001][4001];
 
         List<BidInfo> bidInfos;
 
@@ -60,6 +59,9 @@ public class Main {
             boolean isCollide = false;
             List<BidInfo> surviveBids = new ArrayList<>();
             for (BidInfo curBid : bidInfos) {
+                if(isOutOfGrid(curBid.y, curBid.x)){
+                    continue;
+                }
                 if (surviveBidIndex[curBid.y][curBid.x] == -1) {
                     surviveBids.add(curBid);
                     surviveBidIndex[curBid.y][curBid.x] = surviveBids.size() - 1;
@@ -74,10 +76,17 @@ public class Main {
                 surviveBids.set(existBidIndex, curBid);
             }
             for (BidInfo curBid : bidInfos) {
+                if(isOutOfGrid(curBid.y, curBid.x)){
+                    continue;
+                }
                surviveBidIndex[curBid.y][curBid.x] = -1;
             }
             this.bidInfos = surviveBids;
             return isCollide;
+        }
+
+        private boolean isOutOfGrid(int y, int x){
+            return y < 0 || 4000 < y || x < 0 || 4000 < x;
         }
 
         private boolean isExistBidRemain(BidInfo curBid, BidInfo existBid){
@@ -128,8 +137,8 @@ public class Main {
                 String d
         ){
             this.number = number;
-            this.x = 2*x + 3000;
-            this.y = 2*y + 3000;
+            this.x = 2*x + 2000;
+            this.y = 2*y + 2000;
             this.weight = w;
             this.direction = d;
         }
