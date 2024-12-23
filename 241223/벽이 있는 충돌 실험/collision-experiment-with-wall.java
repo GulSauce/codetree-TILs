@@ -5,7 +5,7 @@ public class Main {
         int gridSize;
         BidMoveInfo[] bidMoveInfos;
         int[][] grid;
-        final int TOTAL_TIME = 1000;
+        final int TOTAL_TIME = 100;
         Map<String, Integer> directionIndexMap = new HashMap<>();
         Map<String, String> reverseDirectionMap = new HashMap<>();
 
@@ -47,7 +47,7 @@ public class Main {
             for(BidMoveInfo bidMoveInfo: bidMoveInfos){
                 int directionIndex = directionIndexMap.get(bidMoveInfo.direction);
                 int nextRow = bidMoveInfo.row + deltaRow[directionIndex];
-                int nextCol = bidMoveInfo.col + deltaRow[directionIndex];
+                int nextCol = bidMoveInfo.col + deltaCol[directionIndex];
                 if(isOutOfGrid(nextRow, nextCol)){
                     bidMoveInfo.direction = reverseDirectionMap.get(bidMoveInfo.direction);
                     continue;
