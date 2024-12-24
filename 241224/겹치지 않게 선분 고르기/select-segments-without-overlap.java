@@ -1,4 +1,3 @@
-import javax.sound.sampled.Line;
 import java.util.*;
 
 public class Main {
@@ -20,7 +19,7 @@ public class Main {
             for(int combinationSize = 1; combinationSize <= lineInfos.size(); combinationSize++){
                 this.combinationSize = combinationSize;
                 this.isFindFailure = true;
-                findNotCollisionLines(-1, 0);
+                findNotCollisionLines(0);
                 if(isFindFailure){
                     continue;
                 }
@@ -29,18 +28,18 @@ public class Main {
             System.out.print(maxNotCollision);
         }
 
-        private void findNotCollisionLines(int lastChoiceIndex, int repeat){
-            if(combinationSize <= repeat){
-                if(isCollideAboveLines()){
-                    return;
+        private void findNotCollisionLines(int currentIndex){
+            if(combinationSize == currentIndex){
+                if(!isCollideAboveLines()){
+                    isFindFailure = false;
                 }
-                isFindFailure = false;
+                return;
             }
-            for(int index = lastChoiceIndex+1; index < lineInfos.size(); index++){
-                combinations.add(index);
-                findNotCollisionLines(index, repeat+1);
-                combinations.remove(combinations.size()-1);
-            }
+            combinations.add(currentIndex);
+            findNotCollisionLines(currentIndex+1);
+            combinations.remove(combinations.size()-1);
+
+            findNotCollisionLines(currentIndex+1);
         }
 
         private boolean isCollideAboveLines(){
