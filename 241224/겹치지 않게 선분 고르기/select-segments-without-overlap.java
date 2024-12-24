@@ -14,7 +14,8 @@ public class Main {
             Collections.sort(lineInfos);
             int currentEnd = lineInfos.get(0).end;
             int count = 1;
-            for(LineInfo lineInfo: lineInfos){
+            for(int i = 1; i < lineInfos.size(); i++){
+                LineInfo lineInfo =  lineInfos.get(i);
                 if(lineInfo.end <= currentEnd){
                     continue;
                 }
