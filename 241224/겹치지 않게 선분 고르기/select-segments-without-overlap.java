@@ -16,7 +16,7 @@ public class Main {
             int count = 1;
             for(int i = 1; i < lineInfos.size(); i++){
                 LineInfo lineInfo =  lineInfos.get(i);
-                if(lineInfo.end <= currentEnd){
+                if(lineInfo.start <= currentEnd){
                     continue;
                 }
                 currentEnd = lineInfo.end;
