@@ -2,11 +2,13 @@ import java.util.*;
 
 public class Main {
     private static class Solver{
-        int[][] grid;
         int gridLength;
-        int[][] explodeGrid;
         int bombCount;
         int maxExplodeArea = 0;
+
+        int[][] grid;
+        int[][] explodeGrid;
+
         List<Coordinate> bomb;
         List<Integer> bombCombinations = new ArrayList<>();
 
@@ -17,9 +19,10 @@ public class Main {
         ){
             this.grid = grid;
             this.bomb = bomb;
+            this.bombCount = bombCount;
+
             this.gridLength = grid.length;
             this.explodeGrid = new int[grid.length][grid.length];
-            this.bombCount = bombCount;
         }
 
         public void solve(){
@@ -49,21 +52,21 @@ public class Main {
             maxExplodeArea = Math.max(explodeAreaCount, maxExplodeArea);
         }
 
-        private void printExplodeGrid(){
-            for(int[] array: explodeGrid){
-                for(int number: array){
-                    System.out.printf("%d ", number);
-                }
-                System.out.println();
-            }
-            System.out.println("===========");
-        }
-
         private void setBomb(int bombType, Coordinate startCoordinate){
             explodeGrid[startCoordinate.row][startCoordinate.col] = 1;
+
             if(bombType == 1){
-                for(int row = 0; row < gridLength; row++){
-                    explodeGrid[row][startCoordinate.col] = 1;
+                if(isInGrid(startCoordinate.row-2, startCoordinate.col)){
+                    explodeGrid[startCoordinate.row-2][startCoordinate.col] = 1;
+                }
+                if(isInGrid(startCoordinate.row-1, startCoordinate.col)) {
+                    explodeGrid[startCoordinate.row-1][startCoordinate.col] = 1;
+                }
+                if(isInGrid(startCoordinate.row+1, startCoordinate.col)) {
+                    explodeGrid[startCoordinate.row+1][startCoordinate.col] = 1;
+                }
+                if(isInGrid(startCoordinate.row+2, startCoordinate.col)) {
+                    explodeGrid[startCoordinate.row+2][startCoordinate.col] = 1;
                 }
             }
             if(bombType == 2){
@@ -71,27 +74,27 @@ public class Main {
                     explodeGrid[startCoordinate.row][startCoordinate.col+1] = 1;
                 }
                 if(isInGrid(startCoordinate.row-1, startCoordinate.col)) {
-                    explodeGrid[startCoordinate.row - 1][startCoordinate.col] = 1;
+                    explodeGrid[startCoordinate.row-1][startCoordinate.col] = 1;
                 }
                 if(isInGrid(startCoordinate.row, startCoordinate.col-1)) {
-                    explodeGrid[startCoordinate.row][startCoordinate.col - 1] = 1;
+                    explodeGrid[startCoordinate.row][startCoordinate.col-1] = 1;
                 }
                 if(isInGrid(startCoordinate.row+1, startCoordinate.col)) {
-                    explodeGrid[startCoordinate.row + 1][startCoordinate.col] = 1;
+                    explodeGrid[startCoordinate.row+1][startCoordinate.col] = 1;
                 }
             }
             if(bombType == 3){
                 if(isInGrid(startCoordinate.row-1, startCoordinate.col+1)) {
-                    explodeGrid[startCoordinate.row - 1][startCoordinate.col + 1] = 1;
+                    explodeGrid[startCoordinate.row-1][startCoordinate.col+1] = 1;
                 }
                 if(isInGrid(startCoordinate.row-1, startCoordinate.col-1)) {
-                    explodeGrid[startCoordinate.row - 1][startCoordinate.col - 1] = 1;
+                    explodeGrid[startCoordinate.row-1][startCoordinate.col-1] = 1;
                 }
                 if(isInGrid(startCoordinate.row+1, startCoordinate.col-1)) {
                     explodeGrid[startCoordinate.row+1][startCoordinate.col-1] = 1;
                 }
                 if(isInGrid(startCoordinate.row+1, startCoordinate.col+1)) {
-                    explodeGrid[startCoordinate.row + 1][startCoordinate.col + 1] = 1;
+                    explodeGrid[startCoordinate.row+1][startCoordinate.col+1] = 1;
                 }
             }
         }
@@ -116,6 +119,16 @@ public class Main {
             for(int[] array: explodeGrid){
                 Arrays.fill(array, 0);
             }
+        }
+
+        private void printExplodeGrid(){
+            for(int[] array: explodeGrid){
+                for(int number: array){
+                    System.out.printf("%d ", number);
+                }
+                System.out.println();
+            }
+            System.out.println("===========");
         }
     }
 
