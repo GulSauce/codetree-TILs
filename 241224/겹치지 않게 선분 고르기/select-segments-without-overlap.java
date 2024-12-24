@@ -4,34 +4,25 @@ public class Main {
     private static class Solver{
         List<LineInfo> lineInfos;
         List<Integer> combinations = new ArrayList<>();
-        int combinationSize;
+        int maxCombinationSize;
         int maxNotCollision = 0;
-
-        boolean isFindFailure = true;
 
         public Solver(
                 List<LineInfo> lineInfos
         ){
+            maxCombinationSize = lineInfos.size();
             this.lineInfos = lineInfos;
         }
 
-        public void solve(){
-            for(int combinationSize = 1; combinationSize <= lineInfos.size(); combinationSize++){
-                this.combinationSize = combinationSize;
-                this.isFindFailure = true;
-                findNotCollisionLines(0);
-                if(isFindFailure){
-                    continue;
-                }
-                maxNotCollision = combinationSize;
-            }
+        public void solve() {
+            findNotCollisionLines(0);
             System.out.print(maxNotCollision);
         }
 
         private void findNotCollisionLines(int currentIndex){
-            if(combinationSize == currentIndex){
+            if(maxCombinationSize == currentIndex){
                 if(!isCollideAboveLines()){
-                    isFindFailure = false;
+                    maxNotCollision = Math.max(maxNotCollision, combinations.size());
                 }
                 return;
             }
@@ -44,6 +35,7 @@ public class Main {
 
         private boolean isCollideAboveLines(){
             int[] lineCount = new int[1001];
+
             for(int index: combinations){
                 LineInfo lineInfo = lineInfos.get(index);
                 for(int i = lineInfo.start; i <= lineInfo.end; i++){
