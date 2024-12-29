@@ -67,23 +67,31 @@ public class Main {
         }
 
         private int getMaxPriceFrom(Coordinate start){
-            int[] prices = new int[stealColumnLength];
-            for(int col = start.col; col < start.col+ stealColumnLength; col++){
-                prices[col-start.col] = grid[start.row][col];
-            }
-            Arrays.sort(prices);
+            int[][] dp = new int[stealColumnLength][maxStealWeight+1];
 
-            int totalWeight = 0;
-            int priceSum = 0;
-            for(int i = prices.length-1; i >= 0; i--){
-                if(maxStealWeight < totalWeight + prices[i]){
-                    continue;
+            int firstWeight = grid[start.row][start.col];
+            for(int weight = firstWeight; weight <= maxStealWeight; weight++) {
+                dp[0][weight] = firstWeight*firstWeight;
+            }
+
+            for(int i = 1; i < stealColumnLength; i++){
+                for(int weight = 0; weight <= maxStealWeight; weight++) {
+                    int currentWeight = grid[start.row][i + start.col];
+                    if(weight < currentWeight){
+                        dp[i][weight] = dp[i-1][weight];
+                        continue;
+                    }
+                    dp[i][weight] = Math.max(dp[i-1][weight], dp[i-1][weight-currentWeight] + currentWeight*currentWeight);
                 }
-                totalWeight += prices[i];
-                priceSum += prices[i]*prices[i];
             }
 
-            return priceSum;
+            int maxPrice = 0;
+            for(int i = 0; i < stealColumnLength; i++){
+                for(int weight = 0; weight <= maxStealWeight; weight++) {
+                    maxPrice = Math.max(maxPrice, dp[i][weight]);
+                }
+            }
+            return maxPrice;
         }
 
         private boolean isOutOfRange(){
