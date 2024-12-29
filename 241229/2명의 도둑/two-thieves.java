@@ -46,7 +46,7 @@ public class Main {
             }
 
             for(int row = coordinate.row; row < gridLength; row++){
-                for(int col = coordinate.col; col < gridLength; col++){
+                for(int col = 0; col < gridLength; col++){
                     Coordinate currentCoordinate = new Coordinate(row, col);
                     selectedCoordinates.add(currentCoordinate);
                     selectCoordinate(new Coordinate(row, col));
