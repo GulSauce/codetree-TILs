@@ -69,11 +69,13 @@ public class Main {
         private int getMaxPriceFrom(Coordinate start){
             int[][] dp = new int[stealColumnLength][maxStealWeight+1];
 
+            // 초기화
             int firstWeight = grid[start.row][start.col];
             for(int weight = firstWeight; weight <= maxStealWeight; weight++) {
-                dp[0][weight] = firstWeight*firstWeight;
+                dp[0][weight] = firstWeight * firstWeight;
             }
 
+            // 처리
             for(int i = 1; i < stealColumnLength; i++){
                 for(int weight = 0; weight <= maxStealWeight; weight++) {
                     int currentWeight = grid[start.row][i + start.col];
@@ -81,7 +83,7 @@ public class Main {
                         dp[i][weight] = dp[i-1][weight];
                         continue;
                     }
-                    dp[i][weight] = Math.max(dp[i-1][weight], dp[i-1][weight-currentWeight] + currentWeight*currentWeight);
+                    dp[i][weight] = Math.max(dp[i-1][weight], dp[i-1][weight-currentWeight] + currentWeight * currentWeight);
                 }
             }
 
@@ -98,7 +100,7 @@ public class Main {
             Coordinate first = selectedCoordinates.get(0);
             Coordinate second = selectedCoordinates.get(1);
 
-            return gridLength <= first.col + stealColumnLength || gridLength <= second.col + stealColumnLength;
+            return gridLength <= first.col + stealColumnLength - 1 || gridLength <= second.col + stealColumnLength - 1;
         }
 
         private boolean isCollide(){
