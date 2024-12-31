@@ -2,25 +2,24 @@ import java.util.*;
 
 public class Main {
     private static class Solver{
-        int turnCount;
-        int arrivalNumber;
+        int maxTurn;
+        int goalNumber;
         int unitCount;
-        int[] goCounts;
-
         int arrivedUnitCount = 0;
-
-        List<Integer> permutation = new ArrayList<>();
+        int[] unitMoveCounts;
+        int[] turnMoveCounts;
 
         public Solver(
                 int n,
                 int m,
                 int k,
-                int[] goCounts
+                int[] turnMoveCounts
         ){
-            this.turnCount = n;
-            this.arrivalNumber = m;
+            this.maxTurn = n;
+            this.goalNumber = m;
             this.unitCount = k;
-            this.goCounts = goCounts;
+            this.turnMoveCounts = turnMoveCounts;
+            this.unitMoveCounts = new int[unitCount+1];
         }
 
         public void solve(){
@@ -28,47 +27,31 @@ public class Main {
             System.out.println(arrivedUnitCount);
         }
 
-        private void getPermutation(int currentSize){
-            if(currentSize == turnCount){
-                arrivedUnitCount = Math.max(arrivedUnitCount, getArrivedUnitCount());
+        private void getPermutation(int currentTurn){
+            arrivedUnitCount = Math.max(arrivedUnitCount, getArrivedUnitCount());
+
+            if(currentTurn == maxTurn){
                 return;
             }
 
             for(int unit = 1; unit <= unitCount; unit++){
-                if(isArrived(unit)){
-                    permutation.add(0);
-                    getPermutation(currentSize+1);
-                    permutation.remove(0);
+                if(goalNumber -1 <= unitMoveCounts[unit]){
                     continue;
                 }
-                permutation.add(unit);
-                getPermutation(currentSize+1);
-                permutation.remove(permutation.size()-1);
+                unitMoveCounts[unit] += turnMoveCounts[currentTurn];
+                getPermutation(currentTurn+1);
+                unitMoveCounts[unit] -= turnMoveCounts[currentTurn];
             }
         }
 
         private int getArrivedUnitCount(){
             int arrivedUnitCount = 0;
-            for(int unit = 1; unit <= unitCount; unit++){
-                if(isArrived(unit)){
+            for (int unit = 1; unit <= unitCount; unit++) {
+                if(goalNumber -1 <= unitMoveCounts[unit]){
                     arrivedUnitCount++;
                 }
             }
-
             return arrivedUnitCount;
-        }
-
-        private boolean isArrived(int unit){
-            int goCount = 0;
-            for(int i = 0; i < permutation.size(); i++){
-                if(permutation.get(i) == unit){
-                    goCount += goCounts[i];
-                }
-            }
-            if(arrivalNumber -1 <= goCount) {
-                return true;
-            }
-            return false;
         }
     }
 
