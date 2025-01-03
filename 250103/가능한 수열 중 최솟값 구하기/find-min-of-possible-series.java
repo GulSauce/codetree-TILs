@@ -17,13 +17,10 @@ public class Main {
 
         private void getPermutation(int curSize){
             if(curSize == sequenceSize){
-                if(isPrecede()){
-                    for(int number: currentSequence){
-                        System.out.print(number);
-                    }
-                    System.exit(0);
+                for(int number: currentSequence){
+                    System.out.print(number);
                 }
-                return;
+                System.exit(0);
             }
 
             for(int i = 4; i <= 6; i++){
@@ -34,18 +31,6 @@ public class Main {
                 getPermutation(curSize+1);
                 currentSequence.remove(currentSequence.size()-1);
             }
-        }
-
-        private boolean isPrecede(){
-            for(int i = 0; i < sequenceSize; i++){
-                if(currentSequence.get(i) < result.get(i)){
-                    return true;
-                }
-                else if(result.get(i) < currentSequence.get(i)){
-                    return false;
-                }
-            }
-            return false;
         }
 
         private boolean isDuplicateWhenAdd(int addNumber) {
