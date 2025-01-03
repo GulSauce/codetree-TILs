@@ -6,7 +6,6 @@ public class Main {
         int choiceCount;
         int answer = 0;
 
-        List<Integer> combination = new ArrayList<>();
 
         public Solver(
                 List<Integer> numbers,
@@ -17,28 +16,18 @@ public class Main {
         }
 
         public void solve(){
-            getCombination(-1);
+            getCombination(0, -1, 0);
             System.out.print(answer);
         }
 
-        private void getCombination(int prevIndex){
-            if(combination.size() == choiceCount){
-                answer = Math.max(answer, getXorResult());
+        private void getCombination(int prevCount, int prevIndex, int prevXorValue){
+            if(prevCount == choiceCount){
+                answer = Math.max(answer, prevXorValue);
             }
 
             for(int i = prevIndex+1; i < numbers.size(); i++){
-                combination.add(numbers.get(i));
-                getCombination(i);
-                combination.remove(combination.size()-1);
+                getCombination(prevCount+1, i, prevXorValue ^ numbers.get(i));
             }
-        }
-
-        private int getXorResult(){
-            int number = combination.get(0);
-            for(int i = 1; i < combination.size(); i++){
-                number ^= combination.get(i);
-            }
-            return number;
         }
     }
 
