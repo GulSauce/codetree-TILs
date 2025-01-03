@@ -3,7 +3,6 @@ import java.util.*;
 public class Main {
     private static class Solver{
         int sequenceSize;
-        List<Integer> result = new ArrayList<>();
         List<Integer> currentSequence = new ArrayList<>();
 
         public Solver(
@@ -13,28 +12,16 @@ public class Main {
         }
 
         public void solve(){
-            initResult();
             getPermutation(0);
-            printResult();
-        }
-
-        private void initResult(){
-            for(int i = 0; i < sequenceSize; i++){
-                result.add(6);
-            }
-        }
-
-        private void printResult(){
-            for(int number: result){
-                System.out.print(number);
-            }
         }
 
         private void getPermutation(int curSize){
             if(curSize == sequenceSize){
                 if(isPrecede()){
-                    result.clear();
-                    result.addAll(currentSequence);
+                    for(int number: currentSequence){
+                        System.out.print(number);
+                    }
+                    System.exit(0);
                 }
                 return;
             }
@@ -63,9 +50,10 @@ public class Main {
 
         private boolean isDuplicateWhenAdd(int addNumber) {
             currentSequence.add(addNumber);
+
             boolean isDuplicated = false;
             int end = currentSequence.size()-1;
-            for(int start = 0; start < currentSequence.size()-1; start++){
+            for(int start = 0; start < end; start++){
                 int numberCount = end - start + 1;
                 if(numberCount % 2 == 1){
                     continue;
@@ -82,7 +70,8 @@ public class Main {
                     break;
                 }
             }
-            currentSequence.remove(currentSequence.size()-1);
+
+            currentSequence.remove(end);
             return isDuplicated;
         }
     }
