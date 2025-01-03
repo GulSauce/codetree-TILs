@@ -46,11 +46,11 @@ public class Main {
         Scanner sc = new Scanner(System.in);
 
         int N = sc.nextInt();
+        int M = sc.nextInt();
         List<Integer> numbers = new ArrayList<>();
         for(int i = 0; i < N; i++){
             numbers.add(sc.nextInt());
         }
-        int M = sc.nextInt();
 
         new Solver(numbers, M).solve();
     }
