@@ -2,33 +2,33 @@ import java.util.*;
 
 public class Main {
     private static class Solver{
-        int maxNumber;
+        List<Integer> numbers;
         int choiceCount;
         int answer = 0;
 
         List<Integer> combination = new ArrayList<>();
 
         public Solver(
-                int N,
+                List<Integer> numbers,
                 int M
         ){
-            this.maxNumber = N;
+            this.numbers = numbers;
             this.choiceCount = M;
         }
 
         public void solve(){
-            getCombination(0);
+            getCombination(-1);
             System.out.print(answer);
         }
 
-        private void getCombination(int prevNumber){
+        private void getCombination(int prevIndex){
             if(combination.size() == choiceCount){
                 answer = Math.max(answer, getXorResult());
             }
 
-            for(int number = prevNumber+1; number <= maxNumber; number++){
-                combination.add(number);
-                getCombination(number);
+            for(int i = prevIndex+1; i < numbers.size(); i++){
+                combination.add(numbers.get(i));
+                getCombination(i);
                 combination.remove(combination.size()-1);
             }
         }
@@ -46,8 +46,12 @@ public class Main {
         Scanner sc = new Scanner(System.in);
 
         int N = sc.nextInt();
+        List<Integer> numbers = new ArrayList<>();
+        for(int i = 0; i < N; i++){
+            numbers.add(sc.nextInt());
+        }
         int M = sc.nextInt();
 
-        new Solver(N, M).solve();
+        new Solver(numbers, M).solve();
     }
 }
