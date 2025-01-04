@@ -43,7 +43,12 @@ public class Main {
                     if(isVisited[row][col]){
                         continue;
                     }
+                    if(isWall(row, col)){
+                        continue;
+                    }
                     civilCount = 0;
+                    civilCount++;
+                    isVisited[row][col] = true;
                     dfs(row, col);
                     if(civilCount == 0) {
                         continue;
