@@ -93,7 +93,7 @@ public class Main {
         int[][] grid = new int[n][m];
 
         for(int row = 0; row < n; row++) {
-            for(int col = 0; col < n; col++){
+            for(int col = 0; col < m; col++){
                 grid[row][col] = sc.nextInt();
             }
         }
