@@ -2,13 +2,12 @@ import java.util.*;
 
 public class Main {
     private static class Solver{
+        boolean isEscaped = false;
+
         int maxRow;
         int maxCol;
 
-        int[][] grid;
-        int maxGridIndex;
-
-        boolean isEscaped = false;
+        final int SNAKE_VALUE = 0;
 
         Coordinate startCoordinate;
         Coordinate endCoordinate;
@@ -18,14 +17,15 @@ public class Main {
 
         boolean[][] isVisited;
 
+        int[][] grid;
+
         public Solver(
                 int[][] grid
         ){
             this.grid = grid;
-            this.maxGridIndex = grid.length-1;
-            this.startCoordinate = new Coordinate(0,0);
             this.maxRow = grid.length-1;
             this.maxCol = grid[0].length-1;
+            this.startCoordinate = new Coordinate(0,0);
             this.endCoordinate = new Coordinate(maxRow, maxCol);
             this.isVisited = new boolean[maxRow+1][maxCol+1];
         }
@@ -43,7 +43,6 @@ public class Main {
                 System.out.println(0);
             }
         }
-
         private void initIsVisited(){
             for(boolean[] array: isVisited){
                 Arrays.fill(array, false);
@@ -81,7 +80,7 @@ public class Main {
         }
 
         public boolean isSnake(Coordinate coordinate){
-            return grid[coordinate.row][coordinate.col] == 0;
+            return grid[coordinate.row][coordinate.col] == SNAKE_VALUE;
         }
     }
 
@@ -93,7 +92,7 @@ public class Main {
 
         int[][] grid = new int[n][m];
 
-        for(int row =0; row < n; row++) {
+        for(int row = 0; row < n; row++) {
             for(int col = 0; col < n; col++){
                 grid[row][col] = sc.nextInt();
             }
