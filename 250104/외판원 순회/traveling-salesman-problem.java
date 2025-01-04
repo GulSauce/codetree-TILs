@@ -30,6 +30,9 @@ public class Main {
         private void getPermutation(int prevRepeat, int prevSum, int prevNodeNumber){
             if(prevRepeat == graphLength-2){
                 int curSum = prevSum + graph[prevNodeNumber][1];
+                if(graph[prevNodeNumber][1] == CAN_NOT_MOVE){
+                    return;
+                }
                 answer = Math.min(answer, curSum);
             }
 
