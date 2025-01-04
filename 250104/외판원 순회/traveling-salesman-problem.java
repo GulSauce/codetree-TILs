@@ -6,6 +6,8 @@ public class Main {
         int graphLength;
         int maxNodeNumber;
 
+        final int CAN_NOT_MOVE = 0;
+
         int[][] graph;
 
         boolean[] isVisited;
@@ -33,6 +35,9 @@ public class Main {
 
             for(int curNodeNumber = 2; curNodeNumber <= maxNodeNumber; curNodeNumber++){
                 if(isVisited[curNodeNumber]){
+                    continue;
+                }
+                if(graph[prevNodeNumber][curNodeNumber] == CAN_NOT_MOVE){
                     continue;
                 }
                 isVisited[curNodeNumber] = true;
