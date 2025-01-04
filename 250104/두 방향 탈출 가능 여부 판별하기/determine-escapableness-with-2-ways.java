@@ -13,8 +13,8 @@ public class Main {
         Coordinate startCoordinate;
         Coordinate endCoordinate;
 
-        int[] deltaRow = {0, -1, 0, 1};
-        int[] deltaCol = {1, 0, -1 ,0};
+        int[] deltaRow = {0, 1};
+        int[] deltaCol = {1, 0};
 
         boolean[][] isVisited;
 
@@ -56,7 +56,7 @@ public class Main {
                 return;
             }
 
-            for(int i = 0; i < 4; i++){
+            for(int i = 0; i < 2; i++){
                 Coordinate curCoordinate = new Coordinate(prevCoordinate.row+deltaRow[i], prevCoordinate.col+deltaCol[i]);
                 if(isOutOfRange(curCoordinate)){
                     continue;
