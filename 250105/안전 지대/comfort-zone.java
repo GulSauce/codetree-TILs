@@ -2,20 +2,20 @@ import java.util.*;
 
 public class Main {
     private static class Solver{
+        int K = 1;
+        int maxK;
         int maxRow;
         int maxCol;
-        int maxK;
-        int K = 1;
-
         int safeAreaCount = 0;
         int maxSafeAreaCount = 0;
-        int maxSinkHeight = 0;
-
-        boolean[][] isVisited;
-        int[][] town;
+        int answerSinkHeight = 1;
 
         int[] dRow = {0, -1, 0, 1};
         int[] dCol = {1, 0, -1, 0};
+
+        boolean[][] isVisited;
+
+        int[][] town;
 
         public Solver(
                 int[][] town
@@ -31,9 +31,9 @@ public class Main {
             for(int sinkLevel = 1; sinkLevel <= maxK; sinkLevel++){
                 K = sinkLevel;
                 initIsVisited();
-                dfsEach();
+                dfsEachK();
             }
-            System.out.printf("%d %d", maxSinkHeight, maxSafeAreaCount);
+            System.out.printf("%d %d", answerSinkHeight, maxSafeAreaCount);
         }
 
         private void initIsVisited(){
@@ -42,7 +42,7 @@ public class Main {
             }
         }
 
-        private void dfsEach(){
+        private void dfsEachK(){
             safeAreaCount = 0;
             for(int row = 0; row <= maxRow; row++){
                 for(int col = 0; col <= maxCol; col++){
@@ -63,7 +63,7 @@ public class Main {
             }
             if(maxSafeAreaCount < safeAreaCount){
                 maxSafeAreaCount = safeAreaCount;
-                maxSinkHeight = K;
+                answerSinkHeight = K;
             }
         }
 
@@ -84,12 +84,12 @@ public class Main {
             }
         }
 
-        private boolean isAlreadyVisited(Coordinate coordinate){
-            return isVisited[coordinate.row][coordinate.col];
-        }
-
         private boolean isOutOfRange(Coordinate coordinate){
             return coordinate.row < 0 || maxRow < coordinate.row || coordinate.col < 0 || maxCol < coordinate.col;
+        }
+
+        private boolean isAlreadyVisited(Coordinate coordinate){
+            return isVisited[coordinate.row][coordinate.col];
         }
 
         private boolean isSinkArea(Coordinate coordinate){
