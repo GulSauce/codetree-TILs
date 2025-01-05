@@ -22,7 +22,7 @@ public class Main {
                 List<Coordinate> startPoints
         ){
             this.grid = grid;
-            this.isVisited = new boolean[grid.length+1][grid.length+1];
+            this.isVisited = new boolean[grid.length][grid.length];
             this.gridRow = grid.length-1;
             this.gridCol = gridRow;
             this.startPoints = startPoints;
