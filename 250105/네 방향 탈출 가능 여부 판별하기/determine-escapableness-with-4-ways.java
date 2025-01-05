@@ -23,7 +23,7 @@ public class Main {
         ){
             this.grid = grid;
             this.rowIndex = grid.length-1;
-            this.colIndex = grid.length-1;
+            this.colIndex = grid[0].length-1;
             this.isVisited = new boolean[rowIndex+1][colIndex+1];
             this.source = new Coordinate(0, 0);
             this.dest = new Coordinate(rowIndex, colIndex);
@@ -70,16 +70,16 @@ public class Main {
             }
         }
 
+        private boolean isOutOfRange(Coordinate coordinate){
+            return coordinate.row < 0 || rowIndex < coordinate.row || coordinate.col< 0 || colIndex < coordinate.col;
+        }
+
         private boolean isAlreadyVisited(Coordinate coordinate){
             return isVisited[coordinate.row][coordinate.col];
         }
 
         private boolean isSnake(Coordinate coordinate){
             return grid[coordinate.row][coordinate.col] == 0;
-        }
-
-        private boolean isOutOfRange(Coordinate coordinate){
-            return coordinate.row < 0 || rowIndex < coordinate.row || coordinate.col< 0 || colIndex < coordinate.col;
         }
 
         private void initIsVisited(){
