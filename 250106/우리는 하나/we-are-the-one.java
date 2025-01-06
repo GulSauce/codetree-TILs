@@ -8,15 +8,14 @@ public class Main {
         int maxVisitedCountry = 0;
         int curVisitedCountry = 0;
 
-        int u;
-        int d;
+        MovableChecker movableChecker;
+
+        Queue<Coordinate> q = new LinkedList<>();
 
         int[] dRow = {0, -1, 0, 1};
         int[] dCol = {1, 0, -1, 0};
 
         List<Coordinate> selectedCountry = new ArrayList<>();
-        Queue<Coordinate> q = new LinkedList<>();
-
 
         boolean[][] visited;
 
@@ -24,16 +23,14 @@ public class Main {
 
         public Solver(
                 int[][] grid,
-                int u,
-                int d,
+                MovableChecker movableChecker,
                 int k
         ){
             this.grid = grid;
             this.gridIndex = grid.length-1;
             this.gridSize = grid.length*grid.length;
             this.visited = new boolean[grid.length][grid.length];
-            this.u = u;
-            this.d = d;
+            this.movableChecker = movableChecker;
             this.maxSelectCount = k;
         }
 
@@ -83,7 +80,7 @@ public class Main {
                     }
                     int prevValue = grid[prevCoordinate.row][prevCoordinate.col];
                     int curValue = grid[curCoordinate.row][curCoordinate.col];
-                    if(!isMovable(prevValue, curValue)){
+                    if(!movableChecker.isMovable(prevValue, curValue)){
                         continue;
                     }
                     curVisitedCountry++;
@@ -91,11 +88,6 @@ public class Main {
                     q.add(curCoordinate);
                 }
             }
-        }
-
-        public boolean isMovable(int height1, int height2){
-            int diff = Math.abs(height1 - height2);
-            return  u <= diff && diff <= d;
         }
 
         private boolean isOutOfRange(Coordinate coordinate){
@@ -127,7 +119,7 @@ public class Main {
             }
         }
 
-        new Solver(grid, u, d, k).solve();
+        new Solver(grid, new MovableChecker(u, d), k).solve();
     }
 
     private static class Coordinate{
@@ -155,6 +147,9 @@ public class Main {
             this.d = d;
         }
 
-
+        public boolean isMovable(int height1, int height2){
+            int diff = Math.abs(height1 - height2);
+            return  u <= diff && diff <= d;
+        }
     }
 }
