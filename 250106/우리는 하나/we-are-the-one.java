@@ -4,6 +4,7 @@ public class Main {
     private static class Solver{
         int maxSelectCount;
         int gridIndex;
+        int gridSize;
         int maxVisitedCountry = 0;
         int curVisitedCountry = 0;
 
@@ -25,6 +26,7 @@ public class Main {
         ){
             this.grid = grid;
             this.gridIndex = grid.length-1;
+            this.gridSize = grid.length*grid.length;
             this.visited = new boolean[grid.length][grid.length];
             this.movableChecker = movableChecker;
             this.maxSelectCount = k;
@@ -43,7 +45,7 @@ public class Main {
                 maxVisitedCountry = Math.max(maxVisitedCountry, curVisitedCountry);
             }
 
-            for(int i = lastIndex+1; i <= gridIndex; i++){
+            for(int i = lastIndex+1; i < gridSize; i++){
                 Coordinate cuCoordinate = getCurCoordinate(i);
                 selectedCountry.add(cuCoordinate);
                 getCombination(i, selectCount+1);
@@ -79,7 +81,6 @@ public class Main {
                     if(!movableChecker.isMovable(prevValue, curValue)){
                         continue;
                     }
-
                     curVisitedCountry++;
                     visited[curCoordinate.row][curCoordinate.col] = true;
                     q.add(curCoordinate);
