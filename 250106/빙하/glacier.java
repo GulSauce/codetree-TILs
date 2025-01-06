@@ -1,141 +1,152 @@
-import java.util.*;
+import java.util.Scanner;
+import java.util.Queue;
+import java.util.LinkedList;
+
+class Pair {
+    int x, y;
+    public Pair(int x, int y) { 
+        this.x = x; 
+        this.y = y; 
+    } 
+}
 
 public class Main {
-    private static class Solver{
-        int elapsedTime= 0;
-        int meltGlacierCount = 0;
+    public static final int MAX_M = 200;
+    public static final int MAX_N = 200;
+    public static final int DIR_NUM = 4;
 
-        int gridRow;
-        int gridCol;
-
-        int[] dRow = {0, -1, 0, 1};
-        int[] dCol = {1, 0, -1, 0};
-
-        boolean[][] visited;
-
-        int[][] grid;
-
-        List<Coordinate> meltGlaciers = new ArrayList<>();
-
-        public Solver(
-                int[][] grid
-        ){
-            this.grid = grid;
-            this.gridRow = grid.length-1;
-            this.gridCol = grid[0].length -1;
-            this.visited = new boolean[gridRow+1][gridCol+1];
-        }
-
-        public void solve(){
-            do {
-                meltGlaciers.clear();
-                meltGlacierCount = 0;
-                elapsedTime++;
-                initIsVisited();
-                makeGlacierWater();
-            } while (isGlacierExist());
-            System.out.printf("%d %d", elapsedTime, meltGlacierCount);
-        }
-
-        private void initIsVisited(){
-            for(boolean[] array: visited){
-                Arrays.fill(array, false);
-            }
-        }
-
-        private boolean isGlacierExist(){
-            for(int row =0; row < gridRow; row++){
-                for(int col = 0; col < gridCol; col++){
-                    if(grid[row][col] == 1){
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-
-        private void makeGlacierWater(){
-            Queue<Coordinate> q = new LinkedList<>();
-            visited[0][0] = true;
-            q.add(new Coordinate(0,0));
-            while(!q.isEmpty()){
-                Coordinate prev = q.poll();
-                for(int i = 0; i < 4; i++){
-                     Coordinate cur = new Coordinate(prev.row+dRow[i], prev.col+dCol[i]);
-                     if(isOutOfRange(cur)){
-                         continue;
-                     }
-                     if(isVisited(cur)){
-                         continue;
-                     }
-                     if(isGlacier(cur)){
-                         continue;
-                     }
-                     memorizeNearGlacier(cur);
-                     visited[cur.row][cur.col] = true;
-                     q.add(cur);
-                }
-            }
-            for(Coordinate coordinate: meltGlaciers){
-                meltGlacierCount++;
-                grid[coordinate.row][coordinate.col] = 0;
-            }
-        }
-
-        private void memorizeNearGlacier(Coordinate coordinate){
-            for(int i = 0; i < 4; i++){
-                Coordinate cur = new Coordinate(coordinate.row+dRow[i], coordinate.col+dCol[i]);
-                if(isOutOfRange(cur)){
-                    continue;
-                }
-                if(isVisited(cur)){
-                    continue;
-                }
-                if(isGlacier(cur)){
-                    visited[cur.row][cur.col] = true;
-                    meltGlaciers.add(cur);
+    public static final int WATER = 0;
+    public static final int GLACIER = 1;
+    
+    // 전역 변수 선언:
+    public static int n, m;
+    
+    public static int[][] a = new int[MAX_N][MAX_M];
+    
+    // bfs에 필요한 변수들 입니다.
+    public static Queue<Pair> q = new LinkedList<>();
+    public static boolean[][] visited = new boolean[MAX_N][MAX_N];
+    public static int cnt;
+    
+    public static int[] dx = new int[]{1, -1, 0, 0};
+    public static int[] dy = new int[]{0, 0, 1, -1};
+    
+    // 소요 시간과 가장 마지막으로 녹은 빙하의 수를 저장합니다.
+    public static int elapsedTime, lastMeltCnt;
+    
+    // 범위가 격자 안에 들어가는지 확인합니다.
+    public static boolean inRange(int x, int y) {
+        return 0 <= x && x < n && 0 <= y && y < m;
+    }
+    
+    // 범위를 벗어나지 않으면서 물이여야 하고 방문한적이 
+    // 없어야 갈 수 있습니다.
+    public static boolean canGo(int x, int y) {
+        return inRange(x, y) && a[x][y] == WATER && !visited[x][y];
+    }
+    
+    // visited 배열을 초기화합니다.
+    public static void initialize() {
+        for(int i = 0; i < n; i++)
+            for(int j = 0; j < m; j++)
+                visited[i][j] = false;
+    }
+    
+    // 빙하에 둘러쌓여 있지 않은 물들을 전부 구해주는 BFS입니다.
+    // 문제에서 가장자리는 전부 물로 주어진다 했기 때문에
+    // 항상 (0, 0)에서 시작하여 탐색을 진행하면
+    // 빙하에 둘러쌓여 있지 않은 물들은 전부 visited 처리가 됩니다.
+    public static void BFS() {
+        // BFS 함수가 여러 번 호출되므로
+        // 사용하기 전에 visited 배열을 초기화 해줍니다.
+        initialize();
+    
+        // 항상 (0, 0)에서 시작합니다.
+        q.add(new Pair(0, 0));
+        visited[0][0] = true;
+    
+        while(!q.isEmpty()) {
+            // queue에서 가장 먼저 들어온 원소를 뺍니다.
+            Pair currPos = q.poll();
+            int x = currPos.x, y = currPos.y;
+    
+            // queue에서 뺀 원소의 위치를 기준으로 4 방향을 확인합니다.
+            for(int dir = 0; dir < DIR_NUM; dir++) {
+                int nx = x + dx[dir], ny = y + dy[dir];
+    
+                // 더 갈 수 있는 곳이라면 Queue에 추가합니다.
+                if(canGo(nx, ny)) {
+                    q.add(new Pair(nx, ny));
+                    visited[nx][ny] = true;
                 }
             }
         }
-
-        private boolean isVisited(Coordinate coordinate){
-            return visited[coordinate.row][coordinate.col];
+    }
+    
+    // 현재 위치를 기준으로 인접한 영역에
+    // 빙하에 둘러쌓여 있지 않은 물이 있는지를 판단합니다.
+    public static boolean outsideWaterExistInNeighbor(int x, int y) {
+        for(int dir = 0; dir < DIR_NUM; dir++) {
+            int nx = x + dx[dir], ny = y + dy[dir];
+            if(inRange(nx, ny) && visited[nx][ny])
+                return true;
         }
-
-        private boolean isGlacier(Coordinate coordinate){
-            return grid[coordinate.row][coordinate.col] == 1;
-        }
-
-        private boolean isOutOfRange(Coordinate coordinate){
-            return coordinate.row < 0 || gridRow < coordinate.row || coordinate.col < 0 || gridCol < coordinate.col;
-        }
+    
+        return false;
+    }
+    
+    // 인접한 영역에 빙하에 둘러쌓여 있지 않은 물이 있는 빙하를 찾아
+    // 녹여줍니다.
+    public static void melt() {
+        for(int i = 0; i < n; i++)
+            for(int j = 0; j < m; j++)
+                if(a[i][j] == GLACIER && 
+                   outsideWaterExistInNeighbor(i, j)) {
+                    a[i][j] = WATER;
+                    lastMeltCnt++;
+                }
+    }
+    
+    // 빙하를 한 번 녹입니다.
+    public static void simulate() {
+        elapsedTime++;
+        lastMeltCnt = 0;
+    
+        // 빙하에 둘러쌓여 있지 않은 물의 위치를 전부 
+        // visited로 체크합니다.
+        BFS();
+    
+        // 인접한 영역에 빙하에 둘러쌓여 있지 않은 물이 있는 빙하를 찾아
+        // 녹여줍니다.
+        melt();
+    }
+    
+    // 빙하가 아직 남아있는지 확인합니다.
+    public static boolean glacierExist() {
+        for(int i = 0; i < n; i++)
+            for(int j = 0; j < m; j++)
+                if(a[i][j] == GLACIER)
+                    return true;
+    
+        return false;
     }
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int N = sc.nextInt();
-        int M = sc.nextInt();
+        // 입력:
+        n = sc.nextInt();
+        m = sc.nextInt();
 
-        int[][] grid = new int[N][M];
-        for(int row = 0; row < N; row++){
-            for(int col = 0; col < M; col++){
-                grid[row][col] = sc.nextInt();
-            }
-        }
+        for(int i = 0; i < n; i++)
+            for(int j = 0; j < m; j++)
+                a[i][j] = sc.nextInt();
+        
+        do {
+            // 빙하를 한 번 녹입니다. 
+            simulate();
+        } while(glacierExist()); // 빙하가 존재하는 한 계속 반복합니다.
 
-        new Solver(grid).solve();
-    }
-
-    private static class Coordinate{
-        int row;
-        int col;
-
-        public Coordinate(
-                int row,
-                int col
-        ){
-            this.row = row;
-            this.col = col;
-        }
+        // 출력:
+        System.out.print(elapsedTime + " " + lastMeltCnt);
     }
 }
