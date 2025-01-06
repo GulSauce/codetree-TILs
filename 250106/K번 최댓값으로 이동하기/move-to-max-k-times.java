@@ -60,6 +60,7 @@ public class Main {
                         continue;
                     }
 
+                    isVisited[curCoordinate.row][curCoordinate.col] = true;
                     int curNumber = grid[curCoordinate.row][curCoordinate.col];
                     if(targetNumber <= curNumber){
                         continue;
@@ -75,7 +76,6 @@ public class Main {
                         nextTargetCoordinate = curCoordinate;
                     }
 
-                    isVisited[curCoordinate.row][curCoordinate.col] = true;
                     q.add(curCoordinate);
                 }
             }
