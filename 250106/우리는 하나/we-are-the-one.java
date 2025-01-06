@@ -10,8 +10,6 @@ public class Main {
 
         MovableChecker movableChecker;
 
-        Queue<Coordinate> q = new LinkedList<>();
-
         int[] dRow = {0, -1, 0, 1};
         int[] dCol = {1, 0, -1, 0};
 
@@ -55,6 +53,7 @@ public class Main {
         }
 
         private void bfs(){
+            Queue<Coordinate> q = new LinkedList<>();
             for(int index: selectedCountry){
                 curVisitedCountry++;
                 int row = index / 3;
