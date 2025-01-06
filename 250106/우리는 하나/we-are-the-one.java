@@ -13,7 +13,7 @@ public class Main {
         int[] dRow = {0, -1, 0, 1};
         int[] dCol = {1, 0, -1, 0};
 
-        List<Integer> selectedCountry = new ArrayList<>();
+        List<Coordinate> selectedCountry = new ArrayList<>();
 
         boolean[][] visited;
 
@@ -47,20 +47,25 @@ public class Main {
             }
 
             for(int i = lastIndex+1; i < gridSize; i++){
-                selectedCountry.add(i);
+                Coordinate cuCoordinate = getCurCoordinate(i);
+                selectedCountry.add(cuCoordinate);
                 getCombination(i, selectCount+1);
                 selectedCountry.remove(selectedCountry.size()-1);
             }
         }
 
+        private Coordinate getCurCoordinate(int index){
+            int row = index/3;
+            int col = index%3;
+            return new Coordinate(row, col);
+        }
+
         private void bfs(){
             Queue<Coordinate> q = new LinkedList<>();
-            for(int index: selectedCountry){
+            for(Coordinate coordinate: selectedCountry){
                 curVisitedCountry++;
-                int row = index / 3;
-                int col = index % 3;
-                visited[row][col] = true;
-                q.add(new Coordinate(row, col));
+                visited[coordinate.row][coordinate.col] = true;
+                q.add(coordinate);
             }
             while(!q.isEmpty()){
                 Coordinate prevCoordinate = q.poll();
