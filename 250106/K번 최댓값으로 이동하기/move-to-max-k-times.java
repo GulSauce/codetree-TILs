@@ -6,8 +6,8 @@ public class Main {
         int repeatCount;
         int targetNumber;
 
-        Coordinate targetCoordinate;
         Coordinate startCoordinate;
+        Coordinate targetCoordinate;
 
         int[] dRow = {0, -1, 0, 1};
         int[] dCol = {1, 0, -1, 0};
@@ -34,12 +34,6 @@ public class Main {
             printAnswer();
         }
 
-        private void initIsVisited(){
-            for(boolean[] array: isVisited){
-                Arrays.fill(array, false);
-            }
-        }
-
         private void repeatBFS(){
             targetNumber = grid[startCoordinate.row][startCoordinate.col];
             targetCoordinate = startCoordinate;
@@ -47,10 +41,6 @@ public class Main {
                 initIsVisited();
                 bfs();
             }
-        }
-
-        private void printAnswer(){
-            System.out.printf("%d %d", targetCoordinate.row, targetCoordinate.col);
         }
 
         private void bfs(){
@@ -103,6 +93,16 @@ public class Main {
 
         private boolean isOutOfRange(Coordinate coordinate){
             return coordinate.row < 1 || gridIndex < coordinate.row || coordinate.col < 1 || gridIndex < coordinate.col;
+        }
+
+        private void initIsVisited(){
+            for(boolean[] array: isVisited){
+                Arrays.fill(array, false);
+            }
+        }
+
+        private void printAnswer(){
+            System.out.printf("%d %d", targetCoordinate.row, targetCoordinate.col);
         }
     }
 
