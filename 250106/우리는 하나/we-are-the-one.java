@@ -43,6 +43,7 @@ public class Main {
                 initVisited();
                 bfs();
                 maxVisitedCountry = Math.max(maxVisitedCountry, curVisitedCountry);
+                return;
             }
 
             for(int i = lastIndex+1; i < gridSize; i++){
