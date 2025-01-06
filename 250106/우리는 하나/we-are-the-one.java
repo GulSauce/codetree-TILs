@@ -8,7 +8,8 @@ public class Main {
         int maxVisitedCountry = 0;
         int curVisitedCountry = 0;
 
-        MovableChecker movableChecker;
+        int u;
+        int d;
 
         int[] dRow = {0, -1, 0, 1};
         int[] dCol = {1, 0, -1, 0};
@@ -23,14 +24,16 @@ public class Main {
 
         public Solver(
                 int[][] grid,
-                MovableChecker movableChecker,
+                int u,
+                int d,
                 int k
         ){
             this.grid = grid;
             this.gridIndex = grid.length-1;
             this.gridSize = grid.length*grid.length;
             this.visited = new boolean[grid.length][grid.length];
-            this.movableChecker = movableChecker;
+            this.u = u;
+            this.d = d;
             this.maxSelectCount = k;
         }
 
@@ -124,7 +127,7 @@ public class Main {
             }
         }
 
-        new Solver(grid, new MovableChecker(u, d), k).solve();
+        new Solver(grid, u, d, k).solve();
     }
 
     private static class Coordinate{
