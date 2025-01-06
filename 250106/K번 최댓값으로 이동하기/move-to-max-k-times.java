@@ -6,6 +6,8 @@ public class Main {
         int repeatCount;
         int targetNumber;
 
+        final int NOT_CHANGED = -1;
+
         Coordinate startCoordinate;
         Coordinate targetCoordinate;
 
@@ -44,7 +46,7 @@ public class Main {
         }
 
         private void bfs(){
-            int nextTargetNumber = -1;
+            int nextTargetNumber = NOT_CHANGED;
             Coordinate nextTargetCoordinate = new Coordinate(1000, 1000);
 
             Queue<Coordinate> q = new LinkedList<>();
@@ -59,27 +61,26 @@ public class Main {
                     if(isAlreadyVisited(curCoordinate)){
                         continue;
                     }
-
-                    isVisited[curCoordinate.row][curCoordinate.col] = true;
                     int curNumber = grid[curCoordinate.row][curCoordinate.col];
                     if(targetNumber <= curNumber){
                         continue;
                     }
+
+                    isVisited[curCoordinate.row][curCoordinate.col] = true;
+
                     if(nextTargetNumber < curNumber){
                         nextTargetNumber = curNumber;
                         nextTargetCoordinate = curCoordinate;
                     }
-                    else if(nextTargetNumber == curNumber){
-                        if(nextTargetCoordinate.lessThan(curCoordinate)){
-                            continue;
-                        }
+                    else if(curNumber == nextTargetNumber && curCoordinate.lessThan(nextTargetCoordinate)){
                         nextTargetCoordinate = curCoordinate;
                     }
 
                     q.add(curCoordinate);
                 }
             }
-            if(nextTargetNumber == -1){
+
+            if(nextTargetNumber == NOT_CHANGED){
                 return;
             }
 
