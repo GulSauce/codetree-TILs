@@ -55,8 +55,8 @@ public class Main {
         }
 
         private Coordinate getCurCoordinate(int index){
-            int row = index/3;
-            int col = index%3;
+            int row = index/ grid.length;
+            int col = index % grid.length;
             return new Coordinate(row, col);
         }
 
