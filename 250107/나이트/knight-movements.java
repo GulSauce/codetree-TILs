@@ -30,17 +30,19 @@ public class Main {
 
         public void solve(){
             initVisited();
+            initDist();
             bfs();
             printResult();
         }
 
-        private void printResult(){
-            int result = dist[end.row][end.col];
-            if(result == 0){
-                System.out.println(-1);
-            }else{
-                System.out.println(result);
+        private void initDist(){
+            for(int[] array: dist){
+                Arrays.fill(array, -1);
             }
+        }
+
+        private void printResult(){
+            System.out.println(dist[end.row][end.col]);
         }
 
         private void bfs(){
