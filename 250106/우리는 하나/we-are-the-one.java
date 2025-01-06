@@ -8,13 +8,14 @@ public class Main {
         int maxVisitedCountry = 0;
         int curVisitedCountry = 0;
 
-        int u;
-        int d;
+        MovableChecker movableChecker;
 
         int[] dRow = {0, -1, 0, 1};
         int[] dCol = {1, 0, -1, 0};
 
         List<Coordinate> selectedCountry = new ArrayList<>();
+        Queue<Coordinate> q = new LinkedList<>();
+
 
         boolean[][] visited;
 
@@ -22,16 +23,14 @@ public class Main {
 
         public Solver(
                 int[][] grid,
-                int u,
-                int d,
+                MovableChecker movableChecker,
                 int k
         ){
             this.grid = grid;
             this.gridIndex = grid.length-1;
             this.gridSize = grid.length*grid.length;
             this.visited = new boolean[grid.length][grid.length];
-            this.u = u;
-            this.d = d;
+            this.movableChecker = movableChecker;
             this.maxSelectCount = k;
         }
 
@@ -63,7 +62,7 @@ public class Main {
         }
 
         private void bfs(){
-            Queue<Coordinate> q = new LinkedList<>();
+            q.clear();
             for(Coordinate coordinate: selectedCountry){
                 curVisitedCountry++;
                 visited[coordinate.row][coordinate.col] = true;
@@ -125,7 +124,7 @@ public class Main {
             }
         }
 
-        new Solver(grid, u, d, k).solve();
+        new Solver(grid, new MovableChecker(u, d), k).solve();
     }
 
     private static class Coordinate{
