@@ -62,7 +62,6 @@ public class Main {
         }
 
         private void bfs(){
-            q.clear();
             for(Coordinate coordinate: selectedCountry){
                 curVisitedCountry++;
                 visited[coordinate.row][coordinate.col] = true;
