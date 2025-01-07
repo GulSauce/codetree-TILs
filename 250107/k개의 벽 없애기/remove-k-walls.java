@@ -69,7 +69,7 @@ public class Main {
 
         private void bfs(){
             Queue<Coordinate> q = new LinkedList<>();
-            visited[start.row][start.row] = true;
+            visited[start.row][start.col] = true;
             dist[start.row][start.col] = 0;
             q.add(start);
             while(!q.isEmpty()){
@@ -85,7 +85,6 @@ public class Main {
                     if(isWall(cur)){
                         continue;
                     }
-
                     visited[cur.row][cur.col] = true;
                     dist[cur.row][cur.col] = dist[prev.row][prev.col] + 1;
                     q.add(cur);
