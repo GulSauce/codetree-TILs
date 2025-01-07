@@ -4,6 +4,8 @@ public class Main {
     private static class Solver{
         int width;
 
+        final int R = 10007;
+
         int[] dp = new int[1001];
 
         public Solver(
@@ -24,7 +26,8 @@ public class Main {
 
         private void calcDP(){
             for(int i =3; i <= width; i++){
-                dp[i] = dp[i-1] + dp[i-2];
+                dp[i] = dp[i-1]%R + dp[i-2]%R;
+                dp[i] = dp[i]%R;
             }
         }
 
