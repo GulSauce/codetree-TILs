@@ -6,12 +6,12 @@ public class Main {
 
         final int WALL = 1;
         final int PERSON = 2;
-        final int RAIN_GUARD = 3;
+        final int SHELTER = 3;
 
         int[] dRow = {0, -1, 0, 1};
         int[] dCol = {1, 0, -1, 0};
 
-        List<Coordinate> people = new ArrayList<>();
+        List<Coordinate> shelters = new ArrayList<>();
 
         boolean[][] visited;
         int[][] dist;
@@ -29,29 +29,36 @@ public class Main {
         }
 
         public void solve(){
-            people = getPeople();
-            bfsEachPerson();
+            shelters = getShelters();
+            initVisited();
+            initDist();
+            bfs();
             printResult();
         }
 
-        private void bfsEachPerson(){
-            for(Coordinate person: people){
-                initVisited();
-                initDist();
-                bfs(person);
+        private void printResult(){
+            for(int row = 0; row <= gridIndex; row++){
+                for(int col = 0; col <= gridIndex; col++){
+                    if(grid[row][col] != PERSON){
+                        System.out.printf("%d ", 0);
+                    }else{
+                        System.out.printf("%d ", dist[row][col]);
+                    }
+                }
+                System.out.println();
             }
         }
 
-        private void bfs(Coordinate start){
-            int elapsedTime = -1;
-
+        private void bfs(){
             Queue<Coordinate> q = new LinkedList<>();
-            dist[start.row][start.col] = 0;
-            visited[start.row][start.col] = true;
-            q.add(start);
+            for(Coordinate shelter: shelters) {
+                dist[shelter.row][shelter.col] = 0;
+                visited[shelter.row][shelter.col] = true;
+                q.add(shelter);
+            }
+
             while(!q.isEmpty()){
                 Coordinate prev = q.poll();
-                boolean found = false;
                 for(int i = 0; i < 4; i++){
                     Coordinate cur = new Coordinate(prev.row+dRow[i], prev.col+dCol[i]);
                     if(isOutOfRange(cur)){
@@ -67,17 +74,8 @@ public class Main {
                     dist[cur.row][cur.col] = dist[prev.row][prev.col] + 1;
                     visited[cur.row][cur.col] = true;
                     q.add(cur);
-                    if(isRainGuard(cur)){
-                        elapsedTime = dist[cur.row][cur.col];
-                        found = true;
-                        break;
-                    }
-                }
-                if(found){
-                    break;
                 }
             }
-            answer[start.row][start.col] = elapsedTime;
         }
 
         private boolean isOutOfRange(Coordinate coordinate){
@@ -92,19 +90,6 @@ public class Main {
             return grid[coordinate.row][coordinate.col] == WALL;
         }
 
-        private boolean isRainGuard(Coordinate coordinate){
-            return grid[coordinate.row][coordinate.col] == RAIN_GUARD;
-        }
-
-        private void printResult(){
-            for(int[] array: answer){
-                for(int value: array){
-                    System.out.printf("%d ", value);
-                }
-                System.out.println();
-            }
-        }
-
         private void initDist(){
             for(int[] array: dist){
                 Arrays.fill(array, -1);
@@ -117,18 +102,18 @@ public class Main {
             }
         }
 
-        private List<Coordinate> getPeople(){
-            List<Coordinate> people = new ArrayList<>();
+        private List<Coordinate> getShelters(){
+            List<Coordinate> shelters = new ArrayList<>();
 
             for(int row = 0; row <= gridIndex; row++){
                 for(int col = 0; col <= gridIndex; col++){
-                    if(grid[row][col] == PERSON){
-                        people.add(new Coordinate(row, col));
+                    if(grid[row][col] == SHELTER){
+                        shelters.add(new Coordinate(row, col));
                     }
                 }
             }
 
-            return people;
+            return shelters;
         }
     }
 
