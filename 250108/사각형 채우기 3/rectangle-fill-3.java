@@ -6,7 +6,7 @@ public class Main {
 
         final int R = 1000000007;
 
-        int[] dp = new int[1001];
+        long[] dp = new long[1001];
 
         public Solver(
                 int n
@@ -28,12 +28,15 @@ public class Main {
             for(int i = 3; i <= width; i++){
                 dp[i] = (dp[i-1] % R) * 2;
                 dp[i] %= R;
+
                 dp[i] += (dp[i-2] % R) * 3;
                 dp[i] %= R;
+
                 for(int j = 1; j <= i-3; j++){
                     dp[i] += (dp[j] % R) * 2;
                     dp[i] %= R;
                 }
+
                 dp[i] += 2;
                 dp[i] %= R;
             }
