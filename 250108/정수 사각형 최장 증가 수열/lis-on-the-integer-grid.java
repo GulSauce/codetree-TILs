@@ -4,7 +4,7 @@ public class Main {
     private static class Solver{
         int gridIndex;
 
-        List<Element> elements = new ArrayList<>();
+        final int NOT_MEMORIZATION = -1;
 
         int[] dRow = {0, -1, 0, 1};
         int[] dCol = {1, 0, -1, 0};
@@ -22,8 +22,6 @@ public class Main {
         }
 
         public void solve(){
-            getElement();
-            Collections.sort(elements);
             initDP();
             calcDP();
             printAnswer();
@@ -31,7 +29,7 @@ public class Main {
 
         private void initDP(){
             for(int[] array: dp){
-                Arrays.fill(array, 1);
+                Arrays.fill(array, NOT_MEMORIZATION);
             }
         }
 
@@ -47,31 +45,36 @@ public class Main {
         }
 
         private void calcDP(){
-            for(Element element: elements){
-                for(int i = 0; i < 4; i++){
-                    int nearRow = element.row + dRow[i];
-                    int nearCol = element.col + dCol[i];
-                    if(isOutOfGrid(nearRow, nearCol)){
-                        continue;
-                    }
-                    if(grid[nearRow][nearCol] <= grid[element.row][element.col]){
-                        continue;
-                    }
-                    dp[element.row][element.col] = Math.max(dp[nearRow][nearCol] + 1, dp[element.row][element.col]);
+            for(int row = 0; row <= gridIndex; row++){
+                for(int col = 0; col <= gridIndex; col++){
+                    dp(row,col);
                 }
+            }
+        }
+
+        private void dp(int prevRow, int prevCol){
+            if(dp[prevRow][prevCol] != NOT_MEMORIZATION){
+                return;
+            }
+            for(int i = 0; i < 4; i++){
+                int curRow = prevRow+dRow[i];
+                int curCol = prevCol+dCol[i];
+                if(isOutOfGrid(curRow, curCol)){
+                    continue;
+                }
+                if(grid[curRow][curCol] <= grid[prevRow][prevCol]){
+                    continue;
+                }
+                dp(curRow, curCol);
+                dp[prevRow][prevCol] = Math.max(dp[prevRow][prevCol], dp[curRow][curCol]+1);
+            }
+            if(dp[prevRow][prevCol] == NOT_MEMORIZATION){
+                dp[prevRow][prevCol] = 1;
             }
         }
 
         private boolean isOutOfGrid(int row, int col){
             return  row < 0 || gridIndex < row || col < 0 || gridIndex < col;
-        }
-
-        private void getElement(){
-            for(int row = 0; row <= gridIndex; row++){
-                for(int col = 0; col <= gridIndex; col++){
-                    elements.add(new Element(grid[row][col], row, col));
-                }
-            }
         }
     }
 
@@ -85,25 +88,5 @@ public class Main {
             }
         }
         new Solver(n, grid).solve();
-    }
-
-    private static class Element implements Comparable<Element>{
-        int value;
-        int row;
-        int col;
-
-        public Element(
-                int value,
-                int row,
-                int col
-        ){
-            this.value = value;
-            this.row = row;
-            this.col = col;
-        }
-
-        @Override public int compareTo(Element element){
-            return element.value - this.value;
-        }
     }
 }
