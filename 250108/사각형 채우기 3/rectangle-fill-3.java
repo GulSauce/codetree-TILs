@@ -25,12 +25,13 @@ public class Main {
         }
 
         private void calcDP(){
-            for(int i =3; i <= width; i++){
-                dp[i] = (dp[i-1] % R) * (2 % R);
-                dp[i] += (dp[i-2] % R) * (3 % R);
+            for(int i = 3; i <= width; i++){
+                dp[i] = (dp[i-1] % R) * 2;
+                dp[i] %= R;
+                dp[i] += (dp[i-2] % R) * 3;
                 dp[i] %= R;
                 for(int j = 1; j <= i-3; j++){
-                    dp[i] += (dp[j] % R) * (2 % R);
+                    dp[i] += (dp[j] % R) * 2;
                     dp[i] %= R;
                 }
                 dp[i] += 2;
