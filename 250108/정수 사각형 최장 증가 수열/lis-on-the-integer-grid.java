@@ -50,7 +50,7 @@ public class Main {
             for(Element element: elements){
                 for(int i = 0; i < 4; i++){
                     int nearRow = element.row + dRow[i];
-                    int nearCol = element.row + dCol[i];
+                    int nearCol = element.col + dCol[i];
                     if(isOutOfGrid(nearRow, nearCol)){
                         continue;
                     }
