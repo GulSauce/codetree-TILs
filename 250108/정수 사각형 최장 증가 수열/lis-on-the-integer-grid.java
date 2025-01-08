@@ -56,6 +56,7 @@ public class Main {
             if(dp[prevRow][prevCol] != NOT_MEMORIZATION){
                 return;
             }
+            dp[prevRow][prevCol] = 1;
             for(int i = 0; i < 4; i++){
                 int curRow = prevRow+dRow[i];
                 int curCol = prevCol+dCol[i];
@@ -67,9 +68,6 @@ public class Main {
                 }
                 dp(curRow, curCol);
                 dp[prevRow][prevCol] = Math.max(dp[prevRow][prevCol], dp[curRow][curCol]+1);
-            }
-            if(dp[prevRow][prevCol] == NOT_MEMORIZATION){
-                dp[prevRow][prevCol] = 1;
             }
         }
 
