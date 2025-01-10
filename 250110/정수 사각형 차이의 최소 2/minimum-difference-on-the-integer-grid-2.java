@@ -23,6 +23,16 @@ public class Main {
             printAnswer();
         }
 
+        private void printDP(){
+            for(int row = 1; row <= gridIndex; row++){
+                for(int col = 1; col <= gridIndex; col++){
+                    System.out.printf("max:%d, min:%d|", dp[row][col].max, dp[row][col].min);
+                }
+                System.out.println();
+            }
+
+        }
+
         private void printAnswer(){
             System.out.println(dp[gridIndex][gridIndex].max - dp[gridIndex][gridIndex].min);
         }
@@ -30,18 +40,18 @@ public class Main {
         private void calcDP(){
             for(int row = 2; row <= gridIndex; row++){
                 for(int col = 2; col <= gridIndex; col++){
-                    int minFromRow = Math.min(dp[row][col-1].min, grid[row][col]);
-                    int maxFromRow = Math.max(dp[row][col-1].max, grid[row][col]);
+                    int minFromRow = Math.min(dp[row-1][col].min, grid[row][col]);
+                    int maxFromRow = Math.max(dp[row-1][col].max, grid[row][col]);
                     int diffFromRow = maxFromRow-minFromRow;
 
                     int minFromCol = Math.min(dp[row][col-1].min, grid[row][col]);
                     int maxFromCol = Math.max(dp[row][col-1].max, grid[row][col]);
                     int diffFromCol = maxFromCol-minFromCol;
 
-                    if(diffFromCol < diffFromRow){
+                    if(diffFromRow < diffFromCol){
                         dp[row][col] = new MinMax(minFromRow, maxFromRow);
                     }else{
-                        dp[row][col] = new MinMax(minFromCol, maxFromCol)
+                        dp[row][col] = new MinMax(minFromCol, maxFromCol);
                     }
                 }
             }
