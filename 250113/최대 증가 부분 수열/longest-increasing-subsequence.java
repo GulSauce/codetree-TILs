@@ -31,8 +31,8 @@ public class Main {
         }
 
         private void calcDP(){
-            for(int currentIndex = 1; currentIndex <= numbersIndex; currentIndex++){
-                for(int prevIndex = 1; prevIndex < currentIndex; prevIndex++){
+            for(int currentIndex = 0; currentIndex <= numbersIndex; currentIndex++){
+                for(int prevIndex = 0; prevIndex < currentIndex; prevIndex++){
                     if(numbers.get(prevIndex) < numbers.get(currentIndex)){
                         dp[currentIndex] = Math.max(dp[currentIndex], dp[prevIndex]+1);
                     }
