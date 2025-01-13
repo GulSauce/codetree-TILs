@@ -39,13 +39,15 @@ public class Main {
                     if(prev + jumpDistances.get(prev) < cur){
                         continue;
                     }
+                    if(prev != 0 && dp[prev] == 0){
+                        continue;
+                    }
                     dp[cur] = Math.max(dp[cur], dp[prev]+1);
                 }
             }
         }
 
         private void initDP(){
-            Arrays.fill(dp, -1);
             dp[0] = 0;
         }
     }
