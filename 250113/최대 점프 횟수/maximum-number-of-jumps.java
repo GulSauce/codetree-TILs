@@ -5,6 +5,8 @@ public class Main {
         int n;
         int jumpDistancesIndex;
 
+        final int CAN_NOT_JUMP = -1;
+
         int[] dp;
 
         List<Integer> jumpDistances;
@@ -39,7 +41,7 @@ public class Main {
                     if(prev + jumpDistances.get(prev) < cur){
                         continue;
                     }
-                    if(prev != 0 && dp[prev] == 0){
+                    if(dp[prev] == CAN_NOT_JUMP){
                         continue;
                     }
                     dp[cur] = Math.max(dp[cur], dp[prev]+1);
@@ -48,6 +50,7 @@ public class Main {
         }
 
         private void initDP(){
+            Arrays.fill(dp, CAN_NOT_JUMP);
             dp[0] = 0;
         }
     }
