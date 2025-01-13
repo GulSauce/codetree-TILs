@@ -27,6 +27,9 @@ public class Main {
 
         private void printAnswer(){
             int answer = 0;
+            for(int number: dp){
+                answer = Math.max(answer, number);
+            }
             System.out.println(answer);
         }
 
