@@ -22,14 +22,6 @@ public class Main {
             printResult();
         }
 
-        private void printResult(){
-            int answer = 0;
-            for(int number: dp){
-                answer = Math.max(answer, number);
-            }
-            System.out.println(answer);
-        }
-
         private void initDP(){
             Arrays.fill(dp, 1);
         }
@@ -37,12 +29,20 @@ public class Main {
         private void calcDP(){
             for(int cur = 1; cur <= numbersIndex; cur++){
                 for(int prev = 0; prev < cur; prev++){
-                    if(numbers.get(prev) < numbers.get(cur)){
+                    if(numbers.get(prev) <= numbers.get(cur)){
                         continue;
                     }
                     dp[cur] = Math.max(dp[cur], dp[prev]+1);
                 }
             }
+        }
+
+        private void printResult(){
+            int answer = 0;
+            for(int number: dp){
+                answer = Math.max(answer, number);
+            }
+            System.out.println(answer);
         }
     }
 
