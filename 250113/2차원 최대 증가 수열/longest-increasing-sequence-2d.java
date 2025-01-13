@@ -62,13 +62,7 @@ public class Main {
         }
 
         private void printAnswer(){
-            int answer = 0;
-            for(int row = 0; row <= rowIndex; row++){
-                for(int col = 0; col <= colIndex; col++){
-                    answer = Math.max(answer, dp[row][col]);
-                }
-            }
-            System.out.println(answer);
+            System.out.println(dp[0][0]);
         }
     }
 
