@@ -5,6 +5,8 @@ public class Main {
         int coinsIndex;
         int targetValue;
 
+        final int NOT_ALLOCATED = Integer.MAX_VALUE;
+
         int[] dp;
         List<Integer> coins;
 
@@ -26,7 +28,7 @@ public class Main {
         }
 
         private void printAnswer(){
-            if(dp[targetValue] == Integer.MAX_VALUE){
+            if(dp[targetValue] == NOT_ALLOCATED){
                 System.out.println(-1);
                 return;
             }
@@ -40,13 +42,16 @@ public class Main {
                     if(isOutOfTarget(prevValue)){
                         continue;
                     }
+                    if(dp[prevValue] == NOT_ALLOCATED){
+                        continue;
+                    }
                     dp[curValue] = Math.min(dp[curValue], dp[prevValue]+1);
                 }
             }
         }
 
         private void initDP(){
-            Arrays.fill(dp, Integer.MAX_VALUE);
+            Arrays.fill(dp, NOT_ALLOCATED);
             for(int coin: coins){
                 if(isOutOfTarget(coin)){
                     continue;
