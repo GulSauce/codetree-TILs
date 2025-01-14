@@ -26,6 +26,10 @@ public class Main {
         }
 
         private void printAnswer(){
+            if(dp[targetValue] == Integer.MAX_VALUE){
+                System.out.println(-1);
+                return;
+            }
             System.out.println(dp[targetValue]);
         }
 
