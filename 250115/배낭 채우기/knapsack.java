@@ -1,4 +1,3 @@
-import java.time.Year;
 import java.util.*;
 
 public class Main {
@@ -29,15 +28,6 @@ public class Main {
             printAnswer();
         }
 
-        private void printDP(){
-            for(int[] array: dp){
-                for(int value: array){
-                    System.out.printf("%d ", value);
-                }
-                System.out.println();
-            }
-        }
-
         private void printAnswer(){
             int answer = 0;
             for(int[] array: dp){
@@ -53,10 +43,10 @@ public class Main {
                 for(int weight = 0; weight <= maxWeight; weight++){
                     Gem curGem = gems.get(i);
                     if(weight - curGem.weight < 0){
-                        dp[i][weight] = Math.max(dp[i-1][weight], dp[i][weight]);
+                        dp[i][weight] = dp[i-1][weight];
                         continue;
                     }
-                    dp[i][weight] = Math.max(Math.max(dp[i-1][weight], dp[i][weight]), dp[i-1][weight-curGem.weight]+curGem.value);
+                    dp[i][weight] = Math.max(dp[i-1][weight], dp[i-1][weight-curGem.weight]+curGem.value);
                 }
             }
         }
