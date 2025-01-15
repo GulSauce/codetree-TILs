@@ -41,8 +41,8 @@ public class Main {
         private void printAnswer(){
             int answer = 0;
             for(int[] array: dp){
-                for(int value: array){
-                    answer = Math.max(answer, value);
+                for(int i = 0; i <= maxWeight; i++){
+                    answer = Math.max(answer, array[i]);
                 }
             }
             System.out.println(answer);
@@ -52,11 +52,11 @@ public class Main {
             for(int i = 1; i <= gemsIndex; i++){
                 for(int weight = 0; weight <= maxWeight; weight++){
                     Gem curGem = gems.get(i);
-                    if(0 <= weight - curGem.weight){
-                        dp[i][weight] = Math.max(Math.max(dp[i-1][weight], dp[i][weight]), dp[i-1][weight-curGem.weight]+curGem.value);
+                    if(weight - curGem.weight < 0){
+                        dp[i][weight] = Math.max(dp[i-1][weight], dp[i][weight]);
                         continue;
                     }
-                    dp[i][weight] = Math.max(dp[i-1][weight], dp[i][weight]);
+                    dp[i][weight] = Math.max(Math.max(dp[i-1][weight], dp[i][weight]), dp[i-1][weight-curGem.weight]+curGem.value);
                 }
             }
         }
