@@ -1,3 +1,4 @@
+import java.time.Year;
 import java.util.*;
 
 public class Main {
@@ -7,7 +8,7 @@ public class Main {
 
         final int NOT_ALLOCATED = Integer.MIN_VALUE;
 
-        int[] dp;
+        int[][] dp;
         List<Gem> gems;
 
         public Solver(
@@ -15,9 +16,9 @@ public class Main {
                 int M,
                 List<Gem> gems
         ){
-            this.gemsIndex = N;
+            this.gemsIndex = N-1;
             this.maxWeight = M;
-            this.dp = new int[M+1];
+            this.dp = new int[N][M+1];
             this.gems = gems;
         }
 
@@ -27,31 +28,46 @@ public class Main {
             printAnswer();
         }
 
+        private void printDP(){
+            for(int[] array: dp){
+                for(int value: array){
+                    System.out.printf("%d ", value);
+                }
+                System.out.println();
+            }
+        }
+
         private void printAnswer(){
             int answer = 0;
-            for(int value: dp){
-                answer = Math.max(value, answer);
+            for(int[] array: dp){
+                for(int value: array){
+                    answer = Math.max(answer, value);
+                }
             }
             System.out.println(answer);
         }
 
         private void calcDP(){
-            for(Gem gem: gems){
-                for(int cur = maxWeight; cur >= 0; cur--){
-                    if(cur - gem.weight < 0){
+            for(int i = 1; i <= gemsIndex; i++){
+                for(int weight = 0; weight <= maxWeight; weight++){
+                    Gem curGem = gems.get(i);
+                    if(0 <= weight - curGem.weight){
+                        dp[i][weight] = Math.max(Math.max(dp[i-1][weight], dp[i][weight]), dp[i-1][weight-curGem.weight]+curGem.value);
                         continue;
                     }
-                    if(dp[cur-gem.weight] == NOT_ALLOCATED){
-                        continue;
-                    }
-                    dp[cur] = Math.max(dp[cur-gem.weight]+gem.value, dp[cur]);
+                    dp[i][weight] = Math.max(dp[i-1][weight], dp[i][weight]);
                 }
             }
         }
 
         private void initDP(){
-            Arrays.fill(dp, NOT_ALLOCATED);
-            dp[0] = 0;
+            for(int[] array: dp){
+                Arrays.fill(array, NOT_ALLOCATED);
+            }
+            for(int i = 0; i <= gemsIndex; i++) {
+                dp[i][0] = 0;
+            }
+            dp[0][gems.get(0).weight] =gems.get(0).value;
         }
     }
 
