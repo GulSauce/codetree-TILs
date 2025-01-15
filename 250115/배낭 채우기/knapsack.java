@@ -7,6 +7,7 @@ public class Main {
         int maxWeight;
 
         final int NOT_ALLOCATED = Integer.MIN_VALUE;
+        final int MAX_WEIGHT = 10000;
 
         int[][] dp;
         List<Gem> gems;
@@ -18,7 +19,7 @@ public class Main {
         ){
             this.gemsIndex = N-1;
             this.maxWeight = M;
-            this.dp = new int[N][M+1];
+            this.dp = new int[N][MAX_WEIGHT+1];
             this.gems = gems;
         }
 
@@ -67,7 +68,7 @@ public class Main {
             for(int i = 0; i <= gemsIndex; i++) {
                 dp[i][0] = 0;
             }
-            dp[0][gems.get(0).weight] =gems.get(0).value;
+            dp[0][gems.get(0).weight] = gems.get(0).value;
         }
     }
 
