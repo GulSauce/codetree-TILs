@@ -4,7 +4,8 @@ public class Main {
     private static class Solver{
         int questsIndex;
         int targetExp;
-        final int NOT_ALLOCATED = Integer.MAX_VALUE;
+        final int NOT_ALLOCATED = Integer.MIN_VALUE;
+        final int MAX_TIME = 10000;
 
         int[] dp;
         List<Quest> quests;
@@ -16,7 +17,7 @@ public class Main {
         ){
             this.questsIndex = n;
             this.targetExp = m;
-            this.dp = new int[targetExp+1];
+            this.dp = new int[MAX_TIME+1];
             this.quests = quests;
         }
 
@@ -26,33 +27,27 @@ public class Main {
             printAnswer();
         }
 
-        private void printDP(){
-            for(int i = 0; i <= targetExp; i++){
-                System.out.printf("%d ", dp[i]);
-            }
-            System.out.println();
-        }
-
         private void printAnswer(){
-            int answer = dp[targetExp];
-            if(answer == Integer.MAX_VALUE){
-                System.out.println(-1);
-                return;
+            int answer = -1;
+            for(int time = 0; time <= MAX_TIME; time++){
+                if(targetExp <= dp[time]){
+                    answer = time;
+                    break;
+                }
             }
             System.out.println(answer);
         }
 
         private void calcDP(){
             for(Quest quest: quests){
-                for(int startExp = targetExp; startExp >= 0; startExp--){
-                    if(dp[startExp] == NOT_ALLOCATED){
+                for(int time = MAX_TIME; time >= 0; time--){
+                    if(time - quest.time < 0){
                         continue;
                     }
-                    if(targetExp <= startExp + quest.exp){
-                        dp[targetExp] = Math.min(dp[targetExp], dp[startExp]+quest.time);
+                    if(dp[time-quest.time] == NOT_ALLOCATED){
                         continue;
                     }
-                    dp[startExp+quest.exp] = Math.min(dp[startExp]+quest.time, dp[startExp+quest.exp]);
+                    dp[time] = Math.max(dp[time- quest.time]+quest.exp, dp[time]);
                 }
             }
         }
