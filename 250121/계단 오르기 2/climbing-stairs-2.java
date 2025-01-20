@@ -35,7 +35,6 @@ public class Main {
         }
 
         private void calcDP(){
-            dp[1][1] = dp[0][0]+coins.get(0);
             for(int floor = 2; floor <= maxFloor; floor++){
                 for(int count = 0; count <= 3; count++){
                     if(dp[floor-2][count] == NOT_ALLOCATED){
@@ -57,6 +56,7 @@ public class Main {
                 Arrays.fill(array, NOT_ALLOCATED);
             }
             dp[0][0] = 0;
+            dp[1][1] = dp[0][0]+coins.get(1);
         }
     }
 
