@@ -32,10 +32,14 @@ public class Main {
 
         private void calcDP() {
             for(int i = 1; i <= cardSetsIndex; i++){
-                dp[i][0] = Math.max(dp[i-1][0]+cardSets.get(i).blue, dp[i][0]);
+                dp[i][0] = dp[i-1][0]+cardSets.get(i).blue;
                 for(int j = 1; j <= maxSelectCount; j++) {
-                    dp[i][j] = Math.max(dp[i-1][j]+cardSets.get(i).blue, dp[i][j]);
-                    dp[i][j] = Math.max(dp[i-1][j-1]+cardSets.get(i).red, dp[i][j]);
+                    if(dp[i-1][j] != NOT_ALLOCATED) {
+                        dp[i][j] = dp[i - 1][j] + cardSets.get(i).blue;
+                    }
+                    if(dp[i-1][j-1] != NOT_ALLOCATED){
+                        dp[i][j] = Math.max(dp[i-1][j-1]+cardSets.get(i).red, dp[i][j]);
+                    }
                 }
             }
         }
