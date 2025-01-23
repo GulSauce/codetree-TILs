@@ -7,7 +7,7 @@ public class Main {
         int maxSelectCount;
         final int NOT_ALLOCATED = Integer.MIN_VALUE;
 
-        int[][] dp;
+        int[][][] dp;
         List<CardSet> cardSets;
 
         public Solver(
@@ -16,7 +16,7 @@ public class Main {
         ){
             this.maxSelectCount = n;
             this.cardSetsIndex = 2*n-1;
-            this.dp = new int[2*n][n+1];
+            this.dp = new int[2*n][n+1][n+1];
             this.cardSets = cardSets;
         }
 
@@ -27,29 +27,36 @@ public class Main {
         }
 
         private void printAnswer(){
-            System.out.println(dp[cardSetsIndex][maxSelectCount]);
+            System.out.println(dp[cardSetsIndex][maxSelectCount][maxSelectCount]);
         }
 
         private void calcDP() {
             for(int i = 1; i <= cardSetsIndex; i++){
-                dp[i][0] = dp[i-1][0]+cardSets.get(i).blue;
+                for(int k = 1; k <= maxSelectCount; k++){
+                    dp[i][0][k] = dp[i-1][0][k-1]+cardSets.get(i).blue;
+                }
                 for(int j = 1; j <= maxSelectCount; j++) {
-                    if(dp[i-1][j] != NOT_ALLOCATED) {
-                        dp[i][j] = dp[i - 1][j] + cardSets.get(i).blue;
-                    }
-                    if(dp[i-1][j-1] != NOT_ALLOCATED){
-                        dp[i][j] = Math.max(dp[i-1][j-1]+cardSets.get(i).red, dp[i][j]);
+                    dp[i][j][0] = dp[i][j-1][0] + cardSets.get(i).red;
+                    for(int k = 1; k <= maxSelectCount; k++){
+                        if(dp[i-1][j][k-1] != NOT_ALLOCATED){
+                            dp[i][j][k] = Math.max(dp[i - 1][j][k - 1] + cardSets.get(i).blue, dp[i][j][k]);
+                        }
+                        if(dp[i-1][j-1][k] != NOT_ALLOCATED) {
+                            dp[i][j][k] = Math.max(dp[i - 1][j - 1][k] + cardSets.get(i).red, dp[i][j][k]);
+                        }
                     }
                 }
             }
         }
 
         private void initDP(){
-            for(int[] array: dp){
-                Arrays.fill(array, NOT_ALLOCATED);
+            for(int[][] arrays: dp){
+                for(int[] array: arrays) {
+                    Arrays.fill(array, NOT_ALLOCATED);
+                }
             }
-            dp[0][0] = cardSets.get(0).blue;
-            dp[0][1] = cardSets.get(0).red;
+            dp[0][0][1] = cardSets.get(0).blue;
+            dp[0][1][0] = cardSets.get(0).red;
         }
     }
 
