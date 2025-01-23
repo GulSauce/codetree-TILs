@@ -49,6 +49,7 @@ public class Main {
                 Arrays.fill(array, NOT_ALLOCATED);
             }
             dp[0][0] = cardSets.get(0).blue;
+            dp[0][1] = cardSets.get(0).red;
         }
     }
 
