@@ -5,7 +5,7 @@ public class Main {
         int numbersIndex;
         int targetNumber;
         final int OFFSET = 20;
-        final int NOT_ALLOCATED = Integer.MIN_VALUE;
+        final int NOT_ALLOCATED = 0;
 
         List<Integer> numbers;
 
