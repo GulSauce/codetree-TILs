@@ -9,7 +9,7 @@ public class Main {
 
         List<Integer> numbers;
 
-        int[][] dp;
+        long[][] dp;
 
         public Solver(
                 int N,
@@ -19,7 +19,7 @@ public class Main {
             this.numbersIndex = N-1;
             this.targetNumber = M;
             this.numbers = numbers;
-            this.dp = new int[N][41];
+            this.dp = new long[N][41];
         }
 
         public void solve(){
@@ -50,7 +50,7 @@ public class Main {
         }
 
         private void initDP(){
-            for(int[] array: dp){
+            for(long[] array: dp){
                 Arrays.fill(array, NOT_ALLOCATED);
             }
             dp[0][numbers.get(0)+OFFSET]++;
