@@ -36,6 +36,9 @@ public class Main {
             for(int i = 1; i <= numbersIndex; i++){
                 int cur = numbers.get(i);
                 for(int j = -20; j <= 20; j++){
+                    if(dp[i-1][j+OFFSET] == NOT_ALLOCATED){
+                        continue;
+                    }
                     if(-20 <= j-cur){
                         dp[i][j-cur+OFFSET] += dp[i-1][j+OFFSET];
                     }
@@ -50,8 +53,8 @@ public class Main {
             for(int[] array: dp){
                 Arrays.fill(array, NOT_ALLOCATED);
             }
-            dp[0][numbers.get(0)+OFFSET] = 1;
-            dp[0][-numbers.get(0)+OFFSET] = 1;
+            dp[0][numbers.get(0)+OFFSET]++;
+            dp[0][-numbers.get(0)+OFFSET]++;
         }
     }
 
