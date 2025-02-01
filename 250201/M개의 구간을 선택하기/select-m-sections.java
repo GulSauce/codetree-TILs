@@ -30,16 +30,6 @@ public class Main {
             System.out.println(Math.max(dp[numbersIndex][selectSectionCount][1], dp[numbersIndex][selectSectionCount][0]));
         }
 
-        private void printDP(){
-            for(int[][] arrays: dp){
-                for(int[] array: arrays){
-                    System.out.printf("(%d|%d) ", array[0], array[1]);
-                    System.out.print(" ");
-                }
-                System.out.println();
-            }
-        }
-
         private void calcDP(){
             for(int i = 1; i <= numbersIndex; i++){
                 for(int j = 1; j <= selectSectionCount; j++){
@@ -71,7 +61,9 @@ public class Main {
                     Arrays.fill(array, NOT_ALLOCATED);
                 }
             }
-            dp[0][0][0] = 0;
+            for(int i = 0; i <= numbersIndex; i++){
+                dp[i][0][0] = 0;
+            }
             dp[0][1][1] = numbers.get(0);
         }
     }
