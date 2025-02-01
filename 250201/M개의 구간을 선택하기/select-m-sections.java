@@ -43,17 +43,15 @@ public class Main {
         private void calcDP(){
             for(int i = 1; i <= numbersIndex; i++){
                 for(int j = 1; j <= selectSectionCount; j++){
-                    if(dp[i-1][j][1] != NOT_ALLOCATED){
-                        dp[i][j][1] = Math.max(dp[i-1][j][1] + numbers.get(i), dp[i][j][1]);
-                    }
-                    if(dp[i-1][j-1][0] != NOT_ALLOCATED){
-                        dp[i][j][1] = Math.max(dp[i-1][j-1][0] + numbers.get(i), dp[i][j][1]);
-                    }
-                    if(dp[i-1][j][0] != NOT_ALLOCATED){
-                        dp[i][j][0] = Math.max(dp[i-1][j][0], dp[i][j][0]);
-                    }
-                    if(dp[i-1][j][1] != NOT_ALLOCATED){
-                        dp[i][j][0] = Math.max(dp[i-1][j][1], dp[i][j][0]);
+                    for(int k = 0; k <= 1; k++){
+                        if(k == 0){
+                            dp[i][j][k] = Math.max(dp[i-1][j][0], dp[i][j][k]);
+                            dp[i][j][k] = Math.max(dp[i-1][j][1], dp[i][j][k]);
+                        }
+                        if(k == 1){
+                            dp[i][j][k] = Math.max(dp[i-1][j][1]+numbers.get(i), dp[i][j][k]);
+                            dp[i][j][k] = Math.max(dp[i-1][j-1][0]+numbers.get(i), dp[i][j][k]);
+                        }
                     }
                 }
             }
