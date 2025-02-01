@@ -45,12 +45,20 @@ public class Main {
                 for(int j = 1; j <= selectSectionCount; j++){
                     for(int k = 0; k <= 1; k++){
                         if(k == 0){
-                            dp[i][j][k] = Math.max(dp[i-1][j][0], dp[i][j][k]);
-                            dp[i][j][k] = Math.max(dp[i-1][j][1], dp[i][j][k]);
+                            if(dp[i-1][j][0] != NOT_ALLOCATED) {
+                                dp[i][j][k] = Math.max(dp[i - 1][j][0], dp[i][j][k]);
+                            }
+                            if(dp[i-1][j][1] != NOT_ALLOCATED) {
+                                dp[i][j][k] = Math.max(dp[i - 1][j][1], dp[i][j][k]);
+                            }
                         }
                         if(k == 1){
-                            dp[i][j][k] = Math.max(dp[i-1][j][1]+numbers.get(i), dp[i][j][k]);
-                            dp[i][j][k] = Math.max(dp[i-1][j-1][0]+numbers.get(i), dp[i][j][k]);
+                            if(dp[i-1][j][1] != NOT_ALLOCATED) {
+                                dp[i][j][k] = Math.max(dp[i - 1][j][1] + numbers.get(i), dp[i][j][k]);
+                            }
+                            if(dp[i-1][j-1][0] != NOT_ALLOCATED){
+                                dp[i][j][k] = Math.max(dp[i-1][j-1][0]+numbers.get(i), dp[i][j][k]);
+                            }
                         }
                     }
                 }
