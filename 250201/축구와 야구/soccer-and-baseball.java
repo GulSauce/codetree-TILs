@@ -38,11 +38,12 @@ public class Main {
                             continue;
                         }
                         if(j+1 <= SOCCER_PLAYER_COUNT) {
-                            dp[i][j + 1][k] = Math.max(dp[i-1][j][k] + statuses.get(i).soccer, dp[i][j + 1][k]);
+                            dp[i][j + 1][k] = Math.max(dp[i-1][j][k]+statuses.get(i).soccer, dp[i][j + 1][k]);
                         }
                         if(k+1 <= BASEBALL_PLAYER_COUNT){
                             dp[i][j][k+1] = Math.max(dp[i-1][j][k]+statuses.get(i).baseBall, dp[i][j][k+1]);
                         }
+                        dp[i][j][k] = Math.max(dp[i-1][j][k], dp[i][j][k]);
                     }
                 }
             }
