@@ -11,8 +11,8 @@ public class Main {
         String number;
 
         long[] countAfterRemain;
-        int[][][] dp;
-        int[][][] dp2;
+        long[][][] dp;
+        long[][][] dp2;
 
         public Solver(
             String n
@@ -20,8 +20,8 @@ public class Main {
             this.numberStringIndex = n.length() - 1;
             this.number = getReversStringOf(n);
             this.countAfterRemain = new long[100001];
-            this.dp = new int[n.length()][3][2];
-            this.dp2 = new int[n.length()][2][2];
+            this.dp = new long[n.length()][3][2];
+            this.dp2 = new long[n.length()][2][2];
         }
 
         public void solve() {
