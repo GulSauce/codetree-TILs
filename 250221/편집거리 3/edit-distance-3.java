@@ -39,8 +39,7 @@ public class Main {
                     }
                     int insert = dp[i][j - 1] + 1;
                     int delete = dp[i - 1][j] + 1;
-                    dp[i][j] = Math.min(dp[i][j], insert);
-                    dp[i][j] = Math.min(dp[i][j], delete);
+                    dp[i][j] = Math.min(insert, delete);
                 }
             }
         }
@@ -62,18 +61,16 @@ public class Main {
                 }
                 int insert = i + 1 + 1;
                 int delete = dp[i - 1][0] + 1;
-                dp[i][0] = Math.min(dp[i][0], insert);
-                dp[i][0] = Math.min(dp[i][0], delete);
+                dp[i][0] = Math.min(insert, delete);
             }
             for (int i = 1; i < M.length(); i++) {
-                if (M.charAt(i) == N.charAt(0)) {
+                if (N.charAt(0) == M.charAt(i)) {
                     dp[0][i] = i;
                     continue;
                 }
-                int insert = i + 1 + 1;
+                int insert = dp[0][i - 1] + 1;
                 int delete = i + 1 + 1;
-                dp[0][i] = Math.min(dp[0][i], insert);
-                dp[0][i] = Math.min(dp[0][i], delete);
+                dp[0][i] = Math.min(insert, delete);
             }
         }
     }
