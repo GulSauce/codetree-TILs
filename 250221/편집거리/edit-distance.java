@@ -61,7 +61,7 @@ public class Main {
                 if (A.charAt(i) == B.charAt(0)) {
                     dp[i][0] = i;
                 } else {
-                    int insert = i + 1;
+                    int insert = i + 1 + 1;
                     int delete = dp[i - 1][0] + 1;
                     int change = i + 1;
                     dp[i][0] = Math.min(dp[i][0], insert);
