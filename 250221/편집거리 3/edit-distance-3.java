@@ -7,17 +7,17 @@ public class Main {
 
         final int NOT_ALLOCATED = Integer.MAX_VALUE;
 
-        String N;
-        String M;
+        String A;
+        String B;
 
         int[][] dp = new int[1000][1000];
 
         public Solver(
-            String N,
-            String M
+            String A,
+            String B
         ) {
-            this.N = N;
-            this.M = M;
+            this.A = A;
+            this.B = B;
         }
 
         public void solve() {
@@ -27,13 +27,13 @@ public class Main {
         }
 
         private void printAnswer() {
-            System.out.println(dp[N.length() - 1][M.length() - 1]);
+            System.out.println(dp[A.length() - 1][B.length() - 1]);
         }
 
         private void calcDP() {
-            for (int i = 1; i < N.length(); i++) {
-                for (int j = 1; j < M.length(); j++) {
-                    if (N.charAt(i) == M.charAt(j)) {
+            for (int i = 1; i < A.length(); i++) {
+                for (int j = 1; j < B.length(); j++) {
+                    if (A.charAt(i) == B.charAt(j)) {
                         dp[i][j] = dp[i - 1][j - 1];
                         continue;
                     }
@@ -48,14 +48,15 @@ public class Main {
             for (int[] array : dp) {
                 Arrays.fill(array, NOT_ALLOCATED);
             }
-            if (N.charAt(0) == M.charAt(0)) {
+
+            if (A.charAt(0) == B.charAt(0)) {
                 dp[0][0] = 0;
             } else {
-                dp[0][0] = 1;
+                dp[0][0] = 2;
             }
 
-            for (int i = 1; i < N.length(); i++) {
-                if (N.charAt(i) == M.charAt(0)) {
+            for (int i = 1; i < A.length(); i++) {
+                if (A.charAt(i) == B.charAt(0)) {
                     dp[i][0] = i;
                     continue;
                 }
@@ -63,8 +64,9 @@ public class Main {
                 int delete = dp[i - 1][0] + 1;
                 dp[i][0] = Math.min(insert, delete);
             }
-            for (int i = 1; i < M.length(); i++) {
-                if (N.charAt(0) == M.charAt(i)) {
+
+            for (int i = 1; i < B.length(); i++) {
+                if (A.charAt(0) == B.charAt(i)) {
                     dp[0][i] = i;
                     continue;
                 }
@@ -77,8 +79,8 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        String N = sc.next();
-        String M = sc.next();
-        new Solver(N, M).solve();
+        String A = sc.next();
+        String B = sc.next();
+        new Solver(A, B).solve();
     }
 }
