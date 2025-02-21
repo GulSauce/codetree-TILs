@@ -63,7 +63,7 @@ public class Main {
                 } else {
                     int insert = i + 1;
                     int delete = dp[i - 1][0] + 1;
-                    int change = i + 1;
+                    int change = i - 1 + 1;
                     dp[i][0] = Math.min(dp[i][0], insert);
                     dp[i][0] = Math.min(dp[i][0], delete);
                     dp[i][0] = Math.min(dp[i][0], change);
