@@ -33,11 +33,12 @@ public class Main {
             for (int i = 1; i < target.length(); i++) {
                 for (int j = 1; j < pattern.length(); j++) {
                     if (pattern.charAt(j) == '*') {
-                        char prevPattern = pattern.charAt(j - 1);
                         if (0 <= j - 2) {
                             dp[i][j] = dp[i][j - 2];
+                        } else {
+                            dp[i][j] = true;
                         }
-                        if (isMatch(target.charAt(i), prevPattern)) {
+                        if (isMatch(target.charAt(i), pattern.charAt(j - 1))) {
                             dp[i][j] = dp[i - 1][j];
                         }
                         continue;
