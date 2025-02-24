@@ -35,15 +35,11 @@ public class Main {
                     if (pattern.charAt(j) == '*') {
                         if (0 <= j - 2) {
                             dp[i][j] = dp[i][j - 2];
-                        } else {
-                            dp[i][j] = true;
                         }
                         if (isMatch(target.charAt(i), pattern.charAt(j - 1))) {
-                            dp[i][j] = dp[i - 1][j];
+                            dp[i][j] |= dp[i - 1][j];
                         }
-                        continue;
-                    }
-                    if (isMatch(target.charAt(i), pattern.charAt(j))) {
+                    } else if (isMatch(target.charAt(i), pattern.charAt(j))) {
                         dp[i][j] = dp[i - 1][j - 1];
                     }
                 }
