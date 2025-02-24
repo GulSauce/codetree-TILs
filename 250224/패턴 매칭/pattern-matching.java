@@ -28,20 +28,17 @@ public class Main {
             System.out.println(dp[target.length() - 1][pattern.length() - 1]);
         }
 
+
         private void calcDP() {
             for (int i = 1; i < target.length(); i++) {
                 for (int j = 1; j < pattern.length(); j++) {
                     if (pattern.charAt(j) == '*') {
-                        if (dp[i][j]) {
-                            continue;
-                        }
+                        char prevPattern = pattern.charAt(j - 1);
                         if (0 <= j - 2) {
                             dp[i][j] = dp[i][j - 2];
                         }
-                        for (int k = i; k < target.length(); k++) {
-                            if (isMatch(target.charAt(k), pattern.charAt(j - 1))) {
-                                dp[k][j] = dp[i - 1][j - 1];
-                            }
+                        if (isMatch(target.charAt(i), prevPattern)) {
+                            dp[i][j] = dp[i - 1][j];
                         }
                         continue;
                     }
@@ -59,7 +56,9 @@ public class Main {
 
             for (int i = 1; i < pattern.length(); i++) {
                 if (pattern.charAt(i) == '*') {
-                    dp[0][i] = dp[0][i - 1];
+                    if (isMatch(target.charAt(0), pattern.charAt(i - 1))) {
+                        dp[0][i] = dp[0][i - 1];
+                    }
                 }
             }
         }
