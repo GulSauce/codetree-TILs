@@ -33,11 +33,12 @@ public class Main {
             for (int i = 1; i < target.length(); i++) {
                 for (int j = 1; j < pattern.length(); j++) {
                     if (pattern.charAt(j) == '*') {
-                        if (0 <= j - 2) {
-                            dp[i][j] = dp[i][j - 2];
-                        }
                         if (isMatch(target.charAt(i), pattern.charAt(j - 1))) {
-                            dp[i][j] |= dp[i - 1][j];
+                            dp[i][j] = dp[i - 1][j];
+                        } else {
+                            if (0 <= j - 2) {
+                                dp[i][j] = dp[i][j - 2];
+                            }
                         }
                     } else if (isMatch(target.charAt(i), pattern.charAt(j))) {
                         dp[i][j] = dp[i - 1][j - 1];
@@ -54,7 +55,11 @@ public class Main {
             for (int i = 1; i < pattern.length(); i++) {
                 if (pattern.charAt(i) == '*') {
                     if (isMatch(target.charAt(0), pattern.charAt(i - 1))) {
-                        dp[0][i] = dp[0][i - 1];
+                        dp[0][i] = true;
+                    } else {
+                        if (0 <= i - 2) {
+                            dp[0][i] = dp[0][i - 2];
+                        }
                     }
                 }
             }
