@@ -34,11 +34,16 @@ public class Main {
                 for (int j = 1; j < pattern.length(); j++) {
                     if (pattern.charAt(j) == '*') {
                         if (0 <= j - 2) {
-                            dp[i][j] =
-                                dp[i][j - 2] || (isMatch(target.charAt(i), pattern.charAt(j - 1))
-                                    && dp[i - 1][j]);
+                            if (isMatch(target.charAt(i), pattern.charAt(j - 1))) {
+                                dp[i][j] = dp[i - 1][j];
+                            }
+                            if (!dp[i][j]) {
+                                dp[i][j] = dp[i][j - 2];
+                            }
                         } else {
-                            dp[i][j] = isMatch(target.charAt(i), pattern.charAt(0)) && dp[i - 1][j];
+                            if (isMatch(target.charAt(i), pattern.charAt(j - 1))) {
+                                dp[i][j] = dp[i - 1][j];
+                            }
                         }
                     } else if (isMatch(target.charAt(i), pattern.charAt(j))) {
                         dp[i][j] = dp[i - 1][j - 1];
