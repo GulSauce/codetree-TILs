@@ -35,7 +35,7 @@ public class Main {
                     if (pattern.charAt(j) == '*') {
                         if (0 <= j - 2) {
                             dp[i][j] =
-                                dp[i][j - 2] && (isMatch(target.charAt(i), pattern.charAt(j - 1))
+                                dp[i][j - 2] || (isMatch(target.charAt(i), pattern.charAt(j - 1))
                                     && dp[i - 1][j]);
                         } else {
                             dp[i][j] = isMatch(target.charAt(i), pattern.charAt(0)) && dp[i - 1][j];
