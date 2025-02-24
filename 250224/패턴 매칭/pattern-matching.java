@@ -33,12 +33,12 @@ public class Main {
             for (int i = 1; i < target.length(); i++) {
                 for (int j = 1; j < pattern.length(); j++) {
                     if (pattern.charAt(j) == '*') {
-                        if (isMatch(target.charAt(i), pattern.charAt(j - 1))) {
-                            dp[i][j] = dp[i - 1][j];
+                        if (0 <= j - 2) {
+                            dp[i][j] =
+                                dp[i][j - 2] && (isMatch(target.charAt(i), pattern.charAt(j - 1))
+                                    && dp[i - 1][j]);
                         } else {
-                            if (0 <= j - 2) {
-                                dp[i][j] = dp[i][j - 2];
-                            }
+                            dp[i][j] = isMatch(target.charAt(i), pattern.charAt(0)) && dp[i - 1][j];
                         }
                     } else if (isMatch(target.charAt(i), pattern.charAt(j))) {
                         dp[i][j] = dp[i - 1][j - 1];
@@ -56,12 +56,11 @@ public class Main {
                 if (pattern.charAt(i) == '*') {
                     if (isMatch(target.charAt(0), pattern.charAt(i - 1))) {
                         dp[0][i] = true;
-                    } else {
-                        if (0 <= i - 2) {
-                            dp[0][i] = dp[0][i - 2];
-                        }
+                    } else if (0 <= i - 2) {
+                        dp[0][i] = dp[0][i - 2];
                     }
                 }
+
             }
         }
 
@@ -74,6 +73,6 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         String S = sc.next();
         String P = sc.next();
-        new Solver(S, P).solve();
+        new Main.Solver(S, P).solve();
     }
 }
