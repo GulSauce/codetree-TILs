@@ -24,20 +24,12 @@ public class Main {
             printAnswer();
         }
 
-        private void printDP() {
-            for (boolean[] array : dp) {
-                for (boolean value : array) {
-                    System.out.print(value);
-                    System.out.print(" ");
-                }
-                System.out.println();
-            }
-        }
-
         private void printAnswer() {
             System.out.println(dp[target.length() - 1][pattern.length() - 1]);
         }
 
+        // aaa
+        // aaaaa
         private void calcDP() {
             for (int i = 1; i < target.length(); i++) {
                 for (int j = 1; j < pattern.length(); j++) {
@@ -45,6 +37,7 @@ public class Main {
                         if (dp[i][j]) {
                             continue;
                         }
+                        dp[i][j] = true;
                         for (int k = i; k < target.length(); k++) {
                             if (isMatch(target.charAt(k), pattern.charAt(j - 1))) {
                                 dp[k][j] = dp[i - 1][j - 1];
