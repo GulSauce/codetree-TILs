@@ -84,7 +84,7 @@ public class Main {
                     dp[i][0] = dp[i - 1][0];
                 }
             }
-            for (int i = 1; i < A.length(); i++) {
+            for (int i = 1; i < B.length(); i++) {
                 if (B.charAt(i) == A.charAt(0)) {
                     dp[0][i] = 1;
                 } else {
