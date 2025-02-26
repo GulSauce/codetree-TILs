@@ -35,7 +35,7 @@ public class Main {
 
         private void backTrack() {
             int i = A.length() - 1, j = B.length() - 1;
-            while (i >= 0 && j >= 0) {
+            while (i > 0 || j > 0) {
                 if (A.charAt(i) == B.charAt(j)) {
                     answers.add(A.charAt(i));
                     i--;
@@ -55,6 +55,9 @@ public class Main {
                     continue;
                 }
                 j--;
+            }
+            if (A.charAt(0) == B.charAt(0)) {
+                answers.add(A.charAt(0));
             }
         }
 
