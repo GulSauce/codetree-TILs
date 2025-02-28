@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 import java.util.Stack;
 
@@ -7,24 +5,19 @@ public class Main {
 
     private static class Solver {
 
-        int AIndex;
-        int BIndex;
-        List<Integer> A;
-        List<Integer> B;
+        String A;
+        String B;
 
+        Stack<Character> answers = new Stack<>();
         int[][] dp;
 
         public Solver(
-            int N,
-            int M,
-            List<Integer> A,
-            List<Integer> B
+            String A,
+            String B
         ) {
-            this.AIndex = N;
-            this.BIndex = M;
             this.A = A;
             this.B = B;
-            this.dp = new int[A.size()][B.size()];
+            this.dp = new int[A.length()][B.length()];
         }
 
         public void solve() {
@@ -34,12 +27,17 @@ public class Main {
         }
 
         private void printAnswer() {
-            int i = A.size() - 1;
-            int j = B.size() - 1;
-            Stack<Integer> numbers = new Stack<>();
+            backTrack();
+            while (!answers.isEmpty()) {
+                System.out.print(answers.pop());
+            }
+        }
+
+        private void backTrack() {
+            int i = A.length() - 1, j = B.length() - 1;
             while (i >= 0 && j >= 0) {
-                if (A.get(i) == B.get(j)) {
-                    numbers.add(A.get(i));
+                if (A.charAt(i) == B.charAt(j)) {
+                    answers.add(A.charAt(i));
                     i--;
                     j--;
                     continue;
@@ -52,67 +50,51 @@ public class Main {
                     i--;
                     continue;
                 }
-                if (dp[i - 1][j] > dp[i][j - 1]) {
+                if (dp[i - 1][j] >= dp[i][j - 1]) {
                     i--;
                     continue;
                 }
                 j--;
             }
-            while (!numbers.isEmpty()) {
-                System.out.printf("%d ", numbers.pop());
-            }
         }
 
         private void calcDP() {
-            for (int i = 1; i < A.size(); i++) {
-                for (int j = 1; j < B.size(); j++) {
-                    if (A.get(i) == B.get(j)) {
+            for (int i = 1; i < A.length(); i++) {
+                for (int j = 1; j < B.length(); j++) {
+                    if (A.charAt(i) == B.charAt(j)) {
                         dp[i][j] = dp[i - 1][j - 1] + 1;
-                        continue;
+                    } else {
+                        dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
                     }
-                    dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
                 }
             }
         }
 
         private void initDP() {
-            if (A.get(0) == B.get(0)) {
+            if (A.charAt(0) == B.charAt(0)) {
                 dp[0][0] = 1;
             }
-
-            for (int i = 1; i < A.size(); i++) {
-                if (A.get(i) == B.get(0)) {
+            for (int i = 1; i < A.length(); i++) {
+                if (A.charAt(i) == B.charAt(0)) {
                     dp[i][0] = 1;
-                    continue;
+                } else {
+                    dp[i][0] = dp[i - 1][0];
                 }
-                dp[i][0] = dp[i - 1][0];
             }
-
-            for (int i = 1; i < B.size(); i++) {
-                if (A.get(0) == B.get(i)) {
+            for (int i = 1; i < B.length(); i++) {
+                if (B.charAt(i) == A.charAt(0)) {
                     dp[0][i] = 1;
-                    continue;
+                } else {
+                    dp[0][i] = dp[0][i - 1];
                 }
-                dp[0][i] = dp[0][i - 1];
             }
         }
     }
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int N = sc.nextInt();
-        int M = sc.nextInt();
-
-        List<Integer> A = new ArrayList<>();
-        for (int i = 0; i < N; i++) {
-            A.add(sc.nextInt());
-        }
-
-        List<Integer> B = new ArrayList<>();
-        for (int i = 0; i < M; i++) {
-            B.add(sc.nextInt());
-        }
-
-        new Main.Solver(N, M, A, B).solve();
+        String A = sc.next();
+        String B = sc.next();
+        new Main.Solver(A, B).solve();
     }
 }
