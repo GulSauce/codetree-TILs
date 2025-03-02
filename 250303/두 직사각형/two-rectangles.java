@@ -42,7 +42,7 @@ public class Main {
             if (firstRightUpper.x < secondLeftBelow.x) {
                 return false;
             }
-            if (secondRightUpper.x < secondLeftBelow.x) {
+            if (secondRightUpper.x < firstLeftBelow.x) {
                 return false;
             }
             if (firstRightUpper.y < secondLeftBelow.y) {
