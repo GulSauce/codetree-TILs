@@ -34,7 +34,8 @@ public class Main {
             int count = 0;
             int currentTargetSum = targetSum;
             for (int index = magicStoneIndex; index >= 0; index--) {
-                for (int lastNumber = 1; lastNumber <= currentTargetSum; lastNumber++) {
+                for (int lastNumber = currentTargetSum; lastNumber >= 1;
+                    lastNumber--) {
                     int curCount = dp[index][lastNumber][currentTargetSum];
                     if (count + curCount < targetLexOrder) {
                         count += curCount;
@@ -59,11 +60,11 @@ public class Main {
                             if (lastNumber < prevLastNumber) {
                                 continue;
                             }
-                            if (sum - prevLastNumber < 0) {
+                            if (sum - lastNumber < 0) {
                                 continue;
                             }
                             dp[index][lastNumber][sum] += dp[index - 1][prevLastNumber][sum
-                                - prevLastNumber];
+                                - lastNumber];
                         }
                     }
                 }
