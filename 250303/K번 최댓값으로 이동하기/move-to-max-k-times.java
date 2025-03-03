@@ -37,6 +37,10 @@ public class Main {
 
         private Coordinate repeatBfs() {
             Coordinate next = bfs(start);
+            if (next.r == -1) {
+                return start;
+            }
+
             for (int i = 0; i < repeatCount - 1; i++) {
                 Coordinate nextMinMaxCoordinate = bfs(next);
                 if (nextMinMaxCoordinate.r == -1) {
