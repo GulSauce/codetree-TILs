@@ -65,7 +65,7 @@ public class Main {
         }
 
         private boolean isOutOfRange(int num) {
-            return num < 0 || MAX_INDEX < num;
+            return num < 0 || MAX_INDEX <= num;
         }
 
         private void initDist() {
