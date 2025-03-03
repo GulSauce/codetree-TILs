@@ -10,10 +10,11 @@ public class Main {
         int start;
         int TARGET = 1;
         final int NOT_ALLOCATED = Integer.MAX_VALUE;
+        final int MAX_INDEX = 3000001;
 
         Queue<Integer> q = new LinkedList<>();
-        boolean[] visited = new boolean[3000001];
-        int[] dist = new int[3000001];
+        boolean[] visited = new boolean[MAX_INDEX];
+        int[] dist = new int[MAX_INDEX];
 
         public Solver(
             int N
@@ -64,7 +65,7 @@ public class Main {
         }
 
         private boolean isOutOfRange(int num) {
-            return num < 0 || 300000 < num;
+            return num < 0 || MAX_INDEX < num;
         }
 
         private void initDist() {
