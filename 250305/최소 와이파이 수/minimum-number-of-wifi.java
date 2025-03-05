@@ -26,6 +26,9 @@ public class Main {
         public void solve() {
             int target = getTarget(0);
             int wifiCount = 1;
+            if (target == NOT_FOUND) {
+                wifiCount = 0;
+            }
             while (true) {
                 target = getTarget(target + 2 * wifiDist + 1);
                 if (target == NOT_FOUND) {
