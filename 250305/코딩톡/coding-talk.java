@@ -55,6 +55,12 @@ public class Main {
         private void getReadMembers() {
             List<String> readMembers = new ArrayList<>();
             Chat target = chats.get(targetChatIndex);
+            if (target.unread == 0) {
+                for (int i = 0; i <= memberIndex; i++) {
+                    readMembers.add(String.valueOf((char) (i + 'A')));
+                }
+                return;
+            }
             for (int i = 0; i < targetChatIndex; i++) {
                 if (chats.get(i).unread != target.unread) {
                     continue;
