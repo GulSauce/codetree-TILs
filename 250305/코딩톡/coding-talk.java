@@ -59,16 +59,16 @@ public class Main {
                 for (int i = 0; i <= memberIndex; i++) {
                     readMembers.add(String.valueOf((char) (i + 'A')));
                 }
-                return;
-            }
-            for (int i = 0; i < targetChatIndex; i++) {
-                if (chats.get(i).unread != target.unread) {
-                    continue;
+            } else {
+                for (int i = 0; i < targetChatIndex; i++) {
+                    if (chats.get(i).unread != target.unread) {
+                        continue;
+                    }
+                    readMembers.add(chats.get(i).sender);
                 }
-                readMembers.add(chats.get(i).sender);
-            }
-            for (int i = targetChatIndex; i <= chatsIndex; i++) {
-                readMembers.add(chats.get(i).sender);
+                for (int i = targetChatIndex; i <= chatsIndex; i++) {
+                    readMembers.add(chats.get(i).sender);
+                }
             }
             this.readMembers = readMembers;
         }
