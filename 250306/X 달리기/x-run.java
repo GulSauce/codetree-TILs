@@ -4,65 +4,53 @@ public class Main {
 
     private static class Solver {
 
-        int targetLength;
-        int increaseDecrease;
-        int increaseDecreaseTime;
-
-        int remain;
-        int remainTime;
+        int targetMeter;
 
         public Solver(
             int X
         ) {
-            this.targetLength = X;
+            this.targetMeter = X;
         }
 
         public void solve() {
-            setIncreaseDecrease();
-            this.remain = targetLength - increaseDecrease;
-            setRemainTime();
-            System.out.println(increaseDecreaseTime + remainTime + 1);
+            int answer = getAnswer();
+            System.out.println(answer);
         }
 
-        private void setRemainTime() {
-            int speed = increaseDecreaseTime / 2;
-            int t = 0;
+        private int getAnswer() {
+            int v = 1;
+            int t = 1;
             while (true) {
-                int nextTime = t + 1;
-                if (this.remain - speed < 0) {
-                    speed--;
+                if (targetMeter - v == 0) {
+                    break;
+                }
+                targetMeter -= v;
+                t++;
+                if (canIncrease(v)) {
+                    v++;
                     continue;
                 }
-                if (speed < 1) {
-                    break;
+                if (canMaintain(v)) {
+                    continue;
                 }
-                this.remain -= speed;
-                t = nextTime;
+                v--;
             }
-            this.remainTime = t;
+            return t;
         }
 
-        private void setIncreaseDecrease() {
-            int t = 0;
-            int length = 0;
-            while (true) {
-                int nextTime = t + 2;
-                int next = nextTime * nextTime / 4 + nextTime;
-                if (targetLength < next) {
-                    break;
-                }
-                t = nextTime;
-                length = next;
-            }
-            this.increaseDecreaseTime = t;
-            this.increaseDecrease = length;
+        private boolean canIncrease(int v) {
+            int nextV = v + 1;
+            return (nextV + 1) * (nextV + 2) / 2 <= targetMeter;
+        }
+
+        private boolean canMaintain(int v) {
+            return (v + 1) * v / 2 <= targetMeter;
         }
     }
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int X = sc.nextInt();
-
         new Solver(X).solve();
     }
 }
