@@ -19,8 +19,7 @@ public class Main {
             Collections.sort(positions);
             if (isConsecutive()) {
                 System.out.println(0);
-            }
-            if (isDistOne()) {
+            } else if (isDistOne()) {
                 System.out.println(1);
             } else {
                 System.out.println(2);
