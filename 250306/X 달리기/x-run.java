@@ -21,11 +21,11 @@ public class Main {
             setIncreaseDecrease();
             this.remain = targetLength - increaseDecrease;
             setRemainTime();
-            System.out.println(increaseDecreaseTime + remainTime);
+            System.out.println(increaseDecreaseTime + remainTime + 1);
         }
 
         private void setRemainTime() {
-            int speed = increaseDecreaseTime / 2 + 1;
+            int speed = increaseDecreaseTime / 2;
             int t = 0;
             while (true) {
                 int nextTime = t + 1;
@@ -47,7 +47,7 @@ public class Main {
             int length = 0;
             while (true) {
                 int nextTime = t + 2;
-                int next = nextTime * nextTime + nextTime;
+                int next = nextTime * nextTime / 4 + nextTime;
                 if (targetLength < next) {
                     break;
                 }
