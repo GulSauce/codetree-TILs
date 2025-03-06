@@ -18,14 +18,14 @@ public class Main {
         }
 
         public void solve() {
-            getMaxIncreaseDecrease();
+            setIncreaseDecrease();
             this.remain = targetLength - increaseDecrease;
-            getRemainTime();
+            setRemainTime();
             System.out.println(increaseDecreaseTime + remainTime);
         }
 
-        private void getRemainTime() {
-            int speed = increaseDecreaseTime / 2;
+        private void setRemainTime() {
+            int speed = increaseDecreaseTime / 2 + 1;
             int t = 0;
             while (true) {
                 int nextTime = t + 1;
@@ -42,7 +42,7 @@ public class Main {
             this.remainTime = t;
         }
 
-        private void getMaxIncreaseDecrease() {
+        private void setIncreaseDecrease() {
             int t = 0;
             int length = 0;
             while (true) {
@@ -51,11 +51,11 @@ public class Main {
                 if (targetLength < next) {
                     break;
                 }
-                length = next;
                 t = nextTime;
+                length = next;
             }
-            this.increaseDecrease = length;
             this.increaseDecreaseTime = t;
+            this.increaseDecrease = length;
         }
     }
 
