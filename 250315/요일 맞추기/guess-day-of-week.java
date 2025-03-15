@@ -18,7 +18,7 @@ public class Main {
         }
 
         public void solve() {
-            int dayDiff = mondayDate.getTotalDayDiff(targetDate);
+            int dayDiff = mondayDate.getTotalDayDiffTo(targetDate);
             int dayDiffMod7 = Math.floorMod(dayDiff, 7);
             printAnswer(dayDiffMod7);
         }
@@ -44,7 +44,7 @@ public class Main {
         int month;
         int day;
 
-        private final int[] dayPerMonth = {0, 31, 28, 31, 30, 31,
+        private static final int[] dayPerMonth = {0, 31, 28, 31, 30, 31,
             30, 31, 31, 30, 31, 30, 31};
 
         public CustomDate(
@@ -55,18 +55,18 @@ public class Main {
             this.day = d;
         }
 
-        public int getTotalDayDiff(CustomDate target) {
-            int myTotalDay = getDayDiffOfMonth(this.month) + this.day;
-            int targetTotalDay = getDayDiffOfMonth(target.month) + target.day;
+        public int getTotalDayDiffTo(CustomDate target) {
+            int myTotalDay = getTotalDayOfMonth(this.month) + this.day;
+            int targetTotalDay = getTotalDayOfMonth(target.month) + target.day;
             return targetTotalDay - myTotalDay;
         }
 
-        private int getDayDiffOfMonth(int month) {
-            int diff = 0;
-            for (int i = 1; i <= month; i++) {
-                diff += this.dayPerMonth[i];
+        private int getTotalDayOfMonth(int month) {
+            int totalDay = 0;
+            for (int i = 1; i < month; i++) {
+                totalDay += CustomDate.dayPerMonth[i];
             }
-            return diff;
+            return totalDay;
         }
     }
 }
