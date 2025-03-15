@@ -53,7 +53,7 @@ public class Main {
 
     private static class Robot {
 
-        int[] moveHistory = new int[50_000];
+        int[] moveHistory = new int[1_000_001];
         int currentMoveCount = 0;
         int currentX = 1_000_000;
 
