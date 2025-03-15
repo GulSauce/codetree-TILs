@@ -23,12 +23,12 @@ public class Main {
             for (int i = 1; i <= numbersIndex; i++) {
                 if (numbers.get(i - 1).equals(numbers.get(i))) {
                     currentLength++;
-                    continue;
+                } else {
+                    currentLength = 1;
                 }
                 maxLength = Math.max(maxLength, currentLength);
-                currentLength = 1;
+
             }
-            maxLength = Math.max(maxLength, currentLength);
             System.out.println(maxLength);
         }
     }
