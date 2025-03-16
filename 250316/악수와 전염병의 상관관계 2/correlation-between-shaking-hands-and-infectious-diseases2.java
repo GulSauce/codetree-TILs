@@ -34,14 +34,7 @@ public class Main {
 
         public void solve() {
             memoOnHandShakeHistory();
-            infectInfos.add(new InfectInfo(0, target));
-            while (!infectInfos.isEmpty()) {
-                List<InfectInfo> nextInfectInfos = new ArrayList<>();
-                for (InfectInfo infectInfo : infectInfos) {
-                    nextInfectInfos = getInfectInfos(infectInfo.time, infectInfo.programmer);
-                }
-                infectInfos = nextInfectInfos;
-            }
+            calcInfect();
             printAnswer();
         }
 
@@ -52,6 +45,17 @@ public class Main {
                     continue;
                 }
                 System.out.print(0);
+            }
+        }
+
+        private void calcInfect() {
+            infectInfos.add(new InfectInfo(0, target));
+            while (!infectInfos.isEmpty()) {
+                List<InfectInfo> nextInfectInfos = new ArrayList<>();
+                for (InfectInfo infectInfo : infectInfos) {
+                    nextInfectInfos = getInfectInfos(infectInfo.time, infectInfo.programmer);
+                }
+                infectInfos = nextInfectInfos;
             }
         }
 
@@ -68,10 +72,10 @@ public class Main {
                 }
 
                 infectCount[target]++;
-                infectInfos.add(new InfectInfo(i, partner));
                 if (isInfected[partner]) {
                     continue;
                 }
+                infectInfos.add(new InfectInfo(i, partner));
                 isInfected[partner] = true;
             }
             return infectInfos;
