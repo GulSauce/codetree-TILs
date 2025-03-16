@@ -10,6 +10,7 @@ public class Main {
         int maxInfectCount;
         int target;
 
+        final int NOT_EXIST = 0;
         final int MAX_PROGRAMMER_NUMBER = 100;
         final int MAX_TIME = 250;
 
@@ -62,9 +63,9 @@ public class Main {
         private List<InfectInfo> getInfectInfos(int time, int target) {
             List<InfectInfo> infectInfos = new ArrayList<>();
             isInfected[target] = true;
-            for (int i = time; i <= MAX_TIME; i++) {
+            for (int i = time + 1; i <= MAX_TIME; i++) {
                 int partner = handShakeHistory[target][i];
-                if (partner == 0) {
+                if (partner == NOT_EXIST) {
                     continue;
                 }
                 if (maxInfectCount < infectCount[target] + 1) {
