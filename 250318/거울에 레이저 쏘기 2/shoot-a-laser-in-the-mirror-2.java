@@ -40,29 +40,36 @@ public class Main {
 
         private void shootLaser() {
             while (true) {
-                if (mirrorGrid[curRow][curCol] == '\\') {
-                    curDirectionIndex = 3 - curDirectionIndex;
-                } else if (mirrorGrid[curRow][curCol] == '/') {
-                    if (curDirectionIndex == 0) {
-                        curDirectionIndex = 1;
-                    } else if (curDirectionIndex == 1) {
-                        curDirectionIndex = 0;
-                    } else if (curDirectionIndex == 2) {
-                        curDirectionIndex = 3;
-                    } else if (curDirectionIndex == 3) {
-                        curDirectionIndex = 2;
-                    } else {
-                        throw new IllegalArgumentException();
-                    }
-                } else {
-                    throw new IllegalArgumentException();
-                }
+                setCurrentDirectionIndex();
                 curRow += dr[curDirectionIndex];
                 curCol += dc[curDirectionIndex];
                 if (isOutOfGrid()) {
                     break;
                 }
                 reflectCount++;
+            }
+        }
+
+        private void setCurrentDirectionIndex() {
+            if (mirrorGrid[curRow][curCol] == '\\') {
+                curDirectionIndex = 3 - curDirectionIndex;
+                return;
+            }
+            if (curDirectionIndex == 0) {
+                curDirectionIndex = 1;
+                return;
+            }
+            if (curDirectionIndex == 1) {
+                curDirectionIndex = 0;
+                return;
+            }
+            if (curDirectionIndex == 2) {
+                curDirectionIndex = 3;
+                return;
+            }
+            if (curDirectionIndex == 3) {
+                curDirectionIndex = 2;
+                return;
             }
         }
 
