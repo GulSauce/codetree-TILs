@@ -18,7 +18,7 @@ public class Main {
         }
 
         public void solve() {
-            int answer = 0;
+            int answer = Integer.MAX_VALUE;
             for (int i = 2; i <= coordinatesIndex - 1; i++) {
                 int taxiDistSum = getTaxiDistSumSkipIndex(i);
                 answer = Math.min(answer, taxiDistSum);
