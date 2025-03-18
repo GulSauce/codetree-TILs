@@ -54,22 +54,11 @@ public class Main {
             if (mirrorGrid[curRow][curCol] == '\\') {
                 curDirectionIndex = 3 - curDirectionIndex;
                 return;
-            }
-            if (curDirectionIndex == 0) {
-                curDirectionIndex = 1;
+            } else if (mirrorGrid[curRow][curCol] == '/') {
+                curDirectionIndex = curDirectionIndex ^ 1;
                 return;
             }
-            if (curDirectionIndex == 1) {
-                curDirectionIndex = 0;
-                return;
-            }
-            if (curDirectionIndex == 2) {
-                curDirectionIndex = 3;
-                return;
-            }
-            if (curDirectionIndex == 3) {
-                curDirectionIndex = 2;
-            }
+            throw new IllegalArgumentException();
         }
 
         private boolean isOutOfGrid() {
