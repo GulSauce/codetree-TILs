@@ -8,7 +8,7 @@ public class Main {
         int targetTime;
         BidInfo bidInfo;
 
-        int[] dr = {0, 1, -1, 0};
+        int[] dr = {0, -1, 1, 0};
         int[] dc = {1, 0, 0, -1};
 
 
