@@ -14,7 +14,7 @@ public class Main {
         int reflectCount = 0;
 
         int[] dc = {0, -1, 0, 1};
-        int[] dr = {1, 0, 1, 0};
+        int[] dr = {1, 0, -1, 0};
 
         char[][] mirrorGrid;
 
@@ -69,7 +69,6 @@ public class Main {
             }
             if (curDirectionIndex == 3) {
                 curDirectionIndex = 2;
-                return;
             }
         }
 
