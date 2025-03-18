@@ -28,15 +28,13 @@ public class Main {
 
         private int getTaxiDistSumSkipIndex(int index) {
             int taxiDistSum = 0;
-            for (int i = 1; i <= coordinatesIndex - 1; i++) {
-                if (i + 1 == index) {
-                    taxiDistSum += getTaxiDist(coordinates.get(i), coordinates.get(i + 2));
-                    continue;
-                }
+            int prevIndex = 1;
+            for (int i = 2; i <= coordinatesIndex; i++) {
                 if (i == index) {
                     continue;
                 }
-                taxiDistSum += getTaxiDist(coordinates.get(i), coordinates.get(i + 1));
+                taxiDistSum += getTaxiDist(coordinates.get(i), coordinates.get(prevIndex));
+                prevIndex = i;
             }
             return taxiDistSum;
         }
