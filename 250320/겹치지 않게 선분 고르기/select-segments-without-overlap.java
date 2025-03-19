@@ -19,22 +19,21 @@ public class Main {
 
         public void solve() {
             Collections.sort(lineInfos);
-            setLineCombinationCheckingNotCollide(-1);
+            setLineCombinationCheckingNotCollide(0);
             System.out.println(answer);
         }
 
-        private void setLineCombinationCheckingNotCollide(int prevIndex) {
-            if (lineCombination.size() == lineInfos.size()) {
-                return;
-            }
-            for (int curIndex = prevIndex + 1; curIndex < lineInfos.size(); curIndex++) {
-                lineCombination.add(lineInfos.get(curIndex));
+        private void setLineCombinationCheckingNotCollide(int curIndex) {
+            if (curIndex == lineInfos.size()) {
                 if (isNotCollide()) {
                     answer = Math.max(answer, lineCombination.size());
                 }
-                setLineCombinationCheckingNotCollide(curIndex);
-                lineCombination.remove(lineCombination.size() - 1);
+                return;
             }
+            lineCombination.add(lineInfos.get(curIndex));
+            setLineCombinationCheckingNotCollide(curIndex + 1);
+            lineCombination.remove(lineCombination.size() - 1);
+            setLineCombinationCheckingNotCollide(curIndex + 1);
         }
 
         private boolean isNotCollide() {
