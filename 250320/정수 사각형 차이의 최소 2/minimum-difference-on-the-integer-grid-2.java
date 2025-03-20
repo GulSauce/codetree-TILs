@@ -6,7 +6,7 @@ public class Main {
     private static class Solver {
 
         int gridIndex;
-        final int NOT_ALLOCATED = Integer.MAX_VALUE;
+        final int NOT_ALLOCATED = Integer.MIN_VALUE;
         final int MAX_NUMBER = 100;
 
         int[][] grid;
@@ -43,27 +43,43 @@ public class Main {
             for (int row = 2; row <= gridIndex; row++) {
                 for (int col = 2; col <= gridIndex; col++) {
                     for (int number = 1; number <= MAX_NUMBER; number++) {
-                        if (dp[row][col - 1][number] == NOT_ALLOCATED) {
-                            continue;
-                        }
-                        int currentMaxNumber = Math.max(grid[row][col], number);
-                        int currentMinNumber = Math.min(grid[row][col], dp[row][col - 1][number]);
-                        dp[row][col][currentMaxNumber] = Math.min(
-                            dp[row][col][currentMaxNumber],
-                            currentMinNumber
-                        );
-                    }
+                        if (dp[row][col - 1][number] != NOT_ALLOCATED
+                            && dp[row - 1][col][number] != NOT_ALLOCATED) {
+                            int currentMaxNumber = Math.max(grid[row][col], number);
 
-                    for (int number = 1; number <= MAX_NUMBER; number++) {
-                        if (dp[row - 1][col][number] == NOT_ALLOCATED) {
+                            int currentMinNumberFromLeft = Math.min(grid[row][col],
+                                dp[row][col - 1][number]);
+                            int currentMinNumberFromUp = Math.min(grid[row][col],
+                                dp[row - 1][col][number]);
+
+                            dp[row][col][currentMaxNumber] = Math.max(
+                                dp[row][col][currentMaxNumber],
+                                Math.max(currentMinNumberFromUp, currentMinNumberFromLeft)
+                            );
                             continue;
                         }
-                        int currentMaxNumber = Math.max(grid[row][col], number);
-                        int currentMinNumber = Math.min(grid[row][col], dp[row - 1][col][number]);
-                        dp[row][col][currentMaxNumber] = Math.min(
-                            dp[row][col][currentMaxNumber],
-                            currentMinNumber
-                        );
+                        if (dp[row][col - 1][number] != NOT_ALLOCATED) {
+                            int currentMaxNumber = Math.max(grid[row][col], number);
+
+                            int currentMinNumberFromLeft = Math.min(grid[row][col],
+                                dp[row][col - 1][number]);
+
+                            dp[row][col][currentMaxNumber] = Math.max(
+                                dp[row][col][currentMaxNumber],
+                                currentMinNumberFromLeft);
+                            continue;
+                        }
+                        if (dp[row - 1][col][number] != NOT_ALLOCATED) {
+                            int currentMaxNumber = Math.max(grid[row][col], number);
+
+                            int currentMinNumberFromUp = Math.min(grid[row][col],
+                                dp[row - 1][col][number]);
+
+                            dp[row][col][currentMaxNumber] = Math.max(
+                                dp[row][col][currentMaxNumber],
+                                currentMinNumberFromUp
+                            );
+                        }
                     }
                 }
             }
@@ -84,7 +100,7 @@ public class Main {
                     }
                     int currentMaxNumber = Math.max(grid[row][1], number);
                     int currentMinNumber = Math.min(grid[row][1], dp[row - 1][1][number]);
-                    dp[row][1][currentMaxNumber] = Math.min(
+                    dp[row][1][currentMaxNumber] = Math.max(
                         dp[row][1][currentMaxNumber],
                         currentMinNumber
                     );
@@ -97,7 +113,7 @@ public class Main {
                     }
                     int currentMaxNumber = Math.max(grid[1][col], number);
                     int currentMinNumber = Math.min(grid[1][col], dp[1][col - 1][number]);
-                    dp[1][col][currentMaxNumber] = Math.min(
+                    dp[1][col][currentMaxNumber] = Math.max(
                         dp[1][col][currentMaxNumber],
                         currentMinNumber
                     );
