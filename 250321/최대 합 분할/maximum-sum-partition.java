@@ -9,8 +9,8 @@ public class Main {
 
         int numbersIndex;
         final int NOT_ALLOCATED = Integer.MIN_VALUE;
-        final int OFFSET = 1_000_000;
-        final int MAX_DIFF = 2_000_000;
+        final int OFFSET = 100_000;
+        final int MAX_DIFF = 200_000;
 
         List<Integer> numbers;
 
