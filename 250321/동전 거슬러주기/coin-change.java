@@ -9,7 +9,9 @@ public class Main {
 
         int targetSum;
         int coinsIndex;
+
         final int NOT_ALLOCATED = Integer.MAX_VALUE;
+
         List<Integer> coins;
 
         int[] dp;
@@ -45,22 +47,17 @@ public class Main {
                     if (i < value) {
                         continue;
                     }
-                    if (dp[value] == NOT_ALLOCATED || dp[i - value] == NOT_ALLOCATED) {
+                    if (dp[i - value] == NOT_ALLOCATED) {
                         continue;
                     }
-                    dp[i] = Math.min(dp[i], dp[i - value] + dp[value]);
+                    dp[i] = Math.min(dp[i], dp[i - value] + 1);
                 }
             }
         }
 
         private void initDP() {
             Arrays.fill(dp, NOT_ALLOCATED);
-            for (int value : coins) {
-                if (targetSum < value) {
-                    continue;
-                }
-                dp[value] = 1;
-            }
+            dp[0] = 0;
         }
     }
 
