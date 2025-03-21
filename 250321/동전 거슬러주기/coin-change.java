@@ -32,6 +32,10 @@ public class Main {
         }
 
         private void printAnswer() {
+            if (dp[targetSum] == NOT_ALLOCATED) {
+                System.out.println(-1);
+                return;
+            }
             System.out.println(dp[targetSum]);
         }
 
