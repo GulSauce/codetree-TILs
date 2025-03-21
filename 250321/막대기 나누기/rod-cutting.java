@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -40,9 +41,7 @@ public class Main {
         }
 
         private void initDP() {
-            for (int i = 1; i <= maxLength; i++) {
-                dp[i] = pricePerLengthInfos.get(i);
-            }
+            Arrays.fill(dp, 0);
         }
     }
 
