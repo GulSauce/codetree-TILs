@@ -32,9 +32,9 @@ public class Main {
 
         private void calcDP() {
             for (int cur = 1; cur <= maxLength; cur++) {
-                for (int prev = 1; prev < cur; prev++) {
+                for (int prev = 1; prev <= cur; prev++) {
                     dp[cur] = Math.max(dp[cur],
-                        dp[prev] + dp[cur - prev]);
+                        dp[cur - prev] + pricePerLengthInfos.get(prev));
                 }
             }
         }
