@@ -52,6 +52,9 @@ public class Main {
         private void initDP() {
             Arrays.fill(dp, NOT_ALLOCATED);
             for (int value : coins) {
+                if (targetSum < value) {
+                    continue;
+                }
                 dp[value] = 1;
             }
         }
