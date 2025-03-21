@@ -44,7 +44,7 @@ public class Main {
 
         private void calcDP() {
             for (int number : numbers) {
-                for (int sum = 1; sum <= MAX_SUM; sum++) {
+                for (int sum = MAX_SUM; sum >= 1; sum--) {
                     if (sum - number < 0) {
                         continue;
                     }
