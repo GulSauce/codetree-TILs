@@ -53,7 +53,9 @@ public class Main {
 
                     int firstCard = firstPlayerCards.get(first + 1);
                     int secondCard = secondPlayerCards.get(second + 1);
-                    dp[first + 1][second + 1] = Math.max(dp[first + 1][second + 1], 0);
+                    dp[first + 1][second + 1] = Math.max(dp[first + 1][second + 1],
+                        dp[first][second]);
+                    
                     if (firstCard == secondCard) {
                         dp[first + 1][second + 1] = Math.max(dp[first + 1][second + 1],
                             dp[first][second]);
