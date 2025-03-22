@@ -6,6 +6,8 @@ public class Main {
 
         int maxRow;
         int maxCol;
+        final int NOT_ALLOCATED = 0;
+
         int[][] grid;
         int[][] dp;
 
@@ -47,6 +49,9 @@ public class Main {
         private void setDPValueAt(int curRow, int curCol) {
             for (int row = 1; row < curRow; row++) {
                 for (int col = 1; col < curCol; col++) {
+                    if (dp[row][col] == NOT_ALLOCATED) {
+                        continue;
+                    }
                     if (grid[curRow][curCol] <= grid[row][col]) {
                         continue;
                     }
