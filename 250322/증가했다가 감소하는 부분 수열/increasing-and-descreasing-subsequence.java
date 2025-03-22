@@ -48,7 +48,7 @@ public class Main {
                     if (prevNum < curNum) {
                         dp[cur][INCREASE_FLAG] = Math.max(dp[cur][INCREASE_FLAG],
                             dp[prev][INCREASE_FLAG] + 1);
-                        dp[cur][DECREASE_FLAG] = Math.max(dp[cur][INCREASE_FLAG],
+                        dp[cur][DECREASE_FLAG] = Math.max(dp[cur][DECREASE_FLAG],
                             dp[prev][INCREASE_FLAG] + 1);
                         continue;
                     }
