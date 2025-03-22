@@ -10,6 +10,7 @@ public class Main {
         int verticalLineCount;
         int horizontalLineCount;
         int horizontalLinesIndex;
+        final int VERTICAL_LINE_HEIGHT = 15;
         List<Integer> goals = new ArrayList<>();
         List<Integer> results = new ArrayList<>();
 
@@ -27,7 +28,7 @@ public class Main {
             this.horizontalLineCount = M;
             this.horizontalLinesIndex = M - 1;
             this.horizontalLines = horizontalLines;
-            this.ladder = new int[N + 1][M + 1];
+            this.ladder = new int[N + 1][VERTICAL_LINE_HEIGHT + 1];
         }
 
         public void solve() {
@@ -70,7 +71,7 @@ public class Main {
             results.clear();
             for (int start = 1; start <= verticalLineCount; start++) {
                 int curVerticalNumber = start;
-                for (int i = 1; i <= horizontalLineCount; i++) {
+                for (int i = 1; i <= VERTICAL_LINE_HEIGHT; i++) {
                     int nextVerticalNumber = ladder[curVerticalNumber][i];
                     curVerticalNumber = nextVerticalNumber;
                 }
@@ -81,7 +82,7 @@ public class Main {
         private void setGoals() {
             for (int start = 1; start <= verticalLineCount; start++) {
                 int curVerticalNumber = start;
-                for (int i = 1; i <= horizontalLineCount; i++) {
+                for (int i = 1; i <= VERTICAL_LINE_HEIGHT; i++) {
                     int nextVerticalNumber = ladder[curVerticalNumber][i];
                     curVerticalNumber = nextVerticalNumber;
                 }
@@ -91,7 +92,7 @@ public class Main {
 
         private void initLadder(List<HorizontalLine> horizontalLines) {
             for (int i = 1; i <= verticalLineCount; i++) {
-                for (int j = 1; j <= horizontalLineCount; j++) {
+                for (int j = 1; j <= VERTICAL_LINE_HEIGHT; j++) {
                     ladder[i][j] = i;
                 }
             }
