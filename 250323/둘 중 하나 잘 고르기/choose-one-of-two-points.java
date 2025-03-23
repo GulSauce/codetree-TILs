@@ -9,7 +9,7 @@ public class Main {
 
         int cardSetsIndex;
         int maxSelectCount;
-        int[][][] dp;
+        int[][] dp;
 
         final int NOT_ALLOCATED = Integer.MIN_VALUE;
 
@@ -22,7 +22,7 @@ public class Main {
             this.cardSetsIndex = 2 * N;
             this.maxSelectCount = N;
             this.cardSets = cardSets;
-            this.dp = new int[2 * N + 1][N + 1][N + 1];
+            this.dp = new int[2 * N + 1][N + 1];
         }
 
         public void solve() {
@@ -32,36 +32,29 @@ public class Main {
         }
 
         private void printAnswer() {
-            System.out.println(dp[cardSetsIndex][maxSelectCount][maxSelectCount]);
+            System.out.println(dp[cardSetsIndex][maxSelectCount]);
         }
 
         private void calcDP() {
             for (int i = 1; i <= cardSetsIndex; i++) {
                 for (int red = 0; red <= maxSelectCount; red++) {
-                    for (int blue = 0; blue <= maxSelectCount; blue++) {
-                        if (dp[i - 1][red][blue] == NOT_ALLOCATED) {
-                            continue;
-                        }
-                        if (red < maxSelectCount) {
-                            dp[i][red + 1][blue] = Math.max(dp[i][red + 1][blue],
-                                dp[i - 1][red][blue] + cardSets.get(i).red);
-                        }
-                        if (blue < maxSelectCount) {
-                            dp[i][red][blue + 1] = Math.max(dp[i][red][blue + 1],
-                                dp[i - 1][red][blue] + cardSets.get(i).blue);
-                        }
+                    if (dp[i - 1][red] == NOT_ALLOCATED) {
+                        continue;
                     }
+                    if (red < maxSelectCount) {
+                        dp[i][red + 1] = Math.max(dp[i][red + 1],
+                            dp[i - 1][red] + cardSets.get(i).red);
+                    }
+                    dp[i][red] = Math.max(dp[i][red], dp[i - 1][red] + cardSets.get(i).blue);
                 }
             }
         }
 
         private void initDP() {
-            for (int[][] arrays : dp) {
-                for (int[] array : arrays) {
-                    Arrays.fill(array, NOT_ALLOCATED);
-                }
+            for (int[] array : dp) {
+                Arrays.fill(array, NOT_ALLOCATED);
             }
-            dp[0][0][0] = 0;
+            dp[0][0] = 0;
         }
     }
 
@@ -79,7 +72,7 @@ public class Main {
         }
         sc.close();
 
-        new Solver(N, cardSets).solve();
+        new Main.Solver(N, cardSets).solve();
     }
 
     private static class CardSet {
