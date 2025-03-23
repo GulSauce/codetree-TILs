@@ -19,10 +19,10 @@ public class Main {
             int N,
             List<CardSet> cardSets
         ) {
-            this.cardSetsIndex = 2 * N;
+            this.cardSetsIndex = 2 * N - 1;
             this.maxSelectCount = N;
             this.cardSets = cardSets;
-            this.dp = new int[2 * N + 1][N + 1];
+            this.dp = new int[2 * N][N + 1];
         }
 
         public void solve() {
@@ -54,7 +54,8 @@ public class Main {
             for (int[] array : dp) {
                 Arrays.fill(array, NOT_ALLOCATED);
             }
-            dp[0][0] = 0;
+            dp[0][1] = cardSets.get(0).red;
+            dp[0][0] = cardSets.get(0).blue;
         }
     }
 
@@ -64,7 +65,6 @@ public class Main {
 
         Scanner sc = new Scanner(System.in);
         N = sc.nextInt();
-        cardSets.add(new CardSet(-1, -1));
         for (int i = 0; i < 2 * N; i++) {
             int red = sc.nextInt();
             int blue = sc.nextInt();
