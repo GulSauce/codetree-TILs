@@ -58,8 +58,8 @@ public class Main {
             for (long[] array : dp) {
                 Arrays.fill(array, NOT_ALLOCATED);
             }
-            dp[0][-numbers.get(0) + OFFSET] = 1;
-            dp[0][numbers.get(0) + OFFSET] = 1;
+            dp[0][-numbers.get(0) + OFFSET]++;
+            dp[0][numbers.get(0) + OFFSET]++;
         }
     }
 
