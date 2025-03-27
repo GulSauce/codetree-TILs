@@ -5,14 +5,15 @@ public class Main {
     private static class Solver {
 
         int finishNumberLength;
-        int answer = 0;
         final int NOT_TIGHT = 0;
         final int TIGHT = 1;
         final int FLAG_COUNT = 2;
         final int MOD = 3;
         final int REMAINDER = 1_000_000_000 + 7;
         int[] numberCountDigitAt;
-        int[][][] dp;
+
+        long answer = 0;
+        long[][][] dp;
 
         String finishNumber;
 
@@ -22,7 +23,7 @@ public class Main {
             this.finishNumberLength = N.length();
             this.finishNumber = " " + N;
             this.numberCountDigitAt = new int[N.length() + 1];
-            this.dp = new int[N.length() + 1][MOD][FLAG_COUNT];
+            this.dp = new long[N.length() + 1][MOD][FLAG_COUNT];
         }
 
         public void solve() {
