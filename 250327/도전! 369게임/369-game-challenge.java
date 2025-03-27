@@ -10,8 +10,8 @@ public class Main {
         final int FLAG_COUNT = 2;
         final int MOD = 3;
         final int REMAINDER = 1_000_000_000 + 7;
-        int[] numberCountDigitAt;
 
+        long[] numberCountDigitAt;
         long answer = 0;
         long[][][] dp;
 
@@ -22,7 +22,7 @@ public class Main {
         ) {
             this.finishNumberLength = N.length();
             this.finishNumber = " " + N;
-            this.numberCountDigitAt = new int[N.length() + 1];
+            this.numberCountDigitAt = new long[N.length() + 1];
             this.dp = new long[N.length() + 1][MOD][FLAG_COUNT];
         }
 
