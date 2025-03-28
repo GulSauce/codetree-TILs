@@ -1,57 +1,111 @@
 import java.util.Scanner;
 
 public class Main {
-    public static final int MOD = 1000000007;
-    public static int n;
-    public static String N;
-    public static long[][][][] dp = new long[100005][3][2][2]; // 최대 100,000자리 + 여유분
-    public static int[] a = new int[100005]; // N의 각 자리 수 저장
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        N = sc.next();
-        n = N.length();
-        
-        // N의 각 자리를 배열에 저장
-        for (int i = 0; i < n; i++) {
-            a[i] = N.charAt(i) - '0';
+    private static class Solver {
+
+
+        int finishNumberLength;
+        final int NOT_EXIST_369 = 0;
+        final int EXIST_369 = 1;
+        final int UNDER_NUMBER = 0;
+        final int SAME_NUMBER = 1;
+        final int FLAG_369_COUNT = 2;
+        final int FLAG_NUMBER_COUNT = 2;
+        final int MOD = 3;
+        final int REMAINDER = 1_000_000_000 + 7;
+
+        long[] numberCountDigitAt;
+        long[][][][] dp;
+
+        String finishNumber;
+
+        public Solver(
+            String N
+        ) {
+            this.finishNumberLength = N.length();
+            this.finishNumber = " " + N;
+            this.numberCountDigitAt = new long[N.length() + 1];
+            this.dp = new long[N.length() + 1][MOD][FLAG_369_COUNT][FLAG_NUMBER_COUNT];
         }
-        
-        // 초기 상태 설정
-        dp[0][0][1][0] = 1;
-        
-        // 자릿수 DP
-        for (int pos = 0; pos < n; pos++) {
-            for (int sum_mod_3 = 0; sum_mod_3 < 3; sum_mod_3++) {
-                for (int tight = 0; tight < 2; tight++) {
-                    for (int has_369 = 0; has_369 < 2; has_369++) {
-                        if (dp[pos][sum_mod_3][tight][has_369] == 0) continue;
-                        int upper = (tight == 1) ? a[pos] : 9;
-                        for (int digit = 0; digit <= upper; digit++) {
-                            int new_sum_mod_3 = (sum_mod_3 + digit) % 3;
-                            int new_tight = (tight == 1 && digit == a[pos]) ? 1 : 0;
-                            int new_has_369 = has_369 | (digit == 3 || digit == 6 || digit == 9 ? 1 : 0);
-                            dp[pos + 1][new_sum_mod_3][new_tight][new_has_369] = 
-                                (dp[pos + 1][new_sum_mod_3][new_tight][new_has_369] + 
-                                 dp[pos][sum_mod_3][tight][has_369]) % MOD;
+
+        public void solve() {
+            initDP();
+            calcDP();
+            printAnswer();
+        }
+
+        private void printAnswer() {
+            long answer = 0;
+            for (int mod = 0; mod <= 2; mod++) {
+                for (int flag369 = 0; flag369 <= 1; flag369++) {
+                    for (int numberFlag = 0; numberFlag <= 1; numberFlag++) {
+                        if (flag369 == NOT_EXIST_369 && mod != 0) {
+                            continue;
+                        }
+                        answer += dp[finishNumberLength][mod][flag369][numberFlag];
+                        answer %= REMAINDER;
+                    }
+                }
+            }
+            System.out.println(answer - 1);
+        }
+
+        private void calcDP() {
+            for (int i = 0; i < finishNumberLength; i++) {
+                for (int mod = 0; mod <= 2; mod++) {
+                    for (int flag369 = 0; flag369 <= 1; flag369++) {
+                        for (int numberFlag = 0; numberFlag <= 1; numberFlag++) {
+                            int limit =
+                                numberFlag == UNDER_NUMBER ? 9 : finishNumber.charAt(i + 1) - '0';
+                            for (int number = 0; number <= limit; number++) {
+                                int nextMod = (mod + number) % 3;
+
+                                int nextNumberFlag;
+                                if (numberFlag == UNDER_NUMBER) {
+                                    nextNumberFlag = UNDER_NUMBER;
+                                } else if (number < limit) {
+                                    nextNumberFlag = UNDER_NUMBER;
+                                } else {
+                                    nextNumberFlag = SAME_NUMBER;
+                                }
+
+                                int next369Flag;
+                                if (flag369 == EXIST_369) {
+                                    next369Flag = EXIST_369;
+                                } else if (is369(number)) {
+                                    next369Flag = EXIST_369;
+                                } else {
+                                    next369Flag = NOT_EXIST_369;
+                                }
+
+                                dp[i + 1][nextMod][next369Flag][nextNumberFlag]
+                                    += dp[i][mod][flag369][numberFlag];
+                                dp[i + 1][nextMod][next369Flag][nextNumberFlag]
+                                    %= REMAINDER;
+                            }
                         }
                     }
                 }
             }
         }
-        
-        // 최종 답 계산
-        long ans = 0;
-        for (int sum_mod_3 = 0; sum_mod_3 < 3; sum_mod_3++) {
-            for (int tight = 0; tight < 2; tight++) {
-                for (int has_369 = 0; has_369 < 2; has_369++) {
-                    if (has_369 == 1 || sum_mod_3 == 0) {
-                        ans = (ans + dp[n][sum_mod_3][tight][has_369]) % MOD;
-                    }
-                }
-            }
+
+        private boolean is369(int number) {
+            return number == 3 || number == 6 || number == 9;
         }
-        
-        System.out.println(ans-1);
+
+        private void initDP() {
+            dp[0][0][NOT_EXIST_369][SAME_NUMBER] = 1;
+        }
+    }
+
+    public static void main(String[] args) {
+        String N;
+
+        Scanner sc = new Scanner(System.in);
+        N = sc.next();
+        sc.close();
+
+        new Main.Solver(N).solve();
     }
 }
