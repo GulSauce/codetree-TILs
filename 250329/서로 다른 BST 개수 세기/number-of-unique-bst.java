@@ -39,9 +39,9 @@ class Solver {
     private void calcDP() {
         for (int nodeCount = 2; nodeCount <= targetNodeCount; nodeCount++) {
             int treeCount = 0;
-            int withoutHeadNodeCount = nodeCount - 1;
-            for (int leftNodeCount = 0; leftNodeCount <= withoutHeadNodeCount; leftNodeCount++) {
-                int rightNodeCount = withoutHeadNodeCount - leftNodeCount;
+            int withoutRootNodeCount = nodeCount - 1;
+            for (int leftNodeCount = 0; leftNodeCount <= withoutRootNodeCount; leftNodeCount++) {
+                int rightNodeCount = withoutRootNodeCount - leftNodeCount;
                 treeCount += dp[leftNodeCount] * dp[rightNodeCount];
             }
             dp[nodeCount] = treeCount;
