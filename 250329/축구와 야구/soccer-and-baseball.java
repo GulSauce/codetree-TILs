@@ -66,6 +66,9 @@ class Solver {
                             dp[i + 1][soccerCount][baseballCount + 1],
                             dp[i][soccerCount][baseballCount] + nextStatus.baseBall);
                     }
+                    dp[i + 1][soccerCount][baseballCount] = Math.max(
+                        dp[i + 1][soccerCount][baseballCount],
+                        dp[i][soccerCount][baseballCount]);
                 }
             }
         }
