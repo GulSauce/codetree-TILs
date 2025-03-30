@@ -1,4 +1,3 @@
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
@@ -23,7 +22,6 @@ class Solver {
 
     int aLength;
     int bLength;
-    final int NOT_ALLOCATED = Integer.MIN_VALUE;
     int[][] dp;
 
     public Solver(
@@ -48,33 +46,27 @@ class Solver {
     }
 
     private void calcDP() {
-        for (int aIndex = 1; aIndex <= aLength; aIndex++) {
-            for (int bIndex = 1; bIndex <= bLength; bIndex++) {
-                if (A.charAt(aIndex) == B.charAt(bIndex)
-                    && dp[aIndex - 1][bIndex - 1] != NOT_ALLOCATED) {
-                    dp[aIndex][bIndex] = dp[aIndex - 1][bIndex - 1] + 1;
+        for (int i = 1; i <= aLength; i++) {
+            for (int j = 1; j <= bLength; j++) {
+                if (A.charAt(i) == B.charAt(j)) {
+                    dp[i][j] = dp[i - 1][j - 1];
                     continue;
                 }
-                if (dp[aIndex - 1][bIndex] != NOT_ALLOCATED) {
-                    dp[aIndex][bIndex] = Math.max(dp[aIndex][bIndex], dp[aIndex - 1][bIndex]);
-                }
-                if (dp[aIndex][bIndex - 1] != NOT_ALLOCATED) {
-                    dp[aIndex][bIndex] = Math.max(dp[aIndex][bIndex], dp[aIndex][bIndex - 1]);
-                }
+                int deleteDist = dp[i - 1][j] + 1;
+                int insertDist = dp[i][j - 1] + 1;
+                int changeDist = dp[i - 1][j - 1] + 1;
+                dp[i][j] = Math.min(deleteDist, Math.max(insertDist, changeDist));
             }
         }
     }
 
     private void initDP() {
-        for (int[] array : dp) {
-            Arrays.fill(array, NOT_ALLOCATED);
-        }
-        for (int aIndex = 1; aIndex <= aLength; aIndex++) {
-            dp[aIndex][0] = 0;
-        }
-        for (int bIndex = 1; bIndex <= bLength; bIndex++) {
-            dp[0][bIndex] = 0;
-        }
         dp[0][0] = 0;
+        for (int i = 1; i <= aLength; i++) {
+            dp[i][0] = dp[i - 1][0] + 1;
+        }
+        for (int i = 1; i <= bLength; i++) {
+            dp[0][i] = dp[0][i] + 1;
+        }
     }
 }
