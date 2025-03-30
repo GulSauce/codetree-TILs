@@ -54,7 +54,8 @@ class Solver {
                     char prevPattern = pattern.charAt(j - 1);
                     if (prevPattern == '.' || curChar == prevPattern) {
                         dp[i][j] = true & dp[i - 1][j];
-                    } else {
+                    }
+                    if (dp[i][j] == false) {
                         dp[i][j] = true & dp[i][j - 2];
                     }
                     continue;
@@ -63,7 +64,8 @@ class Solver {
                     dp[i][j] = true & dp[i - 1][j - 1];
                     continue;
                 }
-                dp[i][j] = false;
+                System.out.println(false);
+                System.exit(0);
             }
         }
     }
