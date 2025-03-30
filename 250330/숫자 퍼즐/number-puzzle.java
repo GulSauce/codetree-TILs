@@ -18,7 +18,7 @@ public class Main {
 
 class Solver {
 
-    int gemCount;
+    int gemIndex;
     int targetSum;
     int targetLex;
     final int NOT_ALLOCATED = 0;
@@ -29,10 +29,10 @@ class Solver {
         int M,
         int K
     ) {
-        this.gemCount = N;
+        this.gemIndex = N - 1;
         this.targetSum = M;
         this.targetLex = K;
-        this.dp = new int[N + 1][M + 1][M + 1];
+        this.dp = new int[N][M + 1][M + 1];
     }
 
     public void solve() {
@@ -46,7 +46,7 @@ class Solver {
         int curMaxNum = targetSum;
         int curTargetSum = targetSum;
         Stack<Integer> answer = new Stack<>();
-        for (int i = gemCount; i >= 1; i--) {
+        for (int i = gemIndex; i >= 0; i--) {
             for (int curNum = curMaxNum; curNum >= 1; curNum--) {
                 if (dp[i][curNum][curTargetSum] == NOT_ALLOCATED) {
                     continue;
@@ -66,7 +66,7 @@ class Solver {
     }
 
     private void calcDP() {
-        for (int i = 2; i <= gemCount; i++) {
+        for (int i = 1; i <= gemIndex; i++) {
             for (int curNumber = 1; curNumber <= targetSum; curNumber++) {
                 for (int sum = 1; sum <= targetSum; sum++) {
                     for (int prevNumber = 1; prevNumber <= curNumber; prevNumber++) {
@@ -85,7 +85,7 @@ class Solver {
 
     private void initDP() {
         for (int curNumber = 1; curNumber <= targetSum; curNumber++) {
-            dp[1][curNumber][curNumber] = 1;
+            dp[0][curNumber][curNumber] = 1;
         }
     }
 }
