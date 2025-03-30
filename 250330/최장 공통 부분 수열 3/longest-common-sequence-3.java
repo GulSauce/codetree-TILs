@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Stack;
 
 public class Main {
 
@@ -37,6 +36,7 @@ class Solver {
     List<Integer> A;
     List<Integer> B;
 
+
     public Solver(
         int N,
         int M,
@@ -50,19 +50,20 @@ class Solver {
         this.dp = new int[N + 1][M + 1];
     }
 
+
     public void solve() {
+        reverseList();
         calcDP();
-//        printDP();
         printAnswer();
     }
+
 
     private void printAnswer() {
         int i = aIndex;
         int j = bIndex;
-        Stack<Integer> answer = new Stack<>();
         while (i > 0 && j > 0) {
             if (A.get(i).equals(B.get(j))) {
-                answer.add(A.get(i));
+                System.out.print(A.get(i) + " ");
                 i--;
                 j--;
                 continue;
@@ -81,19 +82,8 @@ class Solver {
             }
             j--;
         }
-        while (!answer.isEmpty()) {
-            System.out.print(answer.pop() + " ");
-        }
     }
 
-    private void printDP() {
-        for (int[] array : dp) {
-            for (int value : array) {
-                System.out.print(value + " ");
-            }
-            System.out.println();
-        }
-    }
 
     private void calcDP() {
         for (int i = 1; i <= aIndex; i++) {
@@ -105,5 +95,22 @@ class Solver {
                 dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
             }
         }
+    }
+
+
+    private void reverseList() {
+        List<Integer> reverseA = new ArrayList<>();
+        reverseA.add(-1);
+        List<Integer> reverseB = new ArrayList<>();
+        reverseB.add(-1);
+
+        for (int i = aIndex; i >= 1; i--) {
+            reverseA.add(A.get(i));
+        }
+        for (int i = bIndex; i >= 1; i--) {
+            reverseB.add(B.get(i));
+        }
+        this.A = reverseA;
+        this.B = reverseB;
     }
 }
