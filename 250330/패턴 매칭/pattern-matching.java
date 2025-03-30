@@ -52,13 +52,11 @@ class Solver {
                 char curPattern = pattern.charAt(j);
                 if (curPattern == '*') {
                     char prevPattern = pattern.charAt(j - 1);
-                    if (true & dp[i][j - 2] == true) {
-                        dp[i][j] = true;
-                        continue;
-                    }
                     if (prevPattern == '.' || curChar == prevPattern) {
                         dp[i][j] = true & dp[i - 1][j];
-                        continue;
+                    }
+                    if (dp[i][j] == false) {
+                        dp[i][j] = true & dp[i][j - 2];
                     }
                     continue;
                 }
