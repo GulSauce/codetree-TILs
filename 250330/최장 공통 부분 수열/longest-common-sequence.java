@@ -50,12 +50,17 @@ class Solver {
     private void calcDP() {
         for (int aIndex = 1; aIndex <= aLength; aIndex++) {
             for (int bIndex = 1; bIndex <= bLength; bIndex++) {
-                if (A.charAt(aIndex) == B.charAt(bIndex)) {
+                if (A.charAt(aIndex) == B.charAt(bIndex)
+                    && dp[aIndex - 1][bIndex - 1] != NOT_ALLOCATED) {
                     dp[aIndex][bIndex] = dp[aIndex - 1][bIndex - 1] + 1;
                     continue;
                 }
-                dp[aIndex][bIndex] = Math.max(dp[aIndex][bIndex], dp[aIndex - 1][bIndex]);
-                dp[aIndex][bIndex] = Math.max(dp[aIndex][bIndex], dp[aIndex][bIndex - 1]);
+                if (dp[aIndex - 1][bIndex] != NOT_ALLOCATED) {
+                    dp[aIndex][bIndex] = Math.max(dp[aIndex][bIndex], dp[aIndex - 1][bIndex]);
+                }
+                if (dp[aIndex][bIndex - 1] != NOT_ALLOCATED) {
+                    dp[aIndex][bIndex] = Math.max(dp[aIndex][bIndex], dp[aIndex][bIndex - 1]);
+                }
             }
         }
     }
@@ -64,12 +69,12 @@ class Solver {
         for (int[] array : dp) {
             Arrays.fill(array, NOT_ALLOCATED);
         }
+        dp[0][0] = 0;
         for (int aIndex = 1; aIndex <= aLength; aIndex++) {
             dp[aIndex][0] = 0;
         }
         for (int bIndex = 1; bIndex <= bLength; bIndex++) {
             dp[0][bIndex] = 0;
         }
-        dp[0][0] = 0;
     }
 }
