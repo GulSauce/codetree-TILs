@@ -64,10 +64,10 @@ class Solver {
         for (int[] array : dp) {
             Arrays.fill(array, NOT_ALLOCATED);
         }
-        for (int aIndex = 1; aIndex <= A.length() - 1; aIndex++) {
+        for (int aIndex = 1; aIndex <= aLength; aIndex++) {
             dp[aIndex][0] = 0;
         }
-        for (int bIndex = 1; bIndex <= A.length() - 1; bIndex++) {
+        for (int bIndex = 1; bIndex <= bLength; bIndex++) {
             dp[0][bIndex] = 0;
         }
         dp[0][0] = 0;
