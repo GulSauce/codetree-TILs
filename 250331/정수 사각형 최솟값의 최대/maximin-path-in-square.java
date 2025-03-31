@@ -24,7 +24,7 @@ public class Main {
 class Solver {
 
     int gridIndex;
-    final int NOT_ALLOCATED = Integer.MAX_VALUE;
+    final int NOT_ALLOCATED = Integer.MIN_VALUE;
     int[][] grid;
     int[][] dp;
 
@@ -50,8 +50,14 @@ class Solver {
     private void calcDP() {
         for (int y = 1; y <= gridIndex; y++) {
             for (int x = 1; x <= gridIndex; x++) {
-                int minMax = Math.max(dp[y - 1][x], dp[y][x - 1]);
-                dp[y][x] = Math.min(grid[y][x], minMax);
+                if (y < gridIndex) {
+                    int nextMin = Math.min(grid[y + 1][x], dp[y][x]);
+                    dp[y + 1][x] = Math.max(dp[y + 1][x], nextMin);
+                }
+                if (x < gridIndex) {
+                    int nextMin = Math.min(grid[y][x + 1], dp[y][x]);
+                    dp[y][x + 1] = Math.max(dp[y][x + 1], nextMin);
+                }
             }
         }
     }
@@ -60,5 +66,6 @@ class Solver {
         for (int[] array : dp) {
             Arrays.fill(array, NOT_ALLOCATED);
         }
+        dp[1][1] = grid[1][1];
     }
 }
