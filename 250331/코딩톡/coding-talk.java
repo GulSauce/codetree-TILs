@@ -51,37 +51,38 @@ public class Main {
                 nonReadMembers.add(String.valueOf((char) (i + 'A')));
             }
         }
-private void setReadMembers() {
-    List<String> readMembers = new ArrayList<>();
-    Chat target = chats.get(targetChatIndex);
-    // 타겟 채팅이 다 읽혔으면 모든 사람
-    if (target.unread == 0) {
-        for (int i = 0; i <= memberIndex; i++) {
-            readMembers.add(String.valueOf((char) (i + 'A')));
+
+        private void setReadMembers() {
+            List<String> readMembers = new ArrayList<>();
+            Chat target = chats.get(targetChatIndex);
+            // 타겟 채팅이 다 읽혔으면 모든 사람
+            if (target.unread == 0) {
+                for (int i = 0; i <= memberIndex; i++) {
+                    readMembers.add(String.valueOf((char) (i + 'A')));
+                }
+
+            } else {
+                // 앞 채팅을 안읽은 사람 수  == 타겟 채팅을 안읽은 사람의 수이면 앞 채팅을 보낸 사람
+                // - 앞 채팅 읽은 사람을 `a, b, c`라고 하자
+                // - 타겟 채팅을 새로운 사람 `d`가 포함된 사람 3명이 읽었다고 하자
+                // - 그렇다면 d도 앞 채팅을 읽었고 앞 채팅을 읽은 사람은 `a, b, c, d`가 되어야하는데 4명이 되어 모순이다
+                // - 따라서 앞 채팅을 읽은 사람이 타겟 채팅을 읽었다
+                // - 앞 채팅을 읽은 사람 중 앞 채팅을 보낸 사람만 특정할 수 있다
+                for (int i = 0; i < targetChatIndex; i++) {
+                    if (chats.get(i).unread != target.unread) {
+                        continue;
+                    }
+                    readMembers.add(chats.get(i).sender);
+                }
+                // 타겟 채팅을 보낸 사람
+                readMembers.add(chats.get(targetChatIndex).sender);
+                // 타겟 채팅 이후에 채팅을 보낸 사람
+                for (int i = targetChatIndex + 1; i <= chatsIndex; i++) {
+                    readMembers.add(chats.get(i).sender);
+                }
+            }
+            this.readMembers = readMembers;
         }
-        
-    }else{
-    // 앞 채팅을 안읽은 사람 수  == 타겟 채팅을 안읽은 사람의 수이면 앞 채팅을 보낸 사람
-    // - 앞 채팅 읽은 사람을 `a, b, c`라고 하자
-    // - 타겟 채팅을 새로운 사람 `d`가 포함된 사람 3명이 읽었다고 하자
-    // - 그렇다면 d도 앞 채팅을 읽었고 앞 채팅을 읽은 사람은 `a, b, c, d`가 되어야하는데 4명이 되어 모순이다
-    // - 따라서 앞 채팅을 읽은 사람이 타겟 채팅을 읽었다
-    // - 앞 채팅을 읽은 사람 중 앞 채팅을 보낸 사람만 특정할 수 있다
-    for (int i = 0; i < targetChatIndex; i++) {
-        if (chats.get(i).unread != target.unread) {
-            continue;
-        }
-        readMembers.add(chats.get(i).sender);
-    }
-    // 타겟 채팅을 보낸 사람
-    readMembers.add(chats.get(targetChatIndex).sender);
-    // 타겟 채팅 이후에 채팅을 보낸 사람
-    for (int i = targetChatIndex+1; i <= chatsIndex; i++) {
-        readMembers.add(chats.get(i).sender);
-    }
-    }
-    this.readMembers = readMembers;
-}
     }
 
     public static void main(String[] args) {
