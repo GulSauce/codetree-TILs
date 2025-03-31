@@ -1,4 +1,3 @@
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
@@ -63,9 +62,6 @@ class Solver {
     }
 
     public void initDP() {
-        for (int[] array : dp) {
-            Arrays.fill(array, NOT_ALLOCATED);
-        }
         dp[1][1] = grid[1][1];
     }
 }
