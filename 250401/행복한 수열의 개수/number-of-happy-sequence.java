@@ -53,7 +53,7 @@ class Solver {
     }
 
     private boolean isHappyOnColumnAt(int col) {
-        int maxConsecutiveCount = 0;
+        int maxConsecutiveCount = 1;
         int consecutiveCount = 1;
         for (int row = 2; row <= gridIndex; row++) {
             if (grid[row - 1][col] == grid[row][col]) {
@@ -70,7 +70,7 @@ class Solver {
     }
 
     private boolean isHappyOnRowAt(int row) {
-        int maxConsecutiveCount = 0;
+        int maxConsecutiveCount = 1;
         int consecutiveCount = 1;
         for (int col = 2; col <= gridIndex; col++) {
             if (grid[row][col - 1] == grid[row][col]) {
