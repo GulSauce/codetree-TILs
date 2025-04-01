@@ -27,8 +27,28 @@ class Solver {
     }
 
     public void solve() {
-        int maxDist = getMaxDist();
-        System.out.println(maxDist - 1);
+        if (isConsecutive()) {
+            System.out.println(0);
+            return;
+        }
+        int resultLeftFirstMove = getResultLeftFirstMove();
+        int resultRightFirstMove = getResultRightFirstMove();
+        System.out.println(Math.max(resultLeftFirstMove, resultRightFirstMove));
+    }
+
+    private int getResultLeftFirstMove() {
+        return cPos - bPos - 1;
+    }
+
+    private int getResultRightFirstMove() {
+        return bPos - aPos - 1;
+    }
+
+    private boolean isConsecutive() {
+        if (aPos + 1 == bPos && bPos + 1 == cPos) {
+            return true;
+        }
+        return false;
     }
 
     private int getMaxDist() {
