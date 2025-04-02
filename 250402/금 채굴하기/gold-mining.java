@@ -64,7 +64,7 @@ class Solver {
         if (isGold(center)) {
             foundGoldCount = 1;
         }
-        if (getMiningPrice(1) <= goldPrice * foundGoldCount) {
+        if (getMiningPrice(0) <= goldPrice * foundGoldCount) {
             maxGoldCount = 1;
         }
         visited[center.y][center.x] = true;
@@ -79,7 +79,7 @@ class Solver {
                 if (visited[next.y][next.x]) {
                     continue;
                 }
-                
+
                 visited[next.y][next.x] = true;
                 bfsQueue.add(next);
 
