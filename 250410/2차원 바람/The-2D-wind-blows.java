@@ -119,54 +119,28 @@ class Solver {
     }
 
     private void rotateClockWise(WindBlowInfo windBlowInfo) {
-        int remain = moveRightReturningRemain(windBlowInfo.leftUpper.row,
-            windBlowInfo.leftUpper.col,
-            windBlowInfo.rightLower.col);
+        Coordinate leftUpper = windBlowInfo.leftUpper;
+        Coordinate rightLower = windBlowInfo.rightLower;
 
-        remain = moveDownReturningRemain(remain, windBlowInfo.rightLower.col,
-            windBlowInfo.leftUpper.row + 1,
-            windBlowInfo.rightLower.row);
+        int temp = grid[leftUpper.row][leftUpper.col];
 
-        remain = moveLeftReturningRemain(remain, windBlowInfo.rightLower.row,
-            windBlowInfo.rightLower.col - 1,
-            windBlowInfo.leftUpper.col);
-
-        moveUp(remain, windBlowInfo.leftUpper.col, windBlowInfo.rightLower.row - 1,
-            windBlowInfo.leftUpper.row);
-    }
-
-    private void moveUp(int pre, int col, int start, int end) {
-        for (int i = end; i <= start - 1; i++) {
-            grid[i][col] = grid[i + 1][col];
+        for (int row = leftUpper.row; row <= rightLower.row - 1; row++) {
+            grid[row][leftUpper.col] = grid[row + 1][leftUpper.col];
         }
-        grid[start][col] = pre;
-    }
 
-    private int moveLeftReturningRemain(int pre, int row, int start, int end) {
-        int remain = grid[row][end];
-        for (int i = end; i <= start - 1; i++) {
-            grid[row][i] = grid[row][i + 1];
+        for (int col = leftUpper.col; col <= rightLower.col - 1; col++) {
+            grid[rightLower.row][col] = grid[rightLower.row][col + 1];
         }
-        grid[row][start] = pre;
-        return remain;
-    }
 
-
-    private int moveDownReturningRemain(int pre, int col, int start, int end) {
-        int remain = grid[end][col];
-        for (int i = end; i >= start + 1; i--) {
-            grid[i][col] = grid[i - 1][col];
+        for (int row = rightLower.row; row >= leftUpper.row + 1; row--) {
+            grid[row][rightLower.col] = grid[row - 1][rightLower.col];
         }
-        grid[start][col] = pre;
-        return remain;
-    }
 
-    private int moveRightReturningRemain(int row, int start, int end) {
-        int remain = grid[row][end];
-        for (int i = end; i >= start + 1; i--) {
-            grid[row][i] = grid[row][i - 1];
+        for (int col = rightLower.col; col >= leftUpper.col + 1; col--) {
+            grid[leftUpper.row][col] = grid[leftUpper.row][col - 1];
         }
-        return remain;
+
+        grid[leftUpper.row][leftUpper.col + 1] = temp;
     }
 }
 
