@@ -53,14 +53,14 @@ class Solver {
             if (letters[i] == letters[i - 1]) {
                 count++;
             } else {
-                String sub = String.valueOf(letter) + count;
-                runLengthString.append(sub);
+                runLengthString.append(letter);
+                runLengthString.append(count);
                 letter = letters[i];
                 count = 1;
             }
         }
-        String sub = String.valueOf(letter) + count;
-        runLengthString.append(sub);
+        runLengthString.append(letter);
+        runLengthString.append(count);
 
         return runLengthString.toString();
     }
