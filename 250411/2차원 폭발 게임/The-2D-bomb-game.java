@@ -46,14 +46,11 @@ class Solver {
 
     public void solve() {
         for (int i = 0; i < rotateCount; i++) {
-
             while (explode()) {
                 applyGravity();
             }
-
             rotateClockWise90();
             applyGravity();
-
         }
         while (explode()) {
             applyGravity();
@@ -89,13 +86,9 @@ class Solver {
         boolean explode = false;
         for (int col = 1; col <= gridIndex; col++) {
             int curConsecutive = 1;
+            int endRow = gridIndex - 1;
             for (int row = gridIndex - 1; row >= 1; row--) {
                 if (grid[row][col] == EMPTY) {
-                    if (consecutiveCount <= curConsecutive) {
-                        explode = true;
-                        removeFrom(col, row + 1, curConsecutive);
-                    }
-                    curConsecutive = 0;
                     break;
                 }
                 if (grid[row][col] == grid[row + 1][col]) {
@@ -107,10 +100,11 @@ class Solver {
                     }
                     curConsecutive = 1;
                 }
+                endRow = row;
             }
             if (consecutiveCount <= curConsecutive) {
                 explode = true;
-                removeFrom(col, 1, curConsecutive);
+                removeFrom(col, endRow, curConsecutive);
             }
         }
         return explode;
