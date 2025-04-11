@@ -89,7 +89,7 @@ class Solver {
                 continue;
             }
             int curConsecutive = 1;
-            int endRow = gridIndex - 1;
+            int endRow = gridIndex;
             for (int row = gridIndex - 1; row >= 1; row--) {
                 if (grid[row][col] == EMPTY) {
                     break;
