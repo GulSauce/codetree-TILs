@@ -85,6 +85,9 @@ class Solver {
     private boolean explode() {
         boolean explode = false;
         for (int col = 1; col <= gridIndex; col++) {
+            if (grid[gridIndex][col] == EMPTY) {
+                continue;
+            }
             int curConsecutive = 1;
             int endRow = gridIndex - 1;
             for (int row = gridIndex - 1; row >= 1; row--) {
