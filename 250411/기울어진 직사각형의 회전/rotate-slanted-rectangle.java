@@ -76,69 +76,70 @@ class Solver {
     private void rotateClockWise() {
         int height = squareInfo.height;
         int width = squareInfo.width;
-        int startRow = squareInfo.startRow;
-        int startCol = squareInfo.startCol;
+        int curRow = squareInfo.startRow;
+        int curCol = squareInfo.startCol;
 
-        int temp = grid[startRow - height][startCol - height];
-
-        int row = startRow - height;
-        int col = startCol - height;
-        for (int d = 1; d <= height; d++) {
-            grid[row + d - 1][col + d - 1] = grid[row + d][col + d];
+        int temp = grid[curRow][curCol];
+        for (int i = 0; i < width - 1; i++) {
+            grid[curRow][curCol] = grid[curRow - 1][curCol + 1];
+            curRow--;
+            curCol++;
         }
 
-        row = startRow;
-        col = startCol;
-        for (int d = 1; d <= width; d++) {
-            grid[row - d + 1][col + d - 1] = grid[row - d][col + d];
+        for (int i = 0; i < height - 1; i++) {
+            grid[curRow][curCol] = grid[curRow - 1][curCol - 1];
+            curRow--;
+            curCol--;
         }
 
-        row = startRow - width;
-        col = startCol + width;
-        for (int d = 1; d <= height; d++) {
-            grid[row - d + 1][col - d + 1] = grid[row - d][col - d];
+        for (int i = 0; i < width - 1; i++) {
+            grid[curRow][curCol] = grid[curRow + 1][curCol - 1];
+            curRow++;
+            curCol--;
         }
 
-        row = startRow - width - height;
-        col = startCol + width - height;
-        for (int d = 1; d <= width - 1; d++) {
-            grid[row + d - 1][col - d + 1] = grid[row + d][col - d];
+        for (int i = 0; i < height - 2; i++) {
+            grid[curRow][curCol] = grid[curRow + 1][curCol + 1];
+            curRow++;
+            curCol++;
         }
-        grid[row + width - 1][col - width + 1] = temp;
+
+        grid[curRow][curCol] = temp;
     }
 
     private void rotateCounterClockWise() {
         int height = squareInfo.height;
         int width = squareInfo.width;
-        int startRow = squareInfo.startRow;
-        int startCol = squareInfo.startCol;
+        int curRow = squareInfo.startRow;
+        int curCol = squareInfo.startCol;
 
-        int temp = grid[startRow - width][startCol + width];
+        int temp = grid[curRow][curCol];
 
-        int row = startRow - width;
-        int col = startCol + width;
-        for (int d = 1; d <= width; d++) {
-            grid[row + d - 1][col - d + 1] = grid[row + d][col - d];
+        for (int i = 0; i < height - 1; i++) {
+            grid[curRow][curCol] = grid[curRow - 1][curCol - 1];
+            curRow--;
+            curCol--;
         }
 
-        row = startRow;
-        col = startCol;
-        for (int d = 1; d <= height; d++) {
-            grid[row - d + 1][col - d + 1] = grid[row - d][col - d];
+        for (int i = 0; i < width - 1; i++) {
+            grid[curRow][curCol] = grid[curRow - 1][curCol + 1];
+            curRow--;
+            curCol++;
         }
 
-        row = startRow - height;
-        col = startCol - height;
-        for (int d = 1; d <= width; d++) {
-            grid[row - d + 1][col + d - 1] = grid[row - d][col + d];
+        for (int i = 0; i < height - 1; i++) {
+            grid[curRow][curCol] = grid[curRow + 1][curCol + 1];
+            curRow++;
+            curCol++;
         }
 
-        row = startRow - width - height;
-        col = startCol + width - height;
-        for (int d = 1; d <= height - 1; d++) {
-            grid[row + d - 1][col + d - 1] = grid[row + d][col + d];
+        for (int i = 0; i < width - 2; i++) {
+            grid[curRow][curCol] = grid[curRow + 1][curCol - 1];
+            curRow++;
+            curCol--;
         }
-        grid[row + height - 1][col + height - 1] = temp;
+
+        grid[curRow][curCol] = temp;
     }
 }
 
@@ -157,8 +158,8 @@ class SquareInfo {
     ) {
         this.startRow = r;
         this.startCol = c;
-        this.width = m1;
-        this.height = m2;
+        this.width = m1 + 1;
+        this.height = m2 + 1;
     }
 }
 
