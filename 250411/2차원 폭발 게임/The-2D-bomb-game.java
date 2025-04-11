@@ -74,7 +74,7 @@ class Solver {
         System.out.println(count);
     }
 
- 
+
     private void rotateClockWise90() {
         int[][] temp = new int[gridIndex + 1][gridIndex + 1];
         for (int row = 1; row <= gridIndex; row++) {
@@ -95,7 +95,7 @@ class Solver {
                         explode = true;
                         removeFrom(col, row + 1, curConsecutive);
                     }
-                    curConsecutive = 1;
+                    curConsecutive = 0;
                     break;
                 }
                 if (grid[row][col] == grid[row + 1][col]) {
