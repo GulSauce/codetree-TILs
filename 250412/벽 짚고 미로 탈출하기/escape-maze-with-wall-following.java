@@ -57,14 +57,14 @@ class Solver {
 
             isVisited[escaper.cur.row][escaper.cur.col][escaper.dir] = true;
             Coordinate next = escaper.getNext();
-            if (isWallAt(next)) {
-                escaper.rotateCounterClockwise();
-                continue;
-            }
             if (isOutOfGrid(next)) {
                 escaper.move();
                 elapsedTime++;
                 break;
+            }
+            if (isWallAt(next)) {
+                escaper.rotateCounterClockwise();
+                continue;
             }
             if (isWallAtRightSideOfEscaperNextMove()) {
                 escaper.move();
