@@ -65,13 +65,15 @@ class Solver {
 
             boolean collideThisBid = false;
             for (int j = 1; j < nextBids.size(); j++) {
-                if (!isSamePos(nextBids.get(j), bid)) {
+                Bid existBid = nextBids.get(j);
+                if (!isSamePos(existBid, bid)) {
                     continue;
                 }
                 collide = true;
                 collideThisBid = true;
-                nextBids.set(j, bid);
-                break;
+                if (existBid.weight <= bid.weight) {
+                    nextBids.set(j, bid);
+                }
             }
             if (!collideThisBid) {
                 nextBids.add(bid);
