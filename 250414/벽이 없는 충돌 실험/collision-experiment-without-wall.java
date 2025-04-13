@@ -73,8 +73,8 @@ class Solver {
                 collide = true;
                 if (existBid.weight <= bid.weight) {
                     nextBids.set(j, bid);
-                    continue bidLoop;
                 }
+                continue bidLoop;
             }
             nextBids.add(bid);
         }
