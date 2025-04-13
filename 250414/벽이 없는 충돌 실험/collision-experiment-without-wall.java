@@ -18,13 +18,13 @@ public class Main {
         for (int i = 0; i < T; i++) {
             N = sc.nextInt();
             bids.clear();
-            bids.add(new Bid(-1, -1, -1, "R"));
-            for (int j = 0; j < N; j++) {
+            bids.add(new Bid(-1, -1, -1, -1, "R"));
+            for (int j = 1; j <= N; j++) {
                 x = sc.nextInt();
                 y = sc.nextInt();
                 w = sc.nextInt();
                 d = sc.next();
-                bids.add(new Bid(x, y, w, d));
+                bids.add(new Bid(j, x, y, w, d));
             }
             new Solver().solve(bids);
         }
@@ -54,7 +54,7 @@ class Solver {
     private boolean moveBids() {
         boolean collide = false;
         List<Bid> nextBids = new ArrayList<>();
-        nextBids.add(new Bid(-1, -1, -1, "R"));
+        nextBids.add(new Bid(-1, -1, -1, -1, "R"));
 
         bidLoop:
         for (int i = 1; i < bids.size(); i++) {
@@ -70,14 +70,18 @@ class Solver {
                 if (!isSamePos(existBid, bid)) {
                     continue;
                 }
-                collide = true;
-                if (existBid.weight <= bid.weight) {
+                if (existBid.weight < bid.weight) {
                     nextBids.set(j, bid);
                 }
+                if (existBid.weight == bid.weight && existBid.number < bid.number) {
+                    nextBids.set(j, bid);
+                }
+                collide = true;
                 continue bidLoop;
             }
             nextBids.add(bid);
         }
+
         bids = nextBids;
         return collide;
     }
@@ -95,6 +99,7 @@ class Solver {
 
 class Bid {
 
+    int number;
     int weight;
     final int GRID_INDEX = 4000;
     final int OFFSET = GRID_INDEX / 2;
@@ -108,11 +113,13 @@ class Bid {
 
 
     public Bid(
+        int number,
         int x,
         int y,
         int weight,
         String directionString
     ) {
+        this.number = number;
         this.pos = applyOffset(new Coordinate(x, y));
         this.weight = weight;
         this.direction = Direction.valueOf(directionString);
