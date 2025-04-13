@@ -65,9 +65,11 @@ class Solver {
                 Coordinate head = snake.getHeadCoordinate();
                 Coordinate nextHead = new Coordinate(head.row + dr[dirIndex],
                     head.col + dc[dirIndex]);
+                
                 if (isOutOfGrid(nextHead)) {
                     break snakeMoveLoop;
                 }
+
                 if (grid[nextHead.row][nextHead.col] == APPLE) {
                     boolean isMoveSuccess = snake.moveWithNotRemovingTail(nextHead);
                     if (!isMoveSuccess) {
@@ -76,6 +78,7 @@ class Solver {
                     grid[nextHead.row][nextHead.col] = EMPTY;
                     continue;
                 }
+
                 boolean isMoveSuccess = snake.moveWithRemovingTail(nextHead);
                 if (!isMoveSuccess) {
                     break snakeMoveLoop;
