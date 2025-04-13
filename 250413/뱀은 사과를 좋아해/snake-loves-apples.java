@@ -37,8 +37,7 @@ class Solver {
     int gridIndex;
     final boolean EMPTY = false;
     final boolean APPLE = true;
-    int[] dr = {0, -1, 0, 1};
-    int[] dc = {1, 0, -1, 0};
+
     boolean[][] grid;
     List<SnakeMove> snakeMoves;
 
@@ -59,19 +58,16 @@ class Solver {
         int elapsedTime = 0;
         snakeMoveLoop:
         for (SnakeMove snakeMove : snakeMoves) {
-            int dirIndex = getDirIndex(snakeMove.moveDir);
+            MoveDir moveDir = snakeMove.moveDir;
             for (int i = 0; i < snakeMove.moveCount; i++) {
                 elapsedTime++;
-                Coordinate head = snake.getHeadCoordinate();
-                Coordinate nextHead = new Coordinate(head.row + dr[dirIndex],
-                    head.col + dc[dirIndex]);
-                
+                Coordinate nextHead = snake.getNextHead(moveDir);
                 if (isOutOfGrid(nextHead)) {
                     break snakeMoveLoop;
                 }
 
                 if (grid[nextHead.row][nextHead.col] == APPLE) {
-                    boolean isMoveSuccess = snake.moveWithNotRemovingTail(nextHead);
+                    boolean isMoveSuccess = snake.moveWithNotRemovingTail(moveDir);
                     if (!isMoveSuccess) {
                         break snakeMoveLoop;
                     }
@@ -79,7 +75,7 @@ class Solver {
                     continue;
                 }
 
-                boolean isMoveSuccess = snake.moveWithRemovingTail(nextHead);
+                boolean isMoveSuccess = snake.moveWithRemovingTail(moveDir);
                 if (!isMoveSuccess) {
                     break snakeMoveLoop;
                 }
@@ -92,27 +88,12 @@ class Solver {
         return coordinate.row < 1 || gridIndex < coordinate.row || coordinate.col < 1
             || gridIndex < coordinate.col;
     }
-
-    private int getDirIndex(MoveDir moveDir) {
-        if (moveDir == MoveDir.R) {
-            return 0;
-        }
-        if (moveDir == MoveDir.U) {
-            return 1;
-        }
-
-        if (moveDir == MoveDir.L) {
-            return 2;
-        }
-        if (moveDir == MoveDir.D) {
-            return 3;
-        }
-        throw new IllegalArgumentException();
-    }
 }
 
 class Snake {
 
+    int[] dr = {0, -1, 0, 1};
+    int[] dc = {1, 0, -1, 0};
     private final Deque<Coordinate> positions = new ArrayDeque<>();
 
 
@@ -122,11 +103,31 @@ class Snake {
         this.positions.add(start);
     }
 
-    public Coordinate getHeadCoordinate() {
-        return positions.getFirst();
+    public Coordinate getNextHead(MoveDir moveDir) {
+        int dirIndex = getDirIndex(moveDir);
+        Coordinate head = positions.getFirst();
+        return new Coordinate(head.row + dr[dirIndex],
+            head.col + dc[dirIndex]);
     }
 
-    public boolean moveWithNotRemovingTail(Coordinate next) {
+    private int getDirIndex(MoveDir moveDir) {
+        if (moveDir == MoveDir.R) {
+            return 0;
+        }
+        if (moveDir == MoveDir.U) {
+            return 1;
+        }
+        if (moveDir == MoveDir.L) {
+            return 2;
+        }
+        if (moveDir == MoveDir.D) {
+            return 3;
+        }
+        throw new IllegalArgumentException();
+    }
+
+    public boolean moveWithNotRemovingTail(MoveDir moveDir) {
+        Coordinate next = getNextHead(moveDir);
         if (isCollideWith(next)) {
             return false;
         }
@@ -134,7 +135,8 @@ class Snake {
         return true;
     }
 
-    public boolean moveWithRemovingTail(Coordinate next) {
+    public boolean moveWithRemovingTail(MoveDir moveDir) {
+        Coordinate next = getNextHead(moveDir);
         positions.pollLast();
         if (isCollideWith(next)) {
             return false;
