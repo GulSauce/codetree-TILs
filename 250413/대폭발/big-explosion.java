@@ -26,8 +26,8 @@ class Solver {
     final boolean BOMB_NOT_EXIST = false;
     final boolean BOMB_EXIST = true;
 
+    boolean[][] nextGrid;
     boolean[][] grid;
-    boolean[][] copiedGrid;
     Coordinate first;
 
     public Solver(
@@ -38,17 +38,17 @@ class Solver {
         this.gridIndex = N;
         this.targetTime = M;
         this.grid = new boolean[N + 1][N + 1];
-        this.copiedGrid = new boolean[N + 1][N + 1];
+        this.nextGrid = new boolean[N + 1][N + 1];
         this.first = first;
     }
 
     public void solve() {
         grid[first.row][first.col] = BOMB_EXIST;
         for (int t = 1; t <= targetTime; t++) {
-            setCopiedGrid();
+            setNextGrid();
             for (int row = 1; row <= gridIndex; row++) {
                 for (int col = 1; col <= gridIndex; col++) {
-                    if (copiedGrid[row][col] == BOMB_NOT_EXIST) {
+                    if (grid[row][col] == BOMB_NOT_EXIST) {
                         continue;
                     }
                     int prefix = intPow(2, t - 1);
@@ -58,18 +58,27 @@ class Solver {
                         if (isOufOfGrid(next)) {
                             continue;
                         }
-                        grid[next.row][next.col] = BOMB_EXIST;
+                        nextGrid[next.row][next.col] = BOMB_EXIST;
                     }
                 }
             }
+            applyNextGrid();
         }
         printAnswer();
     }
 
-    private void setCopiedGrid() {
+    private void applyNextGrid() {
         for (int row = 1; row <= gridIndex; row++) {
             for (int col = 1; col <= gridIndex; col++) {
-                copiedGrid[row][col] = grid[row][col];
+                grid[row][col] = nextGrid[row][col];
+            }
+        }
+    }
+
+    private void setNextGrid() {
+        for (int row = 1; row <= gridIndex; row++) {
+            for (int col = 1; col <= gridIndex; col++) {
+                nextGrid[row][col] = grid[row][col];
             }
         }
     }
