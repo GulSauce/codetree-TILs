@@ -34,7 +34,7 @@ public class Main {
 
 class Solver {
 
-    final int GRID_INDEX = 8000;
+    final int GRID_INDEX = 4000;
     List<Bid> bids;
 
     public void solve(List<Bid> bids) {
@@ -55,6 +55,8 @@ class Solver {
         boolean collide = false;
         List<Bid> nextBids = new ArrayList<>();
         nextBids.add(new Bid(-1, -1, -1, "R"));
+
+        bidLoop:
         for (int i = 1; i < bids.size(); i++) {
             Bid bid = bids.get(i);
             bid.move();
@@ -63,21 +65,18 @@ class Solver {
                 continue;
             }
 
-            boolean collideThisBid = false;
             for (int j = 1; j < nextBids.size(); j++) {
                 Bid existBid = nextBids.get(j);
                 if (!isSamePos(existBid, bid)) {
                     continue;
                 }
                 collide = true;
-                collideThisBid = true;
                 if (existBid.weight <= bid.weight) {
                     nextBids.set(j, bid);
+                    continue bidLoop;
                 }
             }
-            if (!collideThisBid) {
-                nextBids.add(bid);
-            }
+            nextBids.add(bid);
         }
         bids = nextBids;
         return collide;
@@ -159,4 +158,3 @@ class Coordinate {
 enum Direction {
     U, D, R, L
 }
-
