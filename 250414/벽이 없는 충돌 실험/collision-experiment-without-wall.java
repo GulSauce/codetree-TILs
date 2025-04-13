@@ -34,7 +34,7 @@ public class Main {
 
 class Solver {
 
-    final int GRID_INDEX = 4000;
+    final int GRID_INDEX = 8000;
     List<Bid> bids;
 
     public void solve(List<Bid> bids) {
