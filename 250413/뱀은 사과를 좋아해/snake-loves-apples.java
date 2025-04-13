@@ -35,6 +35,7 @@ public class Main {
 class Solver {
 
     int gridIndex;
+    final boolean EMPTY = false;
     final boolean APPLE = true;
     int[] dr = {0, -1, 0, 1};
     int[] dc = {1, 0, -1, 0};
@@ -72,6 +73,7 @@ class Solver {
                     if (!isMoveSuccess) {
                         break snakeMoveLoop;
                     }
+                    grid[nextHead.row][nextHead.col] = EMPTY;
                     continue;
                 }
                 boolean isMoveSuccess = snake.moveWithRemovingTail(nextHead);
