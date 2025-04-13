@@ -27,6 +27,7 @@ class Solver {
     final boolean BOMB_EXIST = true;
 
     boolean[][] grid;
+    boolean[][] copiedGrid;
     Coordinate first;
 
     public Solver(
@@ -37,13 +38,14 @@ class Solver {
         this.gridIndex = N;
         this.targetTime = M;
         this.grid = new boolean[N + 1][N + 1];
+        this.copiedGrid = new boolean[N + 1][N + 1];
         this.first = first;
     }
 
     public void solve() {
         grid[first.row][first.col] = BOMB_EXIST;
         for (int t = 1; t <= targetTime; t++) {
-            boolean[][] copiedGrid = getCopiedGrid();
+            setCopiedGrid();
             for (int row = 1; row <= gridIndex; row++) {
                 for (int col = 1; col <= gridIndex; col++) {
                     if (copiedGrid[row][col] == BOMB_NOT_EXIST) {
@@ -64,14 +66,12 @@ class Solver {
         printAnswer();
     }
 
-    private boolean[][] getCopiedGrid() {
-        boolean[][] copiedGrid = new boolean[gridIndex + 1][gridIndex + 1];
+    private void setCopiedGrid() {
         for (int row = 1; row <= gridIndex; row++) {
             for (int col = 1; col <= gridIndex; col++) {
                 copiedGrid[row][col] = grid[row][col];
             }
         }
-        return copiedGrid;
     }
 
     private void printAnswer() {
