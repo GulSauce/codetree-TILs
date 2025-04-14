@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,13 +37,14 @@ class Solver {
 
     final int GRID_INDEX = 4000;
     final int EMPTY = 0;
-    int[][] grid;
+    int[][] grid = new int[GRID_INDEX + 1][GRID_INDEX + 1];
+    ;
     List<Bid> bids;
 
     public void solve(List<Bid> bids) {
         int answer = -1;
         this.bids = bids;
-        this.grid = new int[GRID_INDEX + 1][GRID_INDEX + 1];
+        initGrid();
 
         for (int i = 1; i <= GRID_INDEX; i++) {
             boolean collide = moveBids();
@@ -97,6 +99,12 @@ class Solver {
     private boolean isOutOfGrid(Coordinate coordinate) {
         return coordinate.x < 0 || GRID_INDEX < coordinate.x || coordinate.y < 0
             || GRID_INDEX < coordinate.y;
+    }
+
+    private void initGrid() {
+        for (int[] array : grid) {
+            Arrays.fill(array, EMPTY);
+        }
     }
 
 }
