@@ -13,6 +13,7 @@ public class Main {
         List<Bid> bids = new ArrayList<>();
         int x, y, w;
         String d;
+        Solver solver = new Solver();
 
         Scanner sc = new Scanner(System.in);
         T = sc.nextInt();
@@ -27,7 +28,7 @@ public class Main {
                 d = sc.next();
                 bids.add(new Bid(j, x, y, w, d));
             }
-            new Solver().solve(bids);
+            solver.solve(bids);
         }
 
     }
@@ -87,8 +88,7 @@ class Solver {
 
         for (int i = 1; i < nextBids.size(); i++) {
             Bid bid = nextBids.get(i);
-            Coordinate pos = bid.pos;
-            grid[pos.y][pos.x] = EMPTY;
+            grid[bid.pos.y][bid.pos.x] = EMPTY;
         }
 
         bids = nextBids;
@@ -121,7 +121,6 @@ class Bid {
 
     Map<Direction, Integer> directionIndexMapper = new HashMap<>();
     Coordinate pos;
-
 
     public Bid(
         int number,
