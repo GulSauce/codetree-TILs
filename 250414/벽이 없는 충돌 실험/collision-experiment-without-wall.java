@@ -35,11 +35,14 @@ public class Main {
 class Solver {
 
     final int GRID_INDEX = 4000;
+    final int EMPTY = 0;
+    int[][] grid;
     List<Bid> bids;
 
     public void solve(List<Bid> bids) {
         int answer = -1;
         this.bids = bids;
+        this.grid = new int[GRID_INDEX + 1][GRID_INDEX + 1];
 
         for (int i = 1; i <= GRID_INDEX; i++) {
             boolean collide = moveBids();
@@ -56,7 +59,6 @@ class Solver {
         List<Bid> nextBids = new ArrayList<>();
         nextBids.add(new Bid(-1, -1, -1, -1, "R"));
 
-        bidLoop:
         for (int i = 1; i < bids.size(); i++) {
             Bid bid = bids.get(i);
             bid.move();
@@ -65,29 +67,31 @@ class Solver {
                 continue;
             }
 
-            for (int j = 1; j < nextBids.size(); j++) {
-                Bid existBid = nextBids.get(j);
-                if (!isSamePos(existBid, bid)) {
-                    continue;
-                }
-                if (existBid.weight < bid.weight) {
-                    nextBids.set(j, bid);
-                }
-                if (existBid.weight == bid.weight && existBid.number < bid.number) {
-                    nextBids.set(j, bid);
-                }
-                collide = true;
-                continue bidLoop;
+            if (grid[pos.y][pos.x] == EMPTY) {
+                grid[pos.y][pos.x] = nextBids.size();
+                nextBids.add(bid);
+                continue;
             }
-            nextBids.add(bid);
+
+            collide = true;
+            int existBidIndex = grid[pos.y][pos.x];
+            Bid existBid = bids.get(existBidIndex);
+            if (existBid.weight < bid.weight) {
+                nextBids.set(existBidIndex, bid);
+            }
+            if (existBid.weight == bid.weight && existBid.number < bid.number) {
+                nextBids.set(existBidIndex, bid);
+            }
+        }
+
+        for (int i = 1; i < nextBids.size(); i++) {
+            Bid bid = nextBids.get(i);
+            Coordinate pos = bid.pos;
+            grid[pos.y][pos.x] = EMPTY;
         }
 
         bids = nextBids;
         return collide;
-    }
-
-    private boolean isSamePos(Bid bid1, Bid bid2) {
-        return bid1.pos.x == bid2.pos.x && bid1.pos.y == bid2.pos.y;
     }
 
     private boolean isOutOfGrid(Coordinate coordinate) {
