@@ -38,7 +38,6 @@ class Solver {
     final int GRID_INDEX = 4000;
     final int EMPTY = 0;
     int[][] grid = new int[GRID_INDEX + 1][GRID_INDEX + 1];
-    ;
     List<Bid> bids;
 
     public void solve(List<Bid> bids) {
@@ -77,7 +76,7 @@ class Solver {
 
             collide = true;
             int existBidIndex = grid[pos.y][pos.x];
-            Bid existBid = bids.get(existBidIndex);
+            Bid existBid = nextBids.get(existBidIndex);
             if (existBid.weight < bid.weight) {
                 nextBids.set(existBidIndex, bid);
             }
