@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,6 @@ public class Main {
             N = sc.nextInt();
             M = sc.nextInt();
             bidInfos.clear();
-            bidInfos.add(new BidInfo(-1, -1, "U"));
             for (int j = 0; j < M; j++) {
                 x = sc.nextInt();
                 y = sc.nextInt();
@@ -36,12 +36,13 @@ public class Main {
 class Solver {
 
     int gridIndex;
-    final int EMPTY = 0;
+    final int EMPTY = -1;
     int[][] grid = new int[51][51];
 
     List<BidInfo> bidInfos;
 
     public void solve(int N, List<BidInfo> bidInfos) {
+        initGrid();
         this.gridIndex = N;
         this.bidInfos = bidInfos;
 
@@ -53,14 +54,12 @@ class Solver {
     }
 
     private void printAnswer() {
-        System.out.println(bidInfos.size() - 1);
+        System.out.println(bidInfos.size());
     }
 
     private void moveBids() {
         List<BidInfo> nextBidInfosCandidate = new ArrayList<>();
-        nextBidInfosCandidate.add(new BidInfo(-1, -1, "R"));
-        for (int i = 1; i < bidInfos.size(); i++) {
-            BidInfo bidInfo = bidInfos.get(i);
+        for (BidInfo bidInfo : bidInfos) {
             Coordinate nextPos = bidInfo.getNextPos();
 
             if (isOutOfGrid(nextPos)) {
@@ -75,21 +74,19 @@ class Solver {
                 nextBidInfosCandidate.add(bidInfo);
                 continue;
             }
+
             int existIndex = grid[pos.row][pos.col];
             bidInfo.markRemove();
             nextBidInfosCandidate.set(existIndex, bidInfo);
         }
 
-        for (int i = 1; i < nextBidInfosCandidate.size(); i++) {
-            BidInfo bidInfo = nextBidInfosCandidate.get(i);
+        for (BidInfo bidInfo : nextBidInfosCandidate) {
             Coordinate pos = bidInfo.getCurPos();
             grid[pos.row][pos.col] = EMPTY;
         }
 
         List<BidInfo> nextBidInfos = new ArrayList<>();
-        nextBidInfos.add(new BidInfo(-1, -1, "R"));
-        for (int i = 1; i < nextBidInfosCandidate.size(); i++) {
-            BidInfo bidInfo = nextBidInfosCandidate.get(i);
+        for (BidInfo bidInfo : nextBidInfosCandidate) {
             if (bidInfo.direction == Direction.REMOVE) {
                 continue;
             }
@@ -101,6 +98,12 @@ class Solver {
     private boolean isOutOfGrid(Coordinate coordinate) {
         return coordinate.row < 1 || gridIndex < coordinate.row || coordinate.col < 1
             || gridIndex < coordinate.col;
+    }
+
+    private void initGrid() {
+        for (int[] array : grid) {
+            Arrays.fill(array, EMPTY);
+        }
     }
 
 }
