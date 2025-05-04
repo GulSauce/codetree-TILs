@@ -37,7 +37,7 @@ class Solver {
     List<CheeseEatingInfo> cheeseEatingInfos;
     List<SickInfo> sickInfos;
     boolean[] sickPerson;
-    int[] sickCheese;
+    boolean[] sickCheese;
 
     public Solver(
             int N,
@@ -50,7 +50,7 @@ class Solver {
         this.cheeseEatingInfos = cheeseEatingInfos;
         this.sickInfos = sickInfos;
         this.sickPerson = new boolean[N + 1];
-        this.sickCheese = new int[M + 1];
+        this.sickCheese = new boolean[M + 1];
     }
 
     public void solve() {
@@ -62,7 +62,7 @@ class Solver {
     private void printAnswer() {
         int answer = 0;
         for (int i = 1; i <= cheeseCount; i++) {
-            if (sickCheese[i] != sickInfos.size()) {
+            if (!sickCheese[i]) {
                 continue;
             }
             for (CheeseEatingInfo cheeseEatingInfo : cheeseEatingInfos) {
@@ -89,9 +89,9 @@ class Solver {
                     continue;
                 }
                 if (curSickTime <= cheeseEatingInfo.eatingTime) {
-                    continue;
+                    sickCheese[cheeseEatingInfo.cheeseNo] = false;
                 }
-                sickCheese[cheeseEatingInfo.cheeseNo]++;
+                sickCheese[cheeseEatingInfo.cheeseNo] = true;
             }
         }
     }
