@@ -34,11 +34,10 @@ class Solver {
         for (int i = 0; i < lines.size(); i++) {
             Line line = lines.get(i);
             for (int j = 0; j < lines.size(); j++) {
+                Line other = lines.get(j);
                 if (i == j) {
                     continue;
-                }
-                Line other = lines.get(j);
-                if (line.isCollide(other)) {
+                } else if (line.isCollide(other)) {
                     break;
                 }
                 if (j == lines.size() - 1) {
