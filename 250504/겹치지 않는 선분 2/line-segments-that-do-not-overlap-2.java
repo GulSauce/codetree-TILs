@@ -35,9 +35,7 @@ class Solver {
             Line line = lines.get(i);
             for (int j = 0; j < lines.size(); j++) {
                 Line other = lines.get(j);
-                if (i == j) {
-                    continue;
-                } else if (line.isCollide(other)) {
+                if (i != j && line.isCollide(other)) {
                     break;
                 }
                 if (j == lines.size() - 1) {
