@@ -34,7 +34,7 @@ class Solver {
     int cheeseCount;
     List<CheeseEatingInfo> cheeseEatingInfos;
     List<SickInfo> sickInfos;
-    int[] sickCheese;
+    boolean[][] cheeseEatBeforeSick;
 
     public Solver(
             int N,
@@ -46,7 +46,7 @@ class Solver {
         this.cheeseCount = M;
         this.cheeseEatingInfos = cheeseEatingInfos;
         this.sickInfos = sickInfos;
-        this.sickCheese = new int[M + 1];
+        this.cheeseEatBeforeSick = new boolean[N + 1][M + 1];
     }
 
     public void solve() {
@@ -58,9 +58,17 @@ class Solver {
     private void printAnswer() {
         int answer = 0;
         for (int i = 1; i <= cheeseCount; i++) {
-            if (sickCheese[i] != sickInfos.size()) {
+            boolean badCheese = true;
+            for (SickInfo sickInfo : sickInfos) {
+                if (!cheeseEatBeforeSick[sickInfo.personNo][i]) {
+                    badCheese = false;
+                    break;
+                }
+            }
+            if (!badCheese) {
                 continue;
             }
+            
             Set<Integer> personCount = new HashSet<>();
             for (CheeseEatingInfo cheeseEatingInfo : cheeseEatingInfos) {
                 if (cheeseEatingInfo.cheeseNo == i) {
@@ -68,6 +76,7 @@ class Solver {
                 }
             }
             answer = Math.max(answer, personCount.size());
+
         }
         System.out.println(answer);
     }
@@ -84,7 +93,7 @@ class Solver {
                 if (curSickTime <= cheeseEatingInfo.eatingTime) {
                     continue;
                 }
-                sickCheese[cheeseEatingInfo.cheeseNo]++;
+                cheeseEatBeforeSick[curPersonNo][cheeseEatingInfo.cheeseNo] = true;
             }
         }
     }
