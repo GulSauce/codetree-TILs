@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -54,10 +55,14 @@ class Solver {
     }
 
     public void solve() {
+        initSickCheese();
         calcSickCheese();
         printAnswer();
     }
 
+    private void initSickCheese() {
+        Arrays.fill(sickCheese, true);
+    }
 
     private void printAnswer() {
         int answer = 0;
@@ -91,7 +96,6 @@ class Solver {
                 if (curSickTime <= cheeseEatingInfo.eatingTime) {
                     sickCheese[cheeseEatingInfo.cheeseNo] = false;
                 }
-                sickCheese[cheeseEatingInfo.cheeseNo] = true;
             }
         }
     }
