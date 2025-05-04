@@ -33,14 +33,19 @@ class Solver {
         int answer = 0;
         for (int i = 0; i < lines.size(); i++) {
             Line line = lines.get(i);
+            boolean collide = false;
             for (int j = 0; j < lines.size(); j++) {
                 Line other = lines.get(j);
-                if (i != j && line.isCollide(other)) {
+                if (i == j) {
+                    continue;
+                }
+                if (line.isCollide(other)) {
+                    collide = true;
                     break;
                 }
-                if (j == lines.size() - 1) {
-                    answer++;
-                }
+            }
+            if (!collide) {
+                answer++;
             }
         }
         System.out.println(answer);
