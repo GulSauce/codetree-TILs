@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -37,8 +34,7 @@ class Solver {
     int cheeseCount;
     List<CheeseEatingInfo> cheeseEatingInfos;
     List<SickInfo> sickInfos;
-    boolean[] sickPerson;
-    boolean[] sickCheese;
+    int[] sickCheese;
 
     public Solver(
             int N,
@@ -50,36 +46,29 @@ class Solver {
         this.cheeseCount = M;
         this.cheeseEatingInfos = cheeseEatingInfos;
         this.sickInfos = sickInfos;
-        this.sickPerson = new boolean[N + 1];
-        this.sickCheese = new boolean[M + 1];
+        this.sickCheese = new int[M + 1];
     }
 
     public void solve() {
-        initSickCheese();
         calcSickCheese();
         printAnswer();
     }
 
-    private void initSickCheese() {
-        Arrays.fill(sickCheese, true);
-    }
 
     private void printAnswer() {
         int answer = 0;
         for (int i = 1; i <= cheeseCount; i++) {
-            if (!sickCheese[i]) {
+            if (sickCheese[i] != sickInfos.size()) {
                 continue;
             }
-
-            int curCount = 0;
+            Set<Integer> personCount = new HashSet<>();
             for (CheeseEatingInfo cheeseEatingInfo : cheeseEatingInfos) {
                 if (cheeseEatingInfo.cheeseNo == i) {
-                    curCount++;
+                    personCount.add(cheeseEatingInfo.personNo);
                 }
             }
-            answer = Math.max(answer, curCount);
+            answer = Math.max(answer, personCount.size());
         }
-
         System.out.println(answer);
     }
 
@@ -93,8 +82,9 @@ class Solver {
                     continue;
                 }
                 if (curSickTime <= cheeseEatingInfo.eatingTime) {
-                    sickCheese[cheeseEatingInfo.cheeseNo] = false;
+                    continue;
                 }
+                sickCheese[cheeseEatingInfo.cheeseNo]++;
             }
         }
     }
