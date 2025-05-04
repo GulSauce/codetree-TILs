@@ -70,17 +70,16 @@ class Solver {
             if (!sickCheese[i]) {
                 continue;
             }
+
+            int curCount = 0;
             for (CheeseEatingInfo cheeseEatingInfo : cheeseEatingInfos) {
                 if (cheeseEatingInfo.cheeseNo == i) {
-                    sickPerson[cheeseEatingInfo.personNo] = true;
+                    curCount++;
                 }
             }
+            answer = Math.max(answer, curCount);
         }
-        for (int i = 1; i <= personCount; i++) {
-            if (sickPerson[i]) {
-                answer++;
-            }
-        }
+
         System.out.println(answer);
     }
 
