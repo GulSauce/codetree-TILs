@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -37,29 +36,19 @@ class Solver {
 
     public void solve() {
         int answer = Integer.MAX_VALUE;
-        List<Integer> sortedNumbers = new ArrayList<>(numbers);
-        Collections.sort(sortedNumbers);
-        for (Integer maxNumber : sortedNumbers) {
-            List<Integer> maskedNumbers = new ArrayList<>(numbers);
-            for (int i = 0; i <= numbersIndex; i++) {
-                if (maskedNumbers.get(i) <= maxNumber) {
-                    continue;
-                }
-                maskedNumbers.set(i, JUMP_DISABLE);
-            }
-            if (isCanArrive(maskedNumbers)) {
-                answer = maxNumber;
-                break;
+        for (Integer maxNumber : numbers) {
+            if (isCanArrive(maxNumber)) {
+                answer = Math.min(answer, maxNumber);
             }
         }
         System.out.println(answer);
     }
 
-    private boolean isCanArrive(List<Integer> numbers) {
-        if (numbers.get(0) == JUMP_DISABLE) {
+    private boolean isCanArrive(int maxValue) {
+        if (maxValue < numbers.get(0)) {
             return false;
         }
-        if (numbers.get(numbersIndex) == JUMP_DISABLE) {
+        if (maxValue < numbers.get(numbersIndex)) {
             return false;
         }
         boolean canArrive = false;
@@ -72,10 +61,9 @@ class Solver {
                     break goPossible;
                 }
                 int nextIndex = curIndex + jumpDist;
-                if (numbers.get(nextIndex) != JUMP_DISABLE) {
+                if (numbers.get(nextIndex) <= maxValue) {
                     curIndex = nextIndex;
                     break;
-
                 }
                 if (jumpDist == 1) {
                     break goPossible;
