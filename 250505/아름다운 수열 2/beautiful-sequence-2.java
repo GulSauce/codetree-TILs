@@ -61,7 +61,7 @@ class Solver {
         }
 
         boolean same = true;
-        for (int i = 0; i <= 9; i++) {
+        for (int i = 0; i <= 100; i++) {
             if (aNumberCount[i] != bNumberCount[i]) {
                 same = false;
                 break;
