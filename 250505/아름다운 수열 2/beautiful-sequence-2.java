@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -38,7 +39,7 @@ class Solver {
     }
 
     public void solve() {
-        setBNumberCount();
+        Collections.sort(B);
         int answer = 0;
         for (int i = 0; i <= A.size() - B.size(); i++) {
             if (isSameWithB(i)) {
@@ -48,25 +49,13 @@ class Solver {
         System.out.println(answer);
     }
 
-    private void setBNumberCount() {
-        for (Integer number : B) {
-            bNumberCount[number]++;
-        }
-    }
-
     private boolean isSameWithB(int aStart) {
-        int[] aNumberCount = new int[101];
+        ArrayList<Integer> numbers = new ArrayList<>();
         for (int i = aStart; i < aStart + B.size(); i++) {
-            aNumberCount[A.get(i)]++;
+            numbers.add(A.get(i));
         }
+        Collections.sort(numbers);
 
-        boolean same = true;
-        for (int i = 0; i <= 100; i++) {
-            if (aNumberCount[i] != bNumberCount[i]) {
-                same = false;
-                break;
-            }
-        }
-        return same;
+        return numbers.equals(B);
     }
 }
