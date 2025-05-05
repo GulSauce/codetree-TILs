@@ -35,6 +35,9 @@ class Solver {
         for (char i = '1'; i <= '9'; i++) {
             for (char j = '1'; j <= '9'; j++) {
                 for (char k = '1'; k <= '9'; k++) {
+                    if (i == j || i == k || j == k) {
+                        continue;
+                    }
                     candidateNumbers.add(new String(new char[]{i, j, k}));
                 }
             }
