@@ -35,13 +35,9 @@ class Solver {
         int answer = 0;
         for (int c = 0; c < candyCounts.length; c++) {
             int curAnswer = 0;
-            if (isOutOfRange(c - dist)) {
-                continue;
-            }
-            if (isOutOfRange(c + dist)) {
-                continue;
-            }
-            for (int i = c - dist; i <= c + dist; i++) {
+            int start = Math.max(c - dist, 0);
+            int end = Math.min(c + dist, 100);
+            for (int i = start; i <= end; i++) {
                 curAnswer += candyCounts[i];
             }
             answer = Math.max(answer, curAnswer);
