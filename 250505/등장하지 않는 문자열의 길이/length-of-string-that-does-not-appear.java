@@ -26,9 +26,9 @@ class Solver {
         for (int length = 1; length <= string.length() - 1; length++) {
             boolean hasSubString = false;
             for (int i = 0; i <= string.length() - length; i++) {
-                String subString = string.substring(i, i + length - 1);
+                String subString = string.substring(i, i + length);
                 if (i == 0) {
-                    String right = string.substring(i + length, string.length() - 1);
+                    String right = string.substring(i + length);
                     if (right.contains(subString)) {
                         hasSubString = true;
                         break;
@@ -36,15 +36,15 @@ class Solver {
                     continue;
                 }
                 if (i == string.length() - length) {
-                    String left = string.substring(0, i - 1);
+                    String left = string.substring(0, i);
                     if (left.contains(subString)) {
                         hasSubString = true;
                         break;
                     }
                     continue;
                 }
-                String right = string.substring(i + length, string.length() - 1);
-                String left = string.substring(0, i - 1);
+                String right = string.substring(i + length);
+                String left = string.substring(0, i);
                 if (right.contains(subString)) {
                     hasSubString = true;
                     break;
