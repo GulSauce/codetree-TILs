@@ -21,7 +21,6 @@ public class Main {
 class Solver {
     int askedInfosIndex;
     List<AskedInfo> askedInfos;
-    List<String> candidateNumbers = new ArrayList<>();
 
     public Solver(
             List<AskedInfo> askedInfos
@@ -30,33 +29,30 @@ class Solver {
         this.askedInfos = askedInfos;
     }
 
-
-    private void initCandidateNumbers() {
+    public void solve() {
+        int answer = 0;
         for (char i = '1'; i <= '9'; i++) {
             for (char j = '1'; j <= '9'; j++) {
                 for (char k = '1'; k <= '9'; k++) {
                     if (i == j || i == k || j == k) {
                         continue;
                     }
-                    candidateNumbers.add(new String(new char[]{i, j, k}));
+                    boolean isAllValid = true;
+                    for (AskedInfo askedInfo : askedInfos) {
+                        if (askedInfo.isValid(new String(new char[]{i, j, k}))) {
+                            continue;
+                        }
+                        isAllValid = false;
+                        break;
+                    }
+                    if (!isAllValid) {
+                        continue;
+                    }
+                    answer++;
                 }
             }
         }
-    }
-
-    public void solve() {
-        initCandidateNumbers();
-        for (AskedInfo askedInfo : askedInfos) {
-            List<String> nextCandidate = new ArrayList<>();
-            for (String candidateNumber : candidateNumbers) {
-                if (!askedInfo.isValid(candidateNumber)) {
-                    continue;
-                }
-                nextCandidate.add(candidateNumber);
-            }
-            candidateNumbers = nextCandidate;
-        }
-        System.out.println(candidateNumbers.size());
+        System.out.println(answer);
     }
 }
 
