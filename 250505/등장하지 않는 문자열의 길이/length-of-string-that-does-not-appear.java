@@ -25,21 +25,18 @@ class Solver {
     public void solve() {
         int answer = string.length();
         for (int length = 1; length <= string.length() - 1; length++) {
-            boolean hasSubString = false;
+            boolean hasDuplicatedSubString = false;
+
             for (int i = 0; i <= string.length() - length; i++) {
-                String left = string.substring(0, i);
                 String subString = string.substring(i, i + length);
-                String right = string.substring(i + length);
-                if (right.contains(subString)) {
-                    hasSubString = true;
-                    break;
-                }
-                if (left.contains(subString)) {
-                    hasSubString = true;
+                int firstIndex = string.indexOf(subString);
+                int lastIndex = string.lastIndexOf(subString);
+                if (firstIndex != lastIndex) {
+                    hasDuplicatedSubString = true;
                     break;
                 }
             }
-            if (!hasSubString) {
+            if (!hasDuplicatedSubString) {
                 answer = length;
                 break;
             }
