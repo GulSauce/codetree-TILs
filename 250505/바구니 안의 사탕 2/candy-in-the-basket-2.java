@@ -11,7 +11,7 @@ public class Main {
         for (int i = 0; i < N; i++) {
             int candyCount = sc.nextInt();
             int basket = sc.nextInt();
-            candyCounts[basket] = candyCount;
+            candyCounts[basket] += candyCount;
         }
         sc.close();
 
