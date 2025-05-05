@@ -101,12 +101,12 @@ class Solver {
 
         firstCount = 0;
         secondCount = 0;
-        for (int d = 0; d <= 2; d++) {
+        for (int d = 1; d <= 3; d++) {
 
-            if (grid[3 - d][d] == first) {
+            if (grid[4 - d][d] == first) {
                 firstCount++;
             }
-            if (grid[3 - d][d] == second) {
+            if (grid[4 - d][d] == second) {
                 secondCount++;
             }
         }
