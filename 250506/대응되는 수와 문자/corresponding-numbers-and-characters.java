@@ -49,7 +49,7 @@ class Solver {
             try {
                 int value = Integer.valueOf(queryString);
                 System.out.println(integerStringHashMap.get(value));
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
                 System.out.println(stringIntegerHashMap.get(queryString));
             }
         }
