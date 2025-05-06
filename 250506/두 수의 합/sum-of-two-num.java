@@ -45,7 +45,7 @@ class Solver {
         }
         int answer = 0;
         Collections.sort(numbers);
-        for (Integer queryNumber : numbers) {
+        for (int queryNumber : numbers) {
             int targetDiff = targetSum - queryNumber;
             if (!numberCountMap.containsKey(targetDiff)) {
                 continue;
@@ -53,7 +53,7 @@ class Solver {
             if (targetDiff < queryNumber) {
                 continue;
             }
-            if (queryNumber.equals(targetDiff)) {
+            if (queryNumber == targetDiff) {
                 if (!numberCountMap.containsKey(targetDiff)) {
                     continue;
                 }
