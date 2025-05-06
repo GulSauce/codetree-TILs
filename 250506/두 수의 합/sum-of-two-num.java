@@ -47,13 +47,13 @@ class Solver {
         Collections.sort(numbers);
         for (Integer queryNumber : numbers) {
             int targetDiff = targetSum - queryNumber;
-            if (targetDiff < queryNumber) {
-                continue;
-            }
             if (!numberCountMap.containsKey(targetDiff)) {
                 continue;
             }
-            if (queryNumber == targetDiff) {
+            if (targetDiff < queryNumber) {
+                continue;
+            }
+            if (queryNumber.equals(targetDiff)) {
                 if (!numberCountMap.containsKey(targetDiff)) {
                     continue;
                 }
