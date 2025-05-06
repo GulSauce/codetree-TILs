@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -33,40 +32,19 @@ class Solver {
     }
 
     public void solve() {
+        int answer = 0;
         HashMap<Integer, Integer> numberCountMap = new HashMap<>();
-        ArrayList<Integer> queryNumbers = new ArrayList<>();
         for (Integer number : numbers) {
+            int targetDiff = targetSum - number;
+            if (numberCountMap.containsKey(targetDiff)) {
+                answer += numberCountMap.get(targetDiff);
+            }
+
             if (numberCountMap.containsKey(number)) {
                 numberCountMap.put(number, numberCountMap.get(number) + 1);
             } else {
-                queryNumbers.add(number);
                 numberCountMap.put(number, 1);
             }
-        }
-        int answer = 0;
-        Collections.sort(numbers);
-        for (int queryNumber : queryNumbers) {
-            int targetDiff = targetSum - queryNumber;
-            if (!numberCountMap.containsKey(targetDiff)) {
-                continue;
-            }
-            if (targetDiff < queryNumber) {
-                continue;
-            }
-            if (queryNumber == targetDiff) {
-                if (!numberCountMap.containsKey(targetDiff)) {
-                    continue;
-                }
-                int numberCount = numberCountMap.get(targetDiff);
-                if (numberCount == 1) {
-                    continue;
-                }
-                answer += numberCount * (numberCount - 1) / 2;
-                continue;
-            }
-            int targetDiffNumberCount = numberCountMap.get(targetDiff);
-            int queryNumberCount = numberCountMap.get(queryNumber);
-            answer += queryNumberCount * targetDiffNumberCount;
         }
         System.out.println(answer);
     }
