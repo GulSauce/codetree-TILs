@@ -32,7 +32,7 @@ class Solver {
         for (int start = 1; start <= 1000; start++) {
             answer.clear();
             boolean success = true;
-            boolean[] exitsOfNumber = new boolean[1001];
+            boolean[] exitsOfNumber = new boolean[2001];
             int cur = start;
             for (Integer number : numbers) {
                 if (number <= cur) {
