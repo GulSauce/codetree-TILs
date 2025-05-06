@@ -45,7 +45,7 @@ class Solver {
         }
         int answer = 0;
         Collections.sort(numbers);
-        for (int queryNumber : numbers) {
+        for (int queryNumber : queryNumbers) {
             int targetDiff = targetSum - queryNumber;
             if (!numberCountMap.containsKey(targetDiff)) {
                 continue;
