@@ -41,7 +41,7 @@ class Solver {
             }
         }
 
-        int answer = 0;
+        long answer = 0;
         for (Integer lowestY : lowestYHashMap.values()) {
             answer += lowestY;
         }
