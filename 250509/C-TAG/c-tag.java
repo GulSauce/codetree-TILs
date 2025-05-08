@@ -28,8 +28,6 @@ class Solver {
     int stringIndex;
     ArrayList<String> A;
     ArrayList<String> B;
-    ArrayList<ArrayList<ArrayList<HashSet<String>>>> aGroupExistString = new ArrayList<>();
-    ArrayList<ArrayList<ArrayList<HashSet<String>>>> bGroupExistString = new ArrayList<>();
 
     public Solver(
             ArrayList<String> A,
@@ -42,24 +40,28 @@ class Solver {
     }
 
     public void solve() {
-        init();
-        initGroup();
-
         int answer = 0;
         for (int i = 0; i <= stringIndex; i++) {
             for (int j = i + 1; j <= stringIndex; j++) {
                 for (int k = j + 1; k <= stringIndex; k++) {
-                    HashSet<String> currentAHashSet = aGroupExistString.get(i).get(j).get(k);
-                    HashSet<String> currentBHashSet = bGroupExistString.get(i).get(j).get(k);
+                    HashSet<String> hashSetA = new HashSet<>();
+                    HashSet<String> hashSetB = new HashSet<>();
+                    for (int cur = 0; cur <= groupElementIndex; cur++) {
+                        String curStringA = A.get(cur);
+                        hashSetA.add(String.valueOf(new char[]{curStringA.charAt(i), curStringA.charAt(j), curStringA.charAt(k)}));
+
+                        String curStringB = B.get(cur);
+                        hashSetB.add(String.valueOf(new char[]{curStringB.charAt(i), curStringB.charAt(j), curStringB.charAt(k)}));
+                    }
+
 
                     boolean unique = true;
-                    for (String string : currentAHashSet) {
-                        if (currentBHashSet.contains(string)) {
+                    for (String string : hashSetA) {
+                        if (hashSetB.contains(string)) {
                             unique = false;
                             break;
                         }
                     }
-
                     if (!unique) {
                         continue;
                     }
@@ -68,52 +70,5 @@ class Solver {
             }
         }
         System.out.println(answer);
-    }
-
-    private void initGroup() {
-
-        for (int i = 0; i <= stringIndex; i++) {
-            for (int j = i + 1; j <= stringIndex; j++) {
-                for (int k = j + 1; k <= stringIndex; k++) {
-                    for (int cur = 0; cur <= groupElementIndex; cur++) {
-                        String curString = A.get(cur);
-                        aGroupExistString.get(i).get(j).get(k).add(String.valueOf(new char[]{curString.charAt(i), curString.charAt(j), curString.charAt(k)}));
-                    }
-                }
-            }
-        }
-
-        for (int i = 0; i <= stringIndex; i++) {
-            for (int j = i + 1; j <= stringIndex; j++) {
-                for (int k = j + 1; k <= stringIndex; k++) {
-                    for (int cur = 0; cur <= groupElementIndex; cur++) {
-                        String curString = B.get(cur);
-                        bGroupExistString.get(i).get(j).get(k).add(String.valueOf(new char[]{curString.charAt(i), curString.charAt(j), curString.charAt(k)}));
-                    }
-                }
-            }
-        }
-    }
-
-    private void init() {
-        for (int i = 0; i <= stringIndex; i++) {
-            aGroupExistString.add(new ArrayList<>());
-            for (int j = 0; j <= stringIndex; j++) {
-                aGroupExistString.get(i).add(new ArrayList<>());
-                for (int k = 0; k <= stringIndex; k++) {
-                    aGroupExistString.get(i).get(j).add(new HashSet<>());
-                }
-            }
-        }
-
-        for (int i = 0; i <= stringIndex; i++) {
-            bGroupExistString.add(new ArrayList<>());
-            for (int j = 0; j <= stringIndex; j++) {
-                bGroupExistString.get(i).add(new ArrayList<>());
-                for (int k = 0; k <= stringIndex; k++) {
-                    bGroupExistString.get(i).get(j).add(new HashSet<>());
-                }
-            }
-        }
     }
 }
