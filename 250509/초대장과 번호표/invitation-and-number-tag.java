@@ -30,6 +30,7 @@ class Solver {
     int personCount;
     ArrayList<GroupInfo> groupInfos;
     HashSet<Integer> answer = new HashSet<>();
+    ArrayList<GroupInfo> nextGroupInfo = new ArrayList<>();
 
     public Solver(
             int personCount,
@@ -43,7 +44,7 @@ class Solver {
         init();
 
         while (true) {
-            ArrayList<GroupInfo> nextGroupInfo = new ArrayList<>();
+            groupInfos.clear();
             nextGroupInfo.add(new GroupInfo(-1, new ArrayList<>()));
             boolean notInvited = true;
             for (int i = 1; i < groupInfos.size(); i++) {
@@ -51,12 +52,13 @@ class Solver {
                 if (1 < groupMembersChecker.size()) {
                     continue;
                 }
+                if (groupMembersChecker.isEmpty()) {
+                    continue;
+                }
+
                 notInvited = false;
                 answer.addAll(groupMembersChecker);
-                int newInvited = 0;
-                for (Integer member : groupMembersChecker) {
-                    newInvited = member;
-                }
+                int newInvited = groupMembersChecker.iterator().next();
                 for (int j = 1; j < groupInfos.size(); j++) {
                     HashSet<Integer> otherGroupMembersChecker = groupInfos.get(j).groupMembersChecker;
                     otherGroupMembersChecker.remove(newInvited);
@@ -73,7 +75,6 @@ class Solver {
         }
         System.out.println(answer.size());
     }
-
 
     private void init() {
         final int INVITED_MEMBER = 1;
