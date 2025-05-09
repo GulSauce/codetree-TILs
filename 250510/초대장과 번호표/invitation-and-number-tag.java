@@ -55,13 +55,15 @@ class Solver {
                 if (1 < groupInfo.groupMembersChecker.size()) {
                     continue;
                 }
-                for (Integer nextNode : groupInfo.groupMembersChecker) {
-                    if (visited[nextNode]) {
-                        continue;
-                    }
-                    personNodes.add(nextNode);
-                    visited[nextNode] = true;
+                if (groupInfo.groupMembersChecker.isEmpty()) {
+                    continue;
                 }
+                int nextNode = groupInfo.groupMembersChecker.iterator().next();
+                if (visited[nextNode]) {
+                    continue;
+                }
+                personNodes.add(nextNode);
+                visited[nextNode] = true;
             }
         }
         int answer = 0;
