@@ -25,7 +25,6 @@ class Solver {
 
     int personCount;
     HashMap<Integer, ArrayList<Integer>> personIndexGroupNumbersMapper = new HashMap<>();
-    ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
     HashMap<Integer, GroupInfo> groupNumberGroupInfoMapper;
     boolean[] visited;
 
@@ -51,13 +50,12 @@ class Solver {
                 GroupInfo groupInfo = groupNumberGroupInfoMapper.get(groupNumber);
                 groupInfo.groupMembersChecker.remove(cur);
             }
-            for (Integer nextNode : graph.get(cur)) {
-                ArrayList<Integer> nextGroupNumbers = personIndexGroupNumbersMapper.get(nextNode);
-                for (Integer groupNumber : nextGroupNumbers) {
-                    GroupInfo groupInfo = groupNumberGroupInfoMapper.get(groupNumber);
-                    if (1 < groupInfo.groupMembersChecker.size()) {
-                        continue;
-                    }
+            for (Integer groupNumber : groupNumbers) {
+                GroupInfo groupInfo = groupNumberGroupInfoMapper.get(groupNumber);
+                if (1 < groupInfo.groupMembersChecker.size()) {
+                    continue;
+                }
+                for (Integer nextNode : groupInfo.groupMembersChecker) {
                     if (visited[nextNode]) {
                         continue;
                     }
@@ -76,21 +74,6 @@ class Solver {
     }
 
     private void init() {
-        for (int i = 0; i <= personCount; i++) {
-            graph.add(new ArrayList<>());
-        }
-
-        for (GroupInfo groupInfo : groupNumberGroupInfoMapper.values()) {
-            for (Integer groupMember : groupInfo.groupMembersChecker) {
-                for (Integer nextNode : groupInfo.groupMembersChecker) {
-                    if (nextNode.equals(groupMember)) {
-                        continue;
-                    }
-                    graph.get(groupMember).add(nextNode);
-                }
-            }
-        }
-
         for (Map.Entry<Integer, GroupInfo> groupInfoEntry : groupNumberGroupInfoMapper.entrySet()) {
             GroupInfo groupInfo = groupInfoEntry.getValue();
             for (Integer groupMember : groupInfo.groupMembersChecker) {
