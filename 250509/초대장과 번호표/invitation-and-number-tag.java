@@ -30,7 +30,7 @@ class Solver {
     int personCount;
     ArrayList<GroupInfo> groupInfos;
     HashSet<Integer> answer = new HashSet<>();
-    ArrayList<GroupInfo> nextGroupInfo = new ArrayList<>();
+    HashSet<Integer> remainGroups = new HashSet<>();
 
     public Solver(
             int personCount,
@@ -44,10 +44,9 @@ class Solver {
         init();
 
         while (true) {
-            groupInfos.clear();
-            nextGroupInfo.add(new GroupInfo(-1, new ArrayList<>()));
             boolean notInvited = true;
-            for (int i = 1; i < groupInfos.size(); i++) {
+            HashSet<Integer> nextRemainGroups = new HashSet<>();
+            for (Integer i : remainGroups) {
                 HashSet<Integer> groupMembersChecker = groupInfos.get(i).groupMembersChecker;
                 if (1 < groupMembersChecker.size()) {
                     continue;
@@ -59,16 +58,18 @@ class Solver {
                 notInvited = false;
                 answer.addAll(groupMembersChecker);
                 int newInvited = groupMembersChecker.iterator().next();
-                for (int j = 1; j < groupInfos.size(); j++) {
+
+                for (Integer j : remainGroups) {
                     HashSet<Integer> otherGroupMembersChecker = groupInfos.get(j).groupMembersChecker;
                     otherGroupMembersChecker.remove(newInvited);
                     if (!otherGroupMembersChecker.isEmpty()) {
-                        nextGroupInfo.add(groupInfos.get(j));
+                        continue;
                     }
+                    nextRemainGroups.add(j);
                 }
                 groupMembersChecker.clear();
             }
-            groupInfos = nextGroupInfo;
+            remainGroups = nextRemainGroups;
             if (notInvited) {
                 break;
             }
@@ -82,6 +83,7 @@ class Solver {
         ArrayList<GroupInfo> nextGroupInfo = new ArrayList<>();
         nextGroupInfo.add(new GroupInfo(-1, new ArrayList<>()));
         for (int i = 1; i < groupInfos.size(); i++) {
+            remainGroups.add(i);
             HashSet<Integer> groupMembersChecker = groupInfos.get(i).groupMembersChecker;
             groupMembersChecker.remove(INVITED_MEMBER);
             if (groupMembersChecker.isEmpty()) {
