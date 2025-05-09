@@ -49,6 +49,7 @@ class Solver {
             for (Integer i : remainGroups) {
                 HashSet<Integer> groupMembersChecker = groupInfos.get(i).groupMembersChecker;
                 if (1 < groupMembersChecker.size()) {
+                    nextRemainGroups.add(i);
                     continue;
                 }
                 if (groupMembersChecker.isEmpty()) {
