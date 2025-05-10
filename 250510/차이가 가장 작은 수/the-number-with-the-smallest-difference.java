@@ -42,6 +42,10 @@ class Solver {
             }
             answer = Math.min(answer, other - number);
         }
-        System.out.println(answer);
+        if (answer == Integer.MAX_VALUE) {
+            System.out.println(-1);
+        } else {
+            System.out.println(answer);
+        }
     }
 }
