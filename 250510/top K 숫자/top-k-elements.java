@@ -22,7 +22,7 @@ public class Main {
 class Solver {
     int topK;
     ArrayList<Integer> numbers;
-    TreeSet<Integer> numbersSet;
+    TreeSet<Integer> numbersSet = new TreeSet<>();
 
     public Solver(
             int topK,
@@ -33,10 +33,17 @@ class Solver {
     }
 
     public void solve() {
-        numbersSet = new TreeSet<>(numbers);
-        for (int i = 0; i < topK; i++) {
-            System.out.print(numbersSet.last() + " ");
-            numbersSet.remove(numbersSet.last());
+        for (Integer number : numbers) {
+            numbersSet.add(-number);
+        }
+
+        int count = 0;
+        for (Integer number : numbersSet) {
+            System.out.print(-number + " ");
+            count++;
+            if (topK <= count) {
+                break;
+            }
         }
     }
 }
