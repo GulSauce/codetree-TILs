@@ -40,8 +40,12 @@ class Solver {
             if (endTime < fastest.meetTime) {
                 break;
             }
-
+            
             PersonRunInfo groupLeader = personRunInfos.get(fastest.groupLeader);
+            if (!personRunInfoTreeSet.contains(groupLeader)) {
+                continue;
+            }
+
             personRunInfoTreeSet.remove(personRunInfos.get(fastest.joinPerson));
 
             PersonRunInfo nearest = personRunInfoTreeSet.lower(groupLeader);
