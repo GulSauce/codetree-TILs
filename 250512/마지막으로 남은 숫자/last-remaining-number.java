@@ -39,6 +39,10 @@ class Solver {
             }
             priorityQueue.add(first - second);
         }
-        System.out.println(priorityQueue.peek());
+        if (priorityQueue.isEmpty()) {
+            System.out.println(-1);
+        }else {
+            System.out.println(priorityQueue.peek());
+        }
     }
 }
