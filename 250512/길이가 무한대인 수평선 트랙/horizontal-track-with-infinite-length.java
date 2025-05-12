@@ -34,7 +34,7 @@ class Solver {
 
     public void solve() {
         init();
-        while (true) {
+        while (!collideEventTreeSet.isEmpty()) {
             CollideEvent fastest = collideEventTreeSet.first();
             collideEventTreeSet.remove(fastest);
             if (endTime < fastest.meetTime) {
