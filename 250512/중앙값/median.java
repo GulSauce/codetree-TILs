@@ -23,8 +23,8 @@ public class Main {
 
 class Solver {
     ArrayList<Integer> numbers;
-    PriorityQueue<Integer> leftHeap = new PriorityQueue<>();
-    PriorityQueue<Integer> rightHeap = new PriorityQueue<>(Comparator.reverseOrder());
+    PriorityQueue<Integer> leftHeap = new PriorityQueue<>(Comparator.reverseOrder());
+    PriorityQueue<Integer> rightHeap = new PriorityQueue<>();
 
     public Solver(
             ArrayList<Integer> numbers
@@ -34,7 +34,7 @@ class Solver {
 
     public void solve() {
         System.out.print(numbers.get(0) + " ");
-        if (numbers.get(0) < numbers.get(1)) {
+        if (numbers.get(1) <= numbers.get(0)) {
             rightHeap.add(numbers.get(0));
             leftHeap.add(numbers.get(1));
         } else {
