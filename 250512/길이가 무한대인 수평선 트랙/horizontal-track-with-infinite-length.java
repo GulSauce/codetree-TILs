@@ -42,10 +42,7 @@ class Solver {
             }
 
             PersonRunInfo groupLeader = personRunInfos.get(fastest.groupLeader);
-            if (!personRunInfoTreeSet.contains(groupLeader)) {
-                continue;
-            }
-
+       
             personRunInfoTreeSet.remove(personRunInfos.get(fastest.joinPerson));
 
             PersonRunInfo nearest = personRunInfoTreeSet.lower(groupLeader);
