@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.PriorityQueue;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -13,6 +10,7 @@ public class Main {
             int M;
             M = sc.nextInt();
             ArrayList<Integer> numbers = new ArrayList<>();
+            numbers.add(-1);
             for (int j = 0; j < M; j++) {
                 numbers.add(sc.nextInt());
             }
@@ -23,8 +21,8 @@ public class Main {
 
 class Solver {
     ArrayList<Integer> numbers;
-    PriorityQueue<Integer> leftHeap = new PriorityQueue<>(Comparator.reverseOrder());
-    PriorityQueue<Integer> rightHeap = new PriorityQueue<>();
+    PriorityQueue<Integer> leftPriorityQueue = new PriorityQueue<>(Comparator.reverseOrder());
+    PriorityQueue<Integer> rightPriorityQueue = new PriorityQueue<>();
 
     public Solver(
             ArrayList<Integer> numbers
@@ -33,41 +31,35 @@ class Solver {
     }
 
     public void solve() {
-        System.out.print(numbers.get(0) + " ");
+        System.out.print(numbers.get(1) + " ");
         if (numbers.get(1) <= numbers.get(0)) {
-            rightHeap.add(numbers.get(0));
-            leftHeap.add(numbers.get(1));
+            rightPriorityQueue.add(numbers.get(1));
+            leftPriorityQueue.add(numbers.get(2));
         } else {
-            leftHeap.add(numbers.get(0));
-            rightHeap.add(numbers.get(1));
+            leftPriorityQueue.add(numbers.get(1));
+            rightPriorityQueue.add(numbers.get(2));
         }
-        for (int i = 2; i < numbers.size(); i++) {
+        for (int i = 3; i < numbers.size(); i++) {
             int cur = numbers.get(i);
-            if (rightHeap.size() < leftHeap.size()) {
-                if (leftHeap.peek() < cur) {
-                    rightHeap.add(cur);
-                } else {
-                    leftHeap.add(cur);
-                    rightHeap.add(leftHeap.poll());
-                }
-            } else if (leftHeap.size() < rightHeap.size()) {
-                if (rightHeap.peek() < cur) {
-                    rightHeap.add(cur);
-                    leftHeap.add(rightHeap.poll());
-                    leftHeap.add(rightHeap.poll());
-                } else {
-                    leftHeap.add(cur);
-                }
-            } else {
-                if (leftHeap.peek() < cur) {
-                    rightHeap.add(cur);
-                    leftHeap.add(rightHeap.poll());
-                } else {
-                    leftHeap.add(cur);
-                }
+            if (i % 2 == 1) {
+                int leftMax = leftPriorityQueue.poll();
+                int rightMin = rightPriorityQueue.poll();
+                int[] temp = new int[]{leftMax, rightMin, cur};
+                Arrays.sort(temp);
+                leftPriorityQueue.add(temp[0]);
+                leftPriorityQueue.add(temp[1]);
+                rightPriorityQueue.add(temp[2]);
+
+                System.out.print(leftPriorityQueue.peek() + " ");
             }
             if (i % 2 == 0) {
-                System.out.print(leftHeap.peek() + " ");
+                int leftMax = leftPriorityQueue.poll();
+                int rightMin = rightPriorityQueue.poll();
+                int[] temp = new int[]{leftMax, rightMin, cur};
+                Arrays.sort(temp);
+                leftPriorityQueue.add(temp[0]);
+                rightPriorityQueue.add(temp[1]);
+                rightPriorityQueue.add(temp[2]);
             }
         }
         System.out.println();
