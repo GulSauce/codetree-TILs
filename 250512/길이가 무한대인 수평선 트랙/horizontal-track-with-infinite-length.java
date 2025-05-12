@@ -40,7 +40,7 @@ class Solver {
             if (endTime < fastest.meetTime) {
                 break;
             }
-            
+
             PersonRunInfo groupLeader = personRunInfos.get(fastest.groupLeader);
             if (!personRunInfoTreeSet.contains(groupLeader)) {
                 continue;
@@ -94,7 +94,7 @@ class CollideEvent implements Comparable<CollideEvent> {
             return groupLeader - other.groupLeader;
         }
         if (meetTime < other.meetTime) {
-            return 0;
+            return -1;
         } else {
             return 1;
         }
