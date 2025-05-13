@@ -45,28 +45,22 @@ class Solver {
             if (mainCommand == 1) {
                 Node newNode = new Node(command.value);
                 cur.insertPrev(newNode);
-                cur.print();
-                continue;
             }
             if (mainCommand == 2) {
                 Node newNode = new Node(command.value);
                 cur.insertNext(newNode);
-                cur.print();
-                continue;
             }
             if (mainCommand == 3) {
                 if (cur.prev != null) {
                     cur = cur.prev;
                 }
-                cur.print();
-                continue;
             }
             if (mainCommand == 4) {
                 if (cur.next != null) {
                     cur = cur.next;
                 }
-                cur.print();
             }
+            cur.print();
         }
     }
 }
@@ -86,6 +80,9 @@ class Node {
         target.prev = this;
         target.next = this.next;
 
+        if (this.next != null) {
+            this.next.prev = target;
+        }
         this.next = target;
     }
 
@@ -93,6 +90,9 @@ class Node {
         target.next = this;
         target.prev = prev;
 
+        if (this.prev != null) {
+            this.prev.next = target;
+        }
         this.prev = target;
     }
 
