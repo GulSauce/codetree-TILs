@@ -91,7 +91,7 @@ class Node {
     }
 
     public void insertPrev(Node target) {
-        target.next = target;
+        target.next = this;
         target.prev = prev;
 
         this.prev = target;
