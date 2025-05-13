@@ -25,7 +25,6 @@ class Solver {
     ArrayList<EnterInfo> enterInfos;
     PriorityQueue<WaitInfo> waitInfoPriorityQueue = new PriorityQueue<>();
     PriorityQueue<EnterInfo> enterInfoPriorityQueue;
-    Integer leaveTime;
 
     public Solver(
             ArrayList<EnterInfo> enterInfos
@@ -36,8 +35,7 @@ class Solver {
 
     public void solve() {
         enterInfoPriorityQueue = new PriorityQueue<>(enterInfos);
-        EnterInfo first = enterInfoPriorityQueue.poll();
-        leaveTime = first.arriveTime + first.stayTime;
+        int leaveTime = 0;
         int answer = 0;
         while (!enterInfoPriorityQueue.isEmpty()) {
             while (!enterInfoPriorityQueue.isEmpty() && enterInfoPriorityQueue.peek().arriveTime <= leaveTime) {
