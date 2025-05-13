@@ -45,7 +45,7 @@ class Solver {
         Collections.sort(A);
         Collections.sort(B);
         for (int i = 0; i < A.size(); i++) {
-            priorityQueue.add(new SumInfo(A.get(i) + B.get(0), 0, 0));
+            priorityQueue.add(new SumInfo(A.get(i) + B.get(0), i, 0));
         }
         for (int i = 1; i < targetSequenceNumber; i++) {
             SumInfo prev = priorityQueue.poll();
