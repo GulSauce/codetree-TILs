@@ -51,7 +51,7 @@ class Solver {
                 int sum1 = A.get(prev.aIndex + 1) + B.get(prev.bIndex);
                 priorityQueue.add(new SumInfo(sum1, prev.aIndex + 1, prev.bIndex));
             }
-            if (prev.bIndex + 1 < A.size()) {
+            if (prev.bIndex + 1 < B.size()) {
                 int sum2 = A.get(prev.aIndex) + B.get(prev.bIndex + 1);
                 priorityQueue.add(new SumInfo(sum2, prev.aIndex, prev.bIndex + 1));
             }
