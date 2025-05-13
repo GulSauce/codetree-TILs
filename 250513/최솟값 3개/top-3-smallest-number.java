@@ -38,7 +38,7 @@ class Solver {
             int min1 = priorityQueue.poll();
             int min2 = priorityQueue.poll();
             int min3 = priorityQueue.poll();
-            System.out.println(min1 * min2 * min3);
+            System.out.println((long) min1 * min2 * min3);
             priorityQueue.add(min1);
             priorityQueue.add(min2);
             priorityQueue.add(min3);
