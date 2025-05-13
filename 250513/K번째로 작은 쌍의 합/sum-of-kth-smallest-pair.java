@@ -44,15 +44,11 @@ class Solver {
     public void solve() {
         Collections.sort(A);
         Collections.sort(B);
-        priorityQueue.add(new SumInfo(A.get(0) + B.get(0), 0, 0));
+        for (int i = 0; i < A.size(); i++) {
+            priorityQueue.add(new SumInfo(A.get(i) + B.get(0), 0, 0));
+        }
         for (int i = 1; i < targetSequenceNumber; i++) {
             SumInfo prev = priorityQueue.poll();
-            if (prev.aIndex + 1 < A.size()) {
-                int curAIndex = prev.aIndex + 1;
-                int curBIndex = prev.bIndex;
-                int sum1 = A.get(curAIndex) + B.get(curBIndex);
-                priorityQueue.add(new SumInfo(sum1, curAIndex, curBIndex));
-            }
             if (prev.bIndex + 1 < B.size()) {
                 int curAIndex = prev.aIndex;
                 int curBIndex = prev.bIndex + 1;
