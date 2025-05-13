@@ -56,6 +56,7 @@ class Solver {
         Node prev = start.prev;
         Node next = end.next;
         prev.disconnectRight();
+        end.disconnectRight();
         prev.connectRight(next);
 
         Node targetNext = target.next;
