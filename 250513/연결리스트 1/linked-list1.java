@@ -66,7 +66,6 @@ class Solver {
                     cur = cur.next;
                 }
                 cur.print();
-                cur = cur.next;
             }
         }
     }
