@@ -53,31 +53,27 @@ class Solver {
             Node bPrev = bStart.prev;
             Node bNext = bEnd.next;
 
-            boolean aFast = true;
-            if (bEnd == aStart.prev) {
-                aFast = false;
-            }
+            if (aPrev == bEnd) {
+                bPrev.connectToRight(aStart);
+                aEnd.connectToRight(bStart);
+                bEnd.connectToRight(aNext);
+            } else if (bPrev == aEnd) {
+                aPrev.connectToRight(bStart);
+                bEnd.connectToRight(aStart);
+                aEnd.connectToRight(bNext);
+            } else {
+                aPrev.connectToRight(aNext);
+                aStart.prev = null;
+                aEnd.next = null;
+                bPrev.connectToRight(bNext);
+                bStart.prev = null;
+                bEnd.next = null;
 
-            aStart.prev.connectToRight(aEnd.next);
-            aStart.prev = null;
-            aEnd.next = null;
-
-            bStart.prev.connectToRight(bEnd.next);
-            bStart.prev = null;
-            bEnd.next = null;
-
-            if (aFast) {
                 bEnd.connectToRight(aPrev.next);
                 aPrev.connectToRight(bStart);
 
-                bNext.prev.connectToRight(aStart);
-                aEnd.connectToRight(bNext);
-            } else {
                 aEnd.connectToRight(bPrev.next);
                 bPrev.connectToRight(aStart);
-
-                aNext.prev.connectToRight(bStart);
-                bEnd.connectToRight(aNext);
             }
         }
 
