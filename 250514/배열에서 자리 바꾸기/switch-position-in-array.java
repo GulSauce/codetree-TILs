@@ -43,25 +43,31 @@ class Solver {
         }
 
         for (Command command : commands) {
-            Node secondTargetNode = nodes[command.aStart].prev;
-            insertNodeAfter(nodes[command.bEnd], nodes[command.aStart], nodes[command.aEnd]);
-            insertNodeAfter(secondTargetNode, nodes[command.bStart], nodes[command.bEnd]);
+            Node aStart = nodes[command.aStart];
+            Node aEnd = nodes[command.aEnd];
+            Node aPrev = aStart.prev;
+
+            Node bStart = nodes[command.bStart];
+            Node bEnd = nodes[command.bEnd];
+            Node bNext = bEnd.next;
+
+            aStart.prev.connectToRight(aEnd.next);
+            aStart.prev = null;
+            aEnd.next = null;
+
+            bStart.prev.connectToRight(bEnd.next);
+            bStart.prev = null;
+            bEnd.next = null;
+
+            bEnd.connectToRight(aPrev.next);
+            aPrev.connectToRight(bStart);
+
+            bNext.prev.connectToRight(aStart);
+            aEnd.connectToRight(bNext);
         }
 
         Node head = nodes[0];
         printNode(head);
-    }
-
-    private void insertNodeAfter(Node target, Node start, Node end) {
-        Node prev = start.prev;
-        Node next = end.next;
-        prev.disconnectRight();
-        end.disconnectRight();
-        prev.connectRight(next);
-
-        Node targetNext = target.next;
-        target.connectRight(start);
-        end.connectRight(targetNext);
     }
 
     private void printNode(Node head) {
@@ -88,22 +94,14 @@ class Node {
         target.prev = this;
         target.next = this.next;
 
-        if (this.next != null) {
-            this.next.prev = target;
-        }
         this.next = target;
     }
 
-    public void connectRight(Node target) {
+    public void connectToRight(Node target) {
         this.next = target;
-        target.prev = this;
-    }
-
-    public void disconnectRight() {
-        if (next != null) {
-            next.prev = null;
+        if (target != null) {
+            target.prev = this;
         }
-        next = null;
     }
 }
 
