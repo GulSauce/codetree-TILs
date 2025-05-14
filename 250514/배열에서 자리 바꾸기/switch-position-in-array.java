@@ -37,7 +37,7 @@ class Solver {
         Node cur = new Node(0);
         nodes[0] = cur;
         for (int i = 1; i <= maxNumber + 1; i++) {
-            cur.insertNext(new Node(i));
+            cur.connectToRight(new Node(i));
             nodes[i] = cur.next;
             cur = cur.next;
         }
