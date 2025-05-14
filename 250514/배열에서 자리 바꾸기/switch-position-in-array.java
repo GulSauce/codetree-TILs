@@ -62,12 +62,13 @@ class Solver {
                 bEnd.connectToRight(aStart);
                 aEnd.connectToRight(bNext);
             } else {
+                aPrev.disConnectToRight();
+                aEnd.disConnectToRight();
                 aPrev.connectToRight(aNext);
-                aStart.prev = null;
-                aEnd.next = null;
+
+                bPrev.disConnectToRight();
+                bEnd.disConnectToRight();
                 bPrev.connectToRight(bNext);
-                bStart.prev = null;
-                bEnd.next = null;
 
                 bEnd.connectToRight(aPrev.next);
                 aPrev.connectToRight(bStart);
@@ -113,6 +114,13 @@ class Node {
         if (target != null) {
             target.prev = this;
         }
+    }
+
+    public void disConnectToRight() {
+        if (this.next != null) {
+            this.next.prev = null;
+        }
+        this.next = null;
     }
 }
 
