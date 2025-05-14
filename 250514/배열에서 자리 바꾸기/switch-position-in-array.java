@@ -46,10 +46,17 @@ class Solver {
             Node aStart = nodes[command.aStart];
             Node aEnd = nodes[command.aEnd];
             Node aPrev = aStart.prev;
+            Node aNext = aEnd.next;
 
             Node bStart = nodes[command.bStart];
             Node bEnd = nodes[command.bEnd];
+            Node bPrev = bStart.prev;
             Node bNext = bEnd.next;
+
+            boolean aFast = true;
+            if (bEnd == aStart.prev) {
+                aFast = false;
+            }
 
             aStart.prev.connectToRight(aEnd.next);
             aStart.prev = null;
@@ -59,11 +66,19 @@ class Solver {
             bStart.prev = null;
             bEnd.next = null;
 
-            bEnd.connectToRight(aPrev.next);
-            aPrev.connectToRight(bStart);
+            if (aFast) {
+                bEnd.connectToRight(aPrev.next);
+                aPrev.connectToRight(bStart);
 
-            bNext.prev.connectToRight(aStart);
-            aEnd.connectToRight(bNext);
+                bNext.prev.connectToRight(aStart);
+                aEnd.connectToRight(bNext);
+            } else {
+                aEnd.connectToRight(bPrev.next);
+                bPrev.connectToRight(aStart);
+
+                aNext.prev.connectToRight(bStart);
+                bEnd.connectToRight(aNext);
+            }
         }
 
         Node head = nodes[0];
