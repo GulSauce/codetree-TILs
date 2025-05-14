@@ -173,7 +173,9 @@ class Node {
     }
 
     public void disConnectToRight() {
-        this.next.prev = null;
+        if (this.next != null) {
+            this.next.prev = null;
+        }
         this.next = null;
     }
 
@@ -183,9 +185,12 @@ class Node {
     }
 
     public void pop() {
-        this.prev.next = this.next;
-        this.next.prev = this.prev;
-
+        if (this.prev != null) {
+            this.prev.next = this.next;
+        }
+        if (this.next != null) {
+            this.next.prev = this.prev;
+        }
         this.prev = null;
         this.next = null;
     }
