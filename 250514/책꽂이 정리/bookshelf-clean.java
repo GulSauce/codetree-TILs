@@ -77,6 +77,9 @@ class Solver {
                 Node first = iHead.next;
                 Node last = iTail.prev;
 
+                if (isTail(first) || isHead(last)) {
+                    continue;
+                }
                 iHead.disConnectToRight();
                 last.disConnectToRight();
                 iHead.connectToRight(iTail);
@@ -92,6 +95,10 @@ class Solver {
 
                 Node first = iHead.next;
                 Node last = iTail.prev;
+                
+                if (isTail(first) || isHead(last)) {
+                    continue;
+                }
 
                 iHead.disConnectToRight();
                 last.disConnectToRight();
