@@ -116,7 +116,7 @@ class Solver {
         int X = personCount / lineCount;
         Node prev = null;
         for (int i = 1; i < names.size(); i++) {
-            int lineNumber = (int) Math.ceil((double) i / lineCount);
+            int lineNumber = (int) Math.ceil((double) i / X);
             int standNumber = (i - 1) % X + 1;
 
             Node cur = new Node(names.get(i));
