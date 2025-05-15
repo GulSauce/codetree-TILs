@@ -53,12 +53,11 @@ class Solver {
             if (command.mainCommand == 1) {
                 Node a = numberNodeMapper.get(command.value1);
                 Node aNext = a.next;
-                a.disconnectToRight();
-
                 Node b = numberNodeMapper.get(command.value2);
                 Node bPrev = b.prev;
-                bPrev.disconnectToRight();
 
+                a.disconnectToRight();
+                bPrev.disconnectToRight();
                 a.connectToRight(b);
                 bPrev.connectToRight(aNext);
             }
