@@ -52,7 +52,11 @@ class Solver {
             int curColSum =
                 prefixSum[endRow][col] - prefixSum[startRow - 1][col] - prefixSum[endRow][col - 1]
                     + prefixSum[startRow - 1][col - 1];
-            dp[col] = Math.max(dp[col - 1] + curColSum, curColSum);
+            if (dp[col - 1] < 0) {
+                dp[col] = curColSum;
+            } else {
+                dp[col] = curColSum + dp[col - 1];
+            }
         }
         int answer = Integer.MIN_VALUE;
         for (int col = 1; col < grid.length; col++) {
