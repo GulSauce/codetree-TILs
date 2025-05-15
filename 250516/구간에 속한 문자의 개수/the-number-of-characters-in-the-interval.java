@@ -43,8 +43,8 @@ class Solver {
         ArrayList<String> strings,
         ArrayList<Square> squares
     ) {
-        this.prefixSum = new int[3][strings.size() + 1][strings.size() + 1];
-        this.grid = new char[strings.size() + 1][strings.size() + 1];
+        this.prefixSum = new int[3][strings.size() + 1][strings.get(0).length() + 1];
+        this.grid = new char[strings.size() + 1][strings.get(0).length() + 1];
         this.strings = strings;
         this.squares = squares;
     }
@@ -65,12 +65,12 @@ class Solver {
 
     private void init() {
         for (int row = 1; row < grid.length; row++) {
-            for (int col = 1; col < grid.length; col++) {
+            for (int col = 1; col < grid[0].length; col++) {
                 grid[row][col] = strings.get(row - 1).charAt(col - 1);
             }
         }
         for (int row = 1; row < grid.length; row++) {
-            for (int col = 1; col < grid.length; col++) {
+            for (int col = 1; col < grid[0].length; col++) {
                 char curChar = grid[row][col];
                 for (int i = 0; i < 3; i++) {
                     int value = curChar == targets[i] ? 1 : 0;
