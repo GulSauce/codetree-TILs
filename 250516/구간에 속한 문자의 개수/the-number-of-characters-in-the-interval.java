@@ -55,7 +55,7 @@ class Solver {
             for (int i = 0; i < 3; i++) {
                 int count =
                     prefixSum[i][square.r2][square.c2] - prefixSum[i][square.r2][square.c1 - 1]
-                        - prefixSum[i][square.c1 - 1][square.c2] + prefixSum[i][square.r1 - 1][
+                        - prefixSum[i][square.r1 - 1][square.c2] + prefixSum[i][square.r1 - 1][
                         square.c1 - 1];
                 System.out.print(count + " ");
             }
@@ -69,6 +69,7 @@ class Solver {
                 grid[row][col] = strings.get(row - 1).charAt(col - 1);
             }
         }
+
         for (int row = 1; row < grid.length; row++) {
             for (int col = 1; col < grid[0].length; col++) {
                 char curChar = grid[row][col];
