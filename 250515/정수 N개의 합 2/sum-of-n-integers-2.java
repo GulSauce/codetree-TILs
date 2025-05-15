@@ -22,7 +22,7 @@ public class Main {
 class Solver {
     int consecutiveCount;
 
-    int[] numberSum;
+    int[] prefixSum;
     ArrayList<Integer> numbers;
 
     public Solver(
@@ -30,24 +30,24 @@ class Solver {
             int consecutiveCount,
             ArrayList<Integer> numbers
     ) {
-        this.numberSum = new int[numberCount + 1];
+        this.prefixSum = new int[numberCount + 1];
         this.consecutiveCount = consecutiveCount;
         this.numbers = numbers;
     }
 
     public void solve() {
-        setNumberSum();
+        setPrefixSum();
         int answer = Integer.MIN_VALUE;
         for (int i = 1; i <= numbers.size() - consecutiveCount; i++) {
-            int curSum = numberSum[i + consecutiveCount - 1] - numberSum[i - 1];
+            int curSum = prefixSum[i + consecutiveCount - 1] - prefixSum[i - 1];
             answer = Math.max(answer, curSum);
         }
         System.out.println(answer);
     }
 
-    private void setNumberSum() {
+    private void setPrefixSum() {
         for (int i = 1; i < numbers.size(); i++) {
-            numberSum[i] = numbers.get(i) + numberSum[i - 1];
+            prefixSum[i] = numbers.get(i) + prefixSum[i - 1];
         }
     }
 }
