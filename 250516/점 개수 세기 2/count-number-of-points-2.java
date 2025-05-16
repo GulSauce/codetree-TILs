@@ -37,55 +37,47 @@ public class Main {
 class Solver {
 
     final int MAX_VALUE = 2500;
-    ArrayList<Coordinate> coordinates;
+    final Coordinate NOT_FOUND = new Coordinate(-1, -1);
+    ArrayList<Coordinate> points;
     ArrayList<Square> squares;
-    TreeSet<Integer> xTreeSet = new TreeSet<>();
-    TreeSet<Integer> yTreeSet = new TreeSet<>();
-    TreeSet<Coordinate> squarePointFinder = new TreeSet<>();
-    HashMap<Integer, Integer> xRealVirtualMap = new HashMap<>();
-    HashMap<Integer, Integer> yRealVirtualMap = new HashMap<>();
+    TreeSet<Integer> pointTreeSet = new TreeSet<>();
+    HashMap<Integer, Integer> realVirtualMap = new HashMap<>();
+
     boolean[][] exist = new boolean[MAX_VALUE + 1][MAX_VALUE + 1];
     int[][] prefixSum = new int[MAX_VALUE + 1][MAX_VALUE + 1];
 
     public Solver(
-        ArrayList<Coordinate> coordinates,
+        ArrayList<Coordinate> points,
         ArrayList<Square> squares
     ) {
-        this.coordinates = coordinates;
+        this.points = points;
         this.squares = squares;
     }
 
     public void solve() {
-        for (Coordinate coordinate : coordinates) {
-            xTreeSet.add(coordinate.x);
-            yTreeSet.add(coordinate.y);
+        for (Coordinate point : points) {
+            pointTreeSet.add(point.x);
+            pointTreeSet.add(point.y);
         }
-        int curX = 1;
-        int curY = 1;
-        for (Integer realX : xTreeSet) {
-            xRealVirtualMap.put(realX, curX);
-            int nextX = curX + 1;
-            curX = nextX;
+        int cur = 1;
+        for (Integer realPoint : pointTreeSet) {
+            realVirtualMap.put(realPoint, cur);
+            int next = cur + 1;
+            cur = next;
         }
-        for (Integer realY : yTreeSet) {
-            yRealVirtualMap.put(realY, curY);
-            int nextY = curY + 1;
-            curY = nextY;
-        }
-        changeCoordinates();
+        changePoints();
         setExist();
         setPrefixSum();
 
-        squarePointFinder.addAll(coordinates);
         for (Square square : squares) {
             Coordinate rightUpper = getRightUpperFrom(square.rightUpper);
             Coordinate leftBelow = getLeftBelowFrom(square.leftBelow);
 
-            if (rightUpper.x == -1 || leftBelow.x == -1) {
+            if (rightUpper == NOT_FOUND || leftBelow == NOT_FOUND) {
                 System.out.println(0);
                 continue;
             }
-            
+
             int count =
                 prefixSum[rightUpper.y][rightUpper.x] - prefixSum[leftBelow.y - 1][rightUpper.x]
                     - prefixSum[rightUpper.y][leftBelow.x - 1] + prefixSum[leftBelow.y - 1][
@@ -96,29 +88,29 @@ class Solver {
 
     private Coordinate getRightUpperFrom(Coordinate coordinate) {
 
-        int nearestX = Optional.ofNullable(xTreeSet.floor(coordinate.x)).orElse(-1);
-        int nearestY = Optional.ofNullable(yTreeSet.floor(coordinate.y)).orElse(-1);
+        int nearestX = Optional.ofNullable(pointTreeSet.floor(coordinate.x)).orElse(-1);
+        int nearestY = Optional.ofNullable(pointTreeSet.floor(coordinate.y)).orElse(-1);
 
         if (nearestX == -1 || nearestY == -1) {
-            return new Coordinate(-1, -1);
+            return NOT_FOUND;
         }
 
-        int virtualX = xRealVirtualMap.get(nearestX);
-        int virtualY = yRealVirtualMap.get(nearestY);
+        int virtualX = realVirtualMap.get(nearestX);
+        int virtualY = realVirtualMap.get(nearestY);
 
         return new Coordinate(virtualX, virtualY);
     }
 
     private Coordinate getLeftBelowFrom(Coordinate coordinate) {
-        int nearestX = Optional.ofNullable(xTreeSet.ceiling(coordinate.x)).orElse(-1);
-        int nearestY = Optional.ofNullable(yTreeSet.ceiling(coordinate.y)).orElse(-1);
+        int nearestX = Optional.ofNullable(pointTreeSet.ceiling(coordinate.x)).orElse(-1);
+        int nearestY = Optional.ofNullable(pointTreeSet.ceiling(coordinate.y)).orElse(-1);
 
         if (nearestX == -1 || nearestY == -1) {
-            return new Coordinate(-1, -1);
+            return NOT_FOUND;
         }
 
-        int virtualX = xRealVirtualMap.get(nearestX);
-        int virtualY = yRealVirtualMap.get(nearestY);
+        int virtualX = realVirtualMap.get(nearestX);
+        int virtualY = realVirtualMap.get(nearestY);
 
         return new Coordinate(virtualX, virtualY);
     }
@@ -135,19 +127,19 @@ class Solver {
     }
 
     private void setExist() {
-        for (Coordinate coordinate : coordinates) {
+        for (Coordinate coordinate : points) {
             exist[coordinate.y][coordinate.x] = true;
         }
     }
 
-    private void changeCoordinates() {
-        ArrayList<Coordinate> newCoordinates = new ArrayList<>();
-        for (Coordinate coordinate : coordinates) {
-            int virtualX = xRealVirtualMap.get(coordinate.x);
-            int virtualY = yRealVirtualMap.get(coordinate.y);
-            newCoordinates.add(new Coordinate(virtualX, virtualY));
+    private void changePoints() {
+        ArrayList<Coordinate> newPoints = new ArrayList<>();
+        for (Coordinate coordinate : points) {
+            int virtualX = realVirtualMap.get(coordinate.x);
+            int virtualY = realVirtualMap.get(coordinate.y);
+            newPoints.add(new Coordinate(virtualX, virtualY));
         }
-        coordinates = newCoordinates;
+        points = newPoints;
     }
 }
 
@@ -165,15 +157,7 @@ class Square {
     }
 }
 
-class Coordinate implements Comparable<Coordinate> {
-
-    @Override
-    public int compareTo(Coordinate other) {
-        if (x == other.x) {
-            return Integer.compare(y, other.y);
-        }
-        return Integer.compare(x, other.x);
-    }
+class Coordinate {
 
     int x;
     int y;
