@@ -42,10 +42,11 @@ class Solver {
                 if (numbers.size() <= curJ) {
                     break;
                 }
-                if (numberCount[numbers.get(curJ)] == 1) {
+                int nextNumberCount = numberCount[numbers.get(curJ)] + 1;
+                if (nextNumberCount == 2) {
                     break;
                 }
-                numberCount[numbers.get(curJ)]++;
+                numberCount[numbers.get(curJ)] = nextNumberCount;
                 prevJ = curJ;
             }
 
