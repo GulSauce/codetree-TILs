@@ -32,43 +32,36 @@ class Solver {
         int K,
         int[][] grid
     ) {
-        this.prefixSum = new int[grid.length][grid.length];
+        this.prefixSum = new int[2 * (grid.length - 1)][2 * (grid.length - 1)];
         this.maxMove = K;
         this.grid = grid;
     }
 
     public void solve() {
+        rotateGridClockwise45();
         setPrefixSum();
         int answer = 0;
-        for (int row = 1; row < grid.length; row++) {
-            for (int col = 1; col < grid.length; col++) {
-                int curArea = 0;
-                for (int upperMove = 0; upperMove <= maxMove; upperMove++) {
-                    int curRow = row - upperMove;
-                    if (curRow < 1) {
-                        break;
-                    }
-                    int maxLeft = Math.max(1, col - maxMove + upperMove);
-                    int maxRight = Math.min(grid.length - 1, col + maxMove - upperMove);
-                    curArea +=
-                        prefixSum[curRow][maxRight] - prefixSum[curRow][maxLeft - 1] -
-                            prefixSum[curRow - 1][maxRight] + prefixSum[curRow - 1][maxLeft - 1];
-                }
-                for (int belowMove = 1; belowMove <= maxMove; belowMove++) {
-                    int curRow = row + belowMove;
-                    if (grid.length <= curRow) {
-                        break;
-                    }
-                    int maxLeft = Math.max(1, col - maxMove + belowMove);
-                    int maxRight = Math.min(grid.length - 1, col + maxMove - belowMove);
-                    curArea +=
-                        prefixSum[curRow][maxRight] - prefixSum[curRow][maxLeft - 1] -
-                            prefixSum[curRow - 1][maxRight] + prefixSum[curRow - 1][maxLeft - 1];
-                }
+        int squareLength = 2 * maxMove;
+        for (int row = 1; row < grid.length - squareLength; row++) {
+            for (int col = 1; col < grid.length - squareLength; col++) {
+                int curArea =
+                    prefixSum[row + squareLength][col + squareLength] - prefixSum[row - 1][col
+                        + squareLength]
+                        - prefixSum[row + squareLength][col - 1] + prefixSum[row - 1][col - 1];
                 answer = Math.max(answer, curArea);
             }
         }
         System.out.println(answer);
+    }
+
+    private void rotateGridClockwise45() {
+        int[][] rotatedGrid = new int[2 * (grid.length - 1)][2 * (grid.length - 1)];
+        for (int row = 1; row < grid.length; row++) {
+            for (int col = 1; col < grid.length; col++) {
+                rotatedGrid[row + col - 1][(grid.length - 1) - (row - col)] = grid[row][col];
+            }
+        }
+        this.grid = rotatedGrid;
     }
 
     private void setPrefixSum() {
