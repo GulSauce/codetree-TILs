@@ -36,15 +36,15 @@ public class Main {
 
 class Solver {
 
-    final int MAX_VALUE = 2500;
+    final int MAX_VALUE_TYPE_COUNT = 5000;
     final Coordinate NOT_FOUND = new Coordinate(-1, -1);
     ArrayList<Coordinate> points;
     ArrayList<Square> squares;
     TreeSet<Integer> pointTreeSet = new TreeSet<>();
     HashMap<Integer, Integer> realVirtualMap = new HashMap<>();
 
-    boolean[][] exist = new boolean[MAX_VALUE + 1][MAX_VALUE + 1];
-    int[][] prefixSum = new int[MAX_VALUE + 1][MAX_VALUE + 1];
+    boolean[][] exist = new boolean[MAX_VALUE_TYPE_COUNT + 1][MAX_VALUE_TYPE_COUNT + 1];
+    int[][] prefixSum = new int[MAX_VALUE_TYPE_COUNT + 1][MAX_VALUE_TYPE_COUNT + 1];
 
     public Solver(
         ArrayList<Coordinate> points,
@@ -116,8 +116,8 @@ class Solver {
     }
 
     private void setPrefixSum() {
-        for (int row = 1; row <= MAX_VALUE; row++) {
-            for (int col = 1; col <= MAX_VALUE; col++) {
+        for (int row = 1; row <= MAX_VALUE_TYPE_COUNT; row++) {
+            for (int col = 1; col <= MAX_VALUE_TYPE_COUNT; col++) {
                 int value = exist[row][col] ? 1 : 0;
                 prefixSum[row][col] =
                     prefixSum[row - 1][col] + prefixSum[row][col - 1] - prefixSum[row - 1][col - 1]
