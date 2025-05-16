@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.TreeSet;
 
@@ -59,12 +60,6 @@ class Solver {
             xTreeSet.add(coordinate.x);
             yTreeSet.add(coordinate.y);
         }
-        for (Square square : squares) {
-            xTreeSet.add(square.leftBelow.x);
-            xTreeSet.add(square.rightUpper.x);
-            yTreeSet.add(square.leftBelow.y);
-            yTreeSet.add(square.rightUpper.y);
-        }
         int curX = 1;
         int curY = 1;
         for (Integer realX : xTreeSet) {
@@ -78,23 +73,54 @@ class Solver {
             curY = nextY;
         }
         changeCoordinates();
-        changeSquares();
         setExist();
         setPrefixSum();
 
         squarePointFinder.addAll(coordinates);
         for (Square square : squares) {
-            Coordinate rightUpper =
-                squarePointFinder.floor(square.rightUpper) != null ? squarePointFinder.floor(
-                    square.rightUpper) : new Coordinate(MAX_VALUE, MAX_VALUE);
-            Coordinate leftBelow = squarePointFinder.floor(square.leftBelow)
-                != null ? squarePointFinder.floor(square.leftBelow) : new Coordinate(1, 1);
+            Coordinate rightUpper = getRightUpperFrom(square.rightUpper);
+            Coordinate leftBelow = getLeftBelowFrom(square.leftBelow);
+
+            if (rightUpper.x == -1 || leftBelow.x == -1) {
+                System.out.println(0);
+                continue;
+            }
+            
             int count =
                 prefixSum[rightUpper.y][rightUpper.x] - prefixSum[leftBelow.y - 1][rightUpper.x]
                     - prefixSum[rightUpper.y][leftBelow.x - 1] + prefixSum[leftBelow.y - 1][
                     leftBelow.x - 1];
             System.out.println(count);
         }
+    }
+
+    private Coordinate getRightUpperFrom(Coordinate coordinate) {
+
+        int nearestX = Optional.ofNullable(xTreeSet.floor(coordinate.x)).orElse(-1);
+        int nearestY = Optional.ofNullable(yTreeSet.floor(coordinate.y)).orElse(-1);
+
+        if (nearestX == -1 || nearestY == -1) {
+            return new Coordinate(-1, -1);
+        }
+
+        int virtualX = xRealVirtualMap.get(nearestX);
+        int virtualY = yRealVirtualMap.get(nearestY);
+
+        return new Coordinate(virtualX, virtualY);
+    }
+
+    private Coordinate getLeftBelowFrom(Coordinate coordinate) {
+        int nearestX = Optional.ofNullable(xTreeSet.ceiling(coordinate.x)).orElse(-1);
+        int nearestY = Optional.ofNullable(yTreeSet.ceiling(coordinate.y)).orElse(-1);
+
+        if (nearestX == -1 || nearestY == -1) {
+            return new Coordinate(-1, -1);
+        }
+
+        int virtualX = xRealVirtualMap.get(nearestX);
+        int virtualY = yRealVirtualMap.get(nearestY);
+
+        return new Coordinate(virtualX, virtualY);
     }
 
     private void setPrefixSum() {
@@ -112,23 +138,6 @@ class Solver {
         for (Coordinate coordinate : coordinates) {
             exist[coordinate.y][coordinate.x] = true;
         }
-    }
-
-    private void changeSquares() {
-        ArrayList<Square> newSquares = new ArrayList<>();
-        for (Square square : squares) {
-            Coordinate coordinate1 = square.leftBelow;
-            int virtualX1 = xRealVirtualMap.get(coordinate1.x);
-            int virtualY1 = yRealVirtualMap.get(coordinate1.y);
-
-            Coordinate coordinate2 = square.rightUpper;
-            int virtualX2 = xRealVirtualMap.get(coordinate2.x);
-            int virtualY2 = yRealVirtualMap.get(coordinate2.y);
-
-            newSquares.add(new Square(new Coordinate(virtualX1, virtualY1),
-                new Coordinate(virtualX2, virtualY2)));
-        }
-        squares = newSquares;
     }
 
     private void changeCoordinates() {
