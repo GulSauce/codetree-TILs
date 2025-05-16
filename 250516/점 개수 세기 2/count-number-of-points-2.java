@@ -84,15 +84,15 @@ class Solver {
 
         squarePointFinder.addAll(coordinates);
         for (Square square : squares) {
-            Coordinate leftBelow = squarePointFinder.floor(square.leftBelow)
-                != null ? squarePointFinder.floor(square.leftBelow) : new Coordinate(1, 1);
             Coordinate rightUpper =
                 squarePointFinder.floor(square.rightUpper) != null ? squarePointFinder.floor(
                     square.rightUpper) : new Coordinate(MAX_VALUE, MAX_VALUE);
+            Coordinate leftBelow = squarePointFinder.floor(square.leftBelow)
+                != null ? squarePointFinder.floor(square.leftBelow) : new Coordinate(1, 1);
             int count =
-                prefixSum[rightUpper.y][rightUpper.x] - prefixSum[leftBelow.y - 1][leftBelow.x]
-                    - prefixSum[leftBelow.y][leftBelow.x] + prefixSum[leftBelow.y - 1][leftBelow.y
-                    - 1];
+                prefixSum[rightUpper.y][rightUpper.x] - prefixSum[leftBelow.y - 1][rightUpper.x]
+                    - prefixSum[rightUpper.y][leftBelow.x - 1] + prefixSum[leftBelow.y - 1][
+                    leftBelow.x - 1];
             System.out.println(count);
         }
     }
