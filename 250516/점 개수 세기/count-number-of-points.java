@@ -56,13 +56,14 @@ class Solver {
             int next = cur + 1;
             cur = next;
         }
-        for (Integer virtual : realVirtualMapper.values()) {
-            prefixSum[virtual] = 1 + prefixSum[virtual - 1];
+        for (int i = 1; i < cur; i++) {
+            prefixSum[i] = 1 + prefixSum[i - 1];
         }
         for (Range range : ranges) {
             int nearStart = Optional.ofNullable(pointsTreeset.ceiling(range.start)).orElse(-1);
             int nearEnd = Optional.ofNullable(pointsTreeset.floor(range.end)).orElse(-1);
             if (nearStart == -1 || nearEnd == -1) {
+                System.out.println(0);
                 continue;
             }
             int start = realVirtualMapper.get(nearStart);
