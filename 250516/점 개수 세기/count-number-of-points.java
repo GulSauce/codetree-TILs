@@ -1,29 +1,32 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
-import java.util.Scanner;
+import java.util.StringTokenizer;
 import java.util.TreeSet;
 
 public class Main {
 
-    public static void main(String[] args) {
-        int N, Q;
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int N = Integer.parseInt(st.nextToken());
+        int Q = Integer.parseInt(st.nextToken());
         ArrayList<Integer> points = new ArrayList<>();
         ArrayList<Range> ranges = new ArrayList<>();
-        int a, b;
 
-        Scanner sc = new Scanner(System.in);
-        N = sc.nextInt();
-        Q = sc.nextInt();
+        st = new StringTokenizer(br.readLine());
         for (int i = 0; i < N; i++) {
-            points.add(sc.nextInt());
+            points.add(Integer.parseInt(st.nextToken()));
         }
         for (int i = 0; i < Q; i++) {
-            a = sc.nextInt();
-            b = sc.nextInt();
+            st = new StringTokenizer(br.readLine());
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
             ranges.add(new Range(a, b));
         }
-        sc.close();
+        br.close();
 
         new Solver(points, ranges).solve();
     }
