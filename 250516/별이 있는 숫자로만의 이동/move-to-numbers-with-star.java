@@ -41,13 +41,14 @@ class Solver {
         rotateGridClockwise45();
         setPrefixSum();
         int answer = 0;
-        int squareLength = 2 * maxMove;
-        for (int row = 1; row < grid.length - squareLength; row++) {
-            for (int col = 1; col < grid.length - squareLength; col++) {
+        int squareLength = Math.min(2 * maxMove + 1, grid.length - 1);
+        int maxSquarePrefix = squareLength - 1;
+        for (int row = 1; row < grid.length - maxSquarePrefix; row++) {
+            for (int col = 1; col < grid.length - maxSquarePrefix; col++) {
                 int curArea =
-                    prefixSum[row + squareLength][col + squareLength] - prefixSum[row - 1][col
-                        + squareLength]
-                        - prefixSum[row + squareLength][col - 1] + prefixSum[row - 1][col - 1];
+                    prefixSum[row + maxSquarePrefix][col + maxSquarePrefix] - prefixSum[row - 1][col
+                        + maxSquarePrefix]
+                        - prefixSum[row + maxSquarePrefix][col - 1] + prefixSum[row - 1][col - 1];
                 answer = Math.max(answer, curArea);
             }
         }
