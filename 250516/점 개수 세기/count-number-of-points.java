@@ -30,9 +30,8 @@ public class Main {
 
 class Solver {
 
-    final int MAX_COUNT = 300_000;
-    boolean[] exist = new boolean[MAX_COUNT + 1];
-    int[] prefixSum = new int[MAX_COUNT + 1];
+    boolean[] exist;
+    int[] prefixSum;
 
     ArrayList<Integer> points;
     ArrayList<Range> ranges;
@@ -44,6 +43,8 @@ class Solver {
         ArrayList<Integer> points,
         ArrayList<Range> ranges
     ) {
+        this.exist = new boolean[points.size() + 2 * ranges.size() + 1];
+        this.prefixSum = new int[points.size() + 2 * ranges.size() + 1];
         this.points = points;
         this.ranges = ranges;
     }
@@ -54,6 +55,7 @@ class Solver {
             pointsTreeset.add(range.start);
             pointsTreeset.add(range.end);
         }
+
         int cur = 1;
         for (Integer point : pointsTreeset) {
             realVirtualMapper.put(point, cur);
@@ -64,7 +66,7 @@ class Solver {
         for (Integer point : points) {
             exist[point] = true;
         }
-        for (int i = 1; i <= MAX_COUNT; i++) {
+        for (int i = 1; i < exist.length; i++) {
             int value = exist[i] ? 1 : 0;
             prefixSum[i] = value + prefixSum[i - 1];
         }
@@ -72,7 +74,6 @@ class Solver {
             int virtualStart = realVirtualMapper.get(range.start);
             int virtualEnd = realVirtualMapper.get(range.end);
             System.out.println(prefixSum[virtualEnd] - prefixSum[virtualStart - 1]);
-
         }
     }
 
