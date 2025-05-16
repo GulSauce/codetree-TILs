@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.TreeSet;
 
@@ -30,59 +31,45 @@ public class Main {
 
 class Solver {
 
-    boolean[] exist;
     int[] prefixSum;
 
     ArrayList<Integer> points;
     ArrayList<Range> ranges;
 
-    TreeSet<Integer> pointsTreeset = new TreeSet<>();
+    TreeSet<Integer> pointsTreeset;
     HashMap<Integer, Integer> realVirtualMapper = new HashMap<>();
 
     public Solver(
         ArrayList<Integer> points,
         ArrayList<Range> ranges
     ) {
-        this.exist = new boolean[points.size() + 2 * ranges.size() + 1];
-        this.prefixSum = new int[points.size() + 2 * ranges.size() + 1];
+        this.prefixSum = new int[points.size() + 1];
         this.points = points;
         this.ranges = ranges;
     }
 
     public void solve() {
-        pointsTreeset.addAll(points);
-        for (Range range : ranges) {
-            pointsTreeset.add(range.start);
-            pointsTreeset.add(range.end);
-        }
-
+        pointsTreeset = new TreeSet<>(points);
         int cur = 1;
         for (Integer point : pointsTreeset) {
             realVirtualMapper.put(point, cur);
             int next = cur + 1;
             cur = next;
         }
-        changePoints();
-        for (Integer point : points) {
-            exist[point] = true;
-        }
-        for (int i = 1; i < exist.length; i++) {
-            int value = exist[i] ? 1 : 0;
-            prefixSum[i] = value + prefixSum[i - 1];
+        for (int i = 1; i < cur; i++) {
+            prefixSum[i] = 1 + prefixSum[i - 1];
         }
         for (Range range : ranges) {
-            int virtualStart = realVirtualMapper.get(range.start);
-            int virtualEnd = realVirtualMapper.get(range.end);
-            System.out.println(prefixSum[virtualEnd] - prefixSum[virtualStart - 1]);
+            int nearStart = Optional.ofNullable(pointsTreeset.ceiling(range.start)).orElse(-1);
+            int nearEnd = Optional.ofNullable(pointsTreeset.floor(range.end)).orElse(-1);
+            if (nearStart == -1 || nearEnd == -1) {
+                System.out.println(0);
+                continue;
+            }
+            int start = realVirtualMapper.get(nearStart);
+            int end = realVirtualMapper.get(nearEnd);
+            System.out.println(prefixSum[end] - prefixSum[start - 1]);
         }
-    }
-
-    private void changePoints() {
-        ArrayList<Integer> newPoints = new ArrayList<>();
-        for (Integer point : points) {
-            newPoints.add(realVirtualMapper.get(point));
-        }
-        points = newPoints;
     }
 }
 
