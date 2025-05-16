@@ -30,7 +30,7 @@ public class Main {
 
 class Solver {
 
-    final int MAX_COUNT = 200_000;
+    final int MAX_COUNT = 300_000;
     boolean[] exist = new boolean[MAX_COUNT + 1];
     int[] prefixSum = new int[MAX_COUNT + 1];
 
