@@ -39,21 +39,25 @@ class Solver {
     public void solve() {
         int answer = Integer.MAX_VALUE;
         int prevJ = -1;
-        int sum = 0;
+        int prevSum = 0;
         for (int i = 0; i < numbers.size(); i++) {
-            while (sum < targetMinSum) {
+            while (true) {
                 int curJ = prevJ + 1;
                 if (numbers.size() <= curJ) {
                     break;
                 }
-                sum += numbers.get(curJ);
+                if (targetMinSum <= prevSum) {
+                    break;
+                }
+                int curSum = prevSum + numbers.get(curJ);
+                prevSum = curSum;
                 prevJ = curJ;
             }
 
-            if (targetMinSum <= sum) {
+            if (targetMinSum <= prevSum) {
                 answer = Math.min(answer, prevJ - i + 1);
             }
-            sum = sum - numbers.get(i);
+            prevSum = prevSum - numbers.get(i);
         }
         if (answer == Integer.MAX_VALUE) {
             System.out.println(-1);
