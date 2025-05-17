@@ -37,30 +37,26 @@ class Solver {
         for (int answer = 1; answer <= 100000; answer++) {
             boolean samePartitionCount = false;
             boolean answerFound = false;
-            int curAreaSum = 0;
-            int curAreaCount = 0;
+            int prevAreaSum = 0;
+            int prevAreaCount = 0;
             for (Integer number : numbers) {
                 if (answer < number) {
                     answerFound = false;
                     break;
                 }
+                int curAreaSum = number + prevAreaSum;
+                int curAreaCount = prevAreaCount;
                 if (curAreaSum == answer) {
                     answerFound = true;
                 }
-
-                int nextAreaCount;
-                int nextAreaSum;
-                if (answer < number + curAreaSum) {
-                    nextAreaCount = curAreaCount + 1;
-                    nextAreaSum = number;
-                } else {
-                    nextAreaCount = curAreaCount;
-                    nextAreaSum = number + curAreaSum;
+                if (answer < curAreaSum) {
+                    curAreaSum = number;
+                    curAreaCount = prevAreaCount + 1;
                 }
-                curAreaCount = nextAreaCount;
-                curAreaSum = nextAreaSum;
+                prevAreaSum = curAreaSum;
+                prevAreaCount = curAreaCount;
             }
-            if (maxBorderCount == curAreaCount) {
+            if (maxBorderCount == prevAreaCount) {
                 samePartitionCount = true;
             }
             if (samePartitionCount && answerFound) {
