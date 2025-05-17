@@ -56,7 +56,7 @@ class Solver {
                 prevAreaSum = curAreaSum;
                 prevAreaCount = curAreaCount;
             }
-            if (maxBorderCount == prevAreaCount) {
+            if (prevAreaCount <= maxBorderCount) {
                 samePartitionCount = true;
             }
             if (samePartitionCount && answerFound) {
