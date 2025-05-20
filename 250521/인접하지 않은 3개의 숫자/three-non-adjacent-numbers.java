@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -40,14 +39,13 @@ class Solver {
     }
 
     public void solve() {
-        Arrays.fill(leftPrefixSum, Integer.MAX_VALUE);
         for (int i = 1; i < numbers.size(); i++) {
-            leftPrefixSum[i] = Math.min(leftPrefixSum[i - 1], numbers.get(i));
+            leftPrefixSum[i] = Math.max(leftPrefixSum[i - 1], numbers.get(i));
         }
-        Arrays.fill(rightPrefixSum, Integer.MAX_VALUE);
         for (int i = numbers.size() - 1; i >= 1; i--) {
-            rightPrefixSum[i] = Math.min(rightPrefixSum[i + 1], numbers.get(i));
+            rightPrefixSum[i] = Math.max(rightPrefixSum[i + 1], numbers.get(i));
         }
+
         int answer = 0;
         for (int i = 3; i < numbers.size() - 2; i++) {
             answer = Math.max(answer,
