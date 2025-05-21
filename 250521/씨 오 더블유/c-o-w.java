@@ -44,12 +44,12 @@ class Solver {
             rightWCount[i] = rightWCount[i + 1] + value;
         }
 
-        int answer = 0;
+        long answer = 0;
         for (int i = 2; i < string.length() - 1; i++) {
             if (string.charAt(i) != 'O') {
                 continue;
             }
-            answer += leftCCount[i - 1] * rightWCount[i + 1];
+            answer += (long) leftCCount[i - 1] * rightWCount[i + 1];
         }
         System.out.println(answer);
     }
