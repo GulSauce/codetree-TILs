@@ -45,20 +45,20 @@ class Solver {
     public void solve() {
         Collections.sort(lines);
         Arrays.fill(leftPrefixMax, Integer.MIN_VALUE);
-        Arrays.fill(rightPrefixMax, Integer.MIN_VALUE);
+        Arrays.fill(rightPrefixMax, Integer.MAX_VALUE);
         for (int i = 1; i < lines.size(); i++) {
             leftPrefixMax[i] = Math.max(leftPrefixMax[i - 1], lines.get(i).end.x);
         }
         for (int i = lines.size() - 1; i >= 1; i--) {
-            rightPrefixMax[i] = Math.max(rightPrefixMax[i + 1], lines.get(i).end.x);
+            rightPrefixMax[i] = Math.min(rightPrefixMax[i + 1], lines.get(i).end.x);
         }
 
         int answer = 0;
         for (int i = 1; i < lines.size(); i++) {
-            if (lines.get(i).end.x <= leftPrefixMax[i - 1]) {
+            if (1 < i && lines.get(i).end.x <= leftPrefixMax[i - 1]) {
                 continue;
             }
-            if (rightPrefixMax[i + 1] <= lines.get(i).end.x) {
+            if (i < lines.size() - 1 && rightPrefixMax[i + 1] <= lines.get(i).end.x) {
                 continue;
             }
             answer++;
