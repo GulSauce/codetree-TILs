@@ -42,27 +42,11 @@ class Solver {
             count[dist.end]--;
         }
 
-        int maxSum = 0;
+        int answer = 0;
         int curSum = 0;
         for (int i = 1; i <= 200000; i++) {
             curSum += count[i];
-            maxSum = Math.max(maxSum, curSum);
-        }
-
-        int answer = 0;
-        boolean started = false;
-        curSum = 0;
-        for (int i = 1; i <= 200000; i++) {
-            curSum += count[i];
-            if (curSum != maxSum) {
-                started = false;
-                continue;
-            }
-            if (started) {
-                continue;
-            }
-            started = true;
-            answer++;
+            answer = Math.max(answer, curSum);
         }
         System.out.println(answer);
     }
