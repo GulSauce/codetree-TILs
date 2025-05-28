@@ -62,12 +62,13 @@ class Solver {
 
         Collections.sort(points);
         int answer = 0;
-        int curCount = 0;
+        int prevCount = 0;
         for (int i = 0; i < points.size(); i++) {
-            if (minIntersectCount <= curCount) {
+            if (minIntersectCount <= prevCount) {
                 answer += points.get(i).x - points.get(i - 1).x;
             }
-            curCount += points.get(i).value;
+            int curCount = prevCount + points.get(i).value;
+            prevCount = curCount;
         }
         System.out.println(answer);
     }
