@@ -83,18 +83,34 @@ class Solver {
 
         prevX = points.get(0).x;
 
-        int distSum = 0;
-        for (Point point : points) {
-            distSum += point.x - prevX;
-            prevX = point.x;
-        }
+        int totalDist = getTotalDist();
 
         int answer = 0;
-
         for (int i = 0; i < lines.size(); i++) {
-            answer = Math.max(answer, distSum - uniqueDistEachLine[i]);
+            answer = Math.max(answer, totalDist - uniqueDistEachLine[i]);
         }
         System.out.println(answer);
+    }
+
+    private int getTotalDist() {
+        int totalDist = 0;
+        pointExist.clear();
+        int prevX = points.get(0).x;
+        for (Point point : points) {
+            if (!pointExist.isEmpty()) {
+                totalDist += point.x - prevX;
+            }
+            switch (point.direction) {
+                case START:
+                    pointExist.add(point.index);
+                    break;
+                case END:
+                    pointExist.remove(point.index);
+                    break;
+            }
+            prevX = point.x;
+        }
+        return totalDist;
     }
 }
 
