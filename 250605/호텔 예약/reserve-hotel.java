@@ -61,7 +61,6 @@ class Solver {
             }
             answer = Math.max(answer, pointExist.size());
         }
-
         System.out.println(answer);
     }
 
@@ -73,9 +72,12 @@ class Point implements Comparable<Point> {
     public int compareTo(Point other) {
         if (this.x == other.x) {
             if (this.direction == Direction.START && other.direction == Direction.END) {
-                return 1;
+                return -1;
             }
-            return 0;
+            if (this.direction == other.direction) {
+                return 0;
+            }
+            return 1;
         }
         return Integer.compare(this.x, other.x);
     }
