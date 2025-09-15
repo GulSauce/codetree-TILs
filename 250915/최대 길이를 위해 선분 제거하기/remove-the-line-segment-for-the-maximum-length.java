@@ -10,16 +10,16 @@ public class Main {
     public static void main(String[] args) throws Exception {
         int N;
         ArrayList<Line> lines = new ArrayList<>();
-        int a, b;
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
+
         N = Integer.parseInt(st.nextToken());
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
-            a = Integer.parseInt(st.nextToken());
-            b = Integer.parseInt(st.nextToken());
-            lines.add(new Line(a, b));
+            int start = Integer.parseInt(st.nextToken());
+            int end = Integer.parseInt(st.nextToken());
+            lines.add(new Line(start, end));
         }
         br.close();
 
@@ -29,9 +29,11 @@ public class Main {
 
 class Solver {
 
+    final int NOT_ALLOCATED = Integer.MIN_VALUE;
     ArrayList<Line> lines;
     ArrayList<Point> points = new ArrayList<>();
-    HashSet<Integer> pointIndexSet = new HashSet<>();
+    HashSet<Integer> pointExist = new HashSet<>();
+    int[] uniqueDistEachLine = new int[100001];
 
     public Solver(
         ArrayList<Line> lines
@@ -42,27 +44,73 @@ class Solver {
     public void solve() {
         for (int i = 0; i < lines.size(); i++) {
             Line line = lines.get(i);
-            points.add(new Point(line.start, i, Status.start));
-            points.add(new Point(line.end, i, Status.end));
+            points.add(new Point(line.start, i, Direction.START));
+            points.add(new Point(line.end, i, Direction.END));
         }
-        int prev = points.get(0).x;
-        int answer = 0;
         Collections.sort(points);
-        for (Point point : points) {
-            if (!pointIndexSet.isEmpty()) {
-                answer += point.x - prev;
+
+        int prevX = points.get(0).x;
+        int curIndex = 0;
+
+        while (curIndex < points.size()) {
+            Point standardPoint = points.get(curIndex);
+            if (pointExist.size() == 1) {
+                int uniqueLineIndex = pointExist.iterator().next();
+                uniqueDistEachLine[uniqueLineIndex] += standardPoint.x - prevX;
             }
-            switch (point.status) {
-                case start:
-                    pointIndexSet.add(point.index);
+
+            Point cur = points.get(curIndex);
+            while (cur.x == standardPoint.x) {
+                switch (cur.direction) {
+                    case START:
+                        pointExist.add(cur.index);
+                        break;
+                    case END:
+                        pointExist.remove(cur.index);
+                        break;
+                }
+
+                int nextIndex = curIndex + 1;
+                curIndex = nextIndex;
+                if (nextIndex == points.size()) {
                     break;
-                case end:
-                    pointIndexSet.remove(point.index);
+                }
+                Point next = points.get(nextIndex);
+                cur = next;
             }
-            Point curPoint = point;
-            prev = curPoint.x;
+            prevX = standardPoint.x;
+        }
+
+        prevX = points.get(0).x;
+
+        int totalDist = getTotalDist();
+
+        int answer = 0;
+        for (int i = 0; i < lines.size(); i++) {
+            answer = Math.max(answer, totalDist - uniqueDistEachLine[i]);
         }
         System.out.println(answer);
+    }
+
+    private int getTotalDist() {
+        int totalDist = 0;
+        pointExist.clear();
+        int prevX = points.get(0).x;
+        for (Point point : points) {
+            if (!pointExist.isEmpty()) {
+                totalDist += point.x - prevX;
+            }
+            switch (point.direction) {
+                case START:
+                    pointExist.add(point.index);
+                    break;
+                case END:
+                    pointExist.remove(point.index);
+                    break;
+            }
+            prevX = point.x;
+        }
+        return totalDist;
     }
 }
 
@@ -75,17 +123,22 @@ class Point implements Comparable<Point> {
 
     int x;
     int index;
-    Status status;
+    Direction direction;
 
     public Point(
         int x,
         int index,
-        Status status
+        Direction direction
     ) {
         this.x = x;
         this.index = index;
-        this.status = status;
+        this.direction = direction;
     }
+}
+
+enum Direction {
+    START,
+    END
 }
 
 class Line {
@@ -94,15 +147,10 @@ class Line {
     int end;
 
     public Line(
-        int a,
-        int b
+        int start,
+        int end
     ) {
-        this.start = a;
-        this.end = b;
+        this.start = start;
+        this.end = end;
     }
-}
-
-enum Status {
-    start,
-    end
 }
