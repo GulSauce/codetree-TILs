@@ -33,10 +33,10 @@ class Solver {
     ArrayList<Line> lines;
     ArrayList<Point> points = new ArrayList<>();
     HashSet<Integer> pointExist = new HashSet<>();
-    int[] uniqueDistEachLine = new int[100001];
+    int[] effectDistEachLine = new int[100001];
 
     public Solver(
-        ArrayList<Line> lines
+            ArrayList<Line> lines
     ) {
         this.lines = lines;
     }
@@ -55,8 +55,8 @@ class Solver {
         while (curIndex < points.size()) {
             Point standardPoint = points.get(curIndex);
             if (pointExist.size() == 1) {
-                int uniqueLineIndex = pointExist.iterator().next();
-                uniqueDistEachLine[uniqueLineIndex] += standardPoint.x - prevX;
+                int effectLineIndex = pointExist.iterator().next();
+                effectDistEachLine[effectLineIndex] += standardPoint.x - prevX;
             }
 
             Point cur = points.get(curIndex);
@@ -87,7 +87,7 @@ class Solver {
 
         int answer = 0;
         for (int i = 0; i < lines.size(); i++) {
-            answer = Math.max(answer, totalDist - uniqueDistEachLine[i]);
+            answer = Math.max(answer, totalDist - effectDistEachLine[i]);
         }
         System.out.println(answer);
     }
@@ -126,9 +126,9 @@ class Point implements Comparable<Point> {
     Direction direction;
 
     public Point(
-        int x,
-        int index,
-        Direction direction
+            int x,
+            int index,
+            Direction direction
     ) {
         this.x = x;
         this.index = index;
@@ -147,8 +147,8 @@ class Line {
     int end;
 
     public Line(
-        int start,
-        int end
+            int start,
+            int end
     ) {
         this.start = start;
         this.end = end;
