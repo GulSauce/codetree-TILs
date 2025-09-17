@@ -33,7 +33,7 @@ class Solver {
 
     ArrayList<Line> lines;
     ArrayList<Point> points = new ArrayList<>();
-    HashSet<Integer> lineExist = new HashSet<>();
+    HashSet<Point> lineExist = new HashSet<>();
 
     public Solver(
             ArrayList<Line> lines
@@ -56,10 +56,10 @@ class Solver {
                 if (lineExist.isEmpty()) {
                     answer++;
                 }
-                lineExist.add(point.lineIndex);
+                lineExist.add(point);
             }
             if (point.status == Status.end) {
-                lineExist.remove(point.lineIndex);
+                lineExist.remove(point);
             }
         }
         System.out.println(answer);
