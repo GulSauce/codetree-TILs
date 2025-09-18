@@ -43,13 +43,13 @@ class Solver {
 
     public void solve() {
         init();
-        int answer = 0;
+        HashSet<Integer> answer = new HashSet<>();
 
         Queue<Integer> bfsQueue = new LinkedList<>();
         bfsQueue.add(1);
         while (!bfsQueue.isEmpty()) {
             int personId = bfsQueue.poll();
-            answer++;
+            answer.add(personId);
 
             ArrayList<Integer> groupIds = personIdToGroupIdsMapper.get(personId);
             for (Integer groupId : groupIds) {
@@ -62,8 +62,8 @@ class Solver {
                 }
             }
         }
-        
-        System.out.println(answer);
+
+        System.out.println(answer.size());
     }
 
     private void init() {
