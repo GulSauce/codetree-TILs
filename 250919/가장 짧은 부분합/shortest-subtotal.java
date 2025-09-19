@@ -42,16 +42,16 @@ class Solver {
         int prevSum = 0;
     for (int i = 0; i < numbers.size(); i++) {
         while (true) {
-		        // j갱신 시도
-            int curJ = prevJ + 1;
-		        // 갱신 실패 조건 1: 인덱스의 끝
-            if (numbers.size() <= curJ) {
+		        // 갱신 실패 조건 1: 이전 인덱스가 이미 끝이였음
+            if (numbers.size() <= prevJ+1) {
                 break;
             }
-		        // 갱신 실패 조건 2: 이미 조건 위반
+		        // 갱신 실패 조건 2: 더하기 전부터 이미 목표 수를 넘었음
             if (targetMinSum <= prevSum) {
                 break;
             }
+		        // j 갱신
+            int curJ = prevJ + 1;
             // 현재합 갱신
             int curSum = prevSum + numbers.get(curJ);
             prevSum = curSum;
