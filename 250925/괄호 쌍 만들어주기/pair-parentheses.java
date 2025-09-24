@@ -30,7 +30,6 @@ class Solver {
     }
 
     public void solve() {
-
         for (int i = parentheses.length() - 2; i >= 0; i--) {
             if (parentheses.substring(i, i + 2).equals("))")) {
                 rightCount[i] = rightCount[i + 1] + 1;
@@ -40,8 +39,8 @@ class Solver {
         }
 
         long answer = 0;
-        for (int i = 2; i < parentheses.length() - 1; i++) {
-            if (!parentheses.substring(i - 2, i).equals("((")) {
+        for (int i = 1; i < parentheses.length() - 1; i++) {
+            if (!parentheses.substring(i - 1, i + 1).equals("((")) {
                 continue;
             }
 
