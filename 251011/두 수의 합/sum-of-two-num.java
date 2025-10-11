@@ -42,12 +42,15 @@ class Solver {
         int answer = 0;
         HashMap<Integer, Integer> numberCountMap = new HashMap<>();
         for (Integer number : numbers) {
+            numberCountMap.put(number, numberCountMap.getOrDefault(number, 0) + 1);
+        }
+
+        for (Integer number : numbers) {
+            numberCountMap.put(number, numberCountMap.get(number) - 1);
             int targetDiff = targetSum - number;
             if (numberCountMap.containsKey(targetDiff)) {
                 answer += numberCountMap.get(targetDiff);
             }
-            
-            numberCountMap.put(number, numberCountMap.getOrDefault(number, 0) + 1);
         }
 
         System.out.println(answer);
