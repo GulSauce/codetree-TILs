@@ -49,7 +49,7 @@ class Solver {
     }
 
     public void solve() {
-        int answer = Integer.MIN_VALUE;
+        int answer = -1;
         Arrays.fill(rightIndexOf, NOT_ALLOCATED);
 
         for (int i = bombs.size() - 1; i >= 0; i--) {
