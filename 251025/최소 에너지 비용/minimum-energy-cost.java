@@ -52,9 +52,9 @@ class Solver {
                 chargeEnergyPrices.get(i));
         }
 
-        int answer = 0;
+        long answer = 0;
         for (int i = 0; i < moveEnergyPrices.size(); i++) {
-            answer += moveEnergyPrices.get(i) * minChargeEnergyPrices[i];
+            answer += (long) moveEnergyPrices.get(i) * minChargeEnergyPrices[i];
         }
         System.out.println(answer);
     }
