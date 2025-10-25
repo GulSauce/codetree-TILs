@@ -45,7 +45,7 @@ class Solver {
         int i = 0;
         int j = 0;
         int answer = 0;
-        int curSum = numbers.get(i) + numbers.get(j);
+        long curSum = numbers.get(i) + numbers.get(j);
         while (true) {
             while (true) {
                 if (numbers.size() == j + 1) {
