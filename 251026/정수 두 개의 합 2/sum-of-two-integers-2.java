@@ -54,7 +54,7 @@ class Solver {
                 if (i < j && curSum <= targetSum) {
                     answer++;
                 }
-                if (i < j && targetSum < curSum) {
+                if (i < j && targetSum <= curSum) {
                     break;
                 }
                 curSum -= numbers.get(j);
