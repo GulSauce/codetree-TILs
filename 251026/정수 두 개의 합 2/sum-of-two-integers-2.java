@@ -48,11 +48,11 @@ class Solver {
         int curSum = numbers.get(i) + numbers.get(j);
         while (true) {
             while (true) {
-                if (numbers.size() == j + 1) {
-                    break;
-                }
                 if (i < j && curSum <= targetSum) {
                     answer++;
+                }
+                if (numbers.size() == j + 1) {
+                    break;
                 }
                 if (i < j && targetSum <= curSum) {
                     break;
