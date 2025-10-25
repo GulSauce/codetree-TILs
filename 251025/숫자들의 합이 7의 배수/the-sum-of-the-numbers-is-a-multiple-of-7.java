@@ -46,7 +46,11 @@ class Solver {
         for (int i = 0; i < points.size(); i++) {
             sum += points.get(i);
             int mod = (int) (sum % 7);
-            answer = Math.max(answer, i - firstOccur[mod]);
+            if (mod == 0) {
+                answer = Math.max(answer, i + 1);
+            } else {
+                answer = Math.max(answer, i - firstOccur[mod]);
+            }
         }
         System.out.println(answer);
     }
