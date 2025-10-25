@@ -62,7 +62,7 @@ class Solver {
                 curSum += numbers.get(j);
             }
             curSum -= numbers.get(i);
-            if (numbers.size() == i + 1) {
+            if (numbers.size() - 1 == i) {
                 break;
             }
             i++;
