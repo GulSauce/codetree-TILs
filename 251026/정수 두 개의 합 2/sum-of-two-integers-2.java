@@ -43,9 +43,9 @@ class Solver {
     public void solve() {
         Collections.sort(numbers);
         int i = 0;
-        int j = 0;
+        int j = 1;
         int answer = 0;
-        long curSum = numbers.get(i) + numbers.get(j);
+        int curSum = numbers.get(i) + numbers.get(j);
         while (true) {
             while (true) {
                 if (numbers.size() == j + 1) {
