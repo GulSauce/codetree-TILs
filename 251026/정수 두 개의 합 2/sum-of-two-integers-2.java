@@ -51,21 +51,22 @@ class Solver {
                 if (numbers.size() == j + 1) {
                     break;
                 }
-                if (i < j && targetSum <= curSum) {
+                if (i < j && curSum <= targetSum) {
+                    answer++;
+                }
+                if (i < j && targetSum < curSum) {
                     break;
                 }
                 curSum -= numbers.get(j);
                 j++;
                 curSum += numbers.get(j);
             }
-            if (i < j && targetSum <= curSum) {
-                answer++;
-            }
             curSum -= numbers.get(i);
             if (numbers.size() == i + 1) {
                 break;
             }
             i++;
+            curSum += numbers.get(i);
         }
         System.out.println(answer);
     }
