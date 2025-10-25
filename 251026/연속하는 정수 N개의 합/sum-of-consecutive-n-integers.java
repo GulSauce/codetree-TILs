@@ -47,18 +47,18 @@ class Solver {
         int curSum = 0;
         while (true) {
             while (true) {
+                // 갱신 실패 조건 1: 이전 인덱스가 이미 끝이였음
+                if (numbers.size() <= j + 1) {
+                    break;
+                }
+                // 갱신 실패 조건 2: 더하기 전부터 이미 목표 수를 넘었음
                 if (targetSum <= curSum) {
                     break;
                 }
                 j++;
-                if (numbers.size() <= j) {
-                    break;
-                }
                 curSum += numbers.get(j);
-                if (targetSum <= curSum) {
-                    break;
-                }
             }
+            // 목표 달성
             if (curSum == targetSum) {
                 answer++;
             }
@@ -70,5 +70,4 @@ class Solver {
         }
         System.out.println(answer);
     }
-
 }
