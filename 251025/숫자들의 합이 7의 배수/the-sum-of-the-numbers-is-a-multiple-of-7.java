@@ -45,7 +45,7 @@ class Solver {
         long sum = 0;
         for (int i = 0; i < points.size(); i++) {
             sum += points.get(i);
-            int mod = (int) sum % 7;
+            int mod = (int) (sum % 7);
             answer = Math.max(answer, i - firstOccur[mod]);
         }
         System.out.println(answer);
@@ -55,7 +55,7 @@ class Solver {
         long sum = 0;
         for (int i = 0; i < points.size(); i++) {
             sum += points.get(i);
-            int mod = (int) sum % 7;
+            int mod = (int) (sum % 7);
             if (firstOccur[mod] != NOT_ALLOCATED) {
                 continue;
             }
