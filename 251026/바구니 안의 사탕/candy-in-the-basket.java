@@ -82,17 +82,18 @@ class Solver {
         answer = Math.max(answer, candySum);
         for (i = 0; i < sortedCandyInfos.size(); i++) {
             while (true) {
-                if (i < j
+                if (i <= j
                     && sortedCandyInfos.get(j).pos <= sortedCandyInfos.get(i).pos + MAX_DIST) {
                     answer = Math.max(answer, candySum);
                 }
-                if (i < j && sortedCandyInfos.get(i).pos + MAX_DIST < sortedCandyInfos.get(
+                if (i <= j && sortedCandyInfos.get(i).pos + MAX_DIST < sortedCandyInfos.get(
                     j).pos) {
                     break;
                 }
                 if (j + 1 == sortedCandyInfos.size()) {
                     break;
                 }
+                
                 j++;
                 candySum += sortedCandyInfos.get(j).count;
             }
