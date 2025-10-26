@@ -30,7 +30,7 @@ public class Main {
 class Solver {
 
     List<Integer> numbers;
-    int targetSum;
+    long targetSum;
 
     public Solver(
         List<Integer> numbers,
@@ -43,7 +43,7 @@ class Solver {
     public void solve() {
         Collections.sort(numbers);
         int i = 0;
-        int j = 1;
+        int j = 0;
         long overTargetSumCount = 0;
         long curSum = numbers.get(i) + numbers.get(j);
         for (i = 0; i < numbers.size() - 1; i++) {
