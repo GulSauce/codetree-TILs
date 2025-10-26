@@ -45,11 +45,11 @@ class Solver {
         int i = 0;
         int j = 1;
         long overTargetSumCount = 0;
-        int curSum = numbers.get(i) + numbers.get(j);
+        long curSum = numbers.get(i) + numbers.get(j);
         for (i = 0; i < numbers.size() - 1; i++) {
             while (true) {
                 if (targetSum < curSum) {
-                    overTargetSumCount += numbers.size() - j;
+                    overTargetSumCount += (numbers.size() - j);
                     break;
                 }
                 if (numbers.size() - 1 == j) {
