@@ -42,7 +42,7 @@ class Solver {
         int i = 0;
         int j = 0;
         int answer = Integer.MAX_VALUE;
-        int sum = numbers.get(j);
+        long sum = numbers.get(j);
         for (i = 0; i < numbers.size(); i++) {
             while (true) {
                 if (i <= j && targetSum <= sum) {
