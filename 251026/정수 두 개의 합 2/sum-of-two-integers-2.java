@@ -43,27 +43,28 @@ class Solver {
     public void solve() {
         Collections.sort(numbers);
         int i = 0;
-        int j = 0;
-        long overTargetSumCount = 0;
-        long curSum = numbers.get(i) + numbers.get(j);
+        int j = numbers.size() - 1;
+        long answer = 0;
+        int currentSum = numbers.get(i) + numbers.get(j);
         for (i = 0; i < numbers.size() - 1; i++) {
             while (true) {
-                if (targetSum < curSum) {
-                    overTargetSumCount += (numbers.size() - j);
+                if (i < j && currentSum <= targetSum) {
+                    answer += (j - i);
                     break;
                 }
-                if (numbers.size() - 1 == j) {
+                if (i == j) {
                     break;
                 }
-                curSum -= numbers.get(j);
-                j++;
-                curSum += numbers.get(j);
+                if (j == 0) {
+                    break;
+                }
+                currentSum -= numbers.get(j);
+                j--;
+                currentSum += numbers.get(j);
             }
-            curSum -= numbers.get(i);
-            curSum += numbers.get(i + 1);
+            currentSum -= numbers.get(i);
+            currentSum += numbers.get(i + 1);
         }
-
-        long totalProbability = (long) numbers.size() * (numbers.size() - 1) / 2;
-        System.out.println(totalProbability - overTargetSumCount);
+        System.out.println(answer);
     }
 }
