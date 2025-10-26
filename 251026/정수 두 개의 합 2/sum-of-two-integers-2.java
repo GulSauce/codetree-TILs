@@ -52,9 +52,6 @@ class Solver {
                     answer += (j - i);
                     break;
                 }
-                if (i == j) {
-                    break;
-                }
                 if (j == 0) {
                     break;
                 }
