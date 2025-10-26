@@ -46,15 +46,15 @@ class Solver {
         int j = 1;
         int answer = 0;
         int curSum = numbers.get(i) + numbers.get(j);
-        while (true) {
+        for (i = 0; i < numbers.size() - 1; i++) {
             while (true) {
-                if (i < j && curSum <= targetSum) {
+                if (i + 1 <= j && curSum <= targetSum) {
                     answer++;
                 }
-                if (numbers.size() == j + 1) {
+                if (i + 1 <= j && targetSum < curSum) {
                     break;
                 }
-                if (i < j && targetSum <= curSum) {
+                if (numbers.size() - 1 == j) {
                     break;
                 }
                 curSum -= numbers.get(j);
@@ -62,11 +62,7 @@ class Solver {
                 curSum += numbers.get(j);
             }
             curSum -= numbers.get(i);
-            if (numbers.size() - 1 == i) {
-                break;
-            }
-            i++;
-            curSum += numbers.get(i);
+            curSum += numbers.get(i + 1);
         }
         System.out.println(answer);
     }
