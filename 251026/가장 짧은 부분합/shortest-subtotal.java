@@ -27,6 +27,7 @@ public class Main {
 
 class Solver {
 
+    final int NOT_ALLOCATED = Integer.MAX_VALUE;
     List<Integer> numbers;
     int targetSum;
 
@@ -41,8 +42,8 @@ class Solver {
     public void solve() {
         int i = 0;
         int j = 0;
-        int answer = Integer.MAX_VALUE;
-        long sum = numbers.get(j);
+        int answer = NOT_ALLOCATED;
+        int sum = numbers.get(j);
         for (i = 0; i < numbers.size(); i++) {
             while (true) {
                 if (i <= j && targetSum <= sum) {
@@ -57,6 +58,10 @@ class Solver {
             }
             sum -= numbers.get(i);
         }
-        System.out.println(answer);
+        if (answer == NOT_ALLOCATED) {
+            System.out.println(-1);
+        } else {
+            System.out.println(answer);
+        }
     }
 }
