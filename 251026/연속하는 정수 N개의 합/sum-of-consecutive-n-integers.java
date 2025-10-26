@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -6,13 +7,12 @@ import java.util.StringTokenizer;
 
 public class Main {
 
-    public static void main(String[] args) throws Exception {
-        long N, M;
+    public static void main(String[] args) throws IOException {
+        int N, M;
         List<Integer> numbers = new ArrayList<>();
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
 
@@ -21,52 +21,44 @@ public class Main {
             numbers.add(Integer.parseInt(st.nextToken()));
         }
 
-        new Solver(M, numbers).solve();
-
+        new Solver(numbers, M).solve();
     }
-
 }
 
 class Solver {
 
-    long targetSum;
     List<Integer> numbers;
+    int targetSum;
 
     public Solver(
-        long M,
-        List<Integer> numbers
+        List<Integer> numbers,
+        int M
     ) {
-        this.targetSum = M;
         this.numbers = numbers;
+        this.targetSum = M;
     }
 
     public void solve() {
         int i = 0;
-        int j = -1;
+        int j = 0;
         int answer = 0;
-        int curSum = 0;
-        while (true) {
+        int sum = numbers.get(j);
+        for (i = 0; i < numbers.size(); i++) {
             while (true) {
-                // 갱신 실패 조건 1: 이전 인덱스가 이미 끝이였음
-                if (numbers.size() <= j + 1) {
+                if (i <= j && sum == targetSum) {
+                    answer++;
                     break;
                 }
-                // 갱신 실패 조건 2: 더하기 전부터 이미 목표 수를 넘었음
-                if (targetSum <= curSum) {
+                if (i <= j && targetSum < sum) {
+                    break;
+                }
+                if (j == numbers.size() - 1) {
                     break;
                 }
                 j++;
-                curSum += numbers.get(j);
+                sum += numbers.get(j);
             }
-            // 목표 달성
-            if (curSum == targetSum) {
-                answer++;
-            }
-            curSum -= numbers.get(i);
-            i++;
-            if (i == numbers.size()) {
-                break;
-            }
+            sum -= numbers.get(i);
         }
         System.out.println(answer);
     }
