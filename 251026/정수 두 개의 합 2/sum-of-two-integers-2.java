@@ -44,14 +44,12 @@ class Solver {
         Collections.sort(numbers);
         int i = 0;
         int j = 1;
-        int answer = 0;
+        long overTargetSumCount = 0;
         int curSum = numbers.get(i) + numbers.get(j);
         for (i = 0; i < numbers.size() - 1; i++) {
             while (true) {
-                if (i + 1 <= j && curSum <= targetSum) {
-                    answer++;
-                }
-                if (i + 1 <= j && targetSum < curSum) {
+                if (targetSum < curSum) {
+                    overTargetSumCount += numbers.size() - j;
                     break;
                 }
                 if (numbers.size() - 1 == j) {
@@ -64,6 +62,8 @@ class Solver {
             curSum -= numbers.get(i);
             curSum += numbers.get(i + 1);
         }
-        System.out.println(answer);
+
+        long totalProbability = (long) numbers.size() * (numbers.size() - 1) / 2;
+        System.out.println(totalProbability - overTargetSumCount);
     }
 }
