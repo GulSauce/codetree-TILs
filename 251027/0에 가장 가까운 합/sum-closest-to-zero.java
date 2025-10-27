@@ -48,8 +48,8 @@ class Solver {
                 if (j == 0) {
                     break;
                 }
-                answer = Math.min(answer, Math.abs(numbers.get(j) + numbers.get(i)));
                 j--;
+                answer = Math.min(answer, Math.abs(numbers.get(j) + numbers.get(i)));
             }
         }
         System.out.println(answer);
