@@ -41,9 +41,9 @@ class Solver {
 
     public void solve() {
         int i = 0;
-        int j = -1;
+        int j = 0;
         int answer = NOT_ALLOCATED;
-        int sum = 0;
+        int sum = numbers.get(i);
         for (i = 0; i < numbers.size(); i++) {
             while (true) {
                 if (j == numbers.size() - 1) {
@@ -53,11 +53,11 @@ class Solver {
                     break;
                 }
                 if (targetSum <= sum) {
+                    answer = Math.min(answer, j - i + 1);
                     break;
                 }
                 if (sum < targetSum) {
                     j++;
-                    answer = Math.min(answer, j - i + 1);
                     sum += numbers.get(j);
                 }
             }
