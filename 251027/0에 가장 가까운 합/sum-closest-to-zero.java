@@ -39,19 +39,17 @@ class Solver {
         int i = 0;
         int j = numbers.size() - 1;
         Collections.sort(numbers);
-        int answer = Math.abs(numbers.get(j) + numbers.get(i));
+        int answer = Math.abs(numbers.get(i) + numbers.get(j));
         for (i = 0; i < numbers.size() - 1; i++) {
             while (true) {
-                if (i < j && numbers.get(i) + numbers.get(j) <= 0) {
-                    break;
-                }
-                if (j == 0) {
-                    break;
-                }
-                if (i < j) {
-                    answer = Math.min(Math.abs(numbers.get(j) + numbers.get(i)), answer);
-                }
                 j--;
+                if (j <= i) {
+                    break;
+                }
+                if (numbers.get(i) + numbers.get(j) <= 0) {
+                    break;
+                }
+                answer = Math.min(answer, Math.abs(numbers.get(i) + numbers.get(j)));
             }
         }
         System.out.println(answer);
