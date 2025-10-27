@@ -1,0 +1,62 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+        int N;
+        List<Integer> numbers = new ArrayList<>();
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        N = Integer.parseInt(st.nextToken());
+
+        st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < N; i++) {
+            numbers.add(Integer.parseInt(st.nextToken()));
+        }
+
+        new Solver(numbers).solve();
+    }
+}
+
+class Solver {
+
+    List<Integer> numbers;
+
+    public Solver(
+        List<Integer> numbers
+    ) {
+        this.numbers = numbers;
+    }
+
+    public void solve() {
+        int i = 0;
+        int j = numbers.size() - 1;
+        Collections.sort(numbers);
+        int sum = Math.abs(numbers.get(i) + numbers.get(j));
+        int answer = sum;
+        for (i = 0; i < numbers.size() - 1; i++) {
+            while (true) {
+                if (j == 0) {
+                    break;
+                }
+                if (i < j && sum <= Math.abs(numbers.get(i) + numbers.get(j - 1))) {
+                    answer = Math.min(answer, sum);
+                    break;
+                }
+                sum -= numbers.get(j);
+                j--;
+                sum += numbers.get(j);
+            }
+            sum -= numbers.get(i);
+            sum += numbers.get(i + 1);
+        }
+        System.out.println(answer);
+    }
+}
