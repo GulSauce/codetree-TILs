@@ -54,10 +54,10 @@ class Solver {
                     break;
                 }
                 if (sum < targetSum) {
-                    j++;
-                    if (numbers.size() <= j) {
+                    if (j == numbers.size() - 1) {
                         break;
                     }
+                    j++;
                     sum += numbers.get(j);
                 }
             }
