@@ -43,19 +43,17 @@ class Solver {
         int answer = sum;
         for (i = 0; i < numbers.size() - 1; i++) {
             while (true) {
-                answer = Math.min(answer, sum);
                 if (j == 0) {
                     break;
                 }
                 if (i < j && sum <= Math.abs(numbers.get(i) + numbers.get(j - 1))) {
+                    answer = Math.min(answer, sum);
                     break;
                 }
-                sum -= numbers.get(j);
                 j--;
-                sum += numbers.get(j);
+                sum = Math.abs(numbers.get(i) + numbers.get(j));
             }
-            sum -= numbers.get(i);
-            sum += numbers.get(i + 1);
+            sum = Math.abs(numbers.get(i + 1) + numbers.get(j));
         }
         System.out.println(answer);
     }
