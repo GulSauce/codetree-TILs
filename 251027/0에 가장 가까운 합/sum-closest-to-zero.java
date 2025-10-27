@@ -48,7 +48,7 @@ class Solver {
                 if (j == 0) {
                     break;
                 }
-                answer = Math.min(answer, numbers.get(j) + numbers.get(i));
+                answer = Math.min(answer, Math.abs(numbers.get(j) + numbers.get(i)));
                 j--;
             }
         }
