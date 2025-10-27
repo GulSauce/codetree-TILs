@@ -46,15 +46,20 @@ class Solver {
         int sum = numbers.get(j);
         for (i = 0; i < numbers.size(); i++) {
             while (true) {
-                if (i <= j && targetSum <= sum) {
-                    break;
-                }
                 if (j == numbers.size() - 1) {
                     break;
                 }
-                j++;
-                answer = Math.min(answer, j - i + 1);
-                sum += numbers.get(j);
+                if (j < i) {
+                    break;
+                }
+                if (targetSum <= sum) {
+                    break;
+                }
+                if (sum < targetSum) {
+                    j++;
+                    answer = Math.min(answer, j - i + 1);
+                    sum += numbers.get(j);
+                }
             }
             sum -= numbers.get(i);
         }
