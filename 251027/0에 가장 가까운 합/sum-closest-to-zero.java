@@ -39,7 +39,7 @@ class Solver {
         int i = 0;
         int j = numbers.size() - 1;
         Collections.sort(numbers);
-        int answer = numbers.get(j) - numbers.get(i);
+        int answer = numbers.get(j) + numbers.get(i);
         for (i = 0; i < numbers.size() - 1; i++) {
             while (true) {
                 if (i < j && numbers.get(j) + numbers.get(i) < 0) {
