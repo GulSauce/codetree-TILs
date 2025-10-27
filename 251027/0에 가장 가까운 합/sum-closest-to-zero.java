@@ -43,11 +43,13 @@ class Solver {
         int answer = sum;
         for (i = 0; i < numbers.size() - 1; i++) {
             while (true) {
-                answer = Math.min(answer, sum);
-                if (j == 0) {
+                if (j == 1) {
+                    sum = Math.abs(numbers.get(i) + numbers.get(j));
+                    answer = Math.min(answer, sum);
                     break;
                 }
                 if (i < j && sum <= Math.abs(numbers.get(i) + numbers.get(j - 1))) {
+                    answer = Math.min(answer, sum);
                     break;
                 }
                 j--;
