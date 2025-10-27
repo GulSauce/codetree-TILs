@@ -51,8 +51,7 @@ class Solver {
                 if (targetSum < sum) {
                     break;
                 }
-                if (sum == targetSum) {
-                    answer++;
+                if (targetSum == sum) {
                     j++;
                     if (numbers.size() <= j) {
                         break;
@@ -60,7 +59,7 @@ class Solver {
                     sum += numbers.get(j);
                     break;
                 }
-                if (sum < targetSum) {
+                if (sum <= targetSum) {
                     j++;
                     if (numbers.size() <= j) {
                         break;
