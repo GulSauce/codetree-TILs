@@ -41,10 +41,13 @@ class Solver {
         Collections.sort(numbers);
         int sum = Math.abs(numbers.get(i) + numbers.get(j));
         int answer = sum;
+        loop:
         for (i = 0; i < numbers.size() - 1; i++) {
             while (true) {
-                if (j == 1) {
-                    break;
+                if (i + 1 == j) {
+                    sum = Math.abs(numbers.get(i) + numbers.get(j));
+                    answer = Math.min(answer, sum);
+                    break loop;
                 }
                 if (i < j && sum <= Math.abs(numbers.get(i) + numbers.get(j - 1))) {
                     answer = Math.min(answer, sum);
@@ -55,7 +58,6 @@ class Solver {
             }
             sum = Math.abs(numbers.get(i + 1) + numbers.get(j));
         }
-        answer = Math.min(answer, Math.abs(numbers.get(0) + numbers.get(1)));
         System.out.println(answer);
     }
 }
