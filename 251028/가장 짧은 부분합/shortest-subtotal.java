@@ -41,24 +41,24 @@ class Solver {
 
     public void solve() {
         int i = 0;
-        int j = 1;
+        int j = 0;
         int answer = NOT_ALLOCATED;
-        int sum = numbers.get(0);
+        int sum = numbers.get(i);
         for (i = 0; i < numbers.size(); i++) {
             while (true) {
-                if (j == numbers.size()) {
+                if (j < i) {
                     break;
                 }
-                if (j <= i) {
-                    break;
-                }
-                sum += numbers.get(j);
                 if (targetSum <= sum) {
                     answer = Math.min(answer, j - i + 1);
                     break;
                 }
                 if (sum < targetSum) {
                     j++;
+                    if (numbers.size() <= j) {
+                        break;
+                    }
+                    sum += numbers.get(j);
                 }
             }
             sum -= numbers.get(i);
@@ -70,3 +70,4 @@ class Solver {
         }
     }
 }
+
