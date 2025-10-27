@@ -44,16 +44,14 @@ class Solver {
         for (i = 0; i < numbers.size() - 1; i++) {
             while (true) {
                 if (j == 1) {
-                    sum = Math.abs(numbers.get(i) + numbers.get(j));
-                    answer = Math.min(answer, sum);
                     break;
                 }
                 if (i < j && sum <= Math.abs(numbers.get(i) + numbers.get(j - 1))) {
-                    answer = Math.min(answer, sum);
                     break;
                 }
                 j--;
                 sum = Math.abs(numbers.get(i) + numbers.get(j));
+                answer = Math.min(answer, sum);
             }
             sum = Math.abs(numbers.get(i + 1) + numbers.get(j));
         }
