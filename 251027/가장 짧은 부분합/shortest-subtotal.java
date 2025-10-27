@@ -41,7 +41,7 @@ class Solver {
 
     public void solve() {
         int i = 0;
-        int j = 0;
+        int j = -1;
         int answer = NOT_ALLOCATED;
         int sum = 0;
         for (i = 0; i < numbers.size(); i++) {
