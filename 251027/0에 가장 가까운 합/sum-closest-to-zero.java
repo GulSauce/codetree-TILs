@@ -42,13 +42,13 @@ class Solver {
         int answer = Math.abs(numbers.get(i) + numbers.get(j));
         for (i = 0; i < numbers.size() - 1; i++) {
             while (true) {
-                j--;
                 if (j <= i) {
                     break;
                 }
                 if (numbers.get(i) + numbers.get(j) <= 0) {
                     break;
                 }
+                j--;
                 answer = Math.min(answer, Math.abs(numbers.get(i) + numbers.get(j)));
             }
         }
