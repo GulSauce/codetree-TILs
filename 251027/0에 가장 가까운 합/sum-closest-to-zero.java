@@ -49,7 +49,7 @@ class Solver {
                     answer = Math.min(answer, sum);
                     break loop;
                 }
-                if (i < j && sum <= Math.abs(numbers.get(i) + numbers.get(j - 1))) {
+                if (i + 1 < j && sum <= Math.abs(numbers.get(i) + numbers.get(j - 1))) {
                     answer = Math.min(answer, sum);
                     break;
                 }
