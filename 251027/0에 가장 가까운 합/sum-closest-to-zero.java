@@ -52,10 +52,10 @@ class Solver {
                 }
                 j--;
                 sum = Math.abs(numbers.get(i) + numbers.get(j));
-                answer = Math.min(answer, sum);
             }
             sum = Math.abs(numbers.get(i + 1) + numbers.get(j));
         }
+        answer = Math.min(answer, Math.abs(numbers.get(0) + numbers.get(1)));
         System.out.println(answer);
     }
 }
