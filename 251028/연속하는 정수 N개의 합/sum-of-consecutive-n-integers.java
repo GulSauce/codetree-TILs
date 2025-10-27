@@ -51,15 +51,10 @@ class Solver {
                 if (targetSum < sum) {
                     break;
                 }
-                if (sum == targetSum) {
-                    answer++;
-                    if (j == numbers.size() - 1) {
-                        break;
+                if (sum <= targetSum) {
+                    if (sum == targetSum) {
+                        answer++;
                     }
-                    j++;
-                    sum += numbers.get(j);
-                }
-                if (sum < targetSum) {
                     if (j == numbers.size() - 1) {
                         break;
                     }
