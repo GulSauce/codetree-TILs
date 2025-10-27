@@ -85,7 +85,6 @@ class Solver {
                 if (j < i) {
                     break;
                 }
-
                 if (sortedCandyInfos.get(i).pos + MAX_DIST < sortedCandyInfos.get(
                     j).pos) {
                     break;
@@ -93,7 +92,7 @@ class Solver {
                 if (sortedCandyInfos.get(j).pos <= sortedCandyInfos.get(i).pos + MAX_DIST) {
                     answer = Math.max(answer, candySum);
                     j++;
-                    if (j == sortedCandyInfos.size()) {
+                    if (sortedCandyInfos.size() <= j) {
                         break;
                     }
                     candySum += sortedCandyInfos.get(j).count;
