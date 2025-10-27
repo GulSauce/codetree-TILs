@@ -51,11 +51,15 @@ class Solver {
                 if (targetSum < sum) {
                     break;
                 }
-                if (targetSum == sum) {
+                if (sum == targetSum) {
+                    answer++;
+                    if (j == numbers.size() - 1) {
+                        break;
+                    }
+                    j++;
                     sum += numbers.get(j);
-                    break;
                 }
-                if (sum <= targetSum) {
+                if (sum < targetSum) {
                     if (j == numbers.size() - 1) {
                         break;
                     }
@@ -68,3 +72,4 @@ class Solver {
         System.out.println(answer);
     }
 }
+
