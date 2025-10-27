@@ -45,11 +45,13 @@ class Solver {
                 if (j <= i) {
                     break;
                 }
+                answer = Math.min(answer, Math.abs(numbers.get(i) + numbers.get(j)));
                 if (numbers.get(i) + numbers.get(j) <= 0) {
                     break;
                 }
-                j--;
-                answer = Math.min(answer, Math.abs(numbers.get(i) + numbers.get(j)));
+                if (numbers.get(i) + numbers.get(j) > 0) {
+                    j--;
+                }
             }
         }
         System.out.println(answer);
