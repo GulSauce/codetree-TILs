@@ -42,14 +42,16 @@ class Solver {
         int answer = Math.abs(numbers.get(j) + numbers.get(i));
         for (i = 0; i < numbers.size() - 1; i++) {
             while (true) {
-                if (i < j && numbers.get(j) + numbers.get(i) <= 0) {
+                if (i < j && numbers.get(i) + numbers.get(j) <= 0) {
                     break;
                 }
                 if (j == 0) {
                     break;
                 }
+                if (i < j) {
+                    answer = Math.min(Math.abs(numbers.get(j) + numbers.get(i)), answer);
+                }
                 j--;
-                answer = Math.min(answer, Math.abs(numbers.get(j) + numbers.get(i)));
             }
         }
         System.out.println(answer);
