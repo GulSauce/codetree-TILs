@@ -39,8 +39,8 @@ class Solver {
         int i = 0;
         int j = numbers.size() - 1;
         Collections.sort(numbers);
-        int sum = Math.abs(numbers.get(i) + numbers.get(j));
-        int answer = sum;
+        long sum = Math.abs(numbers.get(i) + numbers.get(j));
+        long answer = sum;
         loop:
         for (i = 0; i < numbers.size() - 1; i++) {
             while (true) {
