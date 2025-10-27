@@ -42,7 +42,7 @@ class Solver {
         int answer = Math.abs(numbers.get(j) + numbers.get(i));
         for (i = 0; i < numbers.size() - 1; i++) {
             while (true) {
-                if (i < j && numbers.get(j) + numbers.get(i) < 0) {
+                if (i < j && numbers.get(j) + numbers.get(i) <= 0) {
                     break;
                 }
                 if (j == 0) {
