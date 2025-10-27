@@ -39,24 +39,20 @@ class Solver {
         int i = 0;
         int j = numbers.size() - 1;
         Collections.sort(numbers);
-        long sum = Math.abs(numbers.get(i) + numbers.get(j));
-        long answer = sum;
-        loop:
+        int sum = Math.abs(numbers.get(i) + numbers.get(j));
+        int answer = sum;
+
         for (i = 0; i < numbers.size() - 1; i++) {
             while (true) {
-                if (i + 1 == j) {
-                    sum = Math.abs(numbers.get(i) + numbers.get(j));
-                    answer = Math.min(answer, sum);
-                    break loop;
+                if (i < j && numbers.get(j) - numbers.get(i) < 0) {
+                    answer = Math.min(answer, numbers.get(j) - numbers.get(i));
+                    break;
                 }
-                if (i + 1 < j && sum <= Math.abs(numbers.get(i) + numbers.get(j - 1))) {
-                    answer = Math.min(answer, sum);
+                if (j == 0) {
                     break;
                 }
                 j--;
-                sum = Math.abs(numbers.get(i) + numbers.get(j));
             }
-            sum = Math.abs(numbers.get(i + 1) + numbers.get(j));
         }
         System.out.println(answer);
     }
