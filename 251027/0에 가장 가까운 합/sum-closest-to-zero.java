@@ -47,6 +47,7 @@ class Solver {
                     break;
                 }
                 if (i < j && sum <= Math.abs(numbers.get(i) + numbers.get(j - 1))) {
+                    answer = Math.min(answer, sum);
                     break;
                 }
                 j--;
