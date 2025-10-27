@@ -43,7 +43,7 @@ class Solver {
         int i = 0;
         int j = 0;
         int answer = NOT_ALLOCATED;
-        int sum = numbers.get(j);
+        int sum = 0;
         for (i = 0; i < numbers.size(); i++) {
             while (true) {
                 if (j == numbers.size() - 1) {
