@@ -70,6 +70,7 @@ class YFirstPoint implements Comparable<YFirstPoint> {
 class Solver {
 
 
+    private final int NOT_ALLOCATED = Integer.MAX_VALUE;
     int targetDiff;
     List<Point> points;
     TreeSet<YFirstPoint> YFirstPointTreeSet = new TreeSet<>();
@@ -86,7 +87,7 @@ class Solver {
         Collections.sort(points);
         int i = 0;
         int j = 0;
-        int answer = Integer.MAX_VALUE;
+        int answer = NOT_ALLOCATED;
         YFirstPointTreeSet.add(new YFirstPoint(points.get(j).x, points.get(j).y));
         for (i = 0; i < points.size() - 1; i++) {
             while (true) {
@@ -105,7 +106,11 @@ class Solver {
             }
             YFirstPointTreeSet.remove(new YFirstPoint(points.get(i).x, points.get(i).y));
         }
-        System.out.println(answer);
+        if (answer == NOT_ALLOCATED) {
+            System.out.println(-1);
+        } else {
+            System.out.println(answer);
+        }
     }
 
     private int getMin() {
