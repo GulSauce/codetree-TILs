@@ -53,7 +53,7 @@ class Solver {
         int i = 0;
         // 소방차 인덱스
         int j = 0;
-        int answer = getDist(i, j);
+        int answer = 0;
         for (; i < firePoses.size(); i++) {
             while (true) {
                 if (j + 1 <= carPoses.size() - 1 && getDist(i, j) > getDist(i, j + 1)) {
