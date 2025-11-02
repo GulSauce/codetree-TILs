@@ -66,7 +66,6 @@ class Solver {
                 if (j < i) {
                     break;
                 }
-                R[i] = Math.max(R[i], maxRange);
                 // 유지 조건 2
                 if (numbers.get(j) - numbers.get(i) <= maxDiff) {
                     maxRange = Math.max(maxRange, j - i + 1);
@@ -92,7 +91,6 @@ class Solver {
                 if (i < j) {
                     break;
                 }
-                L[i] = Math.max(L[i], maxRange);
                 // 유지 조건 2
                 if (numbers.get(i) - numbers.get(j) <= maxDiff) {
                     maxRange = Math.max(maxRange, i - j + 1);
