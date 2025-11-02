@@ -14,25 +14,25 @@ public class Main {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        N = toInt(st.nextToken());
-        K = toInt(st.nextToken());
+        N = toInt(st);
+        K = toInt(st);
 
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
-            numbers.add(toInt(st.nextToken()));
+            numbers.add(toInt(st));
         }
 
         new Solver(K, numbers).solve();
     }
 
-    private static Integer toInt(String number) {
-        return Integer.parseInt(number);
+    private static Integer toInt(StringTokenizer st) {
+        return Integer.parseInt(st.nextToken());
     }
 }
 
 class Solver {
 
-    final int MAX_NUMBER_COUNT = 50000;
+    final int MAX_NUMBER_COUNT = 50_000;
     int maxDiff;
     List<Integer> numbers;
     int[] L = new int[MAX_NUMBER_COUNT + 1];
@@ -71,11 +71,11 @@ class Solver {
                     R[i] = j - i + 1;
                     break;
                 }
+                j--;
                 // 유지 조건 3
-                if (j == 0) {
+                if (j == -1) {
                     break;
                 }
-                j--;
             }
         }
     }
@@ -94,11 +94,11 @@ class Solver {
                     L[i] = i - j + 1;
                     break;
                 }
+                j++;
                 // 유지 조건 3
-                if (j == numbers.size() - 1) {
+                if (j == numbers.size()) {
                     break;
                 }
-                j++;
             }
         }
     }
