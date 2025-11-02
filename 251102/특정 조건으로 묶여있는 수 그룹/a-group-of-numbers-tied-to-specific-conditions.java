@@ -63,17 +63,17 @@ class Solver {
         for (; i >= 0; i--) {
             while (true) {
                 // 유지 조건 1
-                if (j < i) {
-                    break;
-                }
-                // 유지 조건 2
                 if (numbers.get(j) - numbers.get(i) <= maxDiff) {
                     R[i] = j - i + 1;
                     break;
                 }
                 j--;
-                // 유지 조건 3
+                // 유지 조건 2
                 if (j == -1) {
+                    break;
+                }
+                // 유지 조건 3
+                if (j < i) {
                     break;
                 }
             }
@@ -86,17 +86,17 @@ class Solver {
         for (; i < numbers.size(); i++) {
             while (true) {
                 // 유지 조건 1
-                if (i < j) {
-                    break;
-                }
-                // 유지 조건 2
                 if (numbers.get(i) - numbers.get(j) <= maxDiff) {
                     L[i] = i - j + 1;
                     break;
                 }
                 j++;
-                // 유지 조건 3
+                // 유지 조건 2
                 if (j == numbers.size()) {
+                    break;
+                }
+                // 유지 조건 3
+                if (i < j) {
                     break;
                 }
             }
