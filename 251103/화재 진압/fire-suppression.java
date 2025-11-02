@@ -56,10 +56,12 @@ class Solver {
         int answer = 0;
         for (; i < firePoses.size(); i++) {
             while (true) {
+                // 증가 조건 1
                 if (j + 1 <= carPoses.size() - 1 && getDist(i, j) > getDist(i, j + 1)) {
                     j++;
                     continue;
                 }
+                // 유지 조건 1
                 answer = Math.max(answer, getDist(i, j));
                 break;
             }
