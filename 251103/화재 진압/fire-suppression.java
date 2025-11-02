@@ -58,6 +58,7 @@ class Solver {
             while (true) {
                 if (j + 1 <= carPoses.size() - 1 && getDist(i, j) > getDist(i, j + 1)) {
                     j++;
+                    break;
                 }
                 answer = Math.max(answer, getDist(i, j));
                 break;
