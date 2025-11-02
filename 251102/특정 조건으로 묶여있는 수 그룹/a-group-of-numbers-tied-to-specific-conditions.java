@@ -73,7 +73,7 @@ class Solver {
                     break;
                 }
                 // 유지 조건 3
-                if (j < i) {
+                if (j <= i) {
                     break;
                 }
             }
@@ -96,7 +96,7 @@ class Solver {
                     break;
                 }
                 // 유지 조건 3
-                if (i < j) {
+                if (i <= j) {
                     break;
                 }
             }
