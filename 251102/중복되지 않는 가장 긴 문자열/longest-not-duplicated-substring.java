@@ -32,16 +32,21 @@ class Solver {
         charCountHashMap.put(string.charAt(j), 1);
         for (; i < string.length(); i++) {
             while (true) {
+                // 유지 조건 1
                 if (j < i) {
                     break;
                 }
+                // 유지 조건 2
                 if (2 <= charCountHashMap.get(string.charAt(j))) {
                     break;
                 }
+                // 정답 조건 1
                 answer = Math.max(answer, j - i + 1);
+                // 유지 조건 3
                 if (j == string.length() - 1) {
                     break;
                 }
+                // 갱신 조건 1
                 j++;
                 Character curChar = string.charAt(j);
                 charCountHashMap.put(curChar, charCountHashMap.getOrDefault(curChar, 0) + 1);
