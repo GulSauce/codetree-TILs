@@ -53,29 +53,31 @@ class Solver {
             answer = Math.max(answer, L[i] + R[i + 1]);
         }
         answer = Math.max(answer, L[numbers.size() - 1]);
-        answer = Math.max(answer, R[0]);
         System.out.println(answer);
     }
 
     private void doTwoPointerFromEnd() {
         int i = numbers.size() - 1;
         int j = numbers.size() - 1;
+        int maxRange = 0;
         for (; i >= 0; i--) {
             while (true) {
                 // 유지 조건 1
-                if (numbers.get(j) - numbers.get(i) <= maxDiff) {
-                    R[i] = j - i + 1;
+                if (j < i) {
                     break;
                 }
-                j--;
+                R[i] = Math.max(R[i], maxRange);
                 // 유지 조건 2
-                if (j == -1) {
+                if (numbers.get(j) - numbers.get(i) <= maxDiff) {
+                    maxRange = Math.max(maxRange, j - i + 1);
+                    R[i] = Math.max(R[i], maxRange);
                     break;
                 }
                 // 유지 조건 3
-                if (j <= i) {
+                if (j == 0) {
                     break;
                 }
+                j--;
             }
         }
     }
@@ -83,22 +85,25 @@ class Solver {
     private void doTwoPointerFromStart() {
         int i = 0;
         int j = 0;
+        int maxRange = 0;
         for (; i < numbers.size(); i++) {
             while (true) {
                 // 유지 조건 1
-                if (numbers.get(i) - numbers.get(j) <= maxDiff) {
-                    L[i] = i - j + 1;
+                if (i < j) {
                     break;
                 }
-                j++;
+                L[i] = Math.max(L[i], maxRange);
                 // 유지 조건 2
-                if (j == numbers.size()) {
+                if (numbers.get(i) - numbers.get(j) <= maxDiff) {
+                    maxRange = Math.max(maxRange, i - j + 1);
+                    L[i] = Math.max(L[i], maxRange);
                     break;
                 }
                 // 유지 조건 3
-                if (i <= j) {
+                if (j == numbers.size() - 1) {
                     break;
                 }
+                j++;
             }
         }
     }
