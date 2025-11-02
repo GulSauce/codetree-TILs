@@ -54,19 +54,10 @@ class Solver {
         // 소방차 인덱스
         int j = 0;
         int answer = getDist(i, j);
-        loop:
         for (; i < firePoses.size(); i++) {
             while (true) {
-                if (j + 1 <= carPoses.size() - 1) {
-                    if (getDist(i, j) < getDist(i, j + 1)) {
-                        answer = Math.max(answer, getDist(i, j));
-                        if (i == firePoses.size() - 1) {
-                            break loop;
-                        }
-                        break;
-                    }
+                if (j + 1 <= carPoses.size() - 1 && getDist(i, j) > getDist(i, j + 1)) {
                     j++;
-                    break;
                 }
                 answer = Math.max(answer, getDist(i, j));
                 break;
