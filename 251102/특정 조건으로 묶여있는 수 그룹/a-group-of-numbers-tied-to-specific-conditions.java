@@ -53,6 +53,7 @@ class Solver {
             answer = Math.max(answer, L[i] + R[i + 1]);
         }
         answer = Math.max(answer, L[numbers.size() - 1]);
+        answer = Math.max(answer, R[0]);
         System.out.println(answer);
     }
 
