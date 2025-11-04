@@ -34,13 +34,14 @@ public class Main {
 
 class Solver {
 
-    final int NOT_FOUND = Integer.MAX_VALUE;
+    final int NOT_FOUND;
     List<Integer> numbers;
     List<Integer> queries;
 
     public Solver(List<Integer> numbers, List<Integer> queries) {
         this.numbers = numbers;
         this.queries = queries;
+        this.NOT_FOUND = numbers.size();
     }
 
     public void solve() {
@@ -57,7 +58,7 @@ class Solver {
     private int lowerBoundSame(int query) {
         int left = 0;
         int right = numbers.size() - 1;
-        int answer = Integer.MAX_VALUE;
+        int answer = NOT_FOUND;
         while (left <= right) {
             int mid = (left + right) / 2;
             int found = numbers.get(mid);
