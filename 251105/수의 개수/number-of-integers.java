@@ -34,7 +34,6 @@ public class Main {
 
 class Solver {
 
-    final int NOT_FOUND = -1;
     List<Integer> numbers;
     List<Integer> queries;
 
