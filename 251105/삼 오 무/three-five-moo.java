@@ -1,15 +1,12 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.StringTokenizer;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
         int N;
-        List<Integer> numbers = new ArrayList<>();
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -25,7 +22,7 @@ public class Main {
 
 class Solver {
 
-    int targetSequence;
+    long targetSequence;
 
     public Solver(int targetSequence) {
         this.targetSequence = targetSequence;
@@ -33,17 +30,19 @@ class Solver {
 
     public void solve() {
         long left = 1;
-        long right = 5 * targetSequence;
+        long right = 5L * targetSequence;
         long answer = 0;
         while (left <= right) {
             long mid = (left + right) / 2;
             long realNumberCount = getRealNumberCount(mid);
             if (targetSequence < realNumberCount) {
                 right = mid - 1;
-            } else if (targetSequence == realNumberCount) {
+            }
+            if (targetSequence == realNumberCount) {
                 answer = mid;
                 break;
-            } else {
+            }
+            if (realNumberCount < targetSequence) {
                 left = mid + 1;
             }
         }
