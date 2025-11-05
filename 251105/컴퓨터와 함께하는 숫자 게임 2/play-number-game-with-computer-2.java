@@ -10,16 +10,16 @@ public class Main {
         long A, B;
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        M = toInt(st);
+        M = toLong(st);
         st = new StringTokenizer(br.readLine());
-        A = toInt(st);
-        B = toInt(st);
+        A = toLong(st);
+        B = toLong(st);
 
         new Solver(M, A, B).solve();
     }
 
-    private static long toInt(StringTokenizer st) {
-        return Integer.parseInt(st.nextToken());
+    private static long toLong(StringTokenizer st) {
+        return Long.parseLong(st.nextToken());
     }
 }
 
