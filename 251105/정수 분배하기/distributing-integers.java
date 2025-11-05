@@ -40,7 +40,7 @@ class Solver {
     }
 
     public void solve() {
-        int left = 0;
+        int left = 1;
         int right = MAX_NUMBER;
         int answer = 0;
         while (left <= right) {
