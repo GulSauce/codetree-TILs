@@ -31,7 +31,7 @@ class Solver {
     public void solve() {
         long left = 1;
         long right = 5L * targetSequence;
-        long answer = 0;
+        long answer = Long.MAX_VALUE;
         while (left <= right) {
             long mid = (left + right) / 2;
             long realNumberCount = getRealNumberCount(mid);
@@ -39,8 +39,8 @@ class Solver {
                 right = mid - 1;
             }
             if (targetSequence == realNumberCount) {
-                answer = mid;
-                break;
+                answer = Math.min(answer, mid);
+                right = mid - 1;
             }
             if (realNumberCount < targetSequence) {
                 left = mid + 1;
