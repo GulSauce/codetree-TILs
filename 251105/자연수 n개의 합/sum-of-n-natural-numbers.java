@@ -25,7 +25,7 @@ class Solver {
 
     public void solve() {
         long left = 0;
-        long right = maxSum;
+        long right = (long) Math.ceil(Math.sqrt(maxSum) * Math.sqrt(2));
         long query = maxSum;
         long answer = 0;
         while (left <= right) {
