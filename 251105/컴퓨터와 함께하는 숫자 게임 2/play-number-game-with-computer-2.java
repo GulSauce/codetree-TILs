@@ -6,8 +6,8 @@ import java.util.StringTokenizer;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        int M;
-        int A, B;
+        long M;
+        long A, B;
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         M = toInt(st);
@@ -18,17 +18,17 @@ public class Main {
         new Solver(M, A, B).solve();
     }
 
-    private static int toInt(StringTokenizer st) {
+    private static long toInt(StringTokenizer st) {
         return Integer.parseInt(st.nextToken());
     }
 }
 
 class Line {
 
-    int start;
-    int end;
+    long start;
+    long end;
 
-    public Line(int start, int end) {
+    public Line(long start, long end) {
         this.start = start;
         this.end = end;
     }
@@ -36,35 +36,35 @@ class Line {
 
 class Solver {
 
-    int maxNumberPool;
-    int selectMaxNumber;
-    int selectMinNumber;
+    long maxNumberPool;
+    long selectMaxNumber;
+    long selectMinNumber;
 
-    int minTime = Integer.MAX_VALUE;
-    int maxTime = 0;
+    long minTime = Integer.MAX_VALUE;
+    long maxTime = 0;
 
-    public Solver(int maxNumberPool, int selectMinNumber, int selectMaxNumber) {
+    public Solver(long maxNumberPool, long selectMinNumber, long selectMaxNumber) {
         this.maxNumberPool = maxNumberPool;
         this.selectMinNumber = selectMinNumber;
         this.selectMaxNumber = selectMaxNumber;
     }
 
     public void solve() {
-        for (int selectNumber = selectMinNumber; selectNumber <= selectMaxNumber; selectNumber++) {
-            int time = binarySearchWithCalcTime(selectNumber);
+        for (long selectNumber = selectMinNumber; selectNumber <= selectMaxNumber; selectNumber++) {
+            long time = binarySearchWithCalcTime(selectNumber);
             minTime = Math.min(minTime, time);
             maxTime = Math.max(maxTime, time);
         }
         System.out.println(minTime + " " + maxTime);
     }
 
-    private int binarySearchWithCalcTime(int query) {
-        int left = 1;
-        int right = maxNumberPool;
-        int elapsedTime = 0;
+    private long binarySearchWithCalcTime(long query) {
+        long left = 1;
+        long right = maxNumberPool;
+        long elapsedTime = 0;
         while (left <= right) {
             elapsedTime++;
-            int mid = (left + right) / 2;
+            long mid = (left + right) / 2;
             if (query < mid) {
                 right = mid - 1;
             }
