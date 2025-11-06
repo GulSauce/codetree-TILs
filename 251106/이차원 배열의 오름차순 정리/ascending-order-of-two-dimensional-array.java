@@ -25,23 +25,23 @@ public class Main {
 class Solver {
 
     int matrixSize;
-    int targetNumber;
+    int targetSequence;
 
-    public Solver(int matrixSize, int targetNumber) {
+    public Solver(int matrixSize, int targetSequence) {
         this.matrixSize = matrixSize;
-        this.targetNumber = targetNumber;
+        this.targetSequence = targetSequence;
     }
 
     public void solve() {
         int left = 0;
-        int right = matrixSize * matrixSize;
+        int right = Math.min(1_000_000_000, matrixSize * matrixSize);
         int answer = Integer.MAX_VALUE;
 
         while (left <= right) {
             int mid = (left + right) / 2;
-            if (targetNumber <= getMinCount(mid)) {
-                right = mid - 1;
+            if (targetSequence <= getMinCount(mid)) {
                 answer = Math.min(answer, mid);
+                right = mid - 1;
             } else {
                 left = mid + 1;
             }
