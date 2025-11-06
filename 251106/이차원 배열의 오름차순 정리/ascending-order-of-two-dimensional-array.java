@@ -24,7 +24,7 @@ public class Main {
 
 class Solver {
 
-    long matrixSize;
+    int matrixSize;
     int targetSequence;
 
     public Solver(int matrixSize, int targetSequence) {
@@ -34,7 +34,7 @@ class Solver {
 
     public void solve() {
         int left = 0;
-        int right = (int) Math.min(1_000_000_000, matrixSize * matrixSize);
+        int right = (int) Math.min(1_000_000_000, (long) matrixSize * matrixSize);
         int answer = Integer.MAX_VALUE;
 
         while (left <= right) {
