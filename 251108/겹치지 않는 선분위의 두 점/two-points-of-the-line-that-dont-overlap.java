@@ -76,26 +76,15 @@ class Solver {
     }
 
     private boolean isPutable(long dist) {
-        int pointCount = 1;
+        int pointCount = 0;
         int lineIndex = 0;
-        long start = lines.get(lineIndex).start;
-        while (pointCount < targetPointCount) {
-            long next = start + dist;
-            if (lines.size() <= lineIndex) {
-                break;
+        long cur = lines.get(lineIndex).start;
+        for (Line line : lines) {
+            while (cur <= line.end) {
+                pointCount++;
+                long next = cur + dist;
+                cur = Math.max(next, line.start);
             }
-            while (lines.get(lineIndex).end < next) {
-                lineIndex++;
-                if (lines.size() <= lineIndex) {
-                    break;
-                }
-            }
-            if (lines.size() <= lineIndex) {
-                break;
-            }
-            pointCount++;
-            long real = Math.max(next, lines.get(lineIndex).start);
-            start = real;
         }
         return targetPointCount <= pointCount;
     }
