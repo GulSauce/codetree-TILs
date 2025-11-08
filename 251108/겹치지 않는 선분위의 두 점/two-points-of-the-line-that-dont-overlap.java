@@ -77,13 +77,12 @@ class Solver {
 
     private boolean isPutable(long dist) {
         int pointCount = 0;
-        int lineIndex = 0;
-        long cur = lines.get(lineIndex).start;
+        long cur = lines.get(0).start;
         for (Line line : lines) {
+            cur = Math.max(cur, line.start);
             while (cur <= line.end) {
                 pointCount++;
-                long next = cur + dist;
-                cur = Math.max(next, line.start);
+                cur = cur + dist;
             }
         }
         return targetPointCount <= pointCount;
