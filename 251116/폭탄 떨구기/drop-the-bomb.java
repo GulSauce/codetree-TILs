@@ -62,13 +62,12 @@ class Solver {
         int start = pointTreeSet.first();
         int target = start + 2 * maxDist;
         while (true) {
-            try {
-                int nextStart = pointTreeSet.higher(target);
-                target = nextStart + 2 * maxDist;
-                count++;
-            } catch (NullPointerException e) {
+            Integer nextStart = pointTreeSet.higher(target);
+            if (nextStart == null) {
                 break;
             }
+            target = nextStart + 2 * maxDist;
+            count++;
         }
         return count <= bombCount;
     }
