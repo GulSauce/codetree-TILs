@@ -2,9 +2,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.StringTokenizer;
-import java.util.TreeSet;
 
 public class Main {
 
@@ -33,7 +33,6 @@ class Solver {
 
     int bombCount;
     List<Integer> points;
-    TreeSet<Integer> pointTreeSet;
 
     public Solver(int bombCount, List<Integer> points) {
         this.bombCount = bombCount;
@@ -41,7 +40,7 @@ class Solver {
     }
 
     public void solve() {
-        pointTreeSet = new TreeSet<>(points);
+        Collections.sort(points);
         int left = 0;
         int right = 1_000_000_000;
         int answer = right;
@@ -59,14 +58,14 @@ class Solver {
 
     private boolean isValid(int maxDist) {
         int count = 1;
-        int start = pointTreeSet.first();
-        int target = start + 2 * maxDist;
-        while (true) {
-            Integer nextStart = pointTreeSet.higher(target);
-            if (nextStart == null) {
-                break;
+        int start = 0;
+        int end = 0;
+        while (end < points.size()) {
+            if (points.get(end) - points.get(start) <= 2 * maxDist) {
+                end++;
+                continue;
             }
-            target = nextStart + 2 * maxDist;
+            start = end;
             count++;
         }
         return count <= bombCount;
