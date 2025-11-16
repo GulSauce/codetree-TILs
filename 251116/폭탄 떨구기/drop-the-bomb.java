@@ -63,7 +63,7 @@ class Solver {
         int target = start + 2 * maxDist;
         while (true) {
             try {
-                int nextStart = pointTreeSet.ceiling(target);
+                int nextStart = pointTreeSet.higher(target);
                 target = nextStart + 2 * maxDist;
                 count++;
             } catch (NullPointerException e) {
