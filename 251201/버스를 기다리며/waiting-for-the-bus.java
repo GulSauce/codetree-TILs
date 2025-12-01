@@ -45,6 +45,7 @@ class Solver {
 
     public void solve() {
         Collections.sort(arrivalInfos);
+
         int left = 0;
         int right = 1_000_000_000;
         int answer = right;
@@ -97,6 +98,6 @@ class ArrivalInfo implements Comparable<ArrivalInfo> {
 
     @Override
     public int compareTo(ArrivalInfo other) {
-        return Integer.compare(this.number, other.number);
+        return Integer.compare(this.arrivalTime, other.arrivalTime);
     }
 }
