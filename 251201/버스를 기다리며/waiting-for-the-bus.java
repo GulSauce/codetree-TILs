@@ -67,10 +67,10 @@ class Solver {
         for (int i = 1; i < arrivalInfos.size(); i++) {
             ArrivalInfo arrivalInfo = arrivalInfos.get(i);
 
-            boolean isBusFull = (MAX_BUS_PEOPLE <= curWaitPerson);
-
+            boolean isBusFull = MAX_BUS_PEOPLE < curWaitPerson + 1;
             boolean isTimeOver = maxWaitTime < arrivalInfo.arrivalTime - curWaitStartTime;
 
+            // 새 버스를 만든다
             if (isBusFull || isTimeOver) {
                 leaveBusCount++;
                 curWaitStartTime = arrivalInfo.arrivalTime;
