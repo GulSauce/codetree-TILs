@@ -38,15 +38,11 @@ class Solver {
     }
 
     public void solve() {
-        int curSum = 0;
+        int curRemains = targetSum;
         int answer = 0;
         for (int i = coins.size() - 1; i >= 0; i--) {
-            int count = (targetSum - curSum) / coins.get(i);
-            if (count == 0) {
-                continue;
-            }
-            answer += count;
-            curSum += coins.get(i) * count;
+            answer += curRemains / coins.get(i);
+            curRemains %= coins.get(i);
         }
         System.out.println(answer);
     }
