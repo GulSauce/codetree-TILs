@@ -71,6 +71,9 @@ class Solver {
             if (writeCounts.get(i) >= hIndex) {
                 continue;
             }
+            if (additionalPostItCount < hIndex - writeCounts.get(i)) {
+                return false;
+            }
             lackCount += hIndex - writeCounts.get(i);
         }
         return lackCount <= (long) additionalPostItCount * writableCountPerPostIt;
