@@ -19,7 +19,6 @@ public class Main {
         L = toInt(st);
 
         st = new StringTokenizer(br.readLine());
-        writeCounts.add(-1);
         for (int i = 0; i < N; i++) {
             writeCounts.add(toInt(st));
         }
