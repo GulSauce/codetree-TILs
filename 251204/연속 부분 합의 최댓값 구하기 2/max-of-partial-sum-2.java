@@ -36,12 +36,14 @@ class Solver {
 
     public void solve() {
         int sum = numbers.get(0);
+        int answer = sum;
         for (int i = 1; i < numbers.size(); i++) {
             if (sum + numbers.get(i) < numbers.get(i)) {
                 sum = numbers.get(i);
             } else {
                 sum += numbers.get(i);
             }
+            answer = Math.max(answer, sum);
         }
         System.out.println(sum);
     }
