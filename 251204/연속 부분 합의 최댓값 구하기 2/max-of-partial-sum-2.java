@@ -45,6 +45,6 @@ class Solver {
             }
             answer = Math.max(answer, sum);
         }
-        System.out.println(sum);
+        System.out.println(answer);
     }
 }
