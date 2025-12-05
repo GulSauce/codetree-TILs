@@ -20,6 +20,7 @@ public class Main {
 
 class Solver {
 
+    final int NOT_ALLOCATED = Integer.MAX_VALUE;
     final int FIVE = 5;
     final int TWO = 2;
     int targetNumber;
@@ -29,17 +30,14 @@ class Solver {
     }
 
     public void solve() {
-        int answer = Integer.MAX_VALUE;
+        int answer = NOT_ALLOCATED;
         int start = targetNumber / FIVE;
-        for (int fiveCount = start; fiveCount >= 1; fiveCount--) {
+        for (int fiveCount = start; fiveCount >= 0; fiveCount--) {
             int remain = targetNumber - (FIVE * fiveCount);
             if (remain % TWO == 0) {
                 answer = Math.min(answer, fiveCount + remain / TWO);
             }
         }
-        if (targetNumber % TWO == 0) {
-            answer = Math.min(answer, targetNumber / TWO);
-        }
-        System.out.println(answer);
+        System.out.println(answer == NOT_ALLOCATED ? -1 : answer);
     }
 }
