@@ -63,14 +63,11 @@ class Solver {
                     aIndex++;
                     continue;
                 }
-                break;
-            }
-            if (aIndex >= aNumbers.size()) {
-                break;
-            }
-            if (aNumbers.get(aIndex) > bNumber) {
-                aIndex++;
-                aPoint++;
+                if (aNumbers.get(aIndex) > bNumber) {
+                    aIndex++;
+                    aPoint++;
+                    break;
+                }
             }
         }
         System.out.println(aPoint);
