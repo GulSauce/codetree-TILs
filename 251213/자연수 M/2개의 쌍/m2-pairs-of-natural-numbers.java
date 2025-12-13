@@ -49,18 +49,15 @@ class Solver {
             if (first.count > last.count) {
                 first.count -= last.count;
                 numberInfoDeque.pollLast();
-            }
-            if (first.count == last.count) {
+            } else if (first.count == last.count) {
                 numberInfoDeque.pollFirst();
                 numberInfoDeque.pollLast();
-            }
-            if (first.count < last.count) {
+            } else {
                 last.count -= first.count;
                 numberInfoDeque.pollFirst();
             }
             answer = Math.max(answer, first.value + last.value);
         }
-
         System.out.println(answer);
     }
 }
