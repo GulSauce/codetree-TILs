@@ -42,7 +42,7 @@ class Solver {
     public void solve() {
         Collections.sort(numberInfos);
         numberInfoDeque = new ArrayDeque<>(numberInfos);
-        int answer = Integer.MAX_VALUE;
+        int answer = 0;
         while (!numberInfoDeque.isEmpty()) {
             NumberInfo first = numberInfoDeque.peekFirst();
             NumberInfo last = numberInfoDeque.peekLast();
@@ -58,7 +58,7 @@ class Solver {
                 first.count = last.count - first.count;
                 numberInfoDeque.pollFirst();
             }
-            answer = Math.min(answer, first.value + last.value);
+            answer = Math.max(answer, first.value + last.value);
         }
 
         System.out.println(answer);
