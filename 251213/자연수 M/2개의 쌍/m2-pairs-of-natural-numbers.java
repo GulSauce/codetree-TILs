@@ -47,7 +47,7 @@ class Solver {
             NumberInfo first = numberInfoDeque.peekFirst();
             NumberInfo last = numberInfoDeque.peekLast();
             if (first.count > last.count) {
-                first.count = first.count - last.count;
+                first.count -= last.count;
                 numberInfoDeque.pollLast();
             }
             if (first.count == last.count) {
@@ -55,7 +55,7 @@ class Solver {
                 numberInfoDeque.pollLast();
             }
             if (first.count < last.count) {
-                first.count = last.count - first.count;
+                last.count -= first.count;
                 numberInfoDeque.pollFirst();
             }
             answer = Math.max(answer, first.value + last.value);
