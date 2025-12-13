@@ -22,7 +22,7 @@ public class Main {
             numberInfos.add(new NumberInfo(toInt(st), toInt(st)));
         }
 
-        new Solver(N, numberInfos).solve();
+        new Solver(numberInfos).solve();
     }
 
     private static int toInt(StringTokenizer st) {
@@ -32,33 +32,40 @@ public class Main {
 
 class Solver {
 
-    int numberCount;
     List<NumberInfo> numberInfos;
-    Deque<Integer> numberDeque;
+    Deque<NumberInfo> numberInfoDeque;
 
-    public Solver(int numberCount, List<NumberInfo> numberInfos) {
-        this.numberCount = numberCount;
+    public Solver(List<NumberInfo> numberInfos) {
         this.numberInfos = numberInfos;
     }
 
     public void solve() {
-        List<Integer> numbers = new ArrayList<>();
-        for (NumberInfo numberInfo : numberInfos) {
-            for (int i = 0; i < numberInfo.count; i++) {
-                numbers.add(numberInfo.value);
-            }
-        }
-        Collections.sort(numbers);
-        numberDeque = new ArrayDeque<>(numbers);
+        Collections.sort(numberInfos);
+        numberInfoDeque = new ArrayDeque<>(numberInfos);
         int answer = Integer.MAX_VALUE;
-        while (!numberDeque.isEmpty()) {
-            answer = Math.min(answer, numberDeque.pollFirst() + numberDeque.pollLast());
+        while (!numberInfoDeque.isEmpty()) {
+            NumberInfo first = numberInfoDeque.peekFirst();
+            NumberInfo last = numberInfoDeque.peekLast();
+            if (first.count > last.count) {
+                first.count = first.count - last.count;
+                numberInfoDeque.pollLast();
+            }
+            if (first.count == last.count) {
+                numberInfoDeque.pollFirst();
+                numberInfoDeque.pollLast();
+            }
+            if (first.count < last.count) {
+                first.count = last.count - first.count;
+                numberInfoDeque.pollFirst();
+            }
+            answer = Math.min(answer, first.value + last.value);
         }
+
         System.out.println(answer);
     }
 }
 
-class NumberInfo {
+class NumberInfo implements Comparable<NumberInfo> {
 
     int count;
     int value;
@@ -66,5 +73,10 @@ class NumberInfo {
     public NumberInfo(int count, int value) {
         this.count = count;
         this.value = value;
+    }
+
+    @Override
+    public int compareTo(NumberInfo other) {
+        return Integer.compare(this.value, other.value);
     }
 }
