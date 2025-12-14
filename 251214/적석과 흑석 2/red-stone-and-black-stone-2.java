@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.TreeSet;
 
 public class Main {
 
@@ -42,40 +43,28 @@ class Solver {
     List<RedStone> redStones;
     List<BlackStone> blackStones;
 
+    TreeSet<RedStone> redStoneTreeSet;
+
     public Solver(List<RedStone> redStones, List<BlackStone> blackStones) {
         this.redStones = redStones;
         this.blackStones = blackStones;
     }
 
     public void solve() {
-        Collections.sort(redStones, (a, b) -> Integer.compare(a.number, b.number));
-        Collections.sort(blackStones, (a, b) -> {
-            if (a.B == b.B) {
-                return Integer.compare(a.A, b.A);
-            }
-            return Integer.compare(a.B, b.B);
-        });
+        redStoneTreeSet = new TreeSet<>((a, b) -> Integer.compare(a.number, b.number));
+        redStoneTreeSet.addAll(redStones);
+        Collections.sort(blackStones, (a, b) -> Integer.compare(a.B, b.B));
 
         int answer = 0;
-        int blackStoneIndex = 0;
-        for (RedStone redStone : redStones) {
-            while (true) {
-                if (blackStoneIndex >= blackStones.size()) {
-                    break;
-                }
-                BlackStone blackStone = blackStones.get(blackStoneIndex);
-                if (blackStone.A <= redStone.number
-                    && redStone.number <= blackStone.B) {
-                    blackStoneIndex++;
-                    answer++;
-                    break;
-                } else if (redStone.number < blackStone.A) {
-                    break;
-                } else {
-                    blackStoneIndex++;
-                }
+        for (BlackStone blackStone : blackStones) {
+            RedStone found = redStoneTreeSet.ceiling(new RedStone(0, blackStone.A));
+            if (found.number > blackStone.B) {
+                continue;
             }
+            redStoneTreeSet.remove(found);
+            answer++;
         }
+
         System.out.println(answer);
     }
 }
