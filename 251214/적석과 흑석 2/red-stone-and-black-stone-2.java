@@ -58,6 +58,9 @@ class Solver {
         int answer = 0;
         for (BlackStone blackStone : blackStones) {
             RedStone found = redStoneTreeSet.ceiling(new RedStone(0, blackStone.A));
+            if (found == null) {
+                continue;
+            }
             if (found.number > blackStone.B) {
                 continue;
             }
