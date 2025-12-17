@@ -47,7 +47,7 @@ class Solver {
                 numbers.set(i + 1, numbers.get(i + 1) ^ 1);
             }
         }
-        if (numbers.get(numbers.size() - 2) == 0) {
+        if (0 <= numbers.size() - 2 && numbers.get(numbers.size() - 2) == 0) {
             pushCount++;
             numbers.set(numbers.size() - 2, numbers.get(numbers.size() - 2) ^ 1);
             numbers.set(numbers.size() - 1, numbers.get(numbers.size() - 1) ^ 1);
