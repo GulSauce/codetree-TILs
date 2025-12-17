@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -27,37 +28,32 @@ class Solver {
 
     String source;
     String target;
-    char[] sourceChars;
-    char[] targetChars;
+
+    HashMap<Character, Character> reverseChar = new HashMap<>();
 
     public Solver(String source, String target) {
         this.source = source;
         this.target = target;
+        this.reverseChar.put('G', 'H');
+        this.reverseChar.put('H', 'G');
     }
 
     public void solve() {
-        sourceChars = new char[source.length()];
-        targetChars = new char[source.length()];
-
-        for (int i = 0; i < source.length(); i++) {
-            sourceChars[i] = source.charAt(i);
-            targetChars[i] = target.charAt(i);
-        }
-
-        int answer = 0;
-        for (int i = sourceChars.length - 1; i >= 0; i--) {
-            if (sourceChars[i] == targetChars[i]) {
+        int pushCount = 0;
+        for (int i = source.length() - 1; i >= 0; i--) {
+            char currentChar = getCurrentChar(pushCount, source.charAt(i));
+            if (currentChar == target.charAt(i)) {
                 continue;
             }
-            answer++;
-            for (int j = 0; j <= i; j++) {
-                if (sourceChars[j] == 'G') {
-                    sourceChars[j] = 'H';
-                } else if (sourceChars[j] == 'H') {
-                    sourceChars[j] = 'G';
-                }
-            }
+            pushCount++;
         }
-        System.out.println(answer);
+        System.out.println(pushCount);
+    }
+
+    private char getCurrentChar(int pushCount, char originChar) {
+        if (pushCount % 2 == 0) {
+            return originChar;
+        }
+        return reverseChar.get(originChar);
     }
 }
