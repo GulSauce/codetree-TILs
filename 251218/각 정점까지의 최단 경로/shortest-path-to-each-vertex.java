@@ -81,7 +81,7 @@ class Solver {
             }
         }
         for (int i = 1; i <= nodeCount; i++) {
-            System.out.println(dist[i]);
+            System.out.println(dist[i] == NOT_ALLOCATED ? -1 : dist[i]);
         }
     }
 }
