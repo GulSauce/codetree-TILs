@@ -71,10 +71,10 @@ class Solver {
             ArrayList<Node> nearNodes = graph.get(cur.number);
             for (Node node : nearNodes) {
                 int distToNode = cur.weight + node.weight;
-                pq.add(new Node(cur.number, distToNode));
+                pq.add(new Node(node.number, distToNode));
             }
         }
-        for (int i = 1; i <= nodeCount; i++) {
+        for (int i = 2; i <= nodeCount; i++) {
             System.out.println(dist[i] == NOT_ALLOCATED ? -1 : dist[i]);
         }
     }
