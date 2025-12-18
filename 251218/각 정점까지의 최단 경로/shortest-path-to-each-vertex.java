@@ -64,20 +64,22 @@ class Solver {
         int[] dist = new int[nodeCount + 1];
         Arrays.fill(dist, NOT_ALLOCATED);
         PriorityQueue<Node> pq = new PriorityQueue<>((a, b) -> Integer.compare(a.weight, b.weight));
+        dist[targetNumber] = 0;
         pq.add(new Node(targetNumber, 0));
 
         while (!pq.isEmpty()) {
             Node cur = pq.poll();
-            if (dist[cur.number] != NOT_ALLOCATED) {
+            if (dist[cur.number] != cur.weight) {
                 continue;
             }
-            dist[cur.number] = cur.weight;
             ArrayList<Node> nearNodes = graph.get(cur.number);
-            for (Node node : nearNodes) {
-                if (dist[node.number] != NOT_ALLOCATED) {
+            for (Node next : nearNodes) {
+                int newWeight = dist[cur.number] + next.weight;
+                if (dist[next.number] <= newWeight) {
                     continue;
                 }
-                pq.add(new Node(node.number, dist[cur.number] + node.weight));
+                dist[next.number] = newWeight;
+                pq.add(new Node(next.number, newWeight));
             }
         }
         for (int i = 1; i <= nodeCount; i++) {
