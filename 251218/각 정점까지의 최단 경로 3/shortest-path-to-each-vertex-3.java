@@ -4,6 +4,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -37,58 +38,42 @@ class Solver {
     final int NOT_ALLOCATED = Integer.MAX_VALUE;
     int nodeCount;
     List<Edge> edges;
-
-    int[][] graph;
+    ArrayList<ArrayList<Node>> graph = new ArrayList<>();
 
     public Solver(int nodeCount, List<Edge> edges) {
         this.nodeCount = nodeCount;
         this.edges = edges;
-        this.graph = new int[nodeCount + 1][nodeCount + 1];
     }
 
     public void solve() {
+        for (int i = 0; i <= nodeCount; i++) {
+            graph.add(new ArrayList<>());
+        }
         for (Edge edge : edges) {
-            graph[edge.start][edge.end] = edge.weight;
+            graph.get(edge.start).add(new Node(edge.end, edge.weight));
         }
 
         int[] dist = new int[nodeCount + 1];
         Arrays.fill(dist, NOT_ALLOCATED);
+
+        PriorityQueue<Node> pq = new PriorityQueue<>((a, b) -> Integer.compare(a.weight, b.weight));
+        pq.add(new Node(1, 0));
         dist[1] = 0;
-
-        boolean[] visited = new boolean[nodeCount + 1];
-
-        // i를 직접 사용하지 않음, 단지 한 loop마다 한 점이 결정된다
-        for (int i = 0; i < nodeCount; i++) {
-            Node next = new Node(-1, NOT_ALLOCATED);
-            for (int nodeNumber = 1; nodeNumber <= nodeCount; nodeNumber++) {
-                if (next.weight <= dist[nodeNumber]) {
-                    continue;
-                }
-                // 이미 확정된 정점이였다
-                if (visited[nodeNumber]) {
-                    continue;
-                }
-                next = new Node(nodeNumber, dist[nodeNumber]);
+        while (!pq.isEmpty()) {
+            Node cur = pq.poll();
+            if (dist[cur.number] != cur.weight) {
+                continue;
             }
-
-            // 모든 정점을 다 봤지만 진행할 수 없다
-            if (next.number == -1) {
-                break;
-            }
-
-            // 이 번호까지는 최소거리 확정
-            visited[next.number] = true;
-
-            // 확정된 번호 주변 정점까지의 거리 갱신
-            for (int j = 1; j <= nodeCount; j++) {
-                if (graph[next.number][j] == 0) {
+            ArrayList<Node> nearNodes = graph.get(cur.number);
+            for (Node next : nearNodes) {
+                int nextWeight = dist[cur.number] + next.weight;
+                if (dist[next.number] <= nextWeight) {
                     continue;
                 }
-                int newDist = dist[next.number] + graph[next.number][j];
-                dist[j] = Math.min(dist[j], newDist);
+                dist[next.number] = nextWeight;
+                pq.add(new Node(next.number, nextWeight));
             }
         }
-
         for (int i = 2; i <= nodeCount; i++) {
             System.out.println(dist[i] == NOT_ALLOCATED ? -1 : dist[i]);
         }
