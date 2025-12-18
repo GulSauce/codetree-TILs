@@ -17,7 +17,7 @@ public class Main {
             st = new StringTokenizer(br.readLine());
             String row = st.nextToken();
             for (int x = 0; x < row.length(); x++) {
-                grid[y][x] = row.charAt(x) - '0';
+                grid[y][x + 1] = row.charAt(x) - '0';
             }
         }
 
