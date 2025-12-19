@@ -38,7 +38,7 @@ public class Main {
 
 class Solver {
 
-    final int NO_EDGE = 0;
+    final int NO_EDGE = Integer.MAX_VALUE;
     final int NOT_ALLOCATED = Integer.MAX_VALUE;
     int nodeCount;
 
@@ -60,8 +60,8 @@ class Solver {
         }
 
         for (Edge edge : edges) {
-            graph[edge.start][edge.end] = edge.weight;
-            graph[edge.end][edge.start] = edge.weight;
+            graph[edge.start][edge.end] = Math.min(graph[edge.start][edge.end], edge.weight);
+            graph[edge.end][edge.start] = Math.min(graph[edge.start][edge.end], edge.weight);
         }
 
         int[] dist = new int[nodeCount + 1];
