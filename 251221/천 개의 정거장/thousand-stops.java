@@ -55,8 +55,6 @@ class Solver {
     }
 
     public void solve() {
-        final int NOT_ALLOCATED = Integer.MAX_VALUE;
-
         Weight[][] graph = new Weight[NODE_COUNT + 1][NODE_COUNT + 1];
         for (Weight[] array : graph) {
             Arrays.fill(array, new Weight());
@@ -133,17 +131,17 @@ class Node {
 
 class Weight {
 
-    private static final int NOT_ALLOCATED = Integer.MAX_VALUE;
+    private static final long NOT_ALLOCATED = Long.MAX_VALUE;
 
-    int cost;
-    int time;
+    long cost;
+    long time;
 
     public Weight() {
         this.cost = NOT_ALLOCATED;
         this.time = NOT_ALLOCATED;
     }
 
-    public Weight(int cost, int time) {
+    public Weight(long cost, long time) {
         this.cost = cost;
         this.time = time;
     }
@@ -157,13 +155,10 @@ class Weight {
     }
 
     public boolean isCheaperOrSameThan(Weight other) {
-        if (cost == other.cost && time == other.time) {
-            return true;
-        }
         if (cost == other.cost) {
-            return Integer.compare(time, other.time) == -1 ? true : false;
+            return time <= other.time;
         }
-        return Integer.compare(cost, other.cost) == -1 ? true : false;
+        return cost < other.cost;
     }
 }
 
