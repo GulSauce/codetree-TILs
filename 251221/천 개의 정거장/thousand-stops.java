@@ -92,9 +92,6 @@ class Solver {
                 if (visited[v]) {
                     continue;
                 }
-                if (v == 1000) {
-                    System.out.println();
-                }
                 cur = new Node(v, dist[v]);
             }
 
