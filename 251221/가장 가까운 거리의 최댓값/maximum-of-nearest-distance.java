@@ -61,32 +61,18 @@ class Solver {
             graph.get(edge.end).add(new Node(edge.start, edge.weight));
         }
 
-        int[] distA = dijkstra(A);
-        int[] distB = dijkstra(B);
-        int[] distC = dijkstra(C);
-
-        int answer = 0;
-        for (int v = 1; v <= nodeCount; v++) {
-            int maxDist = getMinTriple(distA[v], distB[v], distC[v]);
-            answer = Math.max(answer, maxDist);
-        }
-
-        System.out.println(answer);
-    }
-
-    private int getMinTriple(int a, int b, int c) {
-        return Math.min(a, Math.min(b, c));
-    }
-
-    private int[] dijkstra(int start) {
+        int[] starts = new int[]{A, B, C};
         final int NOT_ALLOCATED = Integer.MAX_VALUE;
-
         int[] dist = new int[nodeCount + 1];
         Arrays.fill(dist, NOT_ALLOCATED);
-        dist[start] = 0;
+        for (int start : starts) {
+            dist[start] = 0;
+        }
 
         PriorityQueue<Node> pq = new PriorityQueue<>((a, b) -> Integer.compare(a.weight, b.weight));
-        pq.add(new Node(start, 0));
+        for (int start : starts) {
+            pq.add(new Node(start, 0));
+        }
 
         while (!pq.isEmpty()) {
             Node cur = pq.poll();
@@ -106,7 +92,11 @@ class Solver {
             }
         }
 
-        return dist;
+        int answer = 0;
+        for (int i = 1; i < dist.length; i++) {
+            answer = Math.max(dist[i], answer);
+        }
+        System.out.println(answer);
     }
 }
 
