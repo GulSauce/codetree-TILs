@@ -127,9 +127,10 @@ class Solver {
 
         Stack<Integer> pathStack = new Stack<>();
         int cur = END;
+        pathStack.add(cur);
         while (cur != start) {
-            pathStack.add(cur);
             cur = prevOf[cur];
+            pathStack.add(cur);
         }
 
         List<Integer> path = new ArrayList<>();
