@@ -72,10 +72,13 @@ class Solver {
             int start = path.get(i - 1);
             int end = path.get(i);
             int save = graph[start][end];
+
             graph[start][end] *= 2;
+            graph[end][start] *= 2;
             DijkstraReturn cur = dijkstra(START);
             doubleDist = Math.max(doubleDist, cur.dist[END]);
             graph[start][end] = save;
+            graph[end][start] = save;
         }
 
         System.out.println(doubleDist - normalDist);
