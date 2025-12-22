@@ -59,8 +59,7 @@ class Solver {
             int end = graphMakeInfo.end;
             int weight = graphMakeInfo.weight;
 
-            graph[start][end] = weight;
-            graph[end][start] = weight;
+            updateGraph(start, end, weight);
         }
 
         DijkstraReturn dijkstraReturn = dijkstra(START);
@@ -73,15 +72,18 @@ class Solver {
             int end = path.get(i);
             int save = graph[start][end];
 
-            graph[start][end] *= 2;
-            graph[end][start] *= 2;
+            updateGraph(start, end, 2 * save);
             DijkstraReturn cur = dijkstra(START);
             doubleDist = Math.max(doubleDist, cur.dist[END]);
-            graph[start][end] = save;
-            graph[end][start] = save;
+            updateGraph(start, end, save);
         }
 
         System.out.println(doubleDist - normalDist);
+    }
+
+    private void updateGraph(int start, int end, int weight) {
+        graph[start][end] = weight;
+        graph[end][start] = weight;
     }
 
     private DijkstraReturn dijkstra(int start) {
