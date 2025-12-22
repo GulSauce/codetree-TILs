@@ -3,9 +3,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.PriorityQueue;
+import java.util.Stack;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -38,7 +38,6 @@ class Solver {
     int START = 1;
     int END;
     int nodeCount;
-    HashMap<Integer, Integer> removedHashMap = new HashMap<>();
     List<GraphMakeInfo> graphMakeInfos;
     List<List<Edge>> graph = new ArrayList<>();
 
@@ -56,29 +55,39 @@ class Solver {
             insertEdge(graphMakeInfo.start, graphMakeInfo.end, graphMakeInfo.weight);
         }
 
-        int answer = 0;
-        int[] dist = dijkstra();
-        int normalDist = dist[END];
+        DijkstraReturn result = dijkstra(new EdgeToRemove(-1, -1));
+        int[] prevOf = result.prevOf;
 
-        for (int v = 1; v < graph.size(); v++) {
-            List<Edge> myEdges = graph.get(v);
-            for (Edge edge : myEdges) {
-                removedHashMap.put(v, edge.to);
-                removedHashMap.put(edge.to, v);
-                int[] curDist = dijkstra();
-                if (normalDist != curDist[END]) {
-                    answer++;
-                }
-                removedHashMap.remove(v);
-                removedHashMap.remove(edge.to);
-            }
+        List<Integer> path = new ArrayList<>();
+        Stack<Integer> pathStack = new Stack<>();
+        int cur = END;
+        pathStack.add(cur);
+        while (cur != START) {
+            int prev = prevOf[cur];
+            pathStack.add(prev);
+            cur = prev;
         }
 
-        System.out.println(answer / 2);
+        while (!pathStack.isEmpty()) {
+            path.add(pathStack.pop());
+        }
+
+        int answer = 0;
+        int normalDist = result.dist[END];
+        for (int i = 1; i < path.size(); i++) {
+            DijkstraReturn curResult = dijkstra(new EdgeToRemove(path.get(i), path.get(i - 1)));
+            int curDist = curResult.dist[END];
+            if (normalDist != curDist) {
+                answer++;
+            }
+        }
+        System.out.println(answer);
     }
 
-    private int[] dijkstra() {
+    private DijkstraReturn dijkstra(EdgeToRemove edgeToRemove) {
         final int NOT_ALLOCATED = Integer.MAX_VALUE;
+
+        int[] prevOf = new int[nodeCount + 1];
         int[] dist = new int[nodeCount + 1];
         Arrays.fill(dist, NOT_ALLOCATED);
         dist[START] = 0;
@@ -95,31 +104,63 @@ class Solver {
 
             List<Edge> myEdge = graph.get(cur.to);
             for (Edge next : myEdge) {
-                final int NOT_EXIST = -1;
-                int value = removedHashMap.getOrDefault(cur.to, NOT_EXIST);
-                if (value == next.to) {
+                if (edgeToRemove.equals(new EdgeToRemove(cur.to, next.to))) {
                     continue;
                 }
-                value = removedHashMap.getOrDefault(next.to, NOT_EXIST);
-                if (value == cur.to) {
-                    continue;
-                }
-
                 int nextWeight = next.weight + dist[cur.to];
                 if (dist[next.to] <= nextWeight) {
                     continue;
                 }
+                prevOf[next.to] = cur.to;
                 dist[next.to] = nextWeight;
                 pq.add(new Edge(next.to, nextWeight));
             }
         }
 
-        return dist;
+        return new DijkstraReturn(prevOf, dist);
     }
 
     private void insertEdge(int start, int end, int weight) {
         graph.get(start).add(new Edge(end, weight));
         graph.get(end).add(new Edge(start, weight));
+    }
+
+    private class DijkstraReturn {
+
+        int[] prevOf;
+        int[] dist;
+
+        public DijkstraReturn(int[] prevOf, int[] dist) {
+            this.prevOf = prevOf;
+            this.dist = dist;
+        }
+    }
+
+    private class EdgeToRemove {
+
+        int a;
+        int b;
+
+        public EdgeToRemove(int a, int b) {
+            this.a = a;
+            this.b = b;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (!(o instanceof EdgeToRemove)) {
+                return false;
+            }
+            EdgeToRemove other = (EdgeToRemove) o;
+            if (this.a == other.a && this.b == other.b) {
+                return true;
+            }
+            if (this.a == other.b && this.b == other.a) {
+                return true;
+            }
+
+            return false;
+        }
     }
 }
 
