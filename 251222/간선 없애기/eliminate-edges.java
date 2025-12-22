@@ -4,7 +4,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
@@ -42,7 +41,6 @@ class Solver {
     HashMap<Integer, Integer> removedHashMap = new HashMap<>();
     List<GraphMakeInfo> graphMakeInfos;
     List<List<Edge>> graph = new ArrayList<>();
-    HashSet<Integer> minDistHashSet = new HashSet<>();
 
     public Solver(int nodeCount, List<GraphMakeInfo> graphMakeInfos) {
         this.nodeCount = nodeCount;
@@ -58,9 +56,9 @@ class Solver {
             insertEdge(graphMakeInfo.start, graphMakeInfo.end, graphMakeInfo.weight);
         }
 
+        int answer = 0;
         int[] dist = dijkstra();
         int normalDist = dist[END];
-        minDistHashSet.add(normalDist);
 
         for (int v = 1; v < graph.size(); v++) {
             List<Edge> myEdges = graph.get(v);
@@ -68,15 +66,15 @@ class Solver {
                 removedHashMap.put(v, edge.to);
                 removedHashMap.put(edge.to, v);
                 int[] curDist = dijkstra();
+                if (normalDist != curDist[END]) {
+                    answer++;
+                }
                 removedHashMap.remove(v);
                 removedHashMap.remove(edge.to);
-
-                minDistHashSet.add(curDist[END]);
             }
         }
 
-        minDistHashSet.remove(normalDist);
-        System.out.println(minDistHashSet.size());
+        System.out.println(answer / 2);
     }
 
     private int[] dijkstra() {
