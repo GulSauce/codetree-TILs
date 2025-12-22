@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -35,10 +36,10 @@ public class Main {
 
 class Solver {
 
-    final int DELETED = -1;
     int START = 1;
     int END;
     int nodeCount;
+    HashMap<Integer, Integer> removedHashMap = new HashMap<>();
     List<GraphMakeInfo> graphMakeInfos;
     List<List<Edge>> graph = new ArrayList<>();
     HashSet<Integer> minDistHashSet = new HashSet<>();
@@ -59,19 +60,22 @@ class Solver {
 
         int[] dist = dijkstra();
         int normalDist = dist[END];
-        for (List<Edge> myEdges : graph) {
+        minDistHashSet.add(normalDist);
+
+        for (int v = 1; v < graph.size(); v++) {
+            List<Edge> myEdges = graph.get(v);
             for (Edge edge : myEdges) {
-                int saved = edge.weight;
-                edge.weight = DELETED;
+                removedHashMap.put(v, edge.to);
+                removedHashMap.put(edge.to, v);
                 int[] curDist = dijkstra();
-                edge.weight = saved;
-                if (curDist[END] == normalDist) {
-                    continue;
-                }
-                minDistHashSet.add(dist[END]);
+                removedHashMap.remove(v);
+                removedHashMap.remove(edge.to);
+
+                minDistHashSet.add(curDist[END]);
             }
         }
 
+        minDistHashSet.remove(normalDist);
         System.out.println(minDistHashSet.size());
     }
 
@@ -93,9 +97,16 @@ class Solver {
 
             List<Edge> myEdge = graph.get(cur.to);
             for (Edge next : myEdge) {
-                if (next.weight == DELETED) {
+                final int NOT_EXIST = -1;
+                int value = removedHashMap.getOrDefault(cur.to, NOT_EXIST);
+                if (value == next.to) {
                     continue;
                 }
+                value = removedHashMap.getOrDefault(next.to, NOT_EXIST);
+                if (value == cur.to) {
+                    continue;
+                }
+
                 int nextWeight = next.weight + dist[cur.to];
                 if (dist[next.to] <= nextWeight) {
                     continue;
