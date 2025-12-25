@@ -102,7 +102,7 @@ class Solver {
                 if (dist[myEdge.to] <= nextWeight) {
                     continue;
                 }
-                pq.add(new Edge(myEdge.to, warningCount));
+                pq.add(new Edge(myEdge.to, nextWeight));
                 dist[myEdge.to] = nextWeight;
             }
         }
