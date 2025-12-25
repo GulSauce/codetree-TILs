@@ -34,7 +34,7 @@ public class Main {
 
 class Solver {
 
-    final int NOT_ALLOCATED = Integer.MAX_VALUE;
+    final long NOT_ALLOCATED = Long.MAX_VALUE;
     final int START = 1;
     final int END;
     int nodeCount;
@@ -43,8 +43,8 @@ class Solver {
     List<List<Edge>> graphB = new ArrayList<>();
     List<List<Edge>> graphAReverse = new ArrayList<>();
     List<List<Edge>> graphBReverse = new ArrayList<>();
-    int[] distA;
-    int[] distB;
+    long[] distA;
+    long[] distB;
 
     public Solver(int nodeCount, List<GraphMakeInfo> graphMakeInfos) {
         this.nodeCount = nodeCount;
@@ -71,16 +71,16 @@ class Solver {
 
         distA = dijkstra(graphAReverse, END);
         distB = dijkstra(graphBReverse, END);
-        int[] answer = dijkstraByTwoDist(START);
+        long[] answer = dijkstraByTwoDist(START);
         System.out.println(answer[END]);
     }
 
-    private int[] dijkstraByTwoDist(int start) {
-        int[] dist = new int[nodeCount + 1];
+    private long[] dijkstraByTwoDist(int start) {
+        long[] dist = new long[nodeCount + 1];
         Arrays.fill(dist, NOT_ALLOCATED);
         dist[start] = 0;
 
-        PriorityQueue<Edge> pq = new PriorityQueue<>((a, b) -> Integer.compare(a.weight, b.weight));
+        PriorityQueue<Edge> pq = new PriorityQueue<>((a, b) -> Long.compare(a.weight, b.weight));
         pq.add(new Edge(start, 0));
 
         while (!pq.isEmpty()) {
@@ -98,7 +98,7 @@ class Solver {
                 if (distB[myEdge.to] + myEdge.weight != distB[cur.to]) {
                     warningCount++;
                 }
-                int nextWeight = dist[cur.to] + warningCount;
+                long nextWeight = dist[cur.to] + warningCount;
                 if (dist[myEdge.to] <= nextWeight) {
                     continue;
                 }
@@ -109,12 +109,12 @@ class Solver {
         return dist;
     }
 
-    private int[] dijkstra(List<List<Edge>> graph, int start) {
-        int[] dist = new int[nodeCount + 1];
+    private long[] dijkstra(List<List<Edge>> graph, int start) {
+        long[] dist = new long[nodeCount + 1];
         Arrays.fill(dist, NOT_ALLOCATED);
         dist[start] = 0;
 
-        PriorityQueue<Edge> pq = new PriorityQueue<>((a, b) -> Integer.compare(a.weight, b.weight));
+        PriorityQueue<Edge> pq = new PriorityQueue<>((a, b) -> Long.compare(a.weight, b.weight));
         pq.add(new Edge(start, 0));
         while (!pq.isEmpty()) {
             Edge cur = pq.poll();
@@ -124,7 +124,7 @@ class Solver {
 
             List<Edge> nextEdges = graph.get(cur.to);
             for (Edge nextEdge : nextEdges) {
-                int nextWeight = nextEdge.weight + dist[cur.to];
+                long nextWeight = nextEdge.weight + dist[cur.to];
                 if (dist[nextEdge.to] <= nextWeight) {
                     continue;
                 }
@@ -140,9 +140,9 @@ class Solver {
 class Edge {
 
     int to;
-    int weight;
+    long weight;
 
-    public Edge(int to, int weight) {
+    public Edge(int to, long weight) {
         this.to = to;
         this.weight = weight;
     }
