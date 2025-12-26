@@ -65,7 +65,8 @@ class Solver {
 
         for (int i = 1; i <= nodeCount; i++) {
             for (int j = 1; j <= nodeCount; j++) {
-                System.out.print(dist[i][j] == NOT_ALLOCATED ? -1 : dist[i][j] + " ");
+                System.out.print(dist[i][j] == NOT_ALLOCATED ? -1 : dist[i][j]);
+                System.out.print(" ");
             }
             System.out.println();
         }
