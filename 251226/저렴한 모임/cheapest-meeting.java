@@ -81,7 +81,7 @@ class Solver {
             int curCost = dist[aStart][meetV] + dist[bStart][meetV] + dist[meetV][end];
             cost = Math.min(cost, curCost);
         }
-        System.out.println(cost);
+        System.out.println(cost == NOT_ALLOCATED ? -1 : cost);
     }
 }
 
