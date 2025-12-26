@@ -32,6 +32,7 @@ public class Main {
 class Solver {
 
     int nodeCount;
+    boolean[] visited;
     HashMap<Integer, Integer> parentHashMap = new HashMap<>();
     List<TreeInfo> treeInfos;
     List<List<Integer>> tree = new ArrayList<>();
@@ -49,8 +50,10 @@ class Solver {
         }
         for (TreeInfo treeInfo : treeInfos) {
             tree.get(treeInfo.start).add(treeInfo.end);
+            tree.get(treeInfo.end).add(treeInfo.start);
         }
 
+        visited = new boolean[nodeCount + 1];
         dfs(ROOT_NODE);
 
         for (int v = 2; v <= nodeCount; v++) {
@@ -59,11 +62,15 @@ class Solver {
     }
 
     private void dfs(int parent) {
+        visited[parent] = true;
         List<Integer> children = tree.get(parent);
         if (children.isEmpty()) {
             return;
         }
         for (int child : children) {
+            if (visited[child]) {
+                continue;
+            }
             parentHashMap.put(child, parent);
             dfs(child);
         }
