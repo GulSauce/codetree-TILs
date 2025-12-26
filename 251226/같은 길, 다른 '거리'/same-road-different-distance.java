@@ -90,7 +90,7 @@ class Solver {
             }
 
             List<Edge> myAEdges = graphA.get(cur.to);
-            List<Edge> myBEdges = graphA.get(cur.to);
+            List<Edge> myBEdges = graphB.get(cur.to);
             for (int i = 0; i < myAEdges.size(); i++) {
                 int warningCount = 0;
                 Edge myAEdge = myAEdges.get(i);
