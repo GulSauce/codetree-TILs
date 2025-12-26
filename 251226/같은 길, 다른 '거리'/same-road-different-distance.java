@@ -94,19 +94,22 @@ class Solver {
             for (int i = 0; i < myAEdges.size(); i++) {
                 int warningCount = 0;
                 Edge myAEdge = myAEdges.get(i);
-                Edge myBEdge = myBEdges.get(i);
                 if (distA[myAEdge.to] + myAEdge.weight != distA[cur.to]) {
                     warningCount++;
                 }
+
+                Edge myBEdge = myBEdges.get(i);
                 if (distB[myBEdge.to] + myBEdge.weight != distB[cur.to]) {
                     warningCount++;
                 }
+
+                Edge nextEdge = myAEdges.get(i);
                 long nextWeight = dist[cur.to] + warningCount;
-                if (dist[myAEdge.to] <= nextWeight) {
+                if (dist[nextEdge.to] <= nextWeight) {
                     continue;
                 }
-                pq.add(new Edge(myAEdge.to, nextWeight));
-                dist[myAEdge.to] = nextWeight;
+                pq.add(new Edge(nextEdge.to, nextWeight));
+                dist[nextEdge.to] = nextWeight;
             }
         }
         return dist;
