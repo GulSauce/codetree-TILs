@@ -3,7 +3,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -54,11 +53,6 @@ class Solver {
     }
 
     public void solve() {
-        HashSet<Integer> redNodeHashSet = new HashSet<>();
-        for (int v = 1; v <= redNodeEnd; v++) {
-            redNodeHashSet.add(v);
-        }
-
         final int NOT_ALLOCATED = Integer.MAX_VALUE;
         int[][] dist = new int[nodeCount + 1][nodeCount + 1];
         for (int[] array : dist) {
@@ -76,21 +70,25 @@ class Solver {
                     if (dist[i][k] == NOT_ALLOCATED || dist[k][j] == NOT_ALLOCATED) {
                         continue;
                     }
-                    if (redNodeHashSet.contains(i) || redNodeHashSet.contains(j)
-                        || redNodeHashSet.contains(k)) {
-                        dist[i][j] = Math.min(dist[i][j], dist[i][k] + dist[k][j]);
-                    }
+                    dist[i][j] = Math.min(dist[i][j], dist[i][k] + dist[k][j]);
                 }
             }
         }
         int reachableCount = 0;
         long costSum = 0;
         for (Query query : queries) {
-            if (dist[query.start][query.end] == NOT_ALLOCATED) {
+            int curCost = NOT_ALLOCATED;
+            for (int v = 1; v <= redNodeEnd; v++) {
+                if (dist[query.start][v] == NOT_ALLOCATED || dist[v][query.end] == NOT_ALLOCATED) {
+                    continue;
+                }
+                curCost = Math.min(curCost, dist[query.start][v] + dist[v][query.end]);
+            }
+            if (curCost == NOT_ALLOCATED) {
                 continue;
             }
             reachableCount++;
-            costSum += dist[query.start][query.end];
+            costSum += curCost;
         }
         System.out.println(reachableCount);
         System.out.println(costSum);
