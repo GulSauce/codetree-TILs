@@ -66,8 +66,7 @@ class Solver {
                 if (graphInfos.size() <= j) {
                     break;
                 }
-                int next = graphInfos.get(j);
-                if (cur + 1 != next) {
+                if (graphInfos.get(j) != graphInfos.get(j - 1) + 1) {
                     break;
                 }
             }
