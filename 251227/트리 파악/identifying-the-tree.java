@@ -33,8 +33,9 @@ public class Main {
 class Solver {
 
     int nodeCount;
-    int[] dist;
+    HashSet<Integer> visitedHashSet = new HashSet<>();
     HashSet<Integer> leafNodeHashSet = new HashSet<>();
+    HashMap<Integer, Integer> distHashMap = new HashMap<>();
     HashMap<Integer, List<Integer>> graph = new HashMap<>();
     List<GraphMakeInfo> graphMakeInfos;
 
@@ -47,27 +48,35 @@ class Solver {
         for (GraphMakeInfo graphMakeInfo : graphMakeInfos) {
             graph.computeIfAbsent(graphMakeInfo.start, (k) -> new ArrayList<>())
                 .add(graphMakeInfo.end);
+            graph.computeIfAbsent(graphMakeInfo.end, (k) -> new ArrayList<>())
+                .add(graphMakeInfo.start);
         }
 
-        dist = new int[nodeCount + 1];
-        calcDistFindLeafDFS(1);
+        final int ROOT_NODE = 1;
+        distHashMap.put(ROOT_NODE, 0);
+        calcDistFindLeafDFS(ROOT_NODE);
 
         long leafNodeDistSum = 0;
         for (int leafNode : leafNodeHashSet) {
-            leafNodeDistSum += dist[leafNode];
+            leafNodeDistSum += distHashMap.get(leafNode);
         }
         System.out.println(leafNodeDistSum % 2 == 0 ? 0 : 1);
     }
 
     private void calcDistFindLeafDFS(int cur) {
+        visitedHashSet.add(cur);
         List<Integer> nextEdges = graph.get(cur);
-        if (nextEdges == null) {
-            leafNodeHashSet.add(cur);
-            return;
-        }
+        boolean isLeaf = true;
         for (int nextEdge : nextEdges) {
-            dist[nextEdge] = dist[cur] + 1;
+            if (visitedHashSet.contains(nextEdge)) {
+                continue;
+            }
+            isLeaf = false;
+            distHashMap.put(nextEdge, distHashMap.get(cur) + 1);
             calcDistFindLeafDFS(nextEdge);
+        }
+        if (isLeaf) {
+            leafNodeHashSet.add(cur);
         }
     }
 }
