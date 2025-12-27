@@ -52,7 +52,7 @@ class Solver {
         dist = new int[nodeCount + 1];
         calcDistFindLeafDFS(1);
 
-        int leafNodeDistSum = 0;
+        long leafNodeDistSum = 0;
         for (int leafNode : leafNodeHashSet) {
             leafNodeDistSum += dist[leafNode];
         }
