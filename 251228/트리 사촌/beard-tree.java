@@ -56,14 +56,17 @@ class Solver {
             final int parentNode = graphInfos.get(i);
             graph.put(parentNode, new ArrayList<>());
             while (true) {
+                if (graphInfos.size() <= j) {
+                    break;
+                }
                 int cur = graphInfos.get(j);
                 parentHashMap.put(cur, graphInfos.get(i));
                 graph.get(graphInfos.get(i)).add(cur);
-                if (graphInfos.size() <= j + 1) {
+                j++;
+                if (graphInfos.size() <= j) {
                     break;
                 }
-                int next = graphInfos.get(j + 1);
-                j++;
+                int next = graphInfos.get(j);
                 if (cur + 1 != next) {
                     break;
                 }
@@ -85,6 +88,7 @@ class Solver {
             }
             answer += graph.get(parentSibling).size();
         }
+
         System.out.println(answer);
     }
 }
