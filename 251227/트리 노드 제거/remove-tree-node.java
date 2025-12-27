@@ -61,28 +61,18 @@ class Solver {
             tree.get(parent).add(i);
         }
 
-        markDeleteNodeDFS(nodeNumberToDelete);
-
+        delteNodeHashSet.add(nodeNumberToDelete);
         final int ROOT_NODE = findRoot();
         findLeafDFS(ROOT_NODE);
         System.out.println(leafNodeCount);
-    }
-
-    private void markDeleteNodeDFS(int cur) {
-        delteNodeHashSet.add(cur);
-        List<Integer> children = tree.get(cur);
-
-        for (int child : children) {
-            markDeleteNodeDFS(child);
-        }
     }
 
     private void findLeafDFS(int cur) {
         if (delteNodeHashSet.contains(cur)) {
             return;
         }
-        List<Integer> children = tree.get(cur);
 
+        List<Integer> children = tree.get(cur);
         int childCount = 0;
         for (int child : children) {
             if (delteNodeHashSet.contains(child)) {
