@@ -4,6 +4,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -34,7 +35,6 @@ public class Main {
 class Solver {
 
     HashMap<Integer, Integer> parentHashMap = new HashMap<>();
-    HashMap<Integer, List<Integer>> graph = new HashMap<>();
     int targetNode;
     List<Integer> graphInfos;
 
@@ -53,15 +53,12 @@ class Solver {
         int i = 0;
         int j = 1;
         for (; i < graphInfos.size(); i++) {
-            final int parentNode = graphInfos.get(i);
-            graph.put(parentNode, new ArrayList<>());
             while (true) {
                 if (graphInfos.size() <= j) {
                     break;
                 }
                 int cur = graphInfos.get(j);
                 parentHashMap.put(cur, graphInfos.get(i));
-                graph.get(graphInfos.get(i)).add(cur);
                 j++;
                 if (graphInfos.size() <= j) {
                     break;
@@ -80,12 +77,20 @@ class Solver {
         }
 
         int answer = 0;
-        List<Integer> parentSiblings = graph.get(grandParentNumber);
-        for (Integer parentSibling : parentSiblings) {
-            if (parentSibling.equals(parentNumber)) {
+        int targetParent = parentHashMap.get(targetNode);
+        int targetGrandParent = parentHashMap.get(targetParent);
+        for (Entry<Integer, Integer> entry : parentHashMap.entrySet()) {
+            if (entry.getKey().equals(targetNode)) {
                 continue;
             }
-            answer += graph.get(parentSibling).size();
+            Integer parent = entry.getValue();
+            Integer grandParent = parentHashMap.get(parent);
+            if(grandParent == null){
+                continue;
+            }
+            if (!parent.equals(targetParent) && grandParent.equals(targetGrandParent)) {
+                answer++;
+            }
         }
 
         System.out.println(answer);
