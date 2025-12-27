@@ -2,7 +2,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -32,8 +35,8 @@ class Solver {
 
     boolean isTree = true;
     List<List<Integer>> graph = new ArrayList<>();
-    boolean[] visited;
-    int[] inputCount;
+    HashSet<Integer> visitedHashSet = new HashSet<>();
+    HashMap<Integer, Integer> inputCountHashMap = new HashMap<>();
     int nodeCount;
     List<Edge> edges;
 
@@ -60,7 +63,6 @@ class Solver {
             return;
         }
 
-        visited = new boolean[nodeCount + 1];
         dfs(rootNode);
         checkPathFromRootExist();
         if (!isTree) {
@@ -73,7 +75,7 @@ class Solver {
 
     private void checkPathFromRootExist() {
         for (int v = 1; v <= nodeCount; v++) {
-            if (visited[v]) {
+            if (visitedHashSet.contains(v)) {
                 continue;
             }
             isTree = false;
@@ -84,9 +86,9 @@ class Solver {
     private int checkRootOnlyOneReturningRoot() {
         int rootNode = -1;
         int rootCount = 0;
-        for (int v = 1; v <= nodeCount; v++) {
-            if (inputCount[v] == 0) {
-                rootNode = v;
+        for (Entry<Integer, Integer> entry : inputCountHashMap.entrySet()) {
+            if (entry.getValue() == 0) {
+                rootNode = entry.getKey();
                 rootCount++;
             }
         }
@@ -98,11 +100,11 @@ class Solver {
     }
 
     private void checkInputOnlyOne(int rootNode) {
-        for (int v = 1; v <= nodeCount; v++) {
-            if (v == rootNode) {
+        for (Entry<Integer, Integer> entry : inputCountHashMap.entrySet()) {
+            if (entry.getKey() == rootNode) {
                 continue;
             }
-            if (inputCount[v] != 1) {
+            if (entry.getValue() != 1) {
                 isTree = false;
                 return;
             }
@@ -110,7 +112,7 @@ class Solver {
     }
 
     private void dfs(int cur) {
-        visited[cur] = true;
+        visitedHashSet.add(cur);
 
         List<Integer> nextEdges = graph.get(cur);
         for (int nextEdge : nextEdges) {
@@ -124,10 +126,11 @@ class Solver {
         }
         for (Edge edge : edges) {
             graph.get(edge.start).add(edge.end);
+            inputCountHashMap.put(edge.start, 0);
+            inputCountHashMap.put(edge.end, 0);
         }
-        inputCount = new int[nodeCount + 1];
         for (Edge edge : edges) {
-            inputCount[edge.end]++;
+            inputCountHashMap.compute(edge.end, (key, val) -> val + 1);
         }
     }
 
