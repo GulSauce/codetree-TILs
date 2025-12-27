@@ -74,8 +74,8 @@ class Solver {
     }
 
     private void checkPathFromRootExist() {
-        for (int v = 1; v <= nodeCount; v++) {
-            if (visitedHashSet.contains(v)) {
+        for (Entry<Integer, Integer> entry : inputCountHashMap.entrySet()) {
+            if (visitedHashSet.contains(entry.getKey())) {
                 continue;
             }
             isTree = false;
