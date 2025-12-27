@@ -63,7 +63,7 @@ class Solver {
             return;
         }
 
-        dfs(rootNode);
+        visitDFS(rootNode);
         checkPathFromRootExist();
         if (!isTree) {
             printNotTree();
@@ -111,7 +111,7 @@ class Solver {
         }
     }
 
-    private void dfs(int cur) {
+    private void visitDFS(int cur) {
         visitedHashSet.add(cur);
 
         List<Integer> nextEdges = graph.get(cur);
@@ -119,7 +119,7 @@ class Solver {
             return;
         }
         for (int nextEdge : nextEdges) {
-            dfs(nextEdge);
+            visitDFS(nextEdge);
         }
     }
 
