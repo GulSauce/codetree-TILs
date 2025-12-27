@@ -34,7 +34,7 @@ public class Main {
 class Solver {
 
     boolean isTree = true;
-    List<List<Integer>> graph = new ArrayList<>();
+    HashMap<Integer, List<Integer>> graph = new HashMap<>();
     HashSet<Integer> visitedHashSet = new HashSet<>();
     HashMap<Integer, Integer> inputCountHashMap = new HashMap<>();
     int nodeCount;
@@ -115,17 +115,17 @@ class Solver {
         visitedHashSet.add(cur);
 
         List<Integer> nextEdges = graph.get(cur);
+        if (nextEdges == null) {
+            return;
+        }
         for (int nextEdge : nextEdges) {
             dfs(nextEdge);
         }
     }
 
     private void init() {
-        for (int i = 0; i <= nodeCount; i++) {
-            graph.add(new ArrayList<>());
-        }
         for (Edge edge : edges) {
-            graph.get(edge.start).add(edge.end);
+            graph.computeIfAbsent(edge.start, k -> new ArrayList<>()).add(edge.end);
             inputCountHashMap.put(edge.start, 0);
             inputCountHashMap.put(edge.end, 0);
         }
