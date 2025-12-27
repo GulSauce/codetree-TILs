@@ -2,7 +2,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -42,7 +41,6 @@ class Solver {
     HashSet<Integer> delteNodeHashSet = new HashSet<>();
     int[] parentNumbers;
 
-    boolean[] visited;
     List<List<Integer>> tree = new ArrayList<>();
 
     public Solver(int nodeCount, int nodeNumberToDelete, int[] parentNumbers) {
@@ -63,26 +61,19 @@ class Solver {
             tree.get(parent).add(i);
         }
 
-        visited = new boolean[nodeCount + 1];
-        markDeleteNodeDFS(delteNodeHashSet, nodeNumberToDelete);
+        markDeleteNodeDFS(nodeNumberToDelete);
 
         final int ROOT_NODE = findRoot();
-        Arrays.fill(visited, false);
         findLeafDFS(ROOT_NODE);
         System.out.println(leafNodeCount);
     }
 
-    private void markDeleteNodeDFS(HashSet<Integer> delteNodeHashSet, int cur) {
+    private void markDeleteNodeDFS(int cur) {
         delteNodeHashSet.add(cur);
-        visited[cur] = true;
-
         List<Integer> children = tree.get(cur);
 
         for (int child : children) {
-            if (visited[child]) {
-                continue;
-            }
-            markDeleteNodeDFS(delteNodeHashSet, child);
+            markDeleteNodeDFS(child);
         }
     }
 
@@ -90,19 +81,14 @@ class Solver {
         if (delteNodeHashSet.contains(cur)) {
             return;
         }
-        visited[cur] = true;
         List<Integer> children = tree.get(cur);
 
-        boolean noChild = true;
-        for (int child : children) {
-            if (visited[child]) {
-                continue;
-            }
-            noChild = false;
-            findLeafDFS(child);
-        }
-        if (noChild) {
+        if (children.isEmpty()) {
             leafNodeCount++;
+            return;
+        }
+        for (int child : children) {
+            findLeafDFS(child);
         }
     }
 
