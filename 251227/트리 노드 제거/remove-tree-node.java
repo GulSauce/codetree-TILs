@@ -75,9 +75,6 @@ class Solver {
         List<Integer> children = tree.get(cur);
         int childCount = 0;
         for (int child : children) {
-            if (delteNodeHashSet.contains(child)) {
-                continue;
-            }
             childCount++;
             findLeafDFS(child);
         }
