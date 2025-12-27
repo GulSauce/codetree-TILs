@@ -30,8 +30,10 @@ public class Main {
 
 class Solver {
 
+    boolean isTree = true;
     List<List<Integer>> graph = new ArrayList<>();
     boolean[] visited;
+    int[] inputCount;
     int nodeCount;
     List<Edge> edges;
 
@@ -40,52 +42,19 @@ class Solver {
     }
 
     public void solve() {
-        int nodeCount = -1;
         for (Edge edge : edges) {
             nodeCount = Math.max(nodeCount, edge.start);
             nodeCount = Math.max(nodeCount, edge.end);
         }
+        init();
 
-        for (int i = 0; i <= nodeCount; i++) {
-            graph.add(new ArrayList<>());
-        }
-
-        for (Edge edge : edges) {
-            graph.get(edge.start).add(edge.end);
-        }
-
-        int[] inputCount = new int[nodeCount + 1];
-        for (Edge edge : edges) {
-            inputCount[edge.end]++;
-        }
-
-        boolean isTree = true;
-
-        final int NOT_EXIST = -1;
-        int rootNode = NOT_EXIST;
-        for (int v = 1; v <= nodeCount; v++) {
-            if (inputCount[v] == 0) {
-                if (rootNode != NOT_EXIST) {
-                    isTree = false;
-                    break;
-                }
-                rootNode = v;
-            }
-        }
+        int rootNode = checkRootOnlyOneReturningRoot();
         if (!isTree) {
             printNotTree();
             return;
         }
 
-        for (int v = 1; v <= nodeCount; v++) {
-            if (v == rootNode) {
-                continue;
-            }
-            if (inputCount[v] != 1) {
-                isTree = false;
-                break;
-            }
-        }
+        checkInputOnlyOne(rootNode);
         if (!isTree) {
             printNotTree();
             return;
@@ -93,14 +62,7 @@ class Solver {
 
         visited = new boolean[nodeCount + 1];
         dfs(rootNode);
-
-        for (int v = 1; v <= nodeCount; v++) {
-            if (visited[v]) {
-                continue;
-            }
-            isTree = false;
-            break;
-        }
+        checkPathFromRootExist();
         if (!isTree) {
             printNotTree();
             return;
@@ -109,12 +71,63 @@ class Solver {
         System.out.println(1);
     }
 
+    private void checkPathFromRootExist() {
+        for (int v = 1; v <= nodeCount; v++) {
+            if (visited[v]) {
+                continue;
+            }
+            isTree = false;
+            return;
+        }
+    }
+
+    private int checkRootOnlyOneReturningRoot() {
+        int rootNode = -1;
+        int rootCount = 0;
+        for (int v = 1; v <= nodeCount; v++) {
+            if (inputCount[v] == 0) {
+                rootNode = v;
+                rootCount++;
+            }
+        }
+        if (rootCount != 1) {
+            isTree = false;
+            return -1;
+        }
+        return rootNode;
+    }
+
+    private void checkInputOnlyOne(int rootNode) {
+        for (int v = 1; v <= nodeCount; v++) {
+            if (v == rootNode) {
+                continue;
+            }
+            if (inputCount[v] != 1) {
+                isTree = false;
+                return;
+            }
+        }
+    }
+
     private void dfs(int cur) {
         visited[cur] = true;
 
         List<Integer> nextEdges = graph.get(cur);
         for (int nextEdge : nextEdges) {
             dfs(nextEdge);
+        }
+    }
+
+    private void init() {
+        for (int i = 0; i <= nodeCount; i++) {
+            graph.add(new ArrayList<>());
+        }
+        for (Edge edge : edges) {
+            graph.get(edge.start).add(edge.end);
+        }
+        inputCount = new int[nodeCount + 1];
+        for (Edge edge : edges) {
+            inputCount[edge.end]++;
         }
     }
 
