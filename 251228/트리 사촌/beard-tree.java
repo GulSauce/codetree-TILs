@@ -53,10 +53,7 @@ class Solver {
         int i = 0;
         int j = 1;
         for (; i < graphInfos.size(); i++) {
-            while (true) {
-                if (graphInfos.size() <= j) {
-                    break;
-                }
+            while (j < graphInfos.size()) {
                 int cur = graphInfos.get(j);
                 parentHashMap.put(cur, graphInfos.get(i));
                 j++;
@@ -85,7 +82,7 @@ class Solver {
             }
             Integer parent = entry.getValue();
             Integer grandParent = parentHashMap.get(parent);
-            if(grandParent == null){
+            if (grandParent == null) {
                 continue;
             }
             if (!parent.equals(targetParent) && grandParent.equals(targetGrandParent)) {
