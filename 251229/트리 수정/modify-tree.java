@@ -34,12 +34,8 @@ public class Main {
 class Solver {
 
     int endNodeNumber;
-    int maxDist = 0;
-    int skipNumber;
-    int hasMaxDistNumber = -1;
 
     List<GraphMakeInfo> graphMakeInfos;
-    boolean[] visited;
     HashMap<Integer, List<Edge>> graph = new HashMap<>();
 
     public Solver(int N, List<GraphMakeInfo> graphMakeInfos) {
@@ -48,6 +44,7 @@ class Solver {
     }
 
     public void solve() {
+        int answer = 0;
         for (GraphMakeInfo graphMakeInfo : graphMakeInfos) {
             graph.computeIfAbsent(graphMakeInfo.start, (key) -> new ArrayList<>()).add(new Edge(
                 graphMakeInfo.end, graphMakeInfo.weight));
@@ -55,33 +52,36 @@ class Solver {
                 graphMakeInfo.start, graphMakeInfo.weight));
         }
 
-        int answer = 0;
-        visited = new boolean[endNodeNumber + 1];
+        this.visited = new boolean[endNodeNumber + 1];
         for (Entry<Integer, List<Edge>> entry : graph.entrySet()) {
             for (Edge edge : entry.getValue()) {
                 int a = entry.getKey();
                 int b = edge.to;
-                int treeADiaMeter = getDiameterSkippingNumber(a, b);
-                int treeBDiaMeter = getDiameterSkippingNumber(b, a);
+                int treeADiaMeter = getDiameterWithSettingSkip(a, b);
+                int treeBDiaMeter = getDiameterWithSettingSkip(b, a);
                 answer = Math.max(answer, treeADiaMeter + treeBDiaMeter + edge.weight);
             }
         }
         System.out.println(answer);
     }
 
-    private int getDiameterSkippingNumber(int a, int skipNumber) {
+    int maxDist = 0;
+    int skipNumber;
+    boolean[] visited;
+    int hasMaxDistNumber = -1;
+
+    private int getDiameterWithSettingSkip(int a, int skipNumber) {
         this.skipNumber = skipNumber;
-
-        Arrays.fill(visited, false);
-        this.hasMaxDistNumber = a;
-        this.maxDist = 0;
-        dfs(a, 0);
-
-        Arrays.fill(visited, false);
-        this.maxDist = 0;
-        dfs(this.hasMaxDistNumber, 0);
-
+        setFarthestDist(a);
+        setFarthestDist(hasMaxDistNumber);
         return maxDist;
+    }
+
+    private void setFarthestDist(int start) {
+        Arrays.fill(visited, false);
+        this.hasMaxDistNumber = start;
+        this.maxDist = 0;
+        dfs(start, 0);
     }
 
     private void dfs(int cur, int dist) {
