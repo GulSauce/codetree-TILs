@@ -2,8 +2,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.StringTokenizer;
@@ -23,7 +23,7 @@ public class Main {
             graphMakeInfos.add(new GraphMakeInfo(toInt(st), toInt(st), toInt(st)));
         }
 
-        new Solver(graphMakeInfos).solve();
+        new Solver(N, graphMakeInfos).solve();
     }
 
     private static int toInt(StringTokenizer st) {
@@ -33,14 +33,17 @@ public class Main {
 
 class Solver {
 
-    HashMap<Integer, List<Edge>> graph = new HashMap<>();
-    List<GraphMakeInfo> graphMakeInfos;
-    int skipNumber;
-    HashSet<Integer> visitedHashSet = new HashSet<>();
-    int hasMaxDistNumber = -1;
+    int endNodeNumber;
     int maxDist = 0;
+    int skipNumber;
+    int hasMaxDistNumber = -1;
 
-    public Solver(List<GraphMakeInfo> graphMakeInfos) {
+    List<GraphMakeInfo> graphMakeInfos;
+    boolean[] visited;
+    HashMap<Integer, List<Edge>> graph = new HashMap<>();
+
+    public Solver(int N, List<GraphMakeInfo> graphMakeInfos) {
+        endNodeNumber = N - 1;
         this.graphMakeInfos = graphMakeInfos;
     }
 
@@ -53,6 +56,7 @@ class Solver {
         }
 
         int answer = 0;
+        visited = new boolean[endNodeNumber + 1];
         for (Entry<Integer, List<Edge>> entry : graph.entrySet()) {
             for (Edge edge : entry.getValue()) {
                 int a = entry.getKey();
@@ -68,12 +72,12 @@ class Solver {
     private int getDiameterSkippingNumber(int a, int skipNumber) {
         this.skipNumber = skipNumber;
 
-        visitedHashSet.clear();
+        Arrays.fill(visited, false);
         this.hasMaxDistNumber = a;
         this.maxDist = 0;
         dfs(a, 0);
 
-        visitedHashSet.clear();
+        Arrays.fill(visited, false);
         this.maxDist = 0;
         dfs(this.hasMaxDistNumber, 0);
 
@@ -81,10 +85,10 @@ class Solver {
     }
 
     private void dfs(int cur, int dist) {
-        visitedHashSet.add(cur);
+        visited[cur] = true;
         List<Edge> toNextNodes = graph.get(cur);
         for (Edge toNextNode : toNextNodes) {
-            if (visitedHashSet.contains(toNextNode.to)) {
+            if (visited[toNextNode.to]) {
                 continue;
             }
             if (toNextNode.to == skipNumber) {
