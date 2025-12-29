@@ -54,24 +54,21 @@ class Solver {
             tree.get(graphMakeInfo.end).add(graphMakeInfo.start);
         }
 
-        dfs(ROOT_NODE);
+        setParentNumberDFS(ROOT_NODE);
         for (int v = 2; v <= nodeCount; v++) {
             System.out.println(parentNumberOf[v]);
         }
     }
 
-    private void dfs(int parent) {
+    private void setParentNumberDFS(int parent) {
         visited[parent] = true;
         List<Integer> children = tree.get(parent);
-        if (children.isEmpty()) {
-            return;
-        }
         for (int child : children) {
             if (visited[child]) {
                 continue;
             }
             parentNumberOf[child] = parent;
-            dfs(child);
+            setParentNumberDFS(child);
         }
     }
 }
