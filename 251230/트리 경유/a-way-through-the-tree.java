@@ -50,6 +50,7 @@ class Solver {
         for (Integer query : queries) {
             blockNumber = NO_BLOCK;
             toRootSetBlockNumberDFS(query);
+
             System.out.println(blockNumber);
             if (blockNumber == NO_BLOCK) {
                 visited[query] = true;
@@ -63,7 +64,6 @@ class Solver {
         }
         if (visited[cur]) {
             blockNumber = cur;
-            return;
         }
         toRootSetBlockNumberDFS(cur / 2);
     }
