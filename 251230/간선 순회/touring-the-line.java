@@ -85,16 +85,9 @@ class Solver {
             }
             int nextEdgeCount = curEdgeCount + 1;
             int nextCost = curCost + toNextNode.weight;
-            if (farthestDistInfo.edgeCount < nextEdgeCount) {
-                farthestDistInfo.edgeCount = nextEdgeCount;
-                farthestDistInfo.cost = nextCost;
-                farthestDistInfo.number = toNextNode.to;
-            } else if (farthestDistInfo.edgeCount == nextEdgeCount) {
-                if (nextCost < farthestDistInfo.cost) {
-                    farthestDistInfo.edgeCount = nextEdgeCount;
-                    farthestDistInfo.cost = nextCost;
-                    farthestDistInfo.number = toNextNode.to;
-                }
+
+            if (farthestDistInfo.isSmallerThan(nextEdgeCount, nextCost)) {
+                farthestDistInfo.update(toNextNode.to, nextEdgeCount, nextCost);
             }
             setFarthestDistInfoDFS(toNextNode.to, nextEdgeCount, nextCost);
         }
@@ -108,6 +101,19 @@ class FarthestDistInfo {
     int cost;
 
     public FarthestDistInfo(int number, int edgeCount, int cost) {
+        this.number = number;
+        this.edgeCount = edgeCount;
+        this.cost = cost;
+    }
+
+    public boolean isSmallerThan(int edgeCount, int cost) {
+        if (this.edgeCount == edgeCount) {
+            return cost < this.cost;
+        }
+        return this.edgeCount < edgeCount;
+    }
+
+    public void update(int number, int edgeCount, int cost) {
         this.number = number;
         this.edgeCount = edgeCount;
         this.cost = cost;
