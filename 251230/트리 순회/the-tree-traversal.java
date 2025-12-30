@@ -35,73 +35,86 @@ public class Main {
 
 class Solver {
 
-    final String NO_NODE = ".";
-    String[] graph;
     int nodeCount;
-    HashMap<String, Integer> nodeIndexHashMap = new HashMap<>();
+
+    HashMap<String, Node> valueToNodeHashMap = new HashMap<>();
     List<GraphMakeInfo> graphMakeInfos;
 
     public Solver(int nodeCount, List<GraphMakeInfo> graphMakeInfos) {
         this.nodeCount = nodeCount;
         this.graphMakeInfos = graphMakeInfos;
-        this.graph = new String[5 * nodeCount];
     }
 
     public void solve() {
-        nodeIndexHashMap.put("A", 1);
-        graph[1] = "A";
+        final String NO_NODE = ".";
         for (GraphMakeInfo graphMakeInfo : graphMakeInfos) {
-            makeChild(graphMakeInfo);
+            Node node = makeNode(graphMakeInfo.parent);
+            if (!graphMakeInfo.left.equals(NO_NODE)) {
+                node.setLeft(makeNode(graphMakeInfo.left));
+            }
+            if (!graphMakeInfo.right.equals(NO_NODE)) {
+                node.setRight(makeNode(graphMakeInfo.right));
+            }
         }
 
-        printPreorderDFS(1);
+        Node rootNode = valueToNodeHashMap.get("A");
+        printPreorderDFS(rootNode);
         System.out.println();
-        printInorderDFS(1);
+
+        printInorderDFS(rootNode);
         System.out.println();
-        printPostorderDFS(1);
+
+        printPostorderDFS(rootNode);
     }
 
-    private void printPreorderDFS(int parentIndex) {
-        if (graph[parentIndex] == null) {
+    private void printPreorderDFS(Node cur) {
+        if (cur == null) {
             return;
         }
-        System.out.print(graph[parentIndex]);
-        printPreorderDFS(parentIndex * 2);
-        printPreorderDFS(parentIndex * 2 + 1);
+        System.out.print(cur.value);
+        printPreorderDFS(cur.left);
+        printPreorderDFS(cur.right);
     }
 
-    private void printInorderDFS(int parentIndex) {
-        if (graph[parentIndex] == null) {
+    private void printInorderDFS(Node cur) {
+        if (cur == null) {
             return;
         }
-        printInorderDFS(parentIndex * 2);
-        System.out.print(graph[parentIndex]);
-        printInorderDFS(parentIndex * 2 + 1);
+        printInorderDFS(cur.left);
+        System.out.print(cur.value);
+        printInorderDFS(cur.right);
     }
 
-    private void printPostorderDFS(int parentIndex) {
-        if (graph[parentIndex] == null) {
+    private void printPostorderDFS(Node cur) {
+        if (cur == null) {
             return;
         }
-        printPostorderDFS(parentIndex * 2);
-        printPostorderDFS(parentIndex * 2 + 1);
-        System.out.print(graph[parentIndex]);
+        printPostorderDFS(cur.left);
+        printPostorderDFS(cur.right);
+        System.out.print(cur.value);
     }
 
-    private void makeChild(GraphMakeInfo graphMakeInfo) {
-        int parentIndex = nodeIndexHashMap.get(graphMakeInfo.parent);
-        if (!graphMakeInfo.left.equals(NO_NODE)) {
-            String left = graphMakeInfo.left;
-            int leftIndex = parentIndex * 2;
-            graph[leftIndex] = left;
-            nodeIndexHashMap.put(left, leftIndex);
-        }
-        if (!graphMakeInfo.right.equals(NO_NODE)) {
-            String right = graphMakeInfo.right;
-            int rightIndex = parentIndex * 2 + 1;
-            graph[rightIndex] = right;
-            nodeIndexHashMap.put(right, rightIndex);
-        }
+    private Node makeNode(String value) {
+        return valueToNodeHashMap.computeIfAbsent(value, (key) -> new Node(value));
+    }
+}
+
+class Node {
+
+    String value;
+    Node left;
+    Node right;
+
+    public Node(String value) {
+        this.value = value;
+    }
+
+    public void setLeft(Node left) {
+        this.left = left;
+    }
+
+    public void setRight(Node right) {
+        this.right = right;
     }
 }
 
