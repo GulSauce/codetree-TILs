@@ -22,7 +22,7 @@ public class Main {
             nodeInfos.add(new NodeInfo(v, toInt(st), toInt(st)));
         }
         st = new StringTokenizer(br.readLine());
-        K = toInt(st);
+        K = Long.parseLong(st);
 
         new Solver(nodeInfos, K).solve();
     }
@@ -35,10 +35,10 @@ public class Main {
 class Solver {
 
     List<NodeInfo> nodeInfos;
-    int targetNumber;
+    long targetNumber;
     HashMap<Integer, Node> numberToNodeHashMap = new HashMap<>();
 
-    public Solver(List<NodeInfo> nodeInfos, int targetNumber) {
+    public Solver(List<NodeInfo> nodeInfos, long targetNumber) {
         this.nodeInfos = nodeInfos;
         this.targetNumber = targetNumber;
     }
@@ -54,7 +54,7 @@ class Solver {
         System.out.println(distNodeNumber);
     }
 
-    private void setDestNumberDFS(Node cur, int targetNumber) {
+    private void setDestNumberDFS(Node cur, long targetNumber) {
         boolean isOdd = targetNumber % 2 == 1;
         if (isOdd) {
             if (cur.left == null) {
