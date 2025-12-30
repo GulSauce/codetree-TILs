@@ -64,18 +64,18 @@ class Solver {
     FarthestDistInfo farthestDistInfo;
 
     private int getTreeDiameter() {
-        setFarthestDistInfos(1);
-        setFarthestDistInfos(farthestDistInfo.number);
+        setFarthestDistInfo(1);
+        setFarthestDistInfo(farthestDistInfo.number);
         return farthestDistInfo.cost;
     }
 
-    private void setFarthestDistInfos(final int START) {
+    private void setFarthestDistInfo(final int START) {
         Arrays.fill(visited, false);
         farthestDistInfo = new FarthestDistInfo(-1, 0, 0);
-        calcDistDFS(START, 0, 0);
+        setFarthestDistInfoDFS(START, 0, 0);
     }
 
-    private void calcDistDFS(int cur, int curEdgeCount, int curCost) {
+    private void setFarthestDistInfoDFS(int cur, int curEdgeCount, int curCost) {
         visited[cur] = true;
 
         List<Edge> toNextNodes = graph.get(cur);
@@ -96,7 +96,7 @@ class Solver {
                     farthestDistInfo.number = toNextNode.to;
                 }
             }
-            calcDistDFS(toNextNode.to, nextEdgeCount, nextCost);
+            setFarthestDistInfoDFS(toNextNode.to, nextEdgeCount, nextCost);
         }
     }
 }
