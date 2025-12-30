@@ -49,11 +49,11 @@ class Solver {
             graph.computeIfAbsent(graphMakeInfo.end, (key) -> new ArrayList<>())
                 .add(new Edge(graphMakeInfo.start, graphMakeInfo.weight));
         }
+        
+        DiameterInfo diameterInfo = getTreeDiameterInfo();
 
-        DistInfo distInfoA = getFarestDistSkipping(1, NO_SKIP);
-        int a = distInfoA.number;
-        DistInfo distInfoB = getFarestDistSkipping(a, NO_SKIP);
-        int b = distInfoB.number;
+        int a = diameterInfo.a;
+        int b = diameterInfo.b;
 
         DistInfo secondDistA = getFarestDistSkipping(a, b);
         DistInfo secondDistB = getFarestDistSkipping(b, a);
@@ -63,6 +63,15 @@ class Solver {
 
     int skipNumber;
     DistInfo farthestDistInfo;
+
+    private DiameterInfo getTreeDiameterInfo() {
+        DistInfo distInfoA = getFarestDistSkipping(1, NO_SKIP);
+        int a = distInfoA.number;
+        DistInfo distInfoB = getFarestDistSkipping(a, NO_SKIP);
+        int b = distInfoB.number;
+
+        return new DiameterInfo(a, b, distInfoB.dist);
+    }
 
     private DistInfo getFarestDistSkipping(int start, int skipNumber) {
         this.skipNumber = skipNumber;
@@ -89,6 +98,19 @@ class Solver {
             }
             setFarthestDistInfoDFS(toNextNode.to, nextDist);
         }
+    }
+}
+
+class DiameterInfo {
+
+    int a;
+    int b;
+    int weight;
+
+    public DiameterInfo(int a, int b, int weight) {
+        this.a = a;
+        this.b = b;
+        this.weight = weight;
     }
 }
 
