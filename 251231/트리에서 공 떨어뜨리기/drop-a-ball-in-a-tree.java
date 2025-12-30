@@ -55,19 +55,15 @@ class Solver {
     }
 
     private void setDestNumberDFS(Node cur, long targetNumber) {
+        boolean isOdd = targetNumber % 2 == 1;
         if (cur.left == null && cur.right == null) {
             distNodeNumber = cur.number;
             return;
-        }
-        if (cur.left != null && cur.right == null) {
+        } else if (cur.left != null && cur.right == null) {
             setDestNumberDFS(cur.left, targetNumber);
-        }
-        if (cur.left == null && cur.right != null) {
+        } else if (cur.left == null && cur.right != null) {
             setDestNumberDFS(cur.right, targetNumber);
-        }
-
-        boolean isOdd = targetNumber % 2 == 1;
-        if (isOdd) {
+        } else if (isOdd) {
             setDestNumberDFS(cur.left, (targetNumber + 1) / 2);
         } else {
             setDestNumberDFS(cur.right, targetNumber / 2);
