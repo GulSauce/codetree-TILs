@@ -11,7 +11,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         int N;
         List<NodeInfo> nodeInfos = new ArrayList<>();
-        int K;
+        long K;
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -22,7 +22,7 @@ public class Main {
             nodeInfos.add(new NodeInfo(v, toInt(st), toInt(st)));
         }
         st = new StringTokenizer(br.readLine());
-        K = Long.parseLong(st);
+        K = Long.parseLong(st.nextToken());
 
         new Solver(nodeInfos, K).solve();
     }
