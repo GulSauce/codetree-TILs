@@ -38,7 +38,6 @@ public class Main {
 class Solver {
 
     int nodeCount;
-    List<Integer> postorderResult = new ArrayList<>();
     List<Integer> preorderResult;
     List<Integer> inorderResult;
     int[] numberToIndexes;
@@ -50,18 +49,21 @@ class Solver {
         this.numberToIndexes = new int[nodeCount + 1];
     }
 
+
+    List<Integer> toFillPostorderResults = new ArrayList<>();
+    
     public void solve() {
         for (int i = 0; i < inorderResult.size(); i++) {
             numberToIndexes[inorderResult.get(i)] = i;
         }
-        setAnswerTravelingPostorder(new PreSubtreeInfo(0, nodeCount - 1),
+        fillPostorderDAQ(new PreSubtreeInfo(0, nodeCount - 1),
             new InSubtreeInfo(0, nodeCount - 1));
-        for (int nodeNumber : postorderResult) {
+        for (int nodeNumber : toFillPostorderResults) {
             System.out.print(nodeNumber + " ");
         }
     }
 
-    private void setAnswerTravelingPostorder(PreSubtreeInfo preSubtreeInfo,
+    private void fillPostorderDAQ(PreSubtreeInfo preSubtreeInfo,
         InSubtreeInfo inSubtreeInfo) {
         if (preSubtreeInfo.start > preSubtreeInfo.end) {
             return;
@@ -72,7 +74,7 @@ class Solver {
 
         int leftSubtreeSize = inorderRootIndex - inSubtreeInfo.start + 1;
 
-        setAnswerTravelingPostorder(
+        fillPostorderDAQ(
             new PreSubtreeInfo(
                 preSubtreeInfo.start + 1,
                 preSubtreeInfo.start + leftSubtreeSize - 1
@@ -83,7 +85,7 @@ class Solver {
             )
         );
 
-        setAnswerTravelingPostorder(
+        fillPostorderDAQ(
             new PreSubtreeInfo(
                 preSubtreeInfo.start + leftSubtreeSize,
                 preSubtreeInfo.end
@@ -94,7 +96,7 @@ class Solver {
             )
         );
 
-        postorderResult.add(rootNumber);
+        toFillPostorderResults.add(rootNumber);
     }
 }
 
