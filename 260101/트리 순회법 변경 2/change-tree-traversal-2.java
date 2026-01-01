@@ -41,14 +41,19 @@ class Solver {
     List<Integer> postorderResult = new ArrayList<>();
     List<Integer> preorderResult;
     List<Integer> inorderResult;
+    int[] numberToIndexes;
 
     public Solver(int nodeCount, List<Integer> preorderResult, List<Integer> inorderResult) {
         this.nodeCount = nodeCount;
         this.preorderResult = preorderResult;
         this.inorderResult = inorderResult;
+        this.numberToIndexes = new int[nodeCount + 1];
     }
 
     public void solve() {
+        for (int i = 0; i < inorderResult.size(); i++) {
+            numberToIndexes[inorderResult.get(i)] = i;
+        }
         setAnswerTravelingPostorder(new PreSubtreeInfo(0, nodeCount - 1),
             new InSubtreeInfo(0, nodeCount - 1));
         for (int nodeNumber : postorderResult) {
@@ -58,24 +63,35 @@ class Solver {
 
     private void setAnswerTravelingPostorder(PreSubtreeInfo preSubtreeInfo,
         InSubtreeInfo inSubtreeInfo) {
-        if (preSubtreeInfo.start >= preSubtreeInfo.end) {
+        if (preSubtreeInfo.start > preSubtreeInfo.end) {
             return;
         }
 
         int rootNumber = preorderResult.get(preSubtreeInfo.start);
-        int inorderRootIndex = inorderResult.indexOf(rootNumber);
+        int inorderRootIndex = numberToIndexes[rootNumber];
 
-        int leftSubtreeSize = inorderRootIndex - inSubtreeInfo.start;
+        int leftSubtreeSize = inorderRootIndex - inSubtreeInfo.start + 1;
 
         setAnswerTravelingPostorder(
-            new PreSubtreeInfo(preSubtreeInfo.start + 1,
-                preSubtreeInfo.start + 1 + leftSubtreeSize),
-            new InSubtreeInfo(inSubtreeInfo.start, inSubtreeInfo.start + leftSubtreeSize)
+            new PreSubtreeInfo(
+                preSubtreeInfo.start + 1,
+                preSubtreeInfo.start + leftSubtreeSize - 1
+            ),
+            new InSubtreeInfo(
+                inSubtreeInfo.start,
+                inorderRootIndex - 1
+            )
         );
 
         setAnswerTravelingPostorder(
-            new PreSubtreeInfo(preSubtreeInfo.start + leftSubtreeSize + 1, preSubtreeInfo.end),
-            new InSubtreeInfo(inorderRootIndex + 1, inSubtreeInfo.end)
+            new PreSubtreeInfo(
+                preSubtreeInfo.start + leftSubtreeSize,
+                preSubtreeInfo.end
+            ),
+            new InSubtreeInfo(
+                inorderRootIndex + 1,
+                inSubtreeInfo.end
+            )
         );
 
         postorderResult.add(rootNumber);
