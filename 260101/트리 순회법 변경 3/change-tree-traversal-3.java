@@ -54,15 +54,15 @@ class Solver {
             numberToIndexes[inorderResult.get(i)] = i;
         }
 
-        doPreorder(new InorderArea(0, N - 1), new PostorderArea(0, N - 1));
-        for (int number : preorderResult) {
+        fillPreorderDAQ(new InorderArea(0, N - 1), new PostorderArea(0, N - 1));
+        for (int number : toFillPreorderResults) {
             System.out.print(number + " ");
         }
     }
 
-    List<Integer> preorderResult = new ArrayList<>();
+    List<Integer> toFillPreorderResults = new ArrayList<>();
 
-    public void doPreorder(InorderArea inorderArea, PostorderArea postorderArea) {
+    public void fillPreorderDAQ(InorderArea inorderArea, PostorderArea postorderArea) {
         if (inorderArea.end < inorderArea.start) {
             return;
         }
@@ -72,9 +72,9 @@ class Solver {
 
         int leftSubtreeSize = inorderRootIndex - inorderArea.start;
 
-        preorderResult.add(rootNumber);
+        toFillPreorderResults.add(rootNumber);
 
-        doPreorder(
+        fillPreorderDAQ(
             new InorderArea(
                 inorderArea.start,
                 inorderRootIndex - 1
@@ -85,7 +85,7 @@ class Solver {
             )
         );
 
-        doPreorder(
+        fillPreorderDAQ(
             new InorderArea(
                 inorderRootIndex + 1,
                 inorderArea.end
