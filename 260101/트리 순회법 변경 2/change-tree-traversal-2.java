@@ -58,7 +58,7 @@ class Solver {
 
     private void setAnswerTravelingPostorder(PreSubtreeInfo preSubtreeInfo,
         InSubtreeInfo inSubtreeInfo) {
-        if (preSubtreeInfo.start > preSubtreeInfo.end) {
+        if (preSubtreeInfo.start >= preSubtreeInfo.end) {
             return;
         }
 
@@ -68,7 +68,8 @@ class Solver {
         int leftSubtreeSize = inorderRootIndex - inSubtreeInfo.start;
 
         setAnswerTravelingPostorder(
-            new PreSubtreeInfo(preSubtreeInfo.start + 1, preSubtreeInfo.start + leftSubtreeSize),
+            new PreSubtreeInfo(preSubtreeInfo.start + 1,
+                preSubtreeInfo.start + 1 + leftSubtreeSize),
             new InSubtreeInfo(inSubtreeInfo.start, inSubtreeInfo.start + leftSubtreeSize)
         );
 
