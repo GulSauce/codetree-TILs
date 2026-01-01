@@ -3,7 +3,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -39,7 +38,7 @@ public class Main {
 class Solver {
 
     int nodeCount;
-    Stack<Integer> answer = new Stack<>();
+    List<Integer> postorderResult = new ArrayList<>();
     List<Integer> preorderResult;
     List<Integer> inorderResult;
 
@@ -50,42 +49,35 @@ class Solver {
     }
 
     public void solve() {
-        setAnswerWithFindingRoot(new PreSubtreeInfo(0, nodeCount - 1),
+        setAnswerTravelingPostorder(new PreSubtreeInfo(0, nodeCount - 1),
             new InSubtreeInfo(0, nodeCount - 1));
-        while (!answer.isEmpty()) {
-            System.out.print(answer.pop() + " ");
+        for (int nodeNumber : postorderResult) {
+            System.out.print(nodeNumber + " ");
         }
     }
 
-    private void setAnswerWithFindingRoot(PreSubtreeInfo preSubtreeInfo,
+    private void setAnswerTravelingPostorder(PreSubtreeInfo preSubtreeInfo,
         InSubtreeInfo inSubtreeInfo) {
-        int rootNode = preorderResult.get(preSubtreeInfo.start);
-        int inOrderRootIndex = -1;
-        answer.add(rootNode);
+        if (preSubtreeInfo.start > preSubtreeInfo.end) {
+            return;
+        }
 
-        for (int i = inSubtreeInfo.start; i <= inSubtreeInfo.end; i++) {
-            if (rootNode == inorderResult.get(i)) {
-                inOrderRootIndex = i;
-                break;
-            }
-        }
-        int leftSubTreeSize = inOrderRootIndex - inSubtreeInfo.start;
-        int rightSubTreeSize = inSubtreeInfo.end - inOrderRootIndex;
-        int leftPreStart = preSubtreeInfo.start + 1;
-        int leftPreEnd = leftPreStart + leftSubTreeSize - 1;
-        PreSubtreeInfo leftPre = new PreSubtreeInfo(leftPreStart, leftPreEnd);
-        PreSubtreeInfo rightPre = new PreSubtreeInfo(leftPreEnd + 1, preSubtreeInfo.end);
+        int rootNumber = preorderResult.get(preSubtreeInfo.start);
+        int inorderRootIndex = inorderResult.indexOf(rootNumber);
 
-        int leftInStart = inSubtreeInfo.start + leftSubTreeSize - 1;
-        int rightInStart = leftInStart + 2;
-        InSubtreeInfo leftIn = new InSubtreeInfo(inSubtreeInfo.start, leftInStart);
-        InSubtreeInfo rightIn = new InSubtreeInfo(rightInStart, inSubtreeInfo.end);
-        if (rightSubTreeSize > 0) {
-            setAnswerWithFindingRoot(rightPre, rightIn);
-        }
-        if (leftSubTreeSize > 0) {
-            setAnswerWithFindingRoot(leftPre, leftIn);
-        }
+        int leftSubtreeSize = inorderRootIndex - inSubtreeInfo.start;
+
+        setAnswerTravelingPostorder(
+            new PreSubtreeInfo(preSubtreeInfo.start + 1, preSubtreeInfo.start + leftSubtreeSize),
+            new InSubtreeInfo(inSubtreeInfo.start, inSubtreeInfo.start + leftSubtreeSize)
+        );
+
+        setAnswerTravelingPostorder(
+            new PreSubtreeInfo(preSubtreeInfo.start + leftSubtreeSize + 1, preSubtreeInfo.end),
+            new InSubtreeInfo(inorderRootIndex + 1, inSubtreeInfo.end)
+        );
+
+        postorderResult.add(rootNumber);
     }
 }
 
