@@ -62,7 +62,7 @@ class Solver {
 
         int centralNodeNumber = getCentralNodeNumberBFS();
         Arrays.fill(visited, false);
-        DPDFS(rootNodeNumber);
+        DPDFS(centralNodeNumber);
 
         if (graph.get(centralNodeNumber).isEmpty()) {
             System.out.println(0);
