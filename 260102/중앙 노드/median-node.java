@@ -3,7 +3,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -60,7 +62,7 @@ class Solver {
         }
 
         centralNodeNumber = NOT_ALLOCATED;
-        setCentralNodeNumberDFS(rootNodeNumber);
+        setCentralNodeNumberBFS();
         Arrays.fill(visited, false);
         DPDFS(rootNodeNumber);
 
@@ -75,27 +77,29 @@ class Solver {
     }
 
 
-    private void setCentralNodeNumberDFS(int cur) {
-        visited[cur] = true;
-        int childCount = 0;
-        for (int child : graph.get(cur)) {
-            if (visited[child]) {
-                continue;
+    private void setCentralNodeNumberBFS() {
+        Queue<Integer> nextNodeQueue = new LinkedList<>();
+        nextNodeQueue.add(rootNodeNumber);
+        while (!nextNodeQueue.isEmpty()) {
+            int cur = nextNodeQueue.poll();
+            visited[cur] = true;
+            List<Integer> children = graph.get(cur);
+
+            int childCount = 0;
+            for (int child : children) {
+                if (visited[child]) {
+                    continue;
+                }
+                childCount++;
+                nextNodeQueue.add(child);
             }
-            childCount++;
-        }
-        if (childCount >= 2) {
-            centralNodeNumber = cur;
-            return;
-        }
-        if (childCount == 0 && centralNodeNumber == NOT_ALLOCATED) {
-            centralNodeNumber = cur;
-        }
-        for (int child : graph.get(cur)) {
-            if (visited[child]) {
-                continue;
+            if (childCount >= 2) {
+                centralNodeNumber = cur;
+                return;
             }
-            setCentralNodeNumberDFS(child);
+            if (childCount == 0) {
+                centralNodeNumber = cur;
+            }
         }
     }
 
