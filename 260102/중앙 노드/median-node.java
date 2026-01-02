@@ -36,6 +36,7 @@ class Solver {
     int rootNodeNumber;
     int centralNodeNumber;
 
+    final int NOT_ALLOCATED = -1;
     boolean[] visited;
     int[] dp;
     List<List<Integer>> graph = new ArrayList<>();
@@ -44,7 +45,6 @@ class Solver {
     public Solver(int nodeCount, int rootNodeNumber, List<Edge> edges) {
         this.nodeCount = nodeCount;
         this.rootNodeNumber = rootNodeNumber;
-        this.centralNodeNumber = rootNodeNumber;
         this.edges = edges;
         this.visited = new boolean[nodeCount + 1];
         this.dp = new int[nodeCount + 1];
@@ -59,6 +59,7 @@ class Solver {
             graph.get(edge.end).add(edge.start);
         }
 
+        centralNodeNumber = NOT_ALLOCATED;
         findCentralDFS(rootNodeNumber);
         Arrays.fill(visited, false);
         DPDFS(rootNodeNumber);
@@ -84,6 +85,10 @@ class Solver {
             childCount++;
         }
         if (childCount >= 2) {
+            centralNodeNumber = cur;
+            return;
+        }
+        if (childCount == 0 && centralNodeNumber == NOT_ALLOCATED) {
             centralNodeNumber = cur;
             return;
         }
