@@ -36,11 +36,10 @@ class Solver {
 
     int nodeCount;
     int rootNodeNumber;
-    int centralNodeNumber;
 
-    final int NOT_ALLOCATED = -1;
-    boolean[] visited;
     int[] dp;
+    boolean[] visited;
+
     List<List<Integer>> graph = new ArrayList<>();
     List<Edge> edges;
 
@@ -61,10 +60,14 @@ class Solver {
             graph.get(edge.end).add(edge.start);
         }
 
-        centralNodeNumber = NOT_ALLOCATED;
-        setCentralNodeNumberBFS();
+        int centralNodeNumber = getCentralNodeNumberBFS();
         Arrays.fill(visited, false);
         DPDFS(rootNodeNumber);
+
+        if (graph.get(centralNodeNumber).isEmpty()) {
+            System.out.println(0);
+            return;
+        }
 
         int maxSubtreeSize = 0;
         int minSubtreeSize = Integer.MAX_VALUE;
@@ -72,12 +75,12 @@ class Solver {
             maxSubtreeSize = Math.max(dp[child], maxSubtreeSize);
             minSubtreeSize = Math.min(dp[child], minSubtreeSize);
         }
-
         System.out.println(maxSubtreeSize - minSubtreeSize);
     }
 
 
-    private void setCentralNodeNumberBFS() {
+    private int getCentralNodeNumberBFS() {
+        int centralNodeNumber = -1;
         Queue<Integer> nextNodeQueue = new LinkedList<>();
         nextNodeQueue.add(rootNodeNumber);
         while (!nextNodeQueue.isEmpty()) {
@@ -95,14 +98,14 @@ class Solver {
             }
             if (childCount >= 2) {
                 centralNodeNumber = cur;
-                return;
+                break;
             }
             if (childCount == 0) {
                 centralNodeNumber = cur;
             }
         }
+        return centralNodeNumber;
     }
-
 
     private void DPDFS(int cur) {
         visited[cur] = true;
