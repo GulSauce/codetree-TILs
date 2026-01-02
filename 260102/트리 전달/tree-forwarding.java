@@ -79,7 +79,7 @@ class Solver {
 
     private void initDP() {
         for (Operation operation : operations) {
-            dp[operation.nodeNumber] = operation.value;
+            dp[operation.nodeNumber] += operation.value;
         }
     }
 }
