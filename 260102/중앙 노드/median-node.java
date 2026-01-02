@@ -60,7 +60,7 @@ class Solver {
         }
 
         centralNodeNumber = NOT_ALLOCATED;
-        findCentralDFS(rootNodeNumber);
+        setCentralNodeNumberDFS(rootNodeNumber);
         Arrays.fill(visited, false);
         DPDFS(rootNodeNumber);
 
@@ -75,7 +75,7 @@ class Solver {
     }
 
 
-    private void findCentralDFS(int cur) {
+    private void setCentralNodeNumberDFS(int cur) {
         visited[cur] = true;
         int childCount = 0;
         for (int child : graph.get(cur)) {
@@ -90,13 +90,12 @@ class Solver {
         }
         if (childCount == 0 && centralNodeNumber == NOT_ALLOCATED) {
             centralNodeNumber = cur;
-            return;
         }
         for (int child : graph.get(cur)) {
             if (visited[child]) {
                 continue;
             }
-            findCentralDFS(child);
+            setCentralNodeNumberDFS(child);
         }
     }
 
