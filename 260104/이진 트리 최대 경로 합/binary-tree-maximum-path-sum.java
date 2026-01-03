@@ -73,17 +73,25 @@ class Solver {
 
     private void DPDFS(Node cur) {
         visited[cur.number] = true;
+        boolean isLeaf = true;
+        boolean selected = false;
         for (Node child : cur.children) {
             if (visited[child.number]) {
                 continue;
             }
             DPDFS(child);
+            isLeaf = false;
+            selected = true;
             if (dp[child.number] <= 0) {
                 continue;
             }
             dp[cur.number] += dp[child.number];
         }
-        dp[cur.number] += cur.value;
+        if (isLeaf) {
+            dp[cur.number] += cur.value;
+        } else if (selected) {
+            dp[cur.number] += cur.value;
+        }
     }
 }
 
