@@ -44,8 +44,11 @@ class Solver {
 
     boolean[] visited;
 
-    final int SELECTED = 1;
+
     final int NOT_SELECTED = 0;
+    final int SELECTED = 1;
+    final int PARENT_NEEDED = 2;
+
     int[][] dp;
     List<Node> graph = new ArrayList<>();
 
@@ -54,7 +57,7 @@ class Solver {
         this.nodeValues = nodeValues;
         this.edges = edges;
         this.visited = new boolean[endNodeNumber + 1];
-        this.dp = new int[endNodeNumber + 1][2];
+        this.dp = new int[endNodeNumber + 1][3];
     }
 
     public void solve() {
@@ -69,7 +72,12 @@ class Solver {
         }
         final Node ROOT = graph.get(1);
         DPDFS(ROOT);
-        System.out.println(Math.max(dp[ROOT.number][SELECTED], dp[ROOT.number][NOT_SELECTED]));
+
+        int answer = 0;
+        for (int flag = 0; flag <= 2; flag++) {
+            answer = Math.max(answer, dp[ROOT.number][flag]);
+        }
+        System.out.println(answer);
     }
 
     private void DPDFS(Node cur) {
@@ -80,9 +88,30 @@ class Solver {
                 continue;
             }
             DPDFS(child);
+        }
+
+        for (Node child : cur.children) {
             int childNumber = child.number;
-            dp[curNumber][NOT_SELECTED] += dp[childNumber][SELECTED];
-            dp[curNumber][SELECTED] += dp[childNumber][NOT_SELECTED];
+            dp[curNumber][SELECTED] += Math.max(dp[childNumber][NOT_SELECTED],
+                dp[childNumber][PARENT_NEEDED]);
+            dp[curNumber][PARENT_NEEDED] += dp[childNumber][NOT_SELECTED];
+        }
+
+        boolean isAllChildOff = true;
+        int minDiff = Integer.MAX_VALUE;
+        for (Node child : cur.children) {
+            int childNumber = child.number;
+            int notSelectedValue = dp[childNumber][NOT_SELECTED];
+            int selectedValue = dp[childNumber][SELECTED];
+            if (notSelectedValue <= selectedValue) {
+                isAllChildOff = false;
+            } else {
+                minDiff = Math.min(minDiff, notSelectedValue - selectedValue);
+            }
+            dp[curNumber][NOT_SELECTED] += Math.max(notSelectedValue, selectedValue);
+        }
+        if (isAllChildOff) {
+            dp[curNumber][NOT_SELECTED] -= minDiff;
         }
         dp[curNumber][SELECTED] += cur.value;
     }
