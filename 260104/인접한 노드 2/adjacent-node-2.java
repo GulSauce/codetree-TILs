@@ -71,7 +71,7 @@ class Solver {
         DPDFS(rootNode);
 
         Arrays.fill(visited, false);
-        setAnswerTraceBackDFS(rootNode);
+        setAnswerTraceBackDFS(rootNode, false);
         Collections.sort(answer);
         System.out.println(
             Math.max(dp[rootNode.number][NOT_SELECTED], dp[rootNode.number][SELECTED]));
@@ -80,19 +80,26 @@ class Solver {
         }
     }
 
-    private void setAnswerTraceBackDFS(Node cur) {
+    private void setAnswerTraceBackDFS(Node cur, boolean parentSelected) {
         visited[cur.number] = true;
         int curNumber = cur.number;
         int selected = dp[curNumber][SELECTED];
         int notSelected = dp[curNumber][NOT_SELECTED];
-        if (notSelected <= selected) {
+        if (notSelected <= selected && !parentSelected) {
             answer.add(cur.number);
+            for (Node child : cur.children) {
+                if (visited[child.number]) {
+                    continue;
+                }
+                setAnswerTraceBackDFS(child, true);
+            }
+            return;
         }
         for (Node child : cur.children) {
             if (visited[child.number]) {
                 continue;
             }
-            setAnswerTraceBackDFS(child);
+            setAnswerTraceBackDFS(child, false);
         }
     }
 
