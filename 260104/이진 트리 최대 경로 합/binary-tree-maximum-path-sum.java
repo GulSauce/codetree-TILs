@@ -38,6 +38,7 @@ public class Main {
 class Solver {
 
     boolean[] visited;
+    int answer = 0;
     int[] dp;
     int endNodeNumber;
     List<Node> graph = new ArrayList<>();
@@ -64,7 +65,6 @@ class Solver {
         Node rootNode = graph.get(1);
         DPDFS(rootNode);
 
-        int answer = 0;
         for (int v = 1; v <= endNodeNumber; v++) {
             answer = Math.max(answer, dp[v]);
         }
@@ -73,25 +73,25 @@ class Solver {
 
     private void DPDFS(Node cur) {
         visited[cur.number] = true;
-        boolean isLeaf = true;
-        boolean selected = false;
+
+        int firstBigSubtree = 0;
+        int secondBigSubtree = 0;
+
         for (Node child : cur.children) {
             if (visited[child.number]) {
                 continue;
             }
             DPDFS(child);
-            isLeaf = false;
-            selected = true;
-            if (dp[child.number] <= 0) {
-                continue;
+            if (firstBigSubtree < dp[child.number]) {
+                secondBigSubtree = firstBigSubtree;
+                firstBigSubtree = dp[child.number];
             }
-            dp[cur.number] += dp[child.number];
+            if (secondBigSubtree < dp[child.number] && dp[child.number] < firstBigSubtree) {
+                secondBigSubtree = dp[child.number];
+            }
         }
-        if (isLeaf) {
-            dp[cur.number] += cur.value;
-        } else if (selected) {
-            dp[cur.number] += cur.value;
-        }
+        answer = Math.max(answer, cur.value + firstBigSubtree + secondBigSubtree);
+        dp[cur.number] += cur.value + firstBigSubtree;
     }
 }
 
