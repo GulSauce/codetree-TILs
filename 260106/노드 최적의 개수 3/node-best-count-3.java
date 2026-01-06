@@ -91,15 +91,17 @@ class Solver {
             }
 
             int notSelectedValue = Math.min(dp[child][NOT_SELECTED], dp[child][SELECTED]);
+            if (dp[child][SELECTED] == UNAVAILABLE && dp[child][NOT_SELECTED] == UNAVAILABLE) {
+                dp[cur][SELECTED] = UNAVAILABLE;
+            } else if (dp[cur][NOT_SELECTED] != UNAVAILABLE) {
+                dp[cur][NOT_SELECTED] += notSelectedValue;
+            }
             if (dp[child][SELECTED] <= dp[child][NOT_SELECTED]) {
                 childAllNotSelected = false;
             } else {
-                minDiff = Math.min(minDiff, dp[child][SELECTED] - dp[child][NOT_SELECTED]);
-            }
-            if (notSelectedValue == UNAVAILABLE) {
-                dp[cur][NOT_SELECTED] = UNAVAILABLE;
-            } else if (dp[cur][NOT_SELECTED] != UNAVAILABLE) {
-                dp[cur][NOT_SELECTED] += notSelectedValue;
+                int curDiff = dp[child][SELECTED] == UNAVAILABLE ? UNAVAILABLE
+                    : dp[child][SELECTED] - dp[child][NOT_SELECTED];
+                minDiff = Math.min(minDiff, curDiff);
             }
 
             int parentNeededValue = dp[child][NOT_SELECTED];
@@ -110,7 +112,11 @@ class Solver {
             }
         }
         if (!isLeaf && childAllNotSelected && dp[cur][NOT_SELECTED] != UNAVAILABLE) {
-            dp[cur][NOT_SELECTED] += minDiff;
+            if (minDiff == UNAVAILABLE) {
+                dp[cur][NOT_SELECTED] = UNAVAILABLE;
+            } else {
+                dp[cur][NOT_SELECTED] += minDiff;
+            }
         }
         if (isLeaf) {
             dp[cur][NOT_SELECTED] = UNAVAILABLE;
