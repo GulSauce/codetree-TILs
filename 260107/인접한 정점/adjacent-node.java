@@ -111,13 +111,19 @@ class Solver {
             } else if (toChildCoveredValue != UNAVAILABLE) {
                 dp[curNumber][CHILD_COVERED] += toChildCoveredValue;
             }
-
             if (dp[childNumber][CHILD_COVERED] <= dp[childNumber][SELECTED]) {
                 isAllChildOff = false;
             } else {
                 int curDiff = dp[childNumber][SELECTED] == UNAVAILABLE ? UNAVAILABLE
                     : dp[childNumber][SELECTED] - dp[childNumber][CHILD_COVERED];
                 minDiff = Math.max(minDiff, curDiff);
+            }
+
+            int toNeedParentCoverValue = dp[childNumber][CHILD_COVERED];
+            if (toNeedParentCoverValue == UNAVAILABLE) {
+                dp[curNumber][NEED_PARENT_COVER] = UNAVAILABLE;
+            } else if (dp[curNumber][NEED_PARENT_COVER] != UNAVAILABLE) {
+                dp[curNumber][NEED_PARENT_COVER] += toNeedParentCoverValue;
             }
         }
 
