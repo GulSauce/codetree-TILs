@@ -62,10 +62,7 @@ class Solver {
         final int ROOT_NUMBER = 1;
         DPDFS(ROOT_NUMBER);
 
-        int answer = Integer.MAX_VALUE;
-        for (int i = 0; i <= 2; i++) {
-            answer = Math.min(answer, dp[ROOT_NUMBER][i]);
-        }
+        int answer = Math.min(dp[ROOT_NUMBER][SELECTED], dp[ROOT_NUMBER][CHILD_COVERED]);
         System.out.println(answer);
     }
 
@@ -104,7 +101,7 @@ class Solver {
                 minDiff = Math.min(minDiff, curDiff);
             }
 
-            int parentCoveredValue = Math.min(dp[child][CHILD_COVERED], dp[child][SELECTED]);
+            int parentCoveredValue = dp[child][CHILD_COVERED];
             if (parentCoveredValue == UNAVAILABLE) {
                 dp[cur][PARENT_COVERED] = UNAVAILABLE;
             } else if (dp[cur][PARENT_COVERED] != UNAVAILABLE) {
