@@ -88,7 +88,7 @@ class Solver {
             }
 
             int childCoveredValue = Math.min(dp[child][CHILD_COVERED], dp[child][SELECTED]);
-            if (dp[child][SELECTED] == UNAVAILABLE && dp[child][CHILD_COVERED] == UNAVAILABLE) {
+            if (childCoveredValue == UNAVAILABLE) {
                 dp[cur][CHILD_COVERED] = UNAVAILABLE;
             } else if (dp[cur][CHILD_COVERED] != UNAVAILABLE) {
                 dp[cur][CHILD_COVERED] += childCoveredValue;
@@ -108,6 +108,7 @@ class Solver {
                 dp[cur][PARENT_COVERED] += parentCoveredValue;
             }
         }
+
         if (!isLeaf && childAllNotSelected && dp[cur][CHILD_COVERED] != UNAVAILABLE) {
             if (minDiff == UNAVAILABLE) {
                 dp[cur][CHILD_COVERED] = UNAVAILABLE;
