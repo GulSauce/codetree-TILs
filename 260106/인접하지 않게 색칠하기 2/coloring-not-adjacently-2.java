@@ -92,22 +92,21 @@ class Solver {
 
     private void DPDFS(Node cur) {
         visited[cur.number] = true;
-        boolean leaf = true;
-
         Node left = null;
         Node right = null;
+
         for (Node child : cur.children) {
             if (visited[child.number]) {
                 continue;
             }
-            leaf = false;
             if (left == null) {
                 left = child;
             } else {
                 right = child;
             }
         }
-        if (leaf) {
+
+        if (left == null && right == null) {
             dp[cur.number][1][SELECTED] = cur.weight;
             dp[cur.number][0][NOT_SELECTED] = 0;
             return;
@@ -115,31 +114,33 @@ class Solver {
 
         DPDFS(left);
         DPDFS(right);
-        for (int k = 0; k <= maxColorNode; k++) {
-            for (int leftSelect = 0; leftSelect <= k - 1; leftSelect++) {
-                int rightSelected = (k - 1) - leftSelect;
-                int leftValue = dp[left.number][leftSelect][NOT_SELECTED];
-                int rightValue = dp[right.number][rightSelected][NOT_SELECTED];
-                if (leftValue == NOT_ALLOCATED || rightValue == NOT_ALLOCATED) {
-                    continue;
-                }
-                dp[cur.number][k][SELECTED] = Math.max(dp[cur.number][k][SELECTED],
-                    leftValue + rightValue + cur.weight);
-            }
+        for (int i = 0; i <= maxColorNode; i++) {
+            for (int j = 0; j <= maxColorNode; j++) {
+                if (i + j <= maxColorNode) {
+                    for (int flag = 0; flag <= 3; flag++) {
+                        int leftFlag = flag & 1;
+                        int rightFlag = (flag >> 1) & 1;
+                        int leftValue = dp[left.number][i][leftFlag];
+                        int rightValue = dp[right.number][j][rightFlag];
 
-            for (int flag = 0; flag <= 3; flag++) {
-                // 00 01 10 11
-                int leftFlag = (flag & 2) >> 1;
-                int rightFlag = flag & 1;
-                for (int leftSelect = 0; leftSelect <= k; leftSelect++) {
-                    int rightSelected = k - leftSelect;
-                    int leftValue = dp[left.number][leftSelect][leftFlag];
-                    int rightValue = dp[right.number][rightSelected][rightFlag];
+                        if (leftValue == NOT_ALLOCATED || rightValue == NOT_ALLOCATED) {
+                            continue;
+                        }
+                        dp[cur.number][i + j][NOT_SELECTED] = Math.max(
+                            dp[cur.number][i + j][NOT_SELECTED], leftValue + rightValue);
+                    }
+                }
+
+                if (i + j + 1 <= maxColorNode) {
+
+                    int leftValue = dp[left.number][i][NOT_SELECTED];
+                    int rightValue = dp[right.number][j][NOT_SELECTED];
+
                     if (leftValue == NOT_ALLOCATED || rightValue == NOT_ALLOCATED) {
                         continue;
                     }
-                    dp[cur.number][k][NOT_SELECTED] = Math.max(dp[cur.number][k][NOT_SELECTED],
-                        leftValue + rightValue);
+                    dp[cur.number][i + j + 1][SELECTED] = Math.max(
+                        dp[cur.number][i + j + 1][SELECTED], leftValue + rightValue + cur.weight);
                 }
             }
         }
