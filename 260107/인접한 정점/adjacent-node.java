@@ -45,11 +45,6 @@ class Solver {
     boolean[] visited;
 
 
-    final int UNAVAILABLE = Integer.MIN_VALUE;
-    final int CHILD_COVERED = 0;
-    final int SELECTED = 1;
-    final int NEED_PARENT_COVER = 2;
-
     int[][] dp;
     List<Node> graph = new ArrayList<>();
 
@@ -74,20 +69,23 @@ class Solver {
         final Node ROOT = graph.get(1);
         DPDFS(ROOT);
 
-        int answer = 0;
-        for (int flag = 0; flag <= 2; flag++) {
-            answer = Math.max(answer, dp[ROOT.number][flag]);
-        }
+        int answer = Math.max(dp[ROOT.number][CHILD_COVERED], dp[ROOT.number][SELECTED]);
         System.out.println(answer);
     }
 
+    final int UNAVAILABLE = Integer.MIN_VALUE;
+    final int CHILD_COVERED = 0;
+    final int SELECTED = 1;
+    final int NEED_PARENT_COVER = 2;
+
     private void DPDFS(Node cur) {
-        int curNumber = cur.number;
-        visited[curNumber] = true;
+        int pNumber = cur.number;
+        visited[pNumber] = true;
 
         boolean isLeaf = true;
-        boolean isAllChildOff = true;
-        int minDiff = Integer.MIN_VALUE;
+        boolean allChildIsNotSelected = true;
+        int minDiff = Integer.MAX_VALUE;
+
         for (Node child : cur.children) {
             if (visited[child.number]) {
                 continue;
@@ -95,51 +93,39 @@ class Solver {
             isLeaf = false;
             DPDFS(child);
 
-            int childNumber = child.number;
-            int toSelectedValue = Math.max(dp[childNumber][CHILD_COVERED],
-                dp[childNumber][NEED_PARENT_COVER]);
-            if (toSelectedValue == UNAVAILABLE) {
-                dp[curNumber][SELECTED] = UNAVAILABLE;
-            } else if (dp[curNumber][SELECTED] != UNAVAILABLE) {
-                dp[curNumber][SELECTED] += toSelectedValue;
-            }
+            int cNumber = child.number;
 
-            int toChildCoveredValue = Math.max(dp[childNumber][SELECTED],
-                dp[childNumber][CHILD_COVERED]);
-            if (toSelectedValue == UNAVAILABLE) {
-                dp[curNumber][CHILD_COVERED] = UNAVAILABLE;
-            } else if (toChildCoveredValue != UNAVAILABLE) {
-                dp[curNumber][CHILD_COVERED] += toChildCoveredValue;
-            }
-            if (dp[childNumber][CHILD_COVERED] <= dp[childNumber][SELECTED]) {
-                isAllChildOff = false;
+            int toSelectedValue = Math.max(dp[cNumber][CHILD_COVERED],
+                dp[cNumber][NEED_PARENT_COVER]);
+            dp[pNumber][SELECTED] =
+                dp[pNumber][SELECTED] == UNAVAILABLE ? UNAVAILABLE
+                    : dp[pNumber][SELECTED] + toSelectedValue;
+
+            int toNeedParentCoverValue = dp[cNumber][CHILD_COVERED];
+            dp[pNumber][NEED_PARENT_COVER] =
+                dp[pNumber][NEED_PARENT_COVER] == UNAVAILABLE ? UNAVAILABLE
+                    : dp[pNumber][NEED_PARENT_COVER] + toNeedParentCoverValue;
+
+            int toChildCoveredValue = Math.max(dp[cNumber][SELECTED], dp[cNumber][CHILD_COVERED]);
+            dp[pNumber][CHILD_COVERED] =
+                dp[pNumber][CHILD_COVERED] == UNAVAILABLE ? UNAVAILABLE
+                    : dp[pNumber][CHILD_COVERED] + toChildCoveredValue;
+
+            if (dp[cNumber][CHILD_COVERED] <= dp[cNumber][SELECTED]) {
+                allChildIsNotSelected = false;
             } else {
-                int curDiff = dp[childNumber][SELECTED] == UNAVAILABLE ? UNAVAILABLE
-                    : dp[childNumber][SELECTED] - dp[childNumber][CHILD_COVERED];
-                minDiff = Math.max(minDiff, curDiff);
-            }
-
-            int toNeedParentCoverValue = dp[childNumber][CHILD_COVERED];
-            if (toNeedParentCoverValue == UNAVAILABLE) {
-                dp[curNumber][NEED_PARENT_COVER] = UNAVAILABLE;
-            } else if (dp[curNumber][NEED_PARENT_COVER] != UNAVAILABLE) {
-                dp[curNumber][NEED_PARENT_COVER] += toNeedParentCoverValue;
+                minDiff = dp[cNumber][CHILD_COVERED] == UNAVAILABLE ? UNAVAILABLE
+                    : Math.min(minDiff, dp[cNumber][CHILD_COVERED] - dp[cNumber][SELECTED]);
             }
         }
-
-        if (!isLeaf && isAllChildOff && dp[curNumber][CHILD_COVERED] != UNAVAILABLE) {
-            if (minDiff == UNAVAILABLE) {
-                dp[curNumber][CHILD_COVERED] = UNAVAILABLE;
-            } else {
-                dp[curNumber][CHILD_COVERED] += minDiff;
-            }
+        if (!isLeaf && allChildIsNotSelected) {
+            dp[pNumber][CHILD_COVERED] =
+                minDiff == UNAVAILABLE ? UNAVAILABLE : dp[pNumber][CHILD_COVERED] - minDiff;
         }
-
         if (isLeaf) {
-            dp[curNumber][CHILD_COVERED] = UNAVAILABLE;
+            dp[pNumber][CHILD_COVERED] = UNAVAILABLE;
         }
-
-        dp[curNumber][SELECTED] += cur.value;
+        dp[pNumber][SELECTED] += cur.value;
     }
 }
 
