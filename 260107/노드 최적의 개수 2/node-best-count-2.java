@@ -52,7 +52,7 @@ class Solver {
         this.endNodeNumber = endNodeNumber;
         this.edges = edges;
         this.putNodeNumbers = putNodeNumbers;
-        this.dp = new int[endNodeNumber + 1][3];
+        this.dp = new int[endNodeNumber + 1][2];
         this.putNodeNumberHashSet = new HashSet<>(putNodeNumbers);
     }
 
@@ -66,64 +66,37 @@ class Solver {
         }
 
         DPDFS(1, -1);
-        System.out.println(Math.min(dp[1][SELECTED], dp[1][CHILD_COVERED]));
+        System.out.println(Math.min(dp[1][SELECTED], dp[1][NOT_SELECTED]));
     }
 
     final int UNAVAILABLE = 100_000_000;
-    final int CHILD_COVERED = 0;
+    final int NOT_SELECTED = 0;
     final int SELECTED = 1;
-    final int NEED_PARENT_COVER = 2;
 
     private void DPDFS(int cur, int parent) {
-
-        boolean leaf = true;
-        boolean allChildNotSelected = true;
-
-        int minDiff = UNAVAILABLE;
         for (int child : graph.get(cur)) {
             if (child == parent) {
                 continue;
             }
 
-            leaf = false;
             DPDFS(child, cur);
 
-            int toSelectedValue = Math.min(dp[child][NEED_PARENT_COVER],
-                Math.min(dp[child][SELECTED], dp[child][CHILD_COVERED]));
+            int toSelectedValue = Math.min(dp[child][SELECTED], dp[child][NOT_SELECTED]);
             dp[cur][SELECTED] = Math.min(UNAVAILABLE, dp[cur][SELECTED] + toSelectedValue);
 
             if (putNodeNumberHashSet.contains(cur)) {
                 continue;
             }
 
-            int toNeedParentCoverValue = dp[child][CHILD_COVERED];
-            dp[cur][NEED_PARENT_COVER] = Math.min(UNAVAILABLE,
-                dp[cur][NEED_PARENT_COVER] + toNeedParentCoverValue);
-
-            int toChildCoveredValue = Math.min(dp[child][SELECTED], dp[child][CHILD_COVERED]);
-            dp[cur][CHILD_COVERED] = Math.min(UNAVAILABLE,
-                dp[cur][CHILD_COVERED] + toChildCoveredValue);
-            if (dp[child][SELECTED] <= dp[child][CHILD_COVERED]) {
-                allChildNotSelected = false;
-            } else {
-                if (dp[child][SELECTED] != UNAVAILABLE) {
-                    minDiff = Math.min(minDiff, dp[child][SELECTED] - dp[child][CHILD_COVERED]);
-                }
-            }
+            int toNotSelectedValue = dp[child][SELECTED];
+            dp[cur][NOT_SELECTED] = Math.min(UNAVAILABLE,
+                dp[cur][NOT_SELECTED] + toNotSelectedValue);
         }
 
-        if (!leaf && allChildNotSelected) {
-            dp[cur][CHILD_COVERED] = Math.min(UNAVAILABLE, dp[cur][SELECTED] + minDiff);
-        }
-
-        if (leaf) {
-            dp[cur][CHILD_COVERED] = UNAVAILABLE;
-        }
         if (!putNodeNumberHashSet.contains(cur)) {
             dp[cur][SELECTED]++;
         } else {
-            dp[cur][NEED_PARENT_COVER] = UNAVAILABLE;
-            dp[cur][CHILD_COVERED] = UNAVAILABLE;
+            dp[cur][NOT_SELECTED] = UNAVAILABLE;
         }
     }
 }
