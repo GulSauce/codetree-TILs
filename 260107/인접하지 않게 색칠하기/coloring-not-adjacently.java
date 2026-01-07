@@ -97,7 +97,7 @@ class Solver {
             }
             DPDFS(child, cur);
             for (int choice = maxColorCount; choice >= 0; choice--) {
-                for (int childChoice = 0; childChoice <= choice; childChoice++) {
+                for (int childChoice = choice; childChoice >= 0; childChoice--) {
                     int childValue = Math.max(
                         dp[child.number][childChoice][SELECTED],
                         dp[child.number][childChoice][NOT_SELECTED]);
