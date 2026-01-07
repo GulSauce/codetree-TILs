@@ -98,17 +98,17 @@ class Solver {
             int toSelectedValue = Math.max(dp[cNumber][CHILD_COVERED],
                 dp[cNumber][NEED_PARENT_COVER]);
             dp[pNumber][SELECTED] =
-                dp[pNumber][SELECTED] == UNAVAILABLE ? UNAVAILABLE
+                dp[pNumber][SELECTED] + toSelectedValue < 0 ? UNAVAILABLE
                     : dp[pNumber][SELECTED] + toSelectedValue;
 
             int toNeedParentCoverValue = dp[cNumber][CHILD_COVERED];
             dp[pNumber][NEED_PARENT_COVER] =
-                dp[pNumber][NEED_PARENT_COVER] == UNAVAILABLE ? UNAVAILABLE
+                dp[pNumber][NEED_PARENT_COVER] + toNeedParentCoverValue < 0 ? UNAVAILABLE
                     : dp[pNumber][NEED_PARENT_COVER] + toNeedParentCoverValue;
 
             int toChildCoveredValue = Math.max(dp[cNumber][SELECTED], dp[cNumber][CHILD_COVERED]);
             dp[pNumber][CHILD_COVERED] =
-                dp[pNumber][CHILD_COVERED] == UNAVAILABLE ? UNAVAILABLE
+                dp[pNumber][CHILD_COVERED] + toChildCoveredValue < 0 ? UNAVAILABLE
                     : dp[pNumber][CHILD_COVERED] + toChildCoveredValue;
 
             if (dp[cNumber][CHILD_COVERED] <= dp[cNumber][SELECTED]) {
