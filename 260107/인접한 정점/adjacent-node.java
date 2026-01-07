@@ -42,9 +42,6 @@ class Solver {
     List<Integer> nodeValues;
     List<Edge> edges;
 
-    boolean[] visited;
-
-
     int[][] dp;
     List<Node> graph = new ArrayList<>();
 
@@ -52,7 +49,6 @@ class Solver {
         this.endNodeNumber = endNodeNumber;
         this.nodeValues = nodeValues;
         this.edges = edges;
-        this.visited = new boolean[endNodeNumber + 1];
         this.dp = new int[endNodeNumber + 1][3];
     }
 
@@ -67,7 +63,7 @@ class Solver {
             graph.get(end.number).children.add(start);
         }
         final Node ROOT = graph.get(1);
-        DPDFS(ROOT);
+        DPDFS(ROOT, new Node(-1, -1));
 
         int answer = Math.max(dp[ROOT.number][CHILD_COVERED], dp[ROOT.number][SELECTED]);
         System.out.println(answer);
@@ -78,20 +74,19 @@ class Solver {
     final int SELECTED = 1;
     final int NEED_PARENT_COVER = 2;
 
-    private void DPDFS(Node cur) {
+    private void DPDFS(Node cur, Node parent) {
         int pNumber = cur.number;
-        visited[pNumber] = true;
 
         boolean isLeaf = true;
         boolean allChildIsNotSelected = true;
         int minDiff = Integer.MAX_VALUE;
 
         for (Node child : cur.children) {
-            if (visited[child.number]) {
+            if (child.number == parent.number) {
                 continue;
             }
             isLeaf = false;
-            DPDFS(child);
+            DPDFS(child, cur);
 
             int cNumber = child.number;
 
