@@ -79,6 +79,7 @@ class Solver {
         int answer = 0;
         for (int i = 0; i <= maxColorCount; i++) {
             answer = Math.max(answer, dp[1][i][SELECTED]);
+            answer = Math.max(answer, dp[1][i][NOT_SELECTED]);
         }
         System.out.println(answer);
     }
