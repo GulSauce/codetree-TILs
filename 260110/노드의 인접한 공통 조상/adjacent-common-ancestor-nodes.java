@@ -43,6 +43,8 @@ class Solver {
     int targetA;
     int targetB;
 
+    int[] dist;
+    int[] parentOf;
     boolean[] isChild;
 
     public Solver(int nodeCount, List<Edge> edges, int targetA, int targetB) {
@@ -61,57 +63,49 @@ class Solver {
         }
 
         for (Edge edge : edges) {
-            graph.get(edge.start).add(edge.end);
-            isChild[edge.end] = true;
+            parentOf[edge.end] = edge.start;
         }
 
-        int rootNodeNumber = -1;
-        for (int i = 1; i <= nodeCount; i++) {
-            if (isChild[i]) {
-                continue;
-            }
-            rootNodeNumber = i;
-            break;
-        }
-        makeDistParentDFS(rootNodeNumber);
+        int depthA = getDepth(targetA);
+        int depthB = getDepth(targetB);
 
-        int aDist = dist[targetA];
-        int bDist = dist[targetB];
+        int targetA = this.targetA;
+        int targetB = this.targetB;
 
-        if (aDist < bDist) {
-            int temp = targetA;
-            targetA = targetB;
-            targetB = temp;
-
-            int temp2 = aDist;
-            aDist = bDist;
-            bDist = temp2;
-        }
-
-        int diff = aDist - bDist;
-        for (int i = 0; i < diff; i++) {
+        while (depthB < depthA) {
+            depthA--;
             targetA = parentOf[targetA];
         }
 
-        int ancestor = targetA;
-        while (targetA != targetB) {
+        while (depthA < depthB) {
+            depthB--;
+            targetB = parentOf[targetB];
+        }
+
+        int ancestor = -1;
+        while (true) {
+            if (targetA == targetB) {
+                ancestor = targetA;
+                break;
+            }
             targetA = parentOf[targetA];
             targetB = parentOf[targetB];
-            ancestor = targetA;
         }
+
         System.out.println(ancestor);
     }
 
-    int[] dist;
-    int[] parentOf;
-
-    private void makeDistParentDFS(int cur) {
-        for (int child : graph.get(cur)) {
-
-            dist[child] = dist[cur] + 1;
-            parentOf[child] = cur;
-            makeDistParentDFS(child);
+    private int getDepth(int node) {
+        int cur = node;
+        int depth = 0;
+        while (true) {
+            cur = parentOf[cur];
+            if (cur == 0) {
+                break;
+            }
+            depth++;
         }
+        return depth;
     }
 }
 
