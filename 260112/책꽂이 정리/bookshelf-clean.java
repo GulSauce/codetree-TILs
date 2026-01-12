@@ -67,7 +67,6 @@ class Solver {
             if (command.mainCommand == 1) {
                 Node head = headAndTails[command.value1][0];
                 Node target = head.next;
-
                 if (target.value == -1) {
                     continue;
                 }
@@ -106,6 +105,10 @@ class Solver {
                 Node start = head.next;
                 Node end = tail.prev;
 
+                if (start.value == -1 || end.value == -1) {
+                    continue;
+                }
+
                 head.disconnectFromRight();
                 end.disconnectFromRight();
                 head.connectToRight(tail);
@@ -122,6 +125,10 @@ class Solver {
 
                 Node start = head.next;
                 Node end = tail.prev;
+
+                if (start.value == -1 || end.value == -1) {
+                    continue;
+                }
 
                 head.disconnectFromRight();
                 end.disconnectFromRight();
