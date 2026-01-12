@@ -51,34 +51,34 @@ class Solver {
 
         for (int i = 1; i <= endNodeNumber; i++) {
             nodes[i] = new Node(i);
-            nodes[i - 1].insertToRight(nodes[i]);
+            nodes[i - 1].connectToRight(nodes[i]);
         }
 
         Node tail = new Node(endNodeNumber + 1);
         nodes[endNodeNumber + 1] = tail;
-        nodes[endNodeNumber].insertToRight(tail);
+        nodes[endNodeNumber].connectToRight(tail);
 
         for (Operation operation : operations) {
-            Node aPrev = nodes[operation.a].prev;
-            Node aStart = nodes[operation.a];
-            Node aEnd = nodes[operation.b];
-            Node aNext = nodes[operation.b].next;
+            Node aPrev = nodes[operation.aStart].prev;
+            Node aStart = nodes[operation.aStart];
+            Node aEnd = nodes[operation.aEnd];
+            Node aNext = nodes[operation.aEnd].next;
 
-            Node bPrev = nodes[operation.c].prev;
-            Node bStart = nodes[operation.c];
-            Node bEnd = nodes[operation.d];
-            Node bNext = nodes[operation.d].next;
+            Node bPrev = nodes[operation.bStart].prev;
+            Node bStart = nodes[operation.bStart];
+            Node bEnd = nodes[operation.bEnd];
+            Node bNext = nodes[operation.bEnd].next;
             // a -> b
-            if (nodes[operation.b].next == nodes[operation.c]) {
-                aPrev.insertToRight(bStart);
-                bEnd.insertToRight(aStart);
-                aEnd.insertToRight(bNext);
+            if (nodes[operation.aEnd].next == nodes[operation.bStart]) {
+                aPrev.connectToRight(bStart);
+                bEnd.connectToRight(aStart);
+                aEnd.connectToRight(bNext);
             }
             // b -> a
-            else if (nodes[operation.d].next == nodes[operation.a]) {
-                bPrev.insertToRight(aStart);
-                aEnd.insertToRight(bStart);
-                bEnd.insertToRight(aNext);
+            else if (nodes[operation.bEnd].next == nodes[operation.aStart]) {
+                bPrev.connectToRight(aStart);
+                aEnd.connectToRight(bStart);
+                bEnd.connectToRight(aNext);
             } else {
                 aPrev.disConnectFromRight();
                 aEnd.disConnectFromRight();
@@ -86,11 +86,11 @@ class Solver {
                 bPrev.disConnectFromRight();
                 bEnd.disConnectFromRight();
 
-                aPrev.insertToRight(bStart);
-                bEnd.insertToRight(aNext);
+                aPrev.connectToRight(bStart);
+                bEnd.connectToRight(aNext);
 
-                bPrev.insertToRight(aStart);
-                aEnd.insertToRight(bNext);
+                bPrev.connectToRight(aStart);
+                aEnd.connectToRight(bNext);
             }
         }
 
@@ -119,25 +119,23 @@ class Node {
         this.next = null;
     }
 
-    public void insertToRight(Node next) {
-        if (next != null) {
-            next.prev = this;
-        }
+    public void connectToRight(Node next) {
+        next.prev = this;
         this.next = next;
     }
 }
 
 class Operation {
 
-    int a;
-    int b;
-    int c;
-    int d;
+    int aStart;
+    int aEnd;
+    int bStart;
+    int bEnd;
 
-    public Operation(int a, int b, int c, int d) {
-        this.a = a;
-        this.b = b;
-        this.c = c;
-        this.d = d;
+    public Operation(int aStart, int aEnd, int bStart, int bEnd) {
+        this.aStart = aStart;
+        this.aEnd = aEnd;
+        this.bStart = bStart;
+        this.bEnd = bEnd;
     }
 }
