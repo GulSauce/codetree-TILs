@@ -1,162 +1,176 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class Main {
-    public static void main(String[] args) {
+
+    public static void main(String[] args) throws IOException {
         int N;
         int Q;
         ArrayList<Command> commands = new ArrayList<>();
 
-        Scanner sc = new Scanner(System.in);
-        N = sc.nextInt();
-        Q = sc.nextInt();
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        N = toInt(st);
+
+        st = new StringTokenizer(br.readLine());
+        Q = toInt(st);
         for (int i = 0; i < Q; i++) {
-            int mainCommand = sc.nextInt();
+            st = new StringTokenizer(br.readLine());
+            int mainCommand = toInt(st);
             if (mainCommand == 1) {
-                commands.add(new Command(mainCommand, sc.nextInt()));
+                commands.add(new Command(mainCommand, toInt(st)));
             }
             if (mainCommand == 2) {
-                commands.add(new Command(mainCommand, sc.nextInt(), sc.nextInt()));
+                commands.add(new Command(mainCommand, toInt(st), toInt(st)));
             }
             if (mainCommand == 3) {
-                commands.add(new Command(mainCommand, sc.nextInt(), sc.nextInt()));
+                commands.add(new Command(mainCommand, toInt(st), toInt(st)));
             }
             if (mainCommand == 4) {
-                commands.add(new Command(mainCommand, sc.nextInt()));
+                commands.add(new Command(mainCommand, toInt(st)));
             }
         }
 
         new Solver(N, commands).solve();
     }
+
+    private static int toInt(StringTokenizer st) {
+        return Integer.parseInt(st.nextToken());
+    }
 }
 
 class Solver {
-    int maxNodeNumber;
+
+    int endNodeNumber;
     ArrayList<Command> commands;
     Node[] nodes;
 
     public Solver(
-            int maxNodeNumber,
-            ArrayList<Command> commands
+        int endNodeNumber,
+        ArrayList<Command> commands
     ) {
-        this.nodes = new Node[maxNodeNumber + 1];
-        this.maxNodeNumber = maxNodeNumber;
+        this.nodes = new Node[endNodeNumber + 1];
+        this.endNodeNumber = endNodeNumber;
         this.commands = commands;
     }
 
     public void solve() {
-        for (int i = 1; i <= maxNodeNumber; i++) {
-            nodes[i] = new Node(i);
+        for (int v = 1; v <= endNodeNumber; v++) {
+            Node head = new Node(0);
+            Node tail = new Node(0);
+            Node cur = new Node(v);
+            
+            head.connectToRight(cur);
+            cur.connectToRight(tail);
+            nodes[v] = cur;
         }
+
         for (Command command : commands) {
-            int mainCommand = command.mainCommand;
-            int i = command.value1;
-            int j = command.value2;
-            if (mainCommand == 1) {
-                nodes[i].pop();
+            if (command.mainCommand == 1) {
+                Node target = nodes[command.value1];
+                Node prev = target.prev;
+                Node next = target.next;
+
+                prev.disconnectFromRight();
+                target.disconnectFromRight();
+                prev.connectToRight(next);
+
+                Node newHead = new Node(0);
+                Node newTail = new Node(0);
+
+                newHead.connectToRight(target);
+                target.connectToRight(newTail);
             }
-            if (mainCommand == 2) {
-                Node cur = nodes[i];
-                Node target = nodes[j];
-                cur.insertPrev(target);
+            if (command.mainCommand == 2) {
+                Node toMove = nodes[command.value2];
+                Node toMovePrev = toMove.prev;
+                Node toMoveNext = toMove.next;
+                toMovePrev.disconnectFromRight();
+                toMove.disconnectFromRight();
+
+                toMovePrev.connectToRight(toMoveNext);
+
+                Node toIn = nodes[command.value1];
+                Node toInPrev = toIn.prev;
+
+                toInPrev.disconnectFromRight();
+                toInPrev.connectToRight(toMove);
+                toMove.connectToRight(toIn);
             }
-            if (mainCommand == 3) {
-                Node cur = nodes[i];
-                Node target = nodes[j];
-                cur.insertNext(target);
+
+            if (command.mainCommand == 3) {
+                Node toMove = nodes[command.value2];
+                Node toMovePrev = toMove.prev;
+                Node toMoveNext = toMove.next;
+                toMovePrev.disconnectFromRight();
+                toMove.disconnectFromRight();
+
+                toMovePrev.connectToRight(toMoveNext);
+
+                Node toIn = nodes[command.value1];
+                Node toInNext = toIn.next;
+
+                toIn.disconnectFromRight();
+                toIn.connectToRight(toMove);
+                toMove.connectToRight(toInNext);
             }
-            if (mainCommand == 4) {
-                Node cur = nodes[i];
-                cur.print();
+            if (command.mainCommand == 4) {
+                Node cur = nodes[command.value1];
+                System.out.println(cur.prev.value + " " + cur.next.value);
             }
         }
-        for (int i = 1; i <= maxNodeNumber; i++) {
-            Node cur = nodes[i];
-            if (cur.next == null) {
-                System.out.print(0);
-            } else {
-                System.out.print(cur.next.value);
-            }
-            System.out.print(" ");
+        for (int v = 1; v <= endNodeNumber; v++) {
+            System.out.print(nodes[v].next.value + " ");
         }
     }
 }
 
 class Node {
+
     int value;
     Node prev;
     Node next;
 
     public Node(
-            int value
+        int value
     ) {
         this.value = value;
     }
 
-    public void pop() {
-        if (prev != null) {
-            prev.next = next;
-        }
-        if (next != null) {
-            next.prev = prev;
-        }
-        prev = null;
-        next = null;
+    public void connectToRight(Node node) {
+        node.prev = this;
+        this.next = node;
     }
 
-    public void insertPrev(Node target) {
-        target.next = this;
-        target.prev = this.prev;
-
-        if (this.prev != null) {
-            this.prev.next = target;
-        }
-        this.prev = target;
-    }
-
-    public void insertNext(Node target) {
-        target.prev = this;
-        target.next = this.next;
-
+    public void disconnectFromRight() {
         if (this.next != null) {
-            this.next.prev = target;
+            next.prev = null;
         }
-        this.next = target;
-    }
-
-    public void print() {
-        if (prev == null) {
-            System.out.print(0);
-        } else {
-            System.out.print(prev.value);
-        }
-        System.out.print(" ");
-        if (next == null) {
-            System.out.print(0);
-        } else {
-            System.out.print(next.value);
-        }
-        System.out.println();
+        this.next = null;
     }
 }
 
 class Command {
+
     int mainCommand;
     int value1;
     int value2;
 
     public Command(
-            int mainCommand,
-            int value1
+        int mainCommand,
+        int value1
     ) {
         this.mainCommand = mainCommand;
         this.value1 = value1;
     }
 
     public Command(
-            int mainCommand,
-            int value1,
-            int value2
+        int mainCommand,
+        int value1,
+        int value2
 
     ) {
         this.mainCommand = mainCommand;
