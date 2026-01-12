@@ -70,12 +70,18 @@ class Solver {
             Node bNext = nodes[operation.bEnd].next;
             // a -> b
             if (nodes[operation.aEnd].next == nodes[operation.bStart]) {
+                aPrev.disConnectFromRight();
+                aEnd.disConnectFromRight();
+                bEnd.disConnectFromRight();
                 aPrev.connectToRight(bStart);
                 bEnd.connectToRight(aStart);
                 aEnd.connectToRight(bNext);
             }
             // b -> a
             else if (nodes[operation.bEnd].next == nodes[operation.aStart]) {
+                bPrev.disConnectFromRight();
+                bEnd.disConnectFromRight();
+                aEnd.disConnectFromRight();
                 bPrev.connectToRight(aStart);
                 aEnd.connectToRight(bStart);
                 bEnd.connectToRight(aNext);
