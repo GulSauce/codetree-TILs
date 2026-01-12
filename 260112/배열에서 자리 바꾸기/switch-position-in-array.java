@@ -68,11 +68,14 @@ class Solver {
             Node bStart = nodes[operation.c];
             Node bEnd = nodes[operation.d];
             Node bNext = nodes[operation.d].next;
+            // a -> b
             if (nodes[operation.b].next == nodes[operation.c]) {
                 aPrev.insertToRight(bStart);
                 bEnd.insertToRight(aStart);
                 aEnd.insertToRight(bNext);
-            } else if (nodes[operation.c].next == nodes[operation.a]) {
+            }
+            // b -> a
+            else if (nodes[operation.d].next == nodes[operation.a]) {
                 bPrev.insertToRight(aStart);
                 aEnd.insertToRight(bStart);
                 bEnd.insertToRight(aNext);
