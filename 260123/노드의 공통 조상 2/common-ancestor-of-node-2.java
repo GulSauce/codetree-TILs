@@ -103,42 +103,51 @@ class Solver {
             int v1 = query.v1;
             int v2 = query.v2;
 
-            int v1Depth = depth[v1];
-            int v2Depth = depth[v2];
-
-            int curPower2 = MAX_POWER2;
-            int diff = v1Depth - v2Depth;
-            while (curPower2 >= 0) {
-                int height = 1 << curPower2;
-                if (diff - height >= 0) {
-                    diff -= height;
-                    v1Depth -= height;
-                    v1 = sparseTable[curPower2][v1];
-                }
-                curPower2--;
-            }
-
-            curPower2 = MAX_POWER2;
-            diff = v2Depth - v1Depth;
-            while (curPower2 >= 0) {
-                int height = 1 << curPower2;
-                if (diff - height >= 0) {
-                    diff -= height;
-                    v2Depth -= height;
-                    v2 = sparseTable[curPower2][v2];
-                }
-                curPower2--;
-            }
-
-            for (curPower2 = MAX_POWER2; curPower2 >= 0; curPower2--) {
-                if (sparseTable[curPower2][v1] != sparseTable[curPower2][v2]) {
-                    v1 = sparseTable[curPower2][v1];
-                    v2 = sparseTable[curPower2][v2];
-                }
-            }
-
-            System.out.println(v1 == v2 ? v1 : sparseTable[0][v1]);
+            lca(v1, v2);
         }
+    }
+
+    private void lca(int v1, int v2) {
+        int v1Depth = depth[v1];
+        int v2Depth = depth[v2];
+
+        if (v1Depth < v2Depth) {
+            lca(v2, v1);
+            return;
+        }
+        
+        int curPower2 = MAX_POWER2;
+        int diff = v1Depth - v2Depth;
+        while (curPower2 >= 0) {
+            int height = 1 << curPower2;
+            if (diff - height >= 0) {
+                diff -= height;
+                v1Depth -= height;
+                v1 = sparseTable[curPower2][v1];
+            }
+            curPower2--;
+        }
+
+        curPower2 = MAX_POWER2;
+        diff = v2Depth - v1Depth;
+        while (curPower2 >= 0) {
+            int height = 1 << curPower2;
+            if (diff - height >= 0) {
+                diff -= height;
+                v2Depth -= height;
+                v2 = sparseTable[curPower2][v2];
+            }
+            curPower2--;
+        }
+
+        for (curPower2 = MAX_POWER2; curPower2 >= 0; curPower2--) {
+            if (sparseTable[curPower2][v1] != sparseTable[curPower2][v2]) {
+                v1 = sparseTable[curPower2][v1];
+                v2 = sparseTable[curPower2][v2];
+            }
+        }
+
+        System.out.println(v1 == v2 ? v1 : sparseTable[0][v1]);
     }
 
 
