@@ -144,8 +144,8 @@ class Solver {
             lca = parentOf[0][aLoad];
         }
 
-        int diffA = colorNodeCountFromRoot[a] - height[parentOf[0][lca]];
-        int diffB = colorNodeCountFromRoot[b] - height[parentOf[0][lca]];
+        int diffA = colorNodeCountFromRoot[a] - colorNodeCountFromRoot[parentOf[0][lca]];
+        int diffB = colorNodeCountFromRoot[b] - colorNodeCountFromRoot[parentOf[0][lca]];
         int overflow = colorNodeHashSet.contains(lca) ? 1 : 0;
         System.out.println(diffA + diffB - overflow);
     }
