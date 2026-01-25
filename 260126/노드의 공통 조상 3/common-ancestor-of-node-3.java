@@ -2,7 +2,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -79,57 +78,38 @@ class Solver {
         nodeInfos.add(new NodeInfo(0, 0));
 
         for (Query query : queryList) {
-            int a = query.v1;
-            int b = query.v2;
-            int c = query.v3;
-
-            nodeInfos.get(0).setValues(a, height[a]);
-            nodeInfos.get(1).setValues(b, height[b]);
-            nodeInfos.get(2).setValues(c, height[c]);
-
-            Collections.sort(nodeInfos, (NodeInfo prev, NodeInfo cur) -> {
-                return Integer.compare(cur.height, prev.height);
-            });
-
-            int newA = nodeInfos.get(0).v;
-            int newB = nodeInfos.get(1).v;
-            int newC = nodeInfos.get(2).v;
-            int lca = getLca(newA, newB, newC);
-            System.out.println(lca);
+            int firstLca = getLca(query.v1, query.v2);
+            int secondLca = getLca(firstLca, query.v3);
+            System.out.println(secondLca);
         }
     }
 
-    private int getLca(int a, int b, int c) {
+    private int getLca(int a, int b) {
+
         int aHeight = height[a];
         int bHeight = height[b];
-        int cHeight = height[c];
 
-        int diffA = aHeight - cHeight;
+        if (aHeight < bHeight) {
+            return getLca(b, a);
+        }
+
+        int diff = aHeight - bHeight;
         for (int i = MAX_POWER_2; i >= 0; i--) {
             int height = 1 << i;
-            if (diffA - height >= 0) {
-                diffA -= height;
+            if (diff - height >= 0) {
+                diff -= height;
                 a = parentOf[i][a];
             }
         }
 
-        int diffB = bHeight - cHeight;
-        for (int i = MAX_POWER_2; i >= 0; i--) {
-            int height = 1 << i;
-            if (diffB - height >= 0) {
-                diffB -= height;
-                b = parentOf[i][b];
-            }
-        }
-        if (a == b && b == c) {
+        if (a == b) {
             return a;
         }
 
         for (int i = MAX_POWER_2; i >= 0; i--) {
-            if (!(parentOf[i][a] == parentOf[i][b] && parentOf[i][b] == parentOf[i][c])) {
+            if (parentOf[i][a] != parentOf[i][b]) {
                 a = parentOf[i][a];
                 b = parentOf[i][b];
-                c = parentOf[i][c];
             }
         }
 
