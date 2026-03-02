@@ -69,6 +69,9 @@ class Solver {
         int xRoot = findRootParentWitCompacting(x);
         int yRoot = findRootParentWitCompacting(y);
 
+        if (xRoot == yRoot) {
+            return;
+        }
         rootOf[yRoot] = xRoot;
         linkedCountHashMap.compute(xRoot, (k, v) -> {
             return v + linkedCountHashMap.get(yRoot);
