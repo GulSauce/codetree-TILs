@@ -78,7 +78,7 @@ class Solver {
         }
 
         int rootParent = findRootParentWitCompacting(parent);
-        merge(rootParent, cur);
+        parents[cur] = rootParent;
         return rootParent;
     }
 
@@ -89,7 +89,6 @@ class Solver {
         linkedCountHashMap.compute(root, (k, v) -> {
             return v + linkedCountHashMap.get(cur);
         });
-        linkedCountHashMap.put(cur, 0);
         parents[cur] = root;
     }
 }
