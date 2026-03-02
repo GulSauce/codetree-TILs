@@ -33,45 +33,47 @@ class Solver {
     int endNumber;
     List<Input> inputs;
 
-    int[] parent;
+    int[] rootOf;
 
     public Solver(int endNumber, List<Input> inputs) {
         this.endNumber = endNumber;
         this.inputs = inputs;
-        this.parent = new int[endNumber + 1];
+        this.rootOf = new int[endNumber + 1];
     }
 
     public void solve() {
         for (int i = 1; i <= endNumber; i++) {
-            parent[i] = i;
+            rootOf[i] = i;
         }
 
         for (Input input : inputs) {
             if (input.command == 0) {
-                unionParent(input.a, input.b);
+                unionRoot(input.a, input.b);
             }
             if (input.command == 1) {
-                System.out.println(findParent(input.a) == findParent(input.b) ? 1 : 0);
+                System.out.println(
+                    findRootWithCompacting(input.a) == findRootWithCompacting(input.b) ? 1 : 0);
             }
         }
     }
 
-    public void unionParent(int x, int y) {
-        int xParent = findParent(x);
-        int yParent = findParent(y);
+    public void unionRoot(int x, int y) {
+        int xRoot = findRootWithCompacting(x);
+        int yRoot = findRootWithCompacting(y);
 
-        if (xParent != yParent) {
-            parent[yParent] = xParent;
+        if (xRoot != yRoot) {
+            rootOf[yRoot] = xRoot;
         }
     }
 
-    public int findParent(int number) {
-        if (parent[number] == number) {
-            return number;
+    public int findRootWithCompacting(int cur) {
+        int root = rootOf[cur];
+        if (root == cur) {
+            return cur;
         }
 
-        parent[number] = findParent(parent[number]);
-        return parent[number];
+        rootOf[cur] = findRootWithCompacting(root);
+        return rootOf[cur];
     }
 }
 
