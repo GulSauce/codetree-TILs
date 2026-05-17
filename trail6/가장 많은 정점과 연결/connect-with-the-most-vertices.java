@@ -96,11 +96,11 @@ class Solver {
 
         if (leftRoot <= rightRoot) {
             rootOf[rightRoot] = leftRoot;
+            minValue[leftRoot] = Math.min(minValue[leftRoot], minValue[rightRoot]);
         } else {
             rootOf[leftRoot] = rightRoot;
+            minValue[rightRoot] = Math.min(minValue[leftRoot], minValue[rightRoot]);
         }
-        minValue[rightRoot] = Math.min(minValue[leftRoot], minValue[rightRoot]);
-        minValue[leftRoot] = Math.min(minValue[leftRoot], minValue[rightRoot]);
     }
 
     private int findWithCompact(int cur) {
@@ -110,6 +110,8 @@ class Solver {
         }
 
         rootOf[cur] = findWithCompact(parent);
+        minValue[cur] = Math.min(minValue[cur], minValue[parent]);
+        minValue[parent] = Math.min(minValue[cur], minValue[parent]);
         return rootOf[cur];
     }
 }
