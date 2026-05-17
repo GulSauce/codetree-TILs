@@ -36,19 +36,16 @@ class Solver {
     List<eraseNumber> eraseNumbers;
 
     int[] rootOf;
-    int[] endOfGroup;
 
     public Solver(int endNodeNumber, List<eraseNumber> eraseNumbers) {
         this.endNodeNumber = endNodeNumber;
         this.eraseNumbers = eraseNumbers;
         this.rootOf = new int[100_001];
-        this.endOfGroup = new int[100_001];
     }
 
     public void solve() {
         for (int v = 1; v <= endNodeNumber; v++) {
             rootOf[v] = v;
-            endOfGroup[v] = v;
         }
 
         int remains = endNodeNumber - 1;
@@ -57,14 +54,14 @@ class Solver {
             int b = eraseNumber.b;
 
             int firstGroup = findWithCompact(a);
-            int endNumber = a;
+            int pointer = firstGroup;
             while (true) {
-                int curGroup = findWithCompact(endNumber);
-                endNumber = endOfGroup[curGroup];
-                if (endNumber + 1 > b) {
+                int curGroup = findWithCompact(pointer);
+                pointer = curGroup + 1;
+                if (pointer > b) {
                     break;
                 }
-                union(firstGroup, endNumber + 1);
+                union(firstGroup, pointer);
                 remains--;
             }
             System.out.println(remains + 1);
@@ -75,11 +72,9 @@ class Solver {
         int left = findWithCompact(v1);
         int right = findWithCompact(v2);
         if (left <= right) {
-            rootOf[right] = left;
-            endOfGroup[left] = endOfGroup[right];
-        } else {
             rootOf[left] = right;
-            endOfGroup[right] = endOfGroup[left];
+        } else {
+            rootOf[right] = left;
         }
     }
 
