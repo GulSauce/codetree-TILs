@@ -110,8 +110,6 @@ class Solver {
         }
 
         rootOf[cur] = findWithCompact(parent);
-        minValue[cur] = Math.min(minValue[cur], minValue[parent]);
-        minValue[parent] = Math.min(minValue[cur], minValue[parent]);
         return rootOf[cur];
     }
 }
