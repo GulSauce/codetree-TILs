@@ -60,8 +60,8 @@ class Solver {
         PriorityQueue<Node> nodes = new PriorityQueue<>(
             (a, b) -> Integer.compare(a.weight, b.weight));
         nodes.add(new Node(1, 0));
-        dist[1] = 0;
         Arrays.fill(dist, NOT_ALLOCATED);
+        dist[1] = 0;
         int answer = 0;
         while (!nodes.isEmpty()) {
             Node cur = nodes.poll();
