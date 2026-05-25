@@ -68,7 +68,6 @@ class Solver {
             if (intMST[cur.number]) {
                 continue;
             }
-            dist[cur.number] = cur.weight;
             intMST[cur.number] = true;
             List<Node> near = graph.get(cur.number);
             for (Node node : near) {
