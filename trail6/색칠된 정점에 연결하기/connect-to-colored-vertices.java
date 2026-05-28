@@ -63,13 +63,6 @@ class Solver {
             graph.add(new ArrayList<>());
         }
 
-        for (int i = 0; i < colorNodeNumbers.size() - 1; i++) {
-            int prev = colorNodeNumbers.get(i);
-            int next = colorNodeNumbers.get(i + 1);
-            graph.get(prev).add(new Node(next, 0));
-            graph.get(next).add(new Node(prev, 0));
-        }
-
         for (Edge edge : edges) {
             int v1 = edge.v1;
             int v2 = edge.v2;
@@ -79,11 +72,13 @@ class Solver {
             graph.get(v2).add(new Node(v1, w));
         }
 
-        PriorityQueue<Node> q = new PriorityQueue<>((a, b) -> Integer.compare(a.weight, b.weight));
-        q.add(new Node(1, 0));
+        PriorityQueue<Node> q = new PriorityQueue<>(
+            (a, b) -> Integer.compare(a.weight, b.weight));
         Arrays.fill(dist, NOT_ALLOCATED);
-        dist[1] = 0;
-
+        for (int colorNodeNumber : colorNodeNumbers) {
+            q.add(new Node(colorNodeNumber, 0));
+            dist[colorNodeNumber] = 0;
+        }
         while (!q.isEmpty()) {
             Node cur = q.poll();
             if (inMST[cur.number]) {
