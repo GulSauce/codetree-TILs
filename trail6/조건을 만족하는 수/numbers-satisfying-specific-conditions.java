@@ -36,15 +36,14 @@ public class Main {
 class Solver {
 
     int numberCount;
-    int[] indegree = new int[numberCount + 1];
-    HashMap<Integer, Integer> answer = new HashMap<>();
+    int[] originalIndegree;
 
     List<String> parens;
     List<List<Integer>> graph = new ArrayList<>();
 
     public Solver(int numberCount, List<String> parens) {
         this.numberCount = numberCount;
-        this.indegree = new int[numberCount + 1];
+        this.originalIndegree = new int[numberCount + 1];
         this.parens = parens;
     }
 
@@ -52,43 +51,36 @@ class Solver {
         for (int i = 0; i <= numberCount; i++) {
             graph.add(new ArrayList<>());
         }
+        for (int v = 1; v <= parens.size(); v++) {
+            String paren = parens.get(v - 1);
+            if (paren.equals("<")) {
+                graph.get(v).add(v + 1);
+                originalIndegree[v + 1]++;
+            }
+            if (paren.equals(">")) {
+                graph.get(v + 1).add(v);
+                originalIndegree[v]++;
+            }
+        }
 
-        printAscend();
+        printSorted(getAnswer(new PriorityQueue<Integer>((a, b) -> Integer.compare(a, b))));
         System.out.println();
-        printDescend();
+        printSorted(getAnswer(new PriorityQueue<Integer>((a, b) -> Integer.compare(b, a))));
     }
 
-    private void printAscend() {
-        for (int i = 0; i < graph.size(); i++) {
-            graph.get(i).clear();
-        }
-        Arrays.fill(indegree, 0);
-        answer.clear();
+    private HashMap<Integer, Integer> getAnswer(PriorityQueue<Integer> q) {
+        int[] indegree = Arrays.copyOf(originalIndegree, originalIndegree.length);
 
-        for (int v = 1; v <= parens.size(); v++) {
-            String paren = parens.get(v - 1);
-            if (paren.equals(">")) {
-                graph.get(v).add(v + 1);
-                indegree[v + 1]++;
-            }
-            if (paren.equals("<")) {
-                graph.get(v + 1).add(v);
-                indegree[v]++;
-            }
-        }
-
-        PriorityQueue<Integer> q = new PriorityQueue<>((a, b) -> Integer.compare(b, a));
         for (int v = 1; v <= numberCount; v++) {
             if (indegree[v] == 0) {
                 q.add(v);
             }
         }
 
-        int curNumber = numberCount;
+        HashMap<Integer, Integer> lexSmallest = new HashMap<>();
         while (!q.isEmpty()) {
             int cur = q.poll();
-            answer.put(cur, curNumber);
-            curNumber--;
+            lexSmallest.put(cur, lexSmallest.size() + 1);
             List<Integer> nears = graph.get(cur);
             for (int near : nears) {
                 indegree[near]--;
@@ -97,59 +89,17 @@ class Solver {
                 }
             }
         }
-        List<Entry<Integer, Integer>> sorted = new ArrayList<>(answer.entrySet());
-        sorted.sort((a, b) -> Integer.compare(a.getKey(), a.getKey()));
-        for (Entry<Integer, Integer> value : sorted) {
-            System.out.print(formatAnswer(value.getValue()));
-        }
+
+        return lexSmallest;
     }
 
-    private void printDescend() {
-        for (int i = 0; i < graph.size(); i++) {
-            graph.get(i).clear();
-        }
-        Arrays.fill(indegree, 0);
-        answer.clear();
-
-        for (int v = 1; v <= parens.size(); v++) {
-            String paren = parens.get(v - 1);
-            if (paren.equals(">")) {
-                graph.get(v).add(v + 1);
-                indegree[v + 1]++;
-            }
-            if (paren.equals("<")) {
-                graph.get(v + 1).add(v);
-                indegree[v]++;
-            }
-        }
-
-        PriorityQueue<Integer> q = new PriorityQueue<>((a, b) -> Integer.compare(a, b));
-        for (int v = 1; v <= numberCount; v++) {
-            if (indegree[v] == 0) {
-                q.add(v);
-            }
-        }
-
-        int curNumber = numberCount;
-        while (!q.isEmpty()) {
-            int cur = q.poll();
-            answer.put(cur, curNumber);
-            curNumber--;
-            List<Integer> nears = graph.get(cur);
-            for (int near : nears) {
-                indegree[near]--;
-                if (indegree[near] == 0) {
-                    q.add(near);
-                }
-            }
-        }
+    private void printSorted(HashMap<Integer, Integer> answer) {
         List<Entry<Integer, Integer>> sorted = new ArrayList<>(answer.entrySet());
         sorted.sort((a, b) -> Integer.compare(a.getKey(), b.getKey()));
         for (Entry<Integer, Integer> value : sorted) {
             System.out.print(formatAnswer(value.getValue()));
         }
     }
-
 
     private String formatAnswer(int value) {
         String origin = String.valueOf(value);
