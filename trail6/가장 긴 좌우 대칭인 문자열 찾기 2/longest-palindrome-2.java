@@ -55,8 +55,10 @@ class Solver {
                 localLeft--;
                 localRight++;
             }
-            radiusOf[i] = localRight - i - 1;
-            rightIndex = localRight - 1;
+            localLeft++;
+            localRight--;
+            radiusOf[i] = localRight - i;
+            rightIndex = localRight;
             centerIndex = i;
         }
 
