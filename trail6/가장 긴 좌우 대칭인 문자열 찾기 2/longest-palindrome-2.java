@@ -40,25 +40,23 @@ class Solver {
                 int mirrorPalRadius = radiusOf[mirrorIndex];
                 determinedRadius = Math.min(mirrorPalRadius, rightIndex - i);
             }
-            int localLeft = i - determinedRadius;
-            int localRight = i + determinedRadius;
+            int localLeft = i - determinedRadius - 1;
+            int localRight = i + determinedRadius + 1;
             while (true) {
-                if (localLeft == 0) {
+                if (localLeft < 0) {
                     break;
                 }
-                if (localRight >= target.length() - 1) {
+                if (localRight >= target.length()) {
                     break;
                 }
                 if (target.charAt(localLeft) != target.charAt(localRight)) {
-                    localLeft++;
-                    localRight--;
                     break;
                 }
                 localLeft--;
                 localRight++;
             }
-            radiusOf[i] = localRight - i;
-            rightIndex = localRight;
+            radiusOf[i] = localRight - i - 1;
+            rightIndex = localRight - 1;
             centerIndex = i;
         }
 
