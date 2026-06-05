@@ -40,8 +40,8 @@ class Solver {
                 int mirrorPalRadius = radiusOf[mirrorIndex];
                 determinedRadius = Math.min(mirrorPalRadius, rightIndex - i);
             }
-            int localLeft = i - determinedRadius - 1;
-            int localRight = i + determinedRadius + 1;
+            int localLeft = i - determinedRadius;
+            int localRight = i + determinedRadius;
             while (true) {
                 if (localLeft < 0) {
                     break;
