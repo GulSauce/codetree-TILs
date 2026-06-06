@@ -51,25 +51,25 @@ class Solver {
 
             int localLeft = i - determinedRadius;
             int localRight = i + determinedRadius;
-            while (true) {
-                if (localLeft < 0) {
-                    break;
+            if (!(determinedRadius == 0 && target.charAt(i) == ignored.charAt(0))) {
+                while (true) {
+                    if (localLeft < 0) {
+                        break;
+                    }
+                    if (localRight >= target.length()) {
+                        break;
+                    }
+                    if (target.charAt(localLeft) == ignored.charAt(0)
+                        || target.charAt(localRight) == ignored.charAt(0)) {
+                        break;
+                    }
+                    if (target.charAt(localLeft) != target.charAt(localRight)) {
+                        break;
+                    }
+                    localLeft--;
+                    localRight++;
                 }
-                if (localRight >= target.length()) {
-                    break;
-                }
-                if (target.charAt(localLeft) == ignored.charAt(0)
-                    || target.charAt(localRight) == ignored.charAt(0)) {
-                    break;
-                }
-                if (target.charAt(localLeft) != target.charAt(localRight)) {
-                    break;
-                }
-                localLeft--;
-                localRight++;
-            }
 
-            if (localLeft != localRight) {
                 localLeft++;
                 localRight--;
             }
