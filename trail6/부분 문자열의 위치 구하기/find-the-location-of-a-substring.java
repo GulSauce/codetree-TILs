@@ -84,6 +84,16 @@ class Solver {
             inputHash %= R;
 
             if (inputHash == targetHash) {
+                boolean notSame = false;
+                for (int i = curStart; i <= curEnd; i++) {
+                    if (input.charAt(i) != target.charAt(i - curStart)) {
+                        notSame = true;
+                        break;
+                    }
+                }
+                if (notSame) {
+                    continue;
+                }
                 System.out.println(curStart);
                 System.exit(0);
             }
