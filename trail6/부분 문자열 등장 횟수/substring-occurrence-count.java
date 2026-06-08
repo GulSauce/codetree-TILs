@@ -72,7 +72,7 @@ class Solver {
             } else if (j == 0) {
                 i++;
             } else {
-                j = preSufSameCount[j];
+                j = preSufSameCount[j - 1];
             }
         }
 
