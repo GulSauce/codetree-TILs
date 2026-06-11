@@ -2,7 +2,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -36,14 +35,12 @@ class Solver {
     boolean[][] isPutable;
 
     int[] dp;
-    int[] preSufLength;
 
     public Solver(String article, List<String> patterns) {
         this.article = article;
         this.patterns = patterns;
         this.dp = new int[article.length() + 1];
-        this.preSufLength = new int[10_000];
-        this.isPutable = new boolean[article.length() + 1][100];
+        this.isPutable = new boolean[article.length() + 1][patterns.size()];
     }
 
     public void solve() {
@@ -69,7 +66,7 @@ class Solver {
 
     private void kmp(int curIndex) {
         String pattern = patterns.get(curIndex);
-        Arrays.fill(preSufLength, 0);
+        int[] preSufLength = new int[pattern.length()];
 
         int length = 0;
         int i = 1;
