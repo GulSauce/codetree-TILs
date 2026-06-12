@@ -65,8 +65,8 @@ class Node {
     public void insert(String target) {
         Node cur = this;
         for (Character letter : target.toCharArray()) {
-            Node child = cur.children.get(letter);
             cur.wordCount++;
+            Node child = cur.children.get(letter);
             if (child == null) {
                 child = new Node();
                 cur.children.put(letter, child);
