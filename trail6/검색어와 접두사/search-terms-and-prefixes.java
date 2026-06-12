@@ -80,12 +80,13 @@ class Node {
         Node cur = this;
         int count = 0;
         for (Character letter : target.toCharArray()) {
-            cur = cur.children.get(letter);
-            if (cur == null) {
+            Node child = cur.children.get(letter);
+            if (child == null) {
                 break;
             }
-            System.out.print(cur.wordCount + " ");
+            System.out.print(child.wordCount + " ");
             count++;
+            cur = child;
         }
         for (int i = 0; i < target.length() - count; i++) {
             System.out.print(0 + " ");
