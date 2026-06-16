@@ -2,7 +2,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -32,9 +31,8 @@ public class Main {
 
 class Solver {
 
-    final long NOT_ALLOCATED = Long.MAX_VALUE;
-    List<Integer> numbers;
     long[][] dp;
+    List<Integer> numbers;
 
     public Solver(List<Integer> numbers) {
         this.numbers = numbers;
@@ -42,42 +40,34 @@ class Solver {
     }
 
     public void solve() {
-        for (long[] array : dp) {
-            Arrays.fill(array, NOT_ALLOCATED);
-        }
-        dp[0][0] = 0;
-        for (int i = 0; i < numbers.size(); i++) {
-            for (int j = 0; j < numbers.size(); j++) {
-                int curIndex = Math.max(i, j) + 1;
-                if (curIndex == numbers.size()) {
-                    break;
-                }
-                if (dp[i][j] == NOT_ALLOCATED) {
-                    continue;
-                }
-                int curNumber = numbers.get(curIndex);
-                {
-                    int prevNumber = numbers.get(i);
-                    if (i == 0) {
-                        prevNumber = curNumber;
+        for (int i = 2; i < numbers.size(); i++) {
+            for (int j = 0; j <= i - 2; j++) {
+                int diff = Math.abs(
+                    numbers.get(i) - numbers.get(i - 1)
+                );
+                dp[i][j] = dp[i - 1][j] + diff;
+                dp[j][i] = dp[i][j];
+            }
+            // j = i-1인 경우의 처리
+            {
+                long value = Long.MAX_VALUE;
+                for (int j = 0; j <= i - 2; j++) {
+                    int diff = 0;
+                    if (0 < j) {
+                        diff = Math.abs(
+                            numbers.get(i) - numbers.get(j)
+                        );
                     }
-                    dp[curIndex][j] = Math.min(dp[curIndex][j],
-                        dp[i][j] + Math.abs(curNumber - prevNumber));
+                    value = Math.min(value, dp[i - 1][j] + diff);
                 }
-                {
-                    int prevNumber = numbers.get(j);
-                    if (j == 0) {
-                        prevNumber = curNumber;
-                    }
-                    dp[i][curIndex] = Math.min(dp[i][curIndex],
-                        dp[i][j] + Math.abs(curNumber - prevNumber));
-                }
+                dp[i][i - 1] = value;
+                dp[i - 1][i] = dp[i][i - 1];
             }
         }
+
         long answer = Long.MAX_VALUE;
-        for (int i = 0; i < numbers.size(); i++) {
+        for (int i = 0; i < numbers.size() - 1; i++) {
             answer = Math.min(answer, dp[numbers.size() - 1][i]);
-            answer = Math.min(answer, dp[i][numbers.size() - 1]);
         }
         System.out.println(answer);
     }
