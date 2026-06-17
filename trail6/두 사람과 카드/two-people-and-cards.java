@@ -41,27 +41,25 @@ class Solver {
 
     public void solve() {
         for (int i = 2; i < numbers.size(); i++) {
-            for (int j = 0; j <= i - 2; j++) {
-                int diff = Math.abs(
-                    numbers.get(i) - numbers.get(i - 1)
-                );
-                dp[i][j] = dp[i - 1][j] + diff;
-                dp[j][i] = dp[i][j];
-            }
-            // j = i-1인 경우의 처리
-            {
-                long value = Long.MAX_VALUE;
-                for (int j = 0; j <= i - 2; j++) {
-                    int diff = 0;
-                    if (0 < j) {
-                        diff = Math.abs(
-                            numbers.get(i) - numbers.get(j)
-                        );
-                    }
-                    value = Math.min(value, dp[i - 1][j] + diff);
+            int tail1 = i - 1;
+            for (int tail2 = 0; tail2 <= tail1; tail2++) {
+                if (tail2 < tail1) {
+                    int diff = Math.abs(
+                        numbers.get(i) - numbers.get(tail1)
+                    );
+                    dp[i][tail2] = dp[i - 1][tail2] + diff;
                 }
-                dp[i][i - 1] = value;
-                dp[i - 1][i] = dp[i][i - 1];
+                if (tail2 == tail1) {
+                    long value = Long.MAX_VALUE;
+                    for (int k = 0; k < tail1; k++) {
+
+                        int diff = k == 0 ?
+                            0 : Math.abs(numbers.get(i) - numbers.get(k));
+                        value = Math.min(value, dp[tail1][k] + diff);
+                    }
+                    dp[i][tail1] = value;
+                }
+                dp[tail2][i] = dp[i][tail2];
             }
         }
 
