@@ -1,111 +1,32 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.StringTokenizer;
-
+import java.io.*;
+import java.util.*;
 public class Main {
-
-    public static void main(String[] args) throws IOException {
-        int n;
-        int m;
-        List<Integer> numbers = new ArrayList<>();
-        numbers.add(-1);
-
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        n = toInt(st);
-        m = toInt(st);
-
-        st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < n; i++) {
-            numbers.add(toInt(st));
-        }
-
-        new Solver(numbers, m).solve();
+  public static void main(String[] a) throws IOException {
+    BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st=new StringTokenizer(br.readLine());
+    int n=Integer.parseInt(st.nextToken()), m=Integer.parseInt(st.nextToken());
+    int[] v=new int[n+1];
+    st=new StringTokenizer(br.readLine());
+    for(int i=1;i<=n;i++) v[i]=Integer.parseInt(st.nextToken());
+    final long INF=Long.MAX_VALUE/4;
+    long[][][] dp=new long[n+1][n+1][m+1];
+    for(long[][] x:dp) for(long[] y:x) Arrays.fill(y,INF);
+    for(int i=1;i<=n;i++){ int d=i-1; if(d<=m) dp[i][0][d]=0; }   // base
+    for(int i=1;i<=n;i++) for(int j=0;j<i;j++) for(int k=0;k<=m;k++){
+      if(dp[i][j][k]>=INF) continue;
+      long base=dp[i][j][k];
+      for(int p=i+1;p<=n;p++){
+        int extra=p-i-1, nk=k+extra; if(nk>m) continue;
+        long c=base+Math.abs(v[p]-v[i]);              // p 를 i 사람에게
+        if(c<dp[p][j][nk]) dp[p][j][nk]=c;
+        long add=(j>=1)?Math.abs(v[p]-v[j]):0;        // p 를 j 사람에게
+        long c2=base+add;
+        if(c2<dp[p][i][nk]) dp[p][i][nk]=c2;
+      }
     }
-
-    private static int toInt(StringTokenizer st) {
-        return Integer.parseInt(st.nextToken());
-    }
-}
-
-class Solver {
-
-    int removableCount;
-    final long NOT_ALLOCATED = Long.MAX_VALUE;
-    long[][][] dp;
-
-    List<Integer> numbers;
-
-    public Solver(List<Integer> numbers, int removableCount) {
-        this.numbers = numbers;
-        this.removableCount = removableCount;
-        this.dp = new long[numbers.size()][numbers.size()][removableCount + 1];
-    }
-
-    public void solve() {
-        for (long[][] arrays : dp) {
-            for (long[] array : arrays) {
-                Arrays.fill(array, NOT_ALLOCATED);
-            }
-        }
-        dp[0][0][0] = 0;
-        for (int i = 0; i < numbers.size(); i++) {
-            for (int j = 0; j < numbers.size(); j++) {
-                // 이미 버린 카드 개수
-                for (int k = 0; k <= removableCount; k++) {
-                    // 버릴 카드 개수
-                    for (int l = 0; l <= removableCount; l++) {
-                        int curIndex = Math.max(i, j) + 1 + l;
-                        if (curIndex >= numbers.size()) {
-                            break;
-                        }
-                        if (k + l > removableCount) {
-                            break;
-                        }
-                        if (dp[i][j][k] == NOT_ALLOCATED) {
-                            continue;
-                        }
-                        int curNumber = numbers.get(curIndex);
-                        {
-                            int prevNumber = numbers.get(i);
-                            if (i == 0) {
-                                prevNumber = curNumber;
-                            }
-                            dp[curIndex][j][k + l] =
-                                Math.min(dp[curIndex][j][k + l],
-                                    dp[i][j][k] + Math.abs(curNumber - prevNumber)
-                                );
-                        }
-                        {
-                            int prevNumber = numbers.get(j);
-                            if (j == 0) {
-                                prevNumber = curNumber;
-                            }
-                            dp[i][curIndex][k + l] =
-                                Math.min(dp[i][curIndex][k + l],
-                                    dp[i][j][k] + Math.abs(curNumber - prevNumber)
-                                );
-                        }
-                    }
-                }
-            }
-        }
-        long answer = Long.MAX_VALUE;
-        for (int i = 0; i < numbers.size(); i++) {
-            for (int j = 0; j < numbers.size(); j++) {
-                for (int k = 0; k <= removableCount; k++) {
-                    int tail = numbers.size() - 1 - Math.max(i, j);
-                    if (tail + k > removableCount) {
-                        continue;
-                    }
-                    answer = Math.min(answer, dp[i][j][k]);
-                }
-            }
-        }
-        System.out.println(answer);
-    }
+    long ans=INF;
+    for(int i=1;i<=n;i++) for(int j=0;j<i;j++) for(int k=0;k<=m;k++)
+      if(k+(n-i)<=m) ans=Math.min(ans,dp[i][j][k]);
+    System.out.println(ans);
+  }
 }
