@@ -45,13 +45,13 @@ class Solver {
         // 점화식을 위해 초기값 적용
         dp[1][0] = pointList.get(1).getDist(pointList.get(0));
         dp[0][1] = dp[1][0];
-        for (int curSelected = 2; curSelected < pointList.size() - 1; curSelected++) {
-            int blue = curSelected - 1;
+        for (int curAppend = 2; curAppend < pointList.size() - 1; curAppend++) {
+            int blue = curAppend - 1;
             for (int green = 0; green <= blue; green++) {
                 if (green < blue) {
-                    dp[curSelected][green] =
-                        dp[blue][green] + pointList.get(curSelected).getDist(pointList.get(blue));
-                    dp[green][curSelected] = dp[curSelected][green];
+                    dp[curAppend][green] =
+                        dp[blue][green] + pointList.get(curAppend).getDist(pointList.get(blue));
+                    dp[green][curAppend] = dp[curAppend][green];
                 }
                 // green 자리가 blue 꼬리가 된다.
                 // 따라서 green 이하의 아무 것과 curSelected를 잇는다
@@ -60,11 +60,11 @@ class Solver {
                     for (int subGreen = 0; subGreen < green; subGreen++) {
                         long temp =
                             dp[green][subGreen]
-                                + pointList.get(curSelected).getDist(pointList.get(subGreen));
+                                + pointList.get(curAppend).getDist(pointList.get(subGreen));
                         value = Math.min(value, temp);
                     }
-                    dp[curSelected][green] = value;
-                    dp[green][curSelected] = value;
+                    dp[curAppend][green] = value;
+                    dp[green][curAppend] = value;
                 }
             }
         }
