@@ -40,26 +40,25 @@ class Solver {
     }
 
     public void solve() {
-        for (int i = 2; i < numbers.size(); i++) {
-            int tail1 = i - 1;
-            for (int tail2 = 0; tail2 <= tail1; tail2++) {
-                if (tail2 < tail1) {
+        for (int curAppend = 2; curAppend < numbers.size(); curAppend++) {
+            int blue = curAppend - 1;
+            for (int green = 0; green <= blue; green++) {
+                if (green < blue) {
                     int diff = Math.abs(
-                        numbers.get(i) - numbers.get(tail1)
+                        numbers.get(curAppend) - numbers.get(blue)
                     );
-                    dp[i][tail2] = dp[i - 1][tail2] + diff;
+                    dp[curAppend][green] = dp[curAppend - 1][green] + diff;
                 }
-                if (tail2 == tail1) {
+                if (green == blue) {
                     long value = Long.MAX_VALUE;
-                    for (int k = 0; k < tail1; k++) {
-
-                        int diff = k == 0 ?
-                            0 : Math.abs(numbers.get(i) - numbers.get(k));
-                        value = Math.min(value, dp[tail1][k] + diff);
+                    for (int subGreen = 0; subGreen < green; subGreen++) {
+                        int diff = subGreen == 0 ?
+                            0 : Math.abs(numbers.get(curAppend) - numbers.get(subGreen));
+                        value = Math.min(value, dp[green][subGreen] + diff);
                     }
-                    dp[i][tail1] = value;
+                    dp[curAppend][green] = value;
                 }
-                dp[tail2][i] = dp[i][tail2];
+                dp[green][curAppend] = dp[curAppend][green];
             }
         }
 
