@@ -30,6 +30,7 @@ public class Main {
 
 class Solver {
 
+    final long NOT_ALLOCATED = Long.MAX_VALUE;
     long[][] dp;
 
     List<Point> pointList;
@@ -41,21 +42,30 @@ class Solver {
 
     public void solve() {
         pointList.sort((a, b) -> Integer.compare(a.x, b.x));
+        // 점화식을 위해 초기값 적용
         dp[1][0] = pointList.get(1).getDist(pointList.get(0));
         dp[0][1] = dp[1][0];
-        for (int i = 2; i < pointList.size() - 1; i++) {
-            for (int j = 0; j <= i - 1; j++) {
-                if (j < i - 1) {
-                    dp[i][j] = dp[i - 1][j] + pointList.get(i).getDist(pointList.get(i - 1));
-                } else if (j == i - 1) {
+        for (int curSelected = 2; curSelected < pointList.size() - 1; curSelected++) {
+            int blue = curSelected - 1;
+            for (int green = 0; green <= blue; green++) {
+                if (green < blue) {
+                    dp[curSelected][green] =
+                        dp[blue][green] + pointList.get(curSelected).getDist(pointList.get(blue));
+                    dp[green][curSelected] = dp[curSelected][green];
+                }
+                // green 자리가 blue 꼬리가 된다.
+                // 따라서 green 이하의 아무 것과 curSelected를 잇는다
+                else if (green == blue) {
                     long value = Long.MAX_VALUE;
-                    for (int k = 0; k <= j - 1; k++) {
-                        long temp = dp[i - 1][k] + pointList.get(i).getDist(pointList.get(k));
+                    for (int subGreen = 0; subGreen < green; subGreen++) {
+                        long temp =
+                            dp[green][subGreen]
+                                + pointList.get(curSelected).getDist(pointList.get(subGreen));
                         value = Math.min(value, temp);
                     }
-                    dp[i][j] = value;
+                    dp[curSelected][green] = value;
+                    dp[green][curSelected] = value;
                 }
-                dp[j][i] = dp[i][j];
             }
         }
 
