@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -13,8 +14,8 @@ public class Main {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-
         N = toInt(st);
+
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
             pointList.add(new Point(toInt(st), toInt(st)));
@@ -42,46 +43,47 @@ class Solver {
 
     public void solve() {
         pointList.sort((a, b) -> Integer.compare(a.x, b.x));
-        // 점화식을 위해 초기값 적용
-        dp[1][0] = pointList.get(1).getDist(pointList.get(0));
-        dp[0][1] = dp[1][0];
-        for (int curAppend = 2; curAppend < pointList.size() - 1; curAppend++) {
-            int blue = curAppend - 1;
-            for (int green = 0; green <= blue; green++) {
-                if (green < blue) {
-                    dp[curAppend][green] =
-                        dp[blue][green] + pointList.get(curAppend).getDist(pointList.get(blue));
-                    dp[green][curAppend] = dp[curAppend][green];
+
+        for (long[] array : dp) {
+            Arrays.fill(array, NOT_ALLOCATED);
+        }
+
+        dp[0][0] = 0;
+
+        for (int blue = 0; blue < pointList.size(); blue++) {
+            for (int green = 0; green < pointList.size(); green++) {
+                int curSelected = Math.max(blue, green) + 1;
+                if (curSelected >= pointList.size()) {
+                    continue;
                 }
-                // green 자리가 blue 꼬리가 된다.
-                // 따라서 green 이하의 아무 것과 curSelected를 잇는다
-                else if (green == blue) {
-                    long value = Long.MAX_VALUE;
-                    for (int subGreen = 0; subGreen < green; subGreen++) {
-                        long temp =
-                            dp[green][subGreen]
-                                + pointList.get(curAppend).getDist(pointList.get(subGreen));
-                        value = Math.min(value, temp);
-                    }
-                    dp[curAppend][green] = value;
-                    dp[green][curAppend] = value;
+                if (dp[blue][green] == NOT_ALLOCATED) {
+                    continue;
                 }
+
+                dp[curSelected][green] =
+                    Math.min(
+                        dp[curSelected][green],
+                        dp[blue][green] + pointList.get(curSelected).getDist(pointList.get(blue))
+                    );
+
+                dp[blue][curSelected] =
+                    Math.min(
+                        dp[blue][curSelected],
+                        dp[blue][green] + pointList.get(curSelected).getDist(pointList.get(green))
+                    );
             }
         }
 
         long answer = Long.MAX_VALUE;
-        if (pointList.size() <= 2) {
-            System.out.println(pointList.get(0).getDist(pointList.get(1)) * 2);
-        } else {
-            for (int i = 0; i < pointList.size() - 2; i++) {
-                answer = Math.min(answer, dp[pointList.size() - 2][i]
-                    + pointList.get(i).getDist(pointList.get(pointList.size() - 1))
-                    + pointList.get(pointList.size() - 2)
-                    .getDist(pointList.get(pointList.size() - 1))
-                );
-            }
-            System.out.println(answer);
+        for (int i = 0; i < pointList.size() - 1; i++) {
+            Point end = pointList.get(pointList.size() - 1);
+            answer = Math.min(answer,
+                dp[pointList.size() - 1][i] + end.getDist(pointList.get(i)));
+            answer = Math.min(answer,
+                dp[i][pointList.size() - 1] + end.getDist(pointList.get(i)));
         }
+
+        System.out.println(answer);
     }
 }
 
