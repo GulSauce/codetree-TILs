@@ -12,7 +12,7 @@ public class Main {
         int n;
         int m;
         List<Integer> numbers = new ArrayList<>();
-        numbers.add(-1);
+        numbers.add(Integer.MAX_VALUE);
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -34,17 +34,17 @@ public class Main {
 
 class Solver {
 
-    int removableCount;
+    int maxIgnoreCount;
     final long NOT_ALLOCATED = Long.MAX_VALUE;
 
     long[][][] dp;
 
     List<Integer> numbers;
 
-    public Solver(List<Integer> numbers, int removableCount) {
+    public Solver(List<Integer> numbers, int maxIgnoreCount) {
         this.numbers = numbers;
-        this.removableCount = removableCount;
-        this.dp = new long[numbers.size()][numbers.size()][removableCount + 1];
+        this.maxIgnoreCount = maxIgnoreCount;
+        this.dp = new long[numbers.size()][numbers.size()][maxIgnoreCount + 1];
     }
 
     public void solve() {
@@ -55,74 +55,63 @@ class Solver {
         }
 
         dp[0][0][0] = 0;
-        for (int i = 1; i < numbers.size(); i++) {
-            if (i - 1 > removableCount) {
-                break;
-            }
-            dp[i][0][i - 1] = 0;
-            dp[0][i][i - 1] = 0;
-        }
+        for (int blue = 0; blue < numbers.size(); blue++) {
+            for (int green = 0; green < numbers.size(); green++) {
+                for (int i = 0; i <= maxIgnoreCount; i++) {
+                    for (int ignoreCount = 0; ignoreCount <= maxIgnoreCount; ignoreCount++) {
+                        int curAppend = Math.max(blue, green) + 1 + ignoreCount;
 
-        for (int i = 1; i < numbers.size(); i++) {
-            for (int j = 0; j <= i - 1; j++) {
-                for (int k = 0; k <= removableCount; k++) {
-                    for (int skipCount = 0; skipCount <= removableCount; skipCount++) {
-                        if (removableCount < k + skipCount) {
+                        if (curAppend >= numbers.size()) {
+                            continue;
+                        }
+                        if (i + ignoreCount > maxIgnoreCount) {
+                            continue;
+                        }
+                        if (dp[blue][green][i] == NOT_ALLOCATED) {
                             continue;
                         }
 
-                        // 반드시 이어야하는 꼬리
-                        int shouldAdded = i - 1 - skipCount;
-                        if (shouldAdded < 0) {
-                            continue;
-                        }
+                        dp[curAppend][green][i + ignoreCount]
+                            = Math.min(dp[curAppend][green][i + ignoreCount],
+                            dp[blue][green][i]
+                                + (blue == 0 ? 0
+                                : Math.abs(numbers.get(curAppend) - numbers.get(blue)))
+                        );
 
-                        if (j < shouldAdded && dp[shouldAdded][j][k] != NOT_ALLOCATED) {
-                            if (shouldAdded == 0) {
-                                dp[i][j][k + skipCount] = Math.min(dp[i][j][k + skipCount],
-                                    dp[shouldAdded][j][k]);
-                            } else {
-                                dp[i][j][k + skipCount] = Math.min(
-                                    dp[i][j][k + skipCount],
-                                    dp[shouldAdded][j][k] + Math.abs(
-                                        numbers.get(i) - numbers.get(shouldAdded)));
-                            }
-                        } else if (1 <= shouldAdded && j == shouldAdded) {
-                            long value = Long.MAX_VALUE;
-                            for (int l = 0; l < shouldAdded; l++) {
-                                if (dp[shouldAdded][l][k] == NOT_ALLOCATED) {
-                                    continue;
-                                }
-                                if (l == 0) {
-                                    value = Math.min(value, dp[shouldAdded][l][k]);
-                                } else {
-                                    value = Math.min(value,
-                                        dp[shouldAdded][l][k]
-                                            + Math.abs(numbers.get(i) - numbers.get(l))
-                                    );
-                                }
-                            }
-                            dp[i][shouldAdded][k + skipCount] = Math.min(
-                                dp[i][shouldAdded][k + skipCount], value);
-                        }
-                        dp[j][i][k + skipCount] = dp[i][j][k + skipCount];
+                        dp[blue][curAppend][i + ignoreCount]
+                            = Math.min(dp[blue][curAppend][i + ignoreCount],
+                            dp[blue][green][i]
+                                + (green == 0 ? 0 :
+                                +Math.abs(numbers.get(curAppend) - numbers.get(green)))
+                        );
                     }
                 }
             }
         }
 
         long answer = Long.MAX_VALUE;
-        for (int i = 0; i < numbers.size(); i++) {
-            for (int j = 0; j <= i - 1; j++) {
-                for (int k = 0; k <= removableCount; k++) {
-                    if (numbers.size() - 1 - i + k > removableCount) {
-                        continue;
+        for (int blue = 0; blue < numbers.size(); blue++) {
+            for (int green = 0; green < numbers.size(); green++) {
+                for (int i = 0; i <= maxIgnoreCount; i++) {
+                    {
+                        int remain = (numbers.size() - 1 - blue);
+                        if (remain + i > maxIgnoreCount) {
+                            continue;
+                        }
+
+                        answer = Math.min(answer, dp[blue][green][i]);
                     }
-                    answer = Math.min(answer, dp[i][j][k]);
+                    {
+                        int remain = (numbers.size() - 1 - green);
+                        if (remain + i > maxIgnoreCount) {
+                            continue;
+                        }
+
+                        answer = Math.min(answer, dp[blue][green][i]);
+                    }
                 }
             }
         }
         System.out.println(answer);
     }
 }
-
