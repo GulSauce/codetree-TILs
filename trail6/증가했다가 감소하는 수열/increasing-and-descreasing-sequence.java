@@ -31,7 +31,9 @@ public class Main {
 class Solver {
 
     final int R = 10_007;
+
     int[][] dp;
+
     List<Integer> numbers;
 
     public Solver(List<Integer> numbers) {
@@ -41,57 +43,37 @@ class Solver {
 
     public void solve() {
         dp[0][0] = 1;
-        for (int i = 1; i < numbers.size() - 1; i++) {
-            int value = 0;
-            for (int j = 0; j <= i - 1; j++) {
-                if (numbers.get(j) < numbers.get(i)) {
-                    value += dp[j][0];
-                    value %= R;
-                }
-            }
-            dp[i][0] = value;
-            dp[0][i] = value;
-        }
-        for (int i = 1; i < numbers.size() - 1; i++) {
-            for (int tail1 = 1; tail1 <= i - 1; tail1++) {
-                for (int tail2 = 1; tail2 <= tail1; tail2++) {
-                    if (tail2 < tail1) {
-                        if (numbers.get(tail1) < numbers.get(i)) {
-                            dp[i][tail2] += dp[tail1][tail2];
-                            dp[i][tail2] %= R;
+        for (int blue = 0; blue < numbers.size(); blue++) {
+            for (int green = 0; green < numbers.size(); green++) {
+                int appendStart = Math.max(blue, green) + 1;
+                for (int curAppend = appendStart; curAppend < numbers.size(); curAppend++) {
+                    if (curAppend == numbers.size() - 1
+                        && numbers.get(blue) < numbers.get(curAppend)
+                        && numbers.get(green) < numbers.get(curAppend)
+                    ) {
+                        dp[curAppend][green] += dp[blue][green];
+                        dp[curAppend][green] %= R;
+
+                        dp[blue][curAppend] += dp[blue][green];
+                        dp[blue][curAppend] %= R;
+                    } else if (curAppend < numbers.size() - 1) {
+                        if (numbers.get(blue) < numbers.get(curAppend)) {
+                            dp[curAppend][green] += dp[blue][green];
+                            dp[curAppend][green] %= R;
                         }
-                    } else if (tail2 == tail1) {
-                        for (int j = 0; j <= tail2 - 1; j++) {
-                            if (numbers.get(j) < numbers.get(i)) {
-                                dp[i][tail1] += dp[tail1][j];
-                                dp[i][tail1] %= R;
-                            }
+                        if (numbers.get(green) < numbers.get(curAppend)) {
+                            dp[blue][curAppend] += dp[blue][green];
+                            dp[blue][curAppend] %= R;
                         }
                     }
-                    dp[tail2][i] = dp[i][tail2];
                 }
             }
         }
 
-        if (numbers.get(numbers.size() - 1) < numbers.get(0)) {
-            System.out.println(0);
-            System.exit(0);
-        }
-        int answer = 1;
-        for (int i = 0; i < numbers.size() - 1; i++) {
-            for (int j = 0; j < numbers.size() - 1; j++) {
-                if (i == j) {
-                    continue;
-                }
-                if (numbers.get(numbers.size() - 1) <= numbers.get(i)) {
-                    continue;
-                }
-                if (numbers.get(numbers.size() - 1) <= numbers.get(j)) {
-                    continue;
-                }
-                answer += dp[i][j];
-                answer %= R;
-            }
+        int answer = 0;
+        for (int i = 0; i < numbers.size(); i++) {
+            answer += dp[numbers.size() - 1][i];
+            answer %= R;
         }
         System.out.println(answer);
     }
