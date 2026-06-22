@@ -52,11 +52,7 @@ class Solver {
             }
         }
 
-        for (int i = 2; i < numbers.size(); i++) {
-            dp[i - 2][i] = numbers.get(i - 2) * numbers.get(i - 1) * numbers.get(i);
-        }
-
-        for (int lenght = 4; lenght <= numbers.size(); lenght++) {
+        for (int lenght = 3; lenght <= numbers.size(); lenght++) {
             for (int i = 0; i < numbers.size(); i++) {
                 int j = i + lenght - 1;
                 if (j >= numbers.size()) {
