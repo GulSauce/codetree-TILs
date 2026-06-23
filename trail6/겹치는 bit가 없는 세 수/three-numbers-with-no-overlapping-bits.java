@@ -41,11 +41,10 @@ class Solver {
         for (int i = 0; i < numbers.size(); i++) {
             for (int j = i + 1; j < numbers.size(); j++) {
                 for (int k = j + 1; k < numbers.size(); k++) {
-                    int bitValue1 = numbers.get(i) & numbers.get(j);
-                    int bitValue2 = numbers.get(j) & numbers.get(k);
-                    int bitValue3 = numbers.get(i) & numbers.get(k);
-                    if (bitValue1 + bitValue2 + bitValue3 == 0) {
-                        answer = Math.max(answer, numbers.get(i) + numbers.get(j) + numbers.get(k));
+                    int sum = numbers.get(i) + numbers.get(j) + numbers.get(k);
+                    int bit = numbers.get(i) | numbers.get(j) | numbers.get(k);
+                    if (sum == bit) {
+                        answer = Math.max(answer, sum);
                     }
                 }
             }
