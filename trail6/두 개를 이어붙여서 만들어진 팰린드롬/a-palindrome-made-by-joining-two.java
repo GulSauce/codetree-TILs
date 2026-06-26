@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.function.IntPredicate;
 
 public class Main {
 
@@ -38,14 +39,34 @@ class Solver {
     public void solve() {
         setPalinLegnthHashMap(wordList);
         for (int i = 0; i < wordList.size(); i++) {
-            root.insert(i, wordList.get(i), palinRadiusHashMap.get(wordList.get(i)));
+            String cur = wordList.get(i);
+            root.insert(i, cur, (k) -> isPalinRemain(cur, k));
         }
         int answer = 0;
         for (int i = 0; i < wordList.size(); i++) {
+            String cur = wordList.get(i);
             answer = Math.max(answer,
-                root.walk(i, wordList.get(i), palinRadiusHashMap.get(wordList.get(i))));
+                root.walk(i, wordList.get(i), (k) -> isPalin(cur, k)));
         }
         System.out.println(answer);
+    }
+
+    private boolean isPalin(String target, int start) {
+        int paddingStart = start * 2 + 1;
+        int paddingEnd = target.length() * 2 - 1;
+        int mid = (paddingStart + paddingEnd) / 2;
+        int length = palinRadiusHashMap.get(target)[mid];
+        if (target.length() - start == length) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isPalinRemain(String target, int remainLength) {
+        if (remainLength == 0) {
+            return true;
+        }
+        return palinRadiusHashMap.get(target)[remainLength] >= remainLength;
     }
 
     private void setPalinLegnthHashMap(List<String> wordList) {
@@ -113,7 +134,7 @@ class Node {
     public Node() {
     }
 
-    public void insert(int index, String target, int[] palinRadius) {
+    public void insert(int index, String target, IntPredicate isPalinRemain) {
         Node cur = this;
         int pointer = -1;
         target = new StringBuilder(target).reverse().toString();
@@ -124,8 +145,8 @@ class Node {
                 cur.childNodes.put(letter, child);
             }
             pointer++;
-            int suffixLen = target.length() - (pointer + 1);
-            if (isPalinPrefix(suffixLen, palinRadius)) {
+            int remainLength = target.length() - (pointer + 1);
+            if (isPalinRemain.test(remainLength)) {
                 child.maxPalCount = Math.max(child.maxPalCount, target.length() - (pointer + 1));
             }
             cur = child;
@@ -134,7 +155,7 @@ class Node {
         cur.end = true;
     }
 
-    public int walk(int index, String target, int[] palinRadius) {
+    public int walk(int index, String target, IntPredicate isPalin) {
         Node cur = this;
         int pointer = -1;
         int maxLength = 0;
@@ -145,7 +166,7 @@ class Node {
             }
             pointer++;
             if (child.index != index && child.end) {
-                if (isPalin(target, pointer + 1, palinRadius)) {
+                if (isPalin.test(pointer + 1)) {
                     maxLength = Math.max(maxLength, target.length() + pointer + 1);
                 }
             }
@@ -160,24 +181,5 @@ class Node {
             }
         }
         return maxLength;
-    }
-
-    private boolean isPalin(String target, int start, int[] palinLength) {
-        int paddingStart = start * 2 + 1;
-        int paddingEnd = target.length() * 2 - 1;
-        int mid = (paddingStart + paddingEnd) / 2;
-        int length = palinLength[mid];
-        if (target.length() - start == length) {
-            return true;
-        }
-        return false;
-    }
-
-    private boolean isPalinPrefix(int len, int[] palinLength) {
-        if (len == 0) {
-            return true;
-        }
-        int mid = len;
-        return palinLength[mid] >= len;
     }
 }
