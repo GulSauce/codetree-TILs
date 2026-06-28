@@ -79,18 +79,23 @@ class Solver {
         int answer = Integer.MAX_VALUE;
         for (int bitmask = 0; bitmask <= FULL; bitmask++) {
             for (int lastV = 2; lastV <= NODE_COUNT; lastV++) {
-                if ((bitmask & 1) == 1) {
-                    continue;
-                }
-                if (Integer.bitCount(bitmask) - 1 != visitCount) {
-                    continue;
-                }
                 if (dp[lastV][bitmask] == NOT_ALLOCATED) {
                     continue;
                 }
                 if (grid[lastV][1] == CANT_MOVE) {
                     continue;
                 }
+
+                int bitCount = 0;
+                for (int i = 2; i <= NODE_COUNT; i++) {
+                    if ((bitmask >> i & 1) == 1) {
+                        bitCount++;
+                    }
+                }
+                if (bitCount != visitCount) {
+                    continue;
+                }
+                
                 answer = Math.min(
                     answer,
                     dp[lastV][bitmask] + grid[lastV][1]
